@@ -47,7 +47,7 @@ const Carousel = ({
   // };
 
   return (
-    <div className="h-full w-full">
+    <div className="p-4 border-2 border-red-600 h-full w-full">
       {/* Carousel container */}
       <div className="w-full h-full rounded-md overflow-hidden relative">
         {/* Image container */}
@@ -61,16 +61,14 @@ const Carousel = ({
           {data.map((v, i) => (
             <div
               key={i}
-              className="w-full h-4/5 flex flex-col-reverse  justify-between items-center relative shrink-0"
+              className="w-full h-full flex flex-col-reverse  justify-between items-center relative shrink-0"
             >
               <Image
                 className="pointer-events-none"
-                // height="auto"
-                // width="100%"
                 layout={"fill"}
-                // objectFit="cover"
+                objectFit="cover"
                 alt={`carousel-image-${i}`}
-                src={v.image || "https://random.imagecdn.app/500/500"}
+                src={v.image}
               />
 
               <div className="absolute bottom-0 w-full bg-black bg-opacity-50 p-2">
