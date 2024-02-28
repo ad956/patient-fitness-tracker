@@ -13,9 +13,9 @@ export default function Login() {
   const [isVisible, setIsVisible] = useState(false);
 
   const Data = [
-    { image: "patient.svg" },
-    { image: "google.svg" },
-    { image: "next.svg" },
+    { image: "/heart.jpg" },
+    { image: "/consult.jpg" },
+    { image: "/hospital.jpg" },
   ];
 
   function handleEmailChange(e: ChangeEvent<HTMLInputElement>) {
@@ -118,7 +118,7 @@ export default function Login() {
         </p>
       </div>
       {/* // right part only visible from md */}
-      <div className="hidden w-full m-2 bg-[#161313] rounded-t-2xl rounded-br-2xl  rounded-bl-[40px]  md:flex">
+      <div className="hidden w-3/5 m-2 bg-[#161313] rounded-t-2xl rounded-br-2xl  rounded-bl-[40px]  md:flex md:flex-col md:justify-center md:items-center">
         <Carousel data={Data} />
       </div>
     </div>
