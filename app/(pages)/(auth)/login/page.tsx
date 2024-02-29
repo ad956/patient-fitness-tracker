@@ -51,10 +51,10 @@ export default function Login() {
   function handleFormSubmit() {}
   return (
     <div
-      className={`bg-[#eef1f8] h-screen flex flex-col justify-center lg:flex-row ${lato.className}`}
+      className={`bg-[#eef1f8] h-screen flex flex-col justify-center lg:flex-row  lg:justify-around ${lato.className}`}
     >
       {/* left part */}
-      <div className="m-4 lg:w-2/4 flex flex-col gap-8 self-center">
+      <div className="m-4 lg:w-1/4 flex flex-col gap-8 self-center">
         <div className="flex justify-center items-center ">
           <Image src="patient.svg" height="50" width="50" alt="brand-logo" />
           <h2 className="ml-2 font-bold text-lg">Patient Fitness Tracker</h2>
@@ -72,7 +72,7 @@ export default function Login() {
             placeholder="Email"
             value={email}
             autoComplete="username"
-            className="bg-[#fcfdfe] w-full m-2 p-2 rounded-lg border-2 border-purple-400"
+            className="bg-[#fcfdfe] w-full m-2 p-2 rounded-lg border-2 border-gray-300"
             onChange={handleEmailChange}
           />
           <div className="relative">
@@ -82,19 +82,21 @@ export default function Login() {
               placeholder="Password"
               value={password}
               autoComplete="current-password"
-              className="bg-[#fcfdfe] border-2 border-purple-400 m-2 p-2 w-full rounded-lg"
+              className="bg-[#fcfdfe] border-2 border-gray-300  m-2 p-2 w-full rounded-lg"
               onChange={handlePasswordChange}
             />
-            <button
-              onClick={handleClick}
-              className="absolute inset-y-0 right-0 flex items-center px-3"
-            >
-              {isVisible ? (
-                <AiOutlineEyeInvisible style={{ fontSize: "20px" }} />
-              ) : (
-                <AiTwotoneEye style={{ fontSize: "20px" }} />
-              )}
-            </button>
+            <Link href="#">
+              <button
+                onClick={handleClick}
+                className="absolute inset-y-0 right-0 flex items-center px-3"
+              >
+                {isVisible ? (
+                  <AiOutlineEyeInvisible style={{ fontSize: "20px" }} />
+                ) : (
+                  <AiTwotoneEye style={{ fontSize: "20px" }} />
+                )}
+              </button>
+            </Link>
           </div>
 
           <Link href="#">
@@ -104,7 +106,6 @@ export default function Login() {
           <button
             type="submit"
             className="text-white text-lg rounded-lg bg-[#0d0909] h-12 ml-4 my-2"
-            // mx-10 for md+
           >
             Sign in
           </button>
@@ -127,8 +128,8 @@ export default function Login() {
           </Link>
         </p>
       </div>
-      {/* // right part only visible from md */}
-      <div className="hidden lg:w-2/4 m-2 bg-[#161313] rounded-t-2xl rounded-br-2xl  rounded-bl-[40px]  lg:flex lg:flex-col lg:justify-center lg:items-center">
+      {/* // right part only visible from lg */}
+      <div className="hidden lg:w-2/5 m-2 bg-[#161313] rounded-t-2xl rounded-br-2xl  rounded-bl-[40px]  lg:flex lg:flex-col lg:justify-center lg:items-center">
         <Carousel data={Data} />
       </div>
     </div>
