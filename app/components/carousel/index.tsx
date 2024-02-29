@@ -41,7 +41,6 @@ const Carousel = ({
   const handleClick = (index: number) => {
     clearInterval(intervalId); // Clear automatic sliding interval
     setCurrentImg(index);
-    // setCurrentImg((prev) => (prev + 1) % data.length);
   };
 
   return (
@@ -69,9 +68,9 @@ const Carousel = ({
                 src={v.image}
               />
 
-              <div className="absolute bottom-0 flex flex-col items-center w-full p-2">
-                <p className="text-2xl text-white">{v.title}</p>
-                <p className="text-lg text-white">{v.desc}</p>
+              <div className="absolute bottom-0 flex flex-col items-center w-full p-2 bg-gray-900 bg-opacity-75">
+                <p className="text-lg text-white font-bold mb-1">{v.title}</p>
+                <p className="text-sm text-gray-200">{v.desc}</p>
               </div>
             </div>
           ))}
@@ -79,14 +78,13 @@ const Carousel = ({
       </div>
 
       {/* Navigation buttons */}
-      <div className="flex gap-5 justify-center mt-3">
+      <div className="self-center flex gap-2 justify-center mt-3 bg-[#2d2b2b] rounded-full w-20 p-1">
         {data.map((_, index) => (
           <button
             key={index}
             onClick={() => handleClick(index)}
-            // onClick={() => goToSlide(index)}
-            className={`w-4 h-4 bg-gray-500 rounded-full mx-2 focus:outline-none ${
-              currentImg === index ? "bg-gray-800" : ""
+            className={`w-2 h-2 bg-gray-500 rounded-full mx-1 focus:outline-none opacity-50 ${
+              currentImg === index ? "bg-[#73f9bb]" : ""
             }`}
           ></button>
         ))}
