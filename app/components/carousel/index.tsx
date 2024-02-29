@@ -49,7 +49,7 @@ const Carousel = ({
   // };
 
   return (
-    <div className="p-4 h-full w-full">
+    <div className="flex flex-col justify-evenly p-4 h-full w-full">
       {/* Carousel container */}
       <div className="h-full rounded-md overflow-hidden relative">
         {/* Image container */}
@@ -61,14 +61,16 @@ const Carousel = ({
           className="w-full h-full absolute flex transition-all duration-300"
         >
           {data.map((v, i) => (
-            <div key={i} className="h-3/5 w-full self-center relative shrink-0">
+            <div
+              key={i}
+              className="h-full w-full self-center relative shrink-0"
+            >
               <Image
                 className="pointer-events-none"
-                // fill
+                fill
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 150vw"
                 alt={`carousel-image-${i}`}
                 src={v.image}
-                fill
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               />
 
               <div className="absolute bottom-0 flex flex-col items-center w-full p-2">
