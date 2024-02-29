@@ -59,7 +59,7 @@ export default function Login() {
             placeholder="Email"
             value={email}
             autoComplete="username"
-            className="bg-[#fcfdfe] m-2 p-2 rounded-lg border-2 border-purple-400"
+            className="bg-[#fcfdfe] w-full m-2 p-2 rounded-lg border-2 border-purple-400"
             onChange={handleEmailChange}
           />
           <div className="relative">
@@ -69,22 +69,19 @@ export default function Login() {
               placeholder="Password"
               value={password}
               autoComplete="current-password"
-              className="bg-[#fcfdfe] border-2 border-purple-400 m-2 p-2 rounded-lg w-[96%]"
+              className="bg-[#fcfdfe] border-2 border-purple-400 m-2 p-2 w-full rounded-lg"
               onChange={handlePasswordChange}
             />
-            <Link
-              href="#"
+            <button
               onClick={handleClick}
               className="absolute inset-y-0 right-0 flex items-center px-3"
             >
-              <button>
-                {isVisible ? (
-                  <AiOutlineEyeInvisible style={{ fontSize: "20px" }} />
-                ) : (
-                  <AiTwotoneEye style={{ fontSize: "20px" }} />
-                )}
-              </button>
-            </Link>
+              {isVisible ? (
+                <AiOutlineEyeInvisible style={{ fontSize: "20px" }} />
+              ) : (
+                <AiTwotoneEye style={{ fontSize: "20px" }} />
+              )}
+            </button>
           </div>
 
           <Link href="#">
