@@ -14,7 +14,7 @@ const Carousel = ({
   const [currentImg, setCurrentImg] = useState(0);
   const [carouselSize, setCarouselSize] = useState({ width: 0, height: 0 });
   const carouselRef = useRef(null);
-  const [intervalId, setIntervalId] = useState(null);
+  const [intervalId, setIntervalId] = useState("");
 
   useEffect(() => {
     let elem = carouselRef.current as unknown as HTMLDivElement;
@@ -32,21 +32,17 @@ const Carousel = ({
     };
 
     // Set interval for automatic sliding
-    const id = setInterval(incrementImageIndex, 3000); // Adjust timing as needed
+    const id = setInterval(incrementImageIndex, 3000);
 
     // Clear interval on unmount
     return () => clearInterval(id);
   }, [data.length]);
 
-  // const handlePrevClick = () => {
-  //   clearInterval(intervalId); // Clear automatic sliding interval
-  //   setCurrentImg((prev) => prev - 1);
-  // };
-
-  // const handleNextClick = () => {
-  //   clearInterval(intervalId); // Clear automatic sliding interval
-  //   setCurrentImg((prev) => (prev + 1) % data.length);
-  // };
+  const handleClick = (index: number) => {
+    clearInterval(intervalId); // Clear automatic sliding interval
+    setCurrentImg(index);
+    // setCurrentImg((prev) => (prev + 1) % data.length);
+  };
 
   return (
     <div className="flex flex-col justify-evenly p-4 h-full w-full">
@@ -83,28 +79,17 @@ const Carousel = ({
       </div>
 
       {/* Navigation buttons */}
-      <div className="flex justify-center mt-3">
-        <button
-          disabled={currentImg === 0}
-          // onClick={handlePrevClick}
-          className={`border px-4 py-2 font-bold ${
-            currentImg === 0 && "opacity-50"
-          }`}
-        ></button>
-        <button
-          disabled={currentImg === data.length - 1}
-          // onClick={handleNextClick}
-          className={`border px-4 py-2 font-bold ${
-            currentImg === data.length - 1 && "opacity-50"
-          }`}
-        ></button>
-        <button
-          disabled={currentImg === data.length - 2}
-          // onClick={handleNextClick}
-          className={`border px-4 py-2 font-bold ${
-            currentImg === data.length - 1 && "opacity-50"
-          }`}
-        ></button>
+      <div className="flex gap-5 justify-center mt-3">
+        {data.map((_, index) => (
+          <button
+            key={index}
+            onClick={() => handleClick(index)}
+            // onClick={() => goToSlide(index)}
+            className={`w-4 h-4 bg-gray-500 rounded-full mx-2 focus:outline-none ${
+              currentImg === index ? "bg-gray-800" : ""
+            }`}
+          ></button>
+        ))}
       </div>
     </div>
   );
