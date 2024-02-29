@@ -13,9 +13,13 @@ export default function Login() {
   const [isVisible, setIsVisible] = useState(false);
 
   const Data = [
-    { image: "/reception.png" },
-    { image: "/doctor.png" },
-    { image: "/admin.webp" },
+    {
+      image: "/reception.png",
+      title: "Track",
+      desc: "All your bills and older records",
+    },
+    { image: "/doctor.png", title: "Doctor", desc: "Meet doctor" },
+    { image: "/admin.webp", title: "Admin", desc: "Dashboard will be there" },
   ];
 
   function handleEmailChange(e: ChangeEvent<HTMLInputElement>) {
