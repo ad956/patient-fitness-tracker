@@ -19,7 +19,7 @@ export default function Login() {
       desc: "All your bills and older records",
     },
     { image: "/doctor.png", title: "Doctor", desc: "Meet doctor" },
-    { image: "/admin.webp", title: "Admin", desc: "Dashboard will be there" },
+    { image: "/admin.png", title: "Admin", desc: "Dashboard will be there" },
   ];
 
   function handleEmailChange(e: ChangeEvent<HTMLInputElement>) {
