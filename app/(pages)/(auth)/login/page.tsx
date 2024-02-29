@@ -43,7 +43,7 @@ export default function Login() {
   function handleFormSubmit() {}
   return (
     <div
-      className={`bg-[#eef1f8] border-2 border-teal-400 h-screen flex flex-col justify-center lg:flex-row ${lato.className}`}
+      className={`bg-[#eef1f8] h-screen flex flex-col justify-center lg:flex-row ${lato.className}`}
     >
       {/* left part */}
       <div className="m-4 lg:w-2/4 flex flex-col gap-8 self-center">
