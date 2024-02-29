@@ -5,30 +5,13 @@ import Image from "next/image";
 import Link from "next/link";
 const lato = Lato({ weight: "400", style: "normal", subsets: ["latin"] });
 import { AiTwotoneEye, AiOutlineEyeInvisible } from "react-icons/ai";
+import { Data } from "@/app/constants";
 import Carousel from "@/app/components/carousel";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isVisible, setIsVisible] = useState(false);
-
-  const Data = [
-    {
-      image: "/reception.png",
-      title: "Efficient Patient Management",
-      desc: " Receptionist dashboard for streamlined appointment and record management",
-    },
-    {
-      image: "/doctor.png",
-      title: "Personalized Care Delivery",
-      desc: "Doctor interface for tailored treatment plans and patient care.",
-    },
-    {
-      image: "/admin.png",
-      title: "Comprehensive Admin Tools",
-      desc: "Admin dashboard for seamless hospital operations and performance monitoring.",
-    },
-  ];
 
   function handleEmailChange(e: ChangeEvent<HTMLInputElement>) {
     setEmail(e.target.value);
