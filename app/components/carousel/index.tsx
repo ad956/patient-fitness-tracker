@@ -7,6 +7,8 @@ const Carousel = ({
 }: {
   data: {
     image: string;
+    title: string;
+    desc: string;
   }[];
 }) => {
   const [currentImg, setCurrentImg] = useState(0);
@@ -47,9 +49,9 @@ const Carousel = ({
   // };
 
   return (
-    <div className="p-4 border-2 border-red-600 h-full w-full">
+    <div className="p-4 h-full w-full">
       {/* Carousel container */}
-      <div className="w-full h-full rounded-md overflow-hidden relative">
+      <div className="h-full rounded-md overflow-hidden relative">
         {/* Image container */}
         <div
           ref={carouselRef}
@@ -59,10 +61,7 @@ const Carousel = ({
           className="w-full h-full absolute flex transition-all duration-300"
         >
           {data.map((v, i) => (
-            <div
-              key={i}
-              className="w-full h-full flex flex-col-reverse  justify-between items-center relative shrink-0"
-            >
+            <div key={i} className="h-3/5 w-full self-center relative shrink-0">
               <Image
                 className="pointer-events-none"
                 // fill
@@ -72,9 +71,9 @@ const Carousel = ({
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               />
 
-              <div className="absolute bottom-0 w-full bg-black bg-opacity-50 p-2">
-                <p className="text-2xl text-white">First</p>
-                <p className="text-lg text-white">msg</p>
+              <div className="absolute bottom-0 flex flex-col items-center w-full p-2">
+                <p className="text-2xl text-white">{v.title}</p>
+                <p className="text-lg text-white">{v.desc}</p>
               </div>
             </div>
           ))}
