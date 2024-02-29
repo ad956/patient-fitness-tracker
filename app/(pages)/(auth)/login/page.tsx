@@ -15,11 +15,19 @@ export default function Login() {
   const Data = [
     {
       image: "/reception.png",
-      title: "Track",
-      desc: "All your bills and older records",
+      title: "Efficient Patient Management",
+      desc: " Receptionist dashboard for streamlined appointment and record management",
     },
-    { image: "/doctor.png", title: "Doctor", desc: "Meet doctor" },
-    { image: "/admin.png", title: "Admin", desc: "Dashboard will be there" },
+    {
+      image: "/doctor.png",
+      title: "Personalized Care Delivery",
+      desc: "Doctor interface for tailored treatment plans and patient care.",
+    },
+    {
+      image: "/admin.png",
+      title: "Comprehensive Admin Tools",
+      desc: "Admin dashboard for seamless hospital operations and performance monitoring.",
+    },
   ];
 
   function handleEmailChange(e: ChangeEvent<HTMLInputElement>) {
