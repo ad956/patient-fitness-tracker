@@ -39,9 +39,9 @@ export default function Login() {
   function handleFormSubmit() {}
   return (
     <div
-      className={`bg-[#eef1f8]  flex flex-col md:flex-row ${lato.className}`}
+      className={`bg-[#eef1f8]  flex flex-col lg:flex-row lg:justify-center ${lato.className}`}
     >
-      <div className="m-4 flex flex-col gap-8">
+      <div className="m-4 flex flex-col gap-8 self-center">
         <div className="flex justify-center items-center ">
           <Image src="patient.svg" height="50" width="50" alt="brand-logo" />
           <h2 className="ml-2 font-bold text-lg">Patient Fitness Tracker</h2>
@@ -90,7 +90,7 @@ export default function Login() {
           </Link>
           <button
             type="submit"
-            className="text-white text-lg rounded-lg bg-[#0d0909] h-12 mx10 my-2"
+            className="text-white text-lg rounded-lg bg-[#0d0909] h-12 ml-4 my-2"
             // mx-10 for md+
           >
             Sign in
@@ -115,7 +115,7 @@ export default function Login() {
         </p>
       </div>
       {/* // right part only visible from md */}
-      <div className="hidden w-3/5 m-2 bg-[#161313] rounded-t-2xl rounded-br-2xl  rounded-bl-[40px]  md:flex md:flex-col md:justify-center md:items-center">
+      <div className="hidden w-3/5 m-2 bg-[#161313] rounded-t-2xl rounded-br-2xl  rounded-bl-[40px]  lg:flex lg:flex-col lg:justify-center lg:items-center">
         <Carousel data={Data} />
       </div>
     </div>
