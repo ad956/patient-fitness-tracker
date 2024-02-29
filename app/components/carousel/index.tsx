@@ -65,10 +65,11 @@ const Carousel = ({
             >
               <Image
                 className="pointer-events-none"
-                layout={"fill"}
-                objectFit="cover"
+                // fill
                 alt={`carousel-image-${i}`}
                 src={v.image}
+                fill
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               />
 
               <div className="absolute bottom-0 w-full bg-black bg-opacity-50 p-2">
