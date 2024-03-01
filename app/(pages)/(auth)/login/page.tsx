@@ -18,20 +18,20 @@ export default function Login() {
   function handleEmailChange(e: ChangeEvent<HTMLInputElement>) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const isValidEmail = emailRegex.test(e.target.value);
-    setEmail(e.target.value);
     setEmailError(isValidEmail ? "" : "Please enter a valid email address");
+    setEmail(e.target.value);
   }
 
   function handlePasswordChange(e: ChangeEvent<HTMLInputElement>) {
     const passwordRegex =
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
     const isValidPassword = passwordRegex.test(e.target.value);
-    setPassword(e.target.value);
     setPasswordError(
       isValidPassword
         ? ""
         : "Password must contain at least 8 characters, including at least one uppercase letter, one lowercase letter, one number, and one special character (@, $, !, %, *, ?, &)"
     );
+    setPassword(e.target.value);
   }
 
   const ref = useRef<HTMLInputElement>(null);
