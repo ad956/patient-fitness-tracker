@@ -10,9 +10,9 @@ import Carousel from "@/app/components/carousel";
 
 export default function Login() {
   const [email, setEmail] = useState("");
-  const [emailError, setEmailError] = useState(null || "");
+  const [emailError, setEmailError] = useState(null || String);
   const [password, setPassword] = useState("");
-  const [passwordError, setPasswordError] = useState(null || "");
+  const [passwordError, setPasswordError] = useState(null || String);
   const [isVisible, setIsVisible] = useState(false);
 
   function handleEmailChange(e: ChangeEvent<HTMLInputElement>) {
@@ -20,7 +20,7 @@ export default function Login() {
     if (!emailRegex.test(email)) {
       setEmailError("Please enter a valid email address");
       // return;
-    } else setEmailError(null || "");
+    }
     setEmail(e.target.value);
   }
   function handlePasswordChange(e: ChangeEvent<HTMLInputElement>) {
