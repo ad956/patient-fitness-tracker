@@ -16,6 +16,7 @@ export default function Signup() {
   const [password, setPassword] = useState("");
   const [passwordError, setPasswordError] = useState(null || String);
   const [confirmPassword, setconfirmPassword] = useState("");
+  const [confirmPasswordError, setConfirmPasswordError] = useState("");
   const [isVisible, setIsVisible] = useState(false);
 
   function handleNameChange(e: ChangeEvent<HTMLInputElement>) {
@@ -41,6 +42,14 @@ export default function Signup() {
     setPassword(e.target.value);
   }
   function handleConfirmPasswordChange(e: ChangeEvent<HTMLInputElement>) {
+    const passwordRegex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    const isValidPassword = passwordRegex.test(e.target.value);
+    setConfirmPasswordError(
+      isValidPassword
+        ? ""
+        : "Password must contain at least 8 characters, including at least one uppercase letter, one lowercase letter, one number, and one special character (@, $, !, %, *, ?, &)"
+    );
     setconfirmPassword(e.target.value);
   }
 
@@ -94,6 +103,7 @@ export default function Signup() {
             className="bg-[#fcfdfe] w-full m-2 p-2 rounded-lg border-2 border-gray-300"
             onChange={handleEmailChange}
           />
+          {emailError && <p className="text-red-700 text-sm">{emailError}</p>}
           <div className="relative">
             <input
               type={isVisible ? "text" : "password"}
@@ -117,6 +127,9 @@ export default function Signup() {
               </button>
             </Link>
           </div>
+          {passwordError && (
+            <p className="text-red-700 text-sm">{passwordError}</p>
+          )}
           <div className="relative">
             <input
               type={isVisible ? "text" : "password"}
@@ -140,7 +153,9 @@ export default function Signup() {
               </button>
             </Link>
           </div>
-
+          {confirmPasswordError && (
+            <p className="text-red-700 text-sm">{confirmPasswordError}</p>
+          )}
           <button
             type="submit"
             className="text-white text-lg rounded-lg bg-[#0d0909] h-12 ml-4 my-2"
