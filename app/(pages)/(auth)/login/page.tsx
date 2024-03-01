@@ -14,10 +14,23 @@ export default function Login() {
   const [isVisible, setIsVisible] = useState(false);
 
   function handleEmailChange(e: ChangeEvent<HTMLInputElement>) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      alert("Please enter a valid email address");
+      return;
+    }
     setEmail(e.target.value);
     email;
   }
   function handlePasswordChange(e: ChangeEvent<HTMLInputElement>) {
+    const passwordRegex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    if (!passwordRegex.test(password)) {
+      alert(
+        "Password must contain at least 8 characters, including at least one uppercase letter, one lowercase letter, one number, and one special character (@, $, !, %, *, ?, &)"
+      );
+      return;
+    }
     setPassword(e.target.value);
     email;
   }
