@@ -19,7 +19,7 @@ export default function Login() {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       setEmailError("Please enter a valid email address");
-      return;
+      // return;
     }
     setEmail(e.target.value);
   }
@@ -30,7 +30,7 @@ export default function Login() {
       setPasswordError(
         "Password must contain at least 8 characters, including at least one uppercase letter, one lowercase letter, one number, and one special character (@, $, !, %, *, ?, &)"
       );
-      return;
+      // return;
     }
     setPassword(e.target.value);
   }
@@ -68,7 +68,9 @@ export default function Login() {
             placeholder="Email"
             value={email}
             autoComplete="username"
-            className="bg-[#fcfdfe] w-full m-2 p-2 rounded-lg border-2 border-gray-300"
+            className={`bg-[#fcfdfe] w-full m-2 p-2 rounded-lg border-2 ${
+              emailError ? "border-red-700" : "border-gray-300"
+            } `}
             onChange={handleEmailChange}
           />
           <div className="relative">
@@ -78,7 +80,9 @@ export default function Login() {
               placeholder="Password"
               value={password}
               autoComplete="current-password"
-              className="bg-[#fcfdfe] border-2 border-gray-300  m-2 p-2 w-full rounded-lg"
+              className={`bg-[#fcfdfe] border-2 m-2 p-2 w-full rounded-lg  ${
+                passwordError ? "border-red-700" : "border-gray-300"
+              }`}
               onChange={handlePasswordChange}
             />
             <Link href="#">
