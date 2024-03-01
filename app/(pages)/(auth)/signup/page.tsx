@@ -12,7 +12,9 @@ const lato = Lato({ weight: "400", style: "normal", subsets: ["latin"] });
 export default function Signup() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [emailError, setEmailError] = useState(null || String);
   const [password, setPassword] = useState("");
+  const [passwordError, setPasswordError] = useState(null || String);
   const [confirmPassword, setconfirmPassword] = useState("");
   const [isVisible, setIsVisible] = useState(false);
 
@@ -21,16 +23,25 @@ export default function Signup() {
     name;
   }
   function handleEmailChange(e: ChangeEvent<HTMLInputElement>) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const isValidEmail = emailRegex.test(e.target.value);
+    setEmailError(isValidEmail ? "" : "Please enter a valid email address");
     setEmail(e.target.value);
-    email;
   }
+
   function handlePasswordChange(e: ChangeEvent<HTMLInputElement>) {
+    const passwordRegex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    const isValidPassword = passwordRegex.test(e.target.value);
+    setPasswordError(
+      isValidPassword
+        ? ""
+        : "Password must contain at least 8 characters, including at least one uppercase letter, one lowercase letter, one number, and one special character (@, $, !, %, *, ?, &)"
+    );
     setPassword(e.target.value);
-    password;
   }
   function handleConfirmPasswordChange(e: ChangeEvent<HTMLInputElement>) {
     setconfirmPassword(e.target.value);
-    confirmPassword;
   }
 
   const ref = useRef<HTMLInputElement>(null);
