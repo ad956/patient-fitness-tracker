@@ -17,22 +17,21 @@ export default function Login() {
 
   function handleEmailChange(e: ChangeEvent<HTMLInputElement>) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      setEmailError("Please enter a valid email address");
-      // return;
-    }
+    const isValidEmail = emailRegex.test(e.target.value);
     setEmail(e.target.value);
+    setEmailError(isValidEmail ? "" : "Please enter a valid email address");
   }
+
   function handlePasswordChange(e: ChangeEvent<HTMLInputElement>) {
     const passwordRegex =
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-    if (!passwordRegex.test(password)) {
-      setPasswordError(
-        "Password must contain at least 8 characters, including at least one uppercase letter, one lowercase letter, one number, and one special character (@, $, !, %, *, ?, &)"
-      );
-      // return;
-    }
+    const isValidPassword = passwordRegex.test(e.target.value);
     setPassword(e.target.value);
+    setPasswordError(
+      isValidPassword
+        ? ""
+        : "Password must contain at least 8 characters, including at least one uppercase letter, one lowercase letter, one number, and one special character (@, $, !, %, *, ?, &)"
+    );
   }
 
   const ref = useRef<HTMLInputElement>(null);
@@ -73,6 +72,7 @@ export default function Login() {
             } `}
             onChange={handleEmailChange}
           />
+          {emailError && <p className="text-red-700 text-sm">{emailError}</p>}
           <div className="relative">
             <input
               type={isVisible ? "text" : "password"}
@@ -98,7 +98,9 @@ export default function Login() {
               </button>
             </Link>
           </div>
-
+          {passwordError && (
+            <p className="text-red-700 text-sm">{passwordError}</p>
+          )}
           <Link href="#">
             {" "}
             <p className="text-[10px] text-right m-2">Forget password?</p>
