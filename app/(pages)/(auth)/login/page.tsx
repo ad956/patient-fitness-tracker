@@ -1,9 +1,7 @@
 "use client";
 import { useState, useRef, ChangeEvent } from "react";
-import { Lato } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
-const lato = Lato({ weight: "400", style: "normal", subsets: ["latin"] });
 import { AiTwotoneEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { Data } from "@/app/constants";
 import Carousel from "@/app/components/carousel";
@@ -46,7 +44,7 @@ export default function Login() {
   function handleFormSubmit() {}
   return (
     <div
-      className={`bg-[#eef1f8] h-screen flex flex-col justify-center lg:flex-row  lg:justify-around ${lato.className}`}
+      className={`bg-[#eef1f8] h-screen flex flex-col justify-center lg:flex-row  lg:justify-around`}
     >
       {/* left part */}
       <div className="m-4 lg:w-1/4 flex flex-col gap-8 self-center">

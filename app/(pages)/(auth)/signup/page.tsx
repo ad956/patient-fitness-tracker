@@ -1,13 +1,10 @@
 "use client";
 import { useState, useRef, ChangeEvent } from "react";
-import { Lato } from "next/font/google";
 import Image from "next/image";
 import { AiTwotoneEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { Data } from "@/app/constants";
 import Carousel from "@/app/components/carousel";
 import Link from "next/link";
-
-const lato = Lato({ weight: "400", style: "normal", subsets: ["latin"] });
 
 export default function Signup() {
   const [name, setName] = useState("");
@@ -66,7 +63,7 @@ export default function Signup() {
 
   return (
     <div
-      className={`bg-[#eef1f8] h-screen flex flex-col justify-center lg:flex-row  lg:justify-around ${lato.className}`}
+      className={`bg-[#eef1f8] h-screen flex flex-col justify-center lg:flex-row  lg:justify-around`}
     >
       {/* // right part only visible from lg */}
       <div className="hidden lg:w-2/5 m-2 bg-[#161313] rounded-t-2xl rounded-br-2xl  rounded-bl-[40px]  lg:flex lg:flex-col lg:justify-center lg:items-center">
