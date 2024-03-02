@@ -156,6 +156,16 @@ export default function Signup() {
           {confirmPasswordError && (
             <p className="text-red-700 text-sm">{confirmPasswordError}</p>
           )}
+
+          <select
+            name=""
+            id=""
+            className="bg-[#fcfdfe] border-2 border-gray-300  m-2 p-2 w-full rounded-lg"
+          >
+            <option value="">Hospital</option>
+            <option id="">Doctor</option>
+            <option id="">Receptionist</option>
+          </select>
           <button
             type="submit"
             className="text-white text-lg rounded-lg bg-[#0d0909] h-12 ml-4 my-2"
