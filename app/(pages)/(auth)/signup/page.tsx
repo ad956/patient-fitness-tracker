@@ -166,6 +166,7 @@ export default function Signup() {
               Select Role
             </option>
             <option value="Hospital">Hospital</option>
+            <option value="Hospital">Patient</option>
             <option value="Doctor">Doctor</option>
             <option value="Receptionist">Receptionist</option>
           </select>
