@@ -160,11 +160,14 @@ export default function Signup() {
           <select
             name=""
             id=""
-            className="bg-[#fcfdfe] border-2 border-gray-300  m-2 p-2 w-full rounded-lg"
+            className="bg-[#fcfdfe] text-[#9ca3bc] border-2 border-gray-300  m-2 p-2 w-full rounded-lg"
           >
-            <option value="">Hospital</option>
-            <option id="">Doctor</option>
-            <option id="">Receptionist</option>
+            <option className="" value="NA">
+              Select Role
+            </option>
+            <option value="Hospital">Hospital</option>
+            <option value="Doctor">Doctor</option>
+            <option value="Receptionist">Receptionist</option>
           </select>
           <button
             type="submit"
