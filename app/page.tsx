@@ -1,9 +1,16 @@
+import Image from "next/image";
 import Link from "next/link";
 
 export default function Home() {
   return (
-    <main>
-      <nav className="border-2 border-black rounded-xl">
+    <main className="m-2">
+      <div className="p-2 border-2 border-black rounded-b-xl border-t-0">
+        <div className="flex items-center gap-2">
+          <Image src="patient.svg" height="30" width="30" alt="brand-logo" />
+          <h2 className="font-bold">Patient Fitness Tracker</h2>
+        </div>
+      </div>
+      <nav className="hidden ">
         <Link href="#home">Home</Link>
         <Link href="#team">Our Team</Link>
         <Link href="#service">Services</Link>
