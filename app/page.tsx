@@ -3,7 +3,7 @@ import Link from "next/link";
 export default function Home() {
   return (
     <main>
-      <nav>
+      <nav className="border-2 border-black rounded-xl">
         <Link href="">Home</Link>
         <Link href="">Our Team</Link>
         <Link href="">Services</Link>
