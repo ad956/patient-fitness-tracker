@@ -84,7 +84,7 @@ const Carousel = ({
             key={index}
             onClick={() => handleClick(index)}
             className={`w-2 h-2 bg-gray-500 rounded-full mx-1 focus:outline-none opacity-50 ${
-              currentImg === index ? "bg-[#73f9bb]" : ""
+              currentImg === index ? "bg-[#3dffa4]" : ""
             }`}
           ></button>
         ))}
