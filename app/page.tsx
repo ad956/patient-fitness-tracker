@@ -54,6 +54,10 @@ export default function Home() {
         <p className="p-2">Famous clients</p>
       </section>
 
+      <section className="">
+        <p className="">Features</p>
+      </section>
+
       {/* to be deleted */}
       <div>
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis
