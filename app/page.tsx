@@ -41,6 +41,7 @@ export default function Home() {
         </button>
       </section>
 
+      {/* to be deleted */}
       <div>
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis
         molestiae quaerat qui quae sed ut eum, earum officia doloribus
