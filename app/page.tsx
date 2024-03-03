@@ -19,7 +19,20 @@ export default function Home() {
         <Link href="#about">About Us</Link>
         <Link href="#contact">Contact Us</Link>
       </nav>
-      <h2>Patient Fitness Tracker</h2>
+
+      <section className="flex flex-col">
+        <h1 className="">
+          The <span className="text-violet-600">New Era</span> of Healthcare
+          Management
+        </h1>
+
+        <p className="">
+          The Patient Fitness Tracker introduces a new era of healthcare
+          management, offering a comprehensive platform to streamline patient
+          care, optimize operations, and enhance collaboration across medical
+          facilities.
+        </p>
+      </section>
     </main>
   );
 }
