@@ -1,6 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { CiMenuFries } from "react-icons/ci";
+import Carousel from "./components/carousel";
+import { Data } from "./constants";
 
 export default function Home() {
   return (
@@ -39,6 +41,10 @@ export default function Home() {
         >
           Get Started
         </button>
+      </section>
+
+      <section className="h-80">
+        <Carousel data={Data} />
       </section>
 
       {/* to be deleted */}
