@@ -43,8 +43,15 @@ export default function Home() {
         </button>
       </section>
 
-      <section className="h-80">
+      <section className="h-96 flex flex-col">
         <Carousel data={Data} />
+
+        <p className="p-2 font-bold">
+          Trusted and used by over{" "}
+          <span className="text-violet-600">1000+</span> clients
+        </p>
+
+        <p className="p-2">Famous clients</p>
       </section>
 
       {/* to be deleted */}
