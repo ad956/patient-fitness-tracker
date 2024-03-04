@@ -3,7 +3,7 @@ import Link from "next/link";
 import { CiMenuFries } from "react-icons/ci";
 import Carousel from "./components/carousel";
 import { Data } from "./constants";
-import { BrandLogo } from "./components/brand-logo";
+import { BrandLogo } from "./components/brandlogo";
 import NavBar from "./components/Navbar";
 import { Card, CardFooter, Image, Button } from "@nextui-org/react";
 
