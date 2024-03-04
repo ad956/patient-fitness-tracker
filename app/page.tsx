@@ -4,7 +4,7 @@ import { CiMenuFries } from "react-icons/ci";
 import Carousel from "./components/carousel";
 import { Data } from "./constants";
 import { BrandLogo } from "./components/brandlogo";
-import NavBar from "./components/Navbar";
+import NavBar from "./components/navbar";
 import { Card, CardFooter, Image, Button } from "@nextui-org/react";
 
 export default function Home() {
