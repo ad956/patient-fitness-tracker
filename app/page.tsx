@@ -1,49 +1,56 @@
-import Image from "next/image";
+// import Image from "next/image";
 import Link from "next/link";
 import { CiMenuFries } from "react-icons/ci";
 import Carousel from "./components/carousel";
 import { Data } from "./constants";
+import { BrandLogo } from "./components/brand-logo";
+import NavBar from "./components/Navbar";
+import { Card, CardFooter, Image, Button } from "@nextui-org/react";
 
 export default function Home() {
   return (
     <main className="">
-      <div className="flex justify-between items-center p-2 border-2 border-black rounded-b-xl border-t-0">
-        <div className="flex items-center gap-2">
-          <Image src="patient.svg" height="40" width="40" alt="brand-logo" />
-          <h2 className="text-xl font-extrabold">Patient Fitness Tracker</h2>
-        </div>
-        <CiMenuFries className="text-black h-6 w-6" />
-      </div>
-      <nav className="hidden">
-        <Link href="#home">Home</Link>
-        <Link href="#team">Our Team</Link>
-        <Link href="#service">Services</Link>
-        <Link href="#about">About Us</Link>
-        <Link href="#contact">Contact Us</Link>
-      </nav>
-
-      <section className="p-5 border-2 border-violet-500 m-5 flex flex-col gap-5 items-center text-bold">
-        <h3 className="p-2 text-4xl tracking-wide">
-          The <span className="text-violet-600">New Era</span> of Healthcare
-          Management
-        </h3>
-
-        <p className="text-sm font-medium tracking-wider">
-          The Patient Fitness Tracker introduces a new era of healthcare
-          management, offering a comprehensive platform to streamline patient
-          care, optimize operations, and enhance collaboration across medical
-          facilities.
-        </p>
-
-        <button
-          type="button"
-          className="text-sm font-bold border-2 border-blue-500 p-1  rounded-xl"
+      <NavBar />
+      <section className="p-5">
+        <Card
+          isFooterBlurred
+          radius="lg"
+          className="border-none h-64  m-5 flex flex-col gap-5 items-center text-bold"
         >
-          Get Started
-        </button>
+          <h3 className="p-2 text-4xl tracking-wide">
+            The <span className="text-violet-600">New Era</span> of Healthcare
+            Management
+          </h3>
+
+          <p className="text-sm font-medium tracking-wider">
+            The Patient Fitness Tracker introduces a new era of healthcare
+            management, offering a comprehensive platform to streamline patient
+            care, optimize operations, and enhance collaboration across medical
+            facilities.
+          </p>
+
+          <button
+            type="button"
+            className="text-sm font-bold border-2 border-blue-500 p-1  rounded-xl"
+          >
+            Get Started
+          </button>
+          <CardFooter className="justify-between before:bg-white/10 border-white/20 border-1 overflow-hidden py-1 absolute before:rounded-xl rounded-large bottom-1 w-[calc(100%_-_8px) shadow-small ml-1 z-10">
+            <p className="text-tiny text-white/80">Available soon.</p>
+            <Button
+              className="text-tiny text-white bg-black/20"
+              variant="flat"
+              color="default"
+              radius="lg"
+              size="sm"
+            >
+              Notify me
+            </Button>
+          </CardFooter>
+        </Card>
       </section>
 
-      <section className="h-96 flex flex-col">
+      <section className="h-96 items-center flex flex-col">
         <Carousel data={Data} />
 
         <p className="p-2 font-bold">
