@@ -44,7 +44,7 @@ const Carousel = ({
   };
 
   return (
-    <div className="flex flex-col justify-evenly p-4 h-full w-full">
+    <div className="flex flex-col justify-evenly p-4 h-full w-4/6">
       {/* Carousel container */}
       <div className="h-full rounded-md overflow-hidden relative">
         {/* Image container */}
