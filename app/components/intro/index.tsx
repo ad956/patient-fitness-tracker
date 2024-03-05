@@ -33,7 +33,7 @@ export default function Intro() {
         radius="lg"
         className="h-5/6 w-2/5 p-5 flex justify-center items-center"
       >
-        <Image src="admin.png" height="auto" width="100%" />
+        <Image isBlurred src="admin.png" height="auto" width="100%" />
       </Card>
     </section>
   );
