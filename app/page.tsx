@@ -7,20 +7,16 @@ import { Card, CardFooter, Image, Button } from "@nextui-org/react";
 
 export default function Home() {
   return (
-    <main className="h-[100vh] w-[100vw]">
+    <main className="h-[100vh]">
       <NavBar />
-      <section className="h-5/6 w-full p-5 flex justify-center items-center border-2 border-blue-500">
-        <Card
-          isFooterBlurred
-          radius="lg"
-          className="border-none h-[30vh]  m-5 flex flex-col gap-10 items-center text-bold"
-        >
-          <h3 className="p-2 text-4xl tracking-wide">
-            The <span className="text-violet-600">New Era</span> of Healthcare
+      <section className="h-5/6 p-5 flex justify-center gap-10 items-center">
+        <div className="h-4/5 w-2/5 p-5 flex flex-col justify-center gap-10 items-center text-bold">
+          <h3 className="text-4xl font-medium tracking-wide">
+            The <span className="text-[#e95b7b]">New Era</span> of Healthcare
             Management
           </h3>
 
-          <p className="text-sm font-medium tracking-wider">
+          <p className="text-md font-medium tracking-wider">
             The Patient Fitness Tracker introduces a new era of healthcare
             management, offering a comprehensive platform to streamline patient
             care, optimize operations, and enhance collaboration across medical
@@ -28,17 +24,23 @@ export default function Home() {
           </p>
 
           <Button
-            className="text-tiny text-white bg-black/20"
+            className="self-start font-bold text-white/90 bg-[#e95b7b]"
             variant="flat"
             color="default"
             radius="lg"
-            size="sm"
+            size="md"
           >
             Get Started
           </Button>
-        </Card>
+        </div>
 
-        <Image src="patient.svg" height="auto" width="90%" />
+        <Card
+          isFooterBlurred
+          radius="lg"
+          className="h-5/6 w-2/5 p-5 flex justify-center items-center"
+        >
+          <Image src="admin.png" height="auto" width="100%" />
+        </Card>
       </section>
 
       <section className="h-[80vh] items-center flex flex-col">
