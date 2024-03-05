@@ -4,7 +4,7 @@ import { Data } from "./constants";
 import { BrandLogo } from "./components/brandlogo";
 import NavBar from "./components/navbar";
 import Intro from "./components/intro";
-import { Card, CardFooter, Image, Button } from "@nextui-org/react";
+import { Card, CardFooter, Image, Button, Divider } from "@nextui-org/react";
 import Lifeline from "./components/lifeline";
 
 export default function Home() {
@@ -13,8 +13,8 @@ export default function Home() {
       <NavBar />
       <Intro />
       <Lifeline />
-
-      <section className="h-[80vh] items-center flex flex-col">
+      <Divider className="my-4" />
+      <section className="h-full items-center flex flex-col">
         <Carousel data={Data} />
         <p className="p-2 font-bold">
           Trusted and used by over{" "}
