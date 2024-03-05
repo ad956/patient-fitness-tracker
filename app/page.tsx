@@ -1,5 +1,3 @@
-// import Image from "next/image";
-import Link from "next/link";
 import { CiMenuFries } from "react-icons/ci";
 import Carousel from "./components/carousel";
 import { Data } from "./constants";
@@ -9,9 +7,9 @@ import { Card, CardFooter, Image, Button } from "@nextui-org/react";
 
 export default function Home() {
   return (
-    <main className="">
+    <main className="h-[100vh] w-[100vw]">
       <NavBar />
-      <section className="p-5">
+      <section className="h-5/6 w-full p-5 flex justify-center items-center border-2 border-blue-500">
         <Card
           isFooterBlurred
           radius="lg"
@@ -39,6 +37,8 @@ export default function Home() {
             Get Started
           </Button>
         </Card>
+
+        <Image src="patient.svg" height="auto" width="90%" />
       </section>
 
       <section className="h-[80vh] items-center flex flex-col">
