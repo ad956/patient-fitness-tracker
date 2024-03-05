@@ -13,7 +13,11 @@ export default function Home() {
       <NavBar />
       <Intro />
       <Lifeline />
-      <Divider className="my-4" />
+
+      <section className="my-20 flex justify-center">
+        <Divider className="w-4/5 bg-gray-400" />
+      </section>
+
       <section className="h-full items-center flex flex-col">
         <Carousel data={Data} />
         <p className="p-2 font-bold">
