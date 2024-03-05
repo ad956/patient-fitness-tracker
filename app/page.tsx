@@ -14,22 +14,33 @@ export default function Home() {
       <Intro />
       <Lifeline />
 
-      <section className="my-20 flex justify-center">
+      <section className="my-10 flex justify-center">
         <Divider className="w-4/5 bg-gray-400" />
       </section>
 
-      <section className="h-full items-center flex flex-col">
+      <section className="h-5/6 flex justify-around items-center">
         <Carousel data={Data} />
+
+        <Card className="h-5/6 w-2/5 flex flex-col items-center p-5">
+          <p className="text-md font-medium self-center">Other Features</p>
+
+          <ul className="m-5">
+            <li>1. data</li>
+            <li>2. data</li>
+            <li>3. data</li>
+            <li>4. data</li>
+            <li>5. data</li>
+          </ul>
+        </Card>
+      </section>
+
+      <section className="">
         <p className="p-2 font-bold">
           Trusted and used by over{" "}
           <span className="text-violet-600">1000+</span> clients
         </p>
 
         <p className="p-2">Famous clients</p>
-      </section>
-
-      <section className="">
-        <p className="">Features</p>
       </section>
 
       {/* to be deleted */}
