@@ -1,4 +1,5 @@
 "use client";
+import { Card } from "@nextui-org/react";
 import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
 
@@ -44,7 +45,7 @@ const Carousel = ({
   };
 
   return (
-    <div className="flex flex-col justify-evenly p-4 h-full w-4/6">
+    <Card className="flex flex-col justify-evenly p-4 h-5/6 w-3/6">
       {/* Carousel container */}
       <div className="h-full rounded-md overflow-hidden relative">
         {/* Image container */}
@@ -89,7 +90,7 @@ const Carousel = ({
           ></button>
         ))}
       </div>
-    </div>
+    </Card>
   );
 };
 
