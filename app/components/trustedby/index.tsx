@@ -12,16 +12,16 @@ export default function TrustedBy() {
   const [renderedLogos, setRenderedLogos] = useState<Logo[]>([]);
 
   const logos = [
-    { src: "apollo-hospitals-logo.png", alt: "Apollo Hospitals" },
-    { src: "fortis.png", alt: "Fortis Healthcare" },
-    { src: "abbott.png", alt: "Abbott Laboratories" },
-    { src: "narayana-health-logo.png", alt: "Narayana Health" },
-    { src: "sun-pharma.png", alt: "Sun Pharma" },
-    { src: "Max-Healthcare-Logo.png", alt: "Max Healthcare" },
+    { src: "/brand-logos/apollo-hospitals.png", alt: "Apollo Hospitals" },
+    { src: "/brand-logos/fortis.png", alt: "Fortis Healthcare" },
+    { src: "/brand-logos/abbott.png", alt: "Abbott Laboratories" },
+    { src: "/brand-logos/narayana-health.png", alt: "Narayana Health" },
+    { src: "/brand-logos/sun-pharma.png", alt: "Sun Pharma" },
+    { src: "/brand-logos/max-healthcare.png", alt: "Max Healthcare" },
   ];
 
   const duplicateLogos = () => {
-    setRenderedLogos([...renderedLogos, ...logos]);
+    setRenderedLogos((prevLogos) => [...prevLogos, ...logos]);
   };
 
   React.useEffect(() => {
@@ -36,8 +36,8 @@ export default function TrustedBy() {
         their networks.
       </p>
 
-      <div className="flex justify-center items-center">
-        <div className="border-2 border-green-700 w-4/5 inline-flex flex-nowrap overflow-hidden [mask-image:_linear-gradient(to_right,transparent_0,_black_128px,_black_calc(100%-128px),transparent_100%)]">
+      <div className="p-5 flex justify-center items-center">
+        <div className="p-5 border-2 border-black/10 w-4/5 inline-flex flex-nowrap overflow-hidden [mask-image:_linear-gradient(to_right,transparent_0,_black_128px,_black_calc(100%-128px),transparent_100%)]">
           <ul className="flex items-center justify-center md:justify-start [&_li]:mx-8 [&_img]:max-w-none animate-infinite-scroll">
             {renderedLogos.map((logo, index) => (
               <li className="flex justify-center items-center" key={index}>
