@@ -6,6 +6,7 @@ import NavBar from "./components/navbar";
 import Intro from "./components/intro";
 import { Card, CardFooter, Image, Button, Divider } from "@nextui-org/react";
 import Lifeline from "./components/lifeline";
+import TrustedBy from "./components/trustedby";
 
 export default function Home() {
   return (
@@ -16,6 +17,10 @@ export default function Home() {
 
       <section className="my-10 flex justify-center">
         <Divider className="w-4/5 bg-gray-400" />
+      </section>
+
+      <section className="my-10 flex justify-center">
+        <TrustedBy />
       </section>
 
       <section className="h-5/6 flex justify-around items-center">
