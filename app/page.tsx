@@ -1,6 +1,3 @@
-import { CiMenuFries } from "react-icons/ci";
-import Carousel from "./components/carousel";
-import { Data } from "./constants";
 import { BrandLogo } from "./components/brandlogo";
 import NavBar from "./components/navbar";
 import Intro from "./components/intro";
@@ -19,23 +16,29 @@ export default function Home() {
         <Divider className="w-4/5 bg-gray-400" />
       </section>
 
-      <section className="my-10 flex justify-center">
+      <section className="flex justify-center items-center">
         <TrustedBy />
       </section>
 
       <section className="h-5/6 flex justify-around items-center">
-        <Carousel data={Data} />
-
         <Card className="h-5/6 w-2/5 flex flex-col items-center p-5">
           <p className="text-md font-medium self-center">Other Features</p>
 
-          <ul className="m-5">
-            <li>1. data</li>
-            <li>2. data</li>
-            <li>3. data</li>
-            <li>4. data</li>
-            <li>5. data</li>
-          </ul>
+          <div className="flex justify-center ">
+            {/* isBlurred */}
+            <Card isFooterBlurred radius="lg" className="">
+              Item 1
+            </Card>
+            <Card isFooterBlurred radius="lg" className="">
+              Item 2
+            </Card>
+            <Card isFooterBlurred radius="lg" className="">
+              Item 3
+            </Card>
+            <Card isFooterBlurred radius="lg" className="">
+              Item 4
+            </Card>
+          </div>
         </Card>
       </section>
 
