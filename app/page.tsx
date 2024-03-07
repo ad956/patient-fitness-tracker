@@ -1,4 +1,3 @@
-import { BrandLogo } from "./components/brandlogo";
 import NavBar from "./components/navbar";
 import Intro from "./components/intro";
 import { Card, CardFooter, Image, Button, Divider } from "@nextui-org/react";
