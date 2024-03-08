@@ -17,6 +17,7 @@ export default function WorkingProcess() {
         <Card
           radius="md"
           isBlurred
+          shadow="lg"
           className="flex flex-col justify-around p-5 h-5/6 w-2/5"
         >
           <TbHexagonNumber1 size={50} color="#e95b7b" />
@@ -31,6 +32,7 @@ export default function WorkingProcess() {
         <Card
           radius="md"
           isBlurred
+          shadow="lg"
           className="flex flex-col justify-around p-5 h-5/6 w-2/5"
         >
           <TbHexagonNumber2 size={50} color="#e95b7b" />
@@ -45,6 +47,7 @@ export default function WorkingProcess() {
         <Card
           radius="md"
           isBlurred
+          shadow="lg"
           className="flex flex-col justify-around p-5 h-5/6 w-2/5"
         >
           <TbHexagonNumber3 size={50} color="#e95b7b" />
