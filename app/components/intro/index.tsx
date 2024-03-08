@@ -29,7 +29,8 @@ export default function Intro() {
       </div>
 
       <Card
-        isFooterBlurred
+        shadow="lg"
+        isBlurred
         radius="lg"
         className="h-5/6 w-2/5 p-5 flex justify-center items-center"
       >
