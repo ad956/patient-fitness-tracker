@@ -3,6 +3,8 @@ import Intro from "./components/intro";
 import { Card, CardFooter, Image, Button, Divider } from "@nextui-org/react";
 import Lifeline from "./components/lifeline";
 import TrustedBy from "./components/trustedby";
+import Features from "./components/features";
+import WorkingProcess from "./components/working";
 
 export default function Home() {
   return (
@@ -19,27 +21,8 @@ export default function Home() {
         <TrustedBy />
       </section>
 
-      <section className="h-5/6 flex justify-around items-center">
-        <Card className="h-5/6 w-2/5 flex flex-col items-center p-5">
-          <p className="text-md font-medium self-center">Other Features</p>
-
-          <div className="flex justify-center ">
-            {/* isBlurred */}
-            <Card isFooterBlurred radius="lg" className="">
-              Item 1
-            </Card>
-            <Card isFooterBlurred radius="lg" className="">
-              Item 2
-            </Card>
-            <Card isFooterBlurred radius="lg" className="">
-              Item 3
-            </Card>
-            <Card isFooterBlurred radius="lg" className="">
-              Item 4
-            </Card>
-          </div>
-        </Card>
-      </section>
+      <Features />
+      <WorkingProcess />
 
       <section className="">
         <p className="p-2 font-bold">
