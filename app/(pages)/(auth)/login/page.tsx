@@ -3,7 +3,7 @@ import { useState, useRef, ChangeEvent } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { AiTwotoneEye, AiOutlineEyeInvisible } from "react-icons/ai";
-import { Data } from "@/app/constants";
+import { carouselData } from "@/app/constants";
 import Carousel from "@/app/components/carousel";
 
 export default function Login() {
@@ -130,7 +130,7 @@ export default function Login() {
       </div>
       {/* // right part only visible from lg */}
       <div className="hidden lg:w-2/5 m-2 bg-[#161313] rounded-t-2xl rounded-br-2xl  rounded-bl-[40px]  lg:flex lg:flex-col lg:justify-center lg:items-center">
-        <Carousel data={Data} />
+        <Carousel data={carouselData} />
       </div>
     </div>
   );
