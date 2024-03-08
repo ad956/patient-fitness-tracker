@@ -5,6 +5,7 @@ import Lifeline from "./components/lifeline";
 import TrustedBy from "./components/trustedby";
 import Features from "./components/features";
 import WorkingProcess from "./components/working";
+import ServicesOffered from "./components/services";
 
 export default function Home() {
   return (
@@ -24,6 +25,7 @@ export default function Home() {
       <Features />
       <WorkingProcess />
 
+      <ServicesOffered />
       <section className="">
         <p className="p-2 font-bold">
           Trusted and used by over{" "}
