@@ -8,6 +8,8 @@ import WorkingProcess from "./components/working";
 import ServicesOffered from "./components/services";
 import Testimonial from "./components/testimonial";
 import Footer from "./components/footer";
+import About from "./components/about";
+import ContactUS from "./components/contactus";
 
 export default function Home() {
   return (
@@ -31,6 +33,8 @@ export default function Home() {
 
       <Testimonial />
 
+      <About />
+      <ContactUS />
       <Footer />
     </main>
   );
