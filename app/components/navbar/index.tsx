@@ -1,7 +1,6 @@
 import React from "react";
 import { BrandLogo } from "../brandlogo";
 import { CiMenuFries } from "react-icons/ci";
-// import Link from "next/link";
 import {
   Navbar,
   NavbarBrand,
@@ -13,43 +12,33 @@ import {
 
 export default function NavBar() {
   return (
-    // <div className="flex justify-between items-center p-2 border-2 border-black rounded-b-xl border-t-0">
-    //   <nav className="hidden">
-    //     <Link href="#home">Home</Link>
-    //     <Link href="#team">Our Team</Link>
-    //     <Link href="#service">Services</Link>
-    //     <Link href="#about">About Us</Link>
-    //     <Link href="#contact">Contact Us</Link>
-    //   </nav>
-    // </div>
-
     <Navbar isBordered>
       <NavbarBrand>
         <BrandLogo />
       </NavbarBrand>
       <NavbarContent className="hidden sm:flex gap-4" justify="center">
-        <NavbarItem isActive>
-          <Link aria-current="page" href="#">
+        <NavbarItem isActive className="text-[#e95b7b]">
+          <Link aria-current="page" href="#home">
             Home
           </Link>
         </NavbarItem>
         <NavbarItem>
-          <Link color="foreground" href="#">
-            Our Team
+          <Link color="foreground" href="#features">
+            Features
           </Link>
         </NavbarItem>
         <NavbarItem>
-          <Link color="foreground" href="#">
+          <Link color="foreground" href="#services">
             Services
           </Link>
         </NavbarItem>
         <NavbarItem>
-          <Link color="foreground" href="#">
-            About Us
+          <Link color="foreground" href="#about">
+            About
           </Link>
         </NavbarItem>
         <NavbarItem>
-          <Link color="foreground" href="#">
+          <Link color="foreground" href="#contact">
             Contact Us
           </Link>
         </NavbarItem>
