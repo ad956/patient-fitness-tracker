@@ -1,5 +1,4 @@
-import { Card, Image } from "@nextui-org/react";
-import React from "react";
+import { Card } from "@nextui-org/react";
 import { projectFeatures } from "@/app/constants";
 import {
   MdOutlineManageAccounts,
