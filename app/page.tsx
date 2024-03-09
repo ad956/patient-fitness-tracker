@@ -9,7 +9,7 @@ import ServicesOffered from "./components/services";
 import Testimonial from "./components/testimonial";
 import Footer from "./components/footer";
 import About from "./components/about";
-import ContactUS from "./components/contactus";
+import ContactUS from "./components/contact";
 
 export default function Home() {
   return (
