@@ -6,17 +6,19 @@ import "./style.css";
 
 export default function ContactUS() {
   return (
-    <section className="h-full flex flex-col items-center">
-      <p className="text-4xl font-semibold">Get In Touch</p>
-      <p className="text-sm text-gray-500">
-        Reach out to us effortlessly through our contact form, and let us assist
-        you with any inquiries or support needs you may have.
-      </p>
+    <section className="h-full flex flex-col gap-5 items-center">
+      <div className="flex flex-col gap-2 items-center">
+        <p className="text-3xl font-bold">Get In Touch</p>
+        <p className="text-sm text-gray-500">
+          Reach out to us effortlessly through our contact form, and let us
+          assist you with any inquiries or support needs you may have.
+        </p>
+      </div>
 
       <Card
         isBlurred
         shadow="lg"
-        className="flex flex-row justify-center items-center h-3/5 w-3/5 p-2"
+        className="flex flex-row items-center gap-5 h-3/5 w-3/5 p-2"
       >
         <Card
           isBlurred
@@ -45,36 +47,40 @@ export default function ContactUS() {
             <p className="text-xs">Gujarat,India</p>
           </div>
         </Card>
-        <div className="flex flex-col h-4/5 w-3/5">
-          <div className="flex justify-around">
+        <div className="flex flex-col justify-center p-5 gap-10 h-full w-3/5">
+          <div className="flex gap-5">
             <Input
               isRequired
               type="text"
               label="Your Name"
-              defaultValue="John Doe"
+              placeholder="John Doe"
               className="max-w-xs"
+              variant="underlined"
             />
             <Input
               isRequired
               type="email"
               label="Your Email"
-              defaultValue="johndoe@gmail.com"
+              placeholder="johndoe@gmail.com"
               className="max-w-xs"
+              variant="underlined"
             />
           </div>
           <Input
             isRequired
             type="text"
             label="Your Subject"
-            defaultValue="Here goes your subject"
-            className="max-w-xs"
+            placeholder="Here goes your subject"
+            className="max-w-lg"
+            variant="underlined"
           />
           <Input
             isRequired
             type="text"
             label="Message"
-            defaultValue="Write your message"
-            className="max-w-xs"
+            placeholder="Write your message"
+            className="max-w-lg"
+            variant="underlined"
           />
 
           <Button
