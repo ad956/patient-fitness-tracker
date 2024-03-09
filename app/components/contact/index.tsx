@@ -1,4 +1,6 @@
 import { IoIosCall } from "react-icons/io";
+import { MdEmail } from "react-icons/md";
+import { FaLocationDot } from "react-icons/fa6";
 import { Button, Card, Input } from "@nextui-org/react";
 
 export default function ContactUS() {
@@ -13,9 +15,13 @@ export default function ContactUS() {
       <Card
         isBlurred
         shadow="lg"
-        className="flex flex-row justify-center w-4/5"
+        className="flex flex-row justify-center items-center h-3/5 w-3/5 p-5"
       >
-        <div className="border-2 border-blue-900 flex flex-col w-2/5">
+        <Card
+          isBlurred
+          shadow="lg"
+          className="bg-[#32325d] text-white flex flex-col h-4/5 w-2/5"
+        >
           <p className="text-xl font-semibold">Contact Information</p>
           <p className="text-sm font-semibold">
             Feel free to get in touch with us at any time for assistance,
@@ -30,15 +36,15 @@ export default function ContactUS() {
             </div>
           </div>
           <div className="flex ">
-            <IoIosCall />
+            <MdEmail />
             <p className="text-xs">support@patienthealthcare.com</p>
           </div>
           <div className="flex ">
-            <IoIosCall />
+            <FaLocationDot />
             <p className="text-xs">Gujarat,India</p>
           </div>
-        </div>
-        <div className="border-2 border-pink-700 flex flex-col w-2/5">
+        </Card>
+        <div className="flex flex-col h-4/5 w-3/5">
           <div className="flex justify-around">
             <Input
               isRequired
