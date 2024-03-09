@@ -2,6 +2,7 @@ import { IoIosCall } from "react-icons/io";
 import { MdEmail } from "react-icons/md";
 import { FaLocationDot } from "react-icons/fa6";
 import { Button, Card, Input } from "@nextui-org/react";
+import "./style.css";
 
 export default function ContactUS() {
   return (
@@ -20,7 +21,7 @@ export default function ContactUS() {
         <Card
           isBlurred
           shadow="lg"
-          className="bg-[#32325d] text-white flex flex-col h-4/5 w-2/5"
+          className="contact-bg text-whit flex flex-col h-4/5 w-2/5"
         >
           <p className="text-xl font-semibold">Contact Information</p>
           <p className="text-sm font-semibold">
