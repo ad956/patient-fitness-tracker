@@ -32,7 +32,12 @@ export default function Footer() {
 			>
 				<div className="flex flex-row text-white w-full justify-around items-center">
 					<div className="flex flex-col ">
-						<Image src="final.gif" height={100} width={100} className="mb-2" />
+						<Image
+							src="images/meteor.gif"
+							height={100}
+							width={100}
+							className="mb-2"
+						/>
 						<p className="text-xs font-light">
 							© 2023 Patient Fitness Tracker, Inc. All rights reserved.
 						</p>
