@@ -30,33 +30,33 @@ export default function Footer() {
 				radius="lg"
 				className="bg-[#1c1624] h-full flex flex-col justify-center items-center gap-5"
 			>
-				<div className="flex flex-row text-white gap-5 justify-around items-center">
+				<div className="flex flex-row text-white w-full justify-around items-center">
 					<div className="flex flex-col ">
-						<Image src="icons/star-icon.svg" height={25} width={25} />
+						<Image src="final.gif" height={100} width={100} className="mb-2" />
 						<p className="text-xs font-light">
 							© 2023 Patient Fitness Tracker, Inc. All rights reserved.
 						</p>
 					</div>
 					<div className="flex flex-col text-sm">
-						<p className="font-bold">Solutions</p>
+						<p className="font-semibold mb-2">Solutions</p>
 						<p className="text-white/80">content</p>
 						<p className="text-white/80">content</p>
 						<p className="text-white/80">content</p>
 					</div>
 					<div className="flex flex-col text-sm">
-						<p className="font-bold">Support</p>
+						<p className="font-semibold mb-2">Support</p>
 						<p className="text-white/80">content</p>
 						<p className="text-white/80">content</p>
 						<p className="text-white/80">content</p>
 					</div>
 					<div className="flex flex-col text-sm">
-						<p className="font-bold">Company</p>
+						<p className="font-semibold mb-2">Company</p>
 						<p className="text-white/80">content</p>
 						<p className="text-white/80">content</p>
 						<p className="text-white/80">content</p>
 					</div>
 					<div className="flex flex-col text-sm">
-						<p className="font-bold">Legal</p>
+						<p className="font-semibold mb-2">Legal</p>
 						<p className="text-white/80">content</p>
 						<p className="text-white/80">content</p>
 						<p className="text-white/80">content</p>
@@ -66,7 +66,7 @@ export default function Footer() {
 				<div className="flex flex-col justify-center items-center gap-5 w-3/5">
 					<Image src="patient.svg" height={40} width={40} />
 					<div className="text-center text-white/90">
-						<p className="break-words">
+						<p className=" text-sm break-words">
 							<span className="block sm:inline">
 								Patient Fitness Tracker is revolutionizing healthcare engagement
 								with its comprehensive solution.
