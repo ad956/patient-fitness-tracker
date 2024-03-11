@@ -1,5 +1,5 @@
 "use client";
-import { Accordion, AccordionItem, Link, Image } from "@nextui-org/react";
+import { Accordion, AccordionItem, Image } from "@nextui-org/react";
 import { FcAbout, FcServices, FcVoicePresentation } from "react-icons/fc";
 
 export default function Company() {
