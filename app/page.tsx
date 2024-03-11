@@ -12,30 +12,30 @@ import About from "./components/about";
 import ContactUS from "./components/contact";
 
 export default function Home() {
-  return (
-    <main className="h-[100vh]">
-      <NavBar />
-      <Intro />
-      <Lifeline />
+	return (
+		<main className="h-[100vh] scrollbar overflow-y-scroll">
+			<NavBar />
+			<Intro />
+			<Lifeline />
 
-      <section className="my-10 flex justify-center">
-        <Divider className="w-4/5 bg-gray-400" />
-      </section>
+			<section className="my-10 flex justify-center">
+				<Divider className="w-4/5 bg-gray-400" />
+			</section>
 
-      <section className="flex justify-center items-center">
-        <TrustedBy />
-      </section>
+			<section className="flex justify-center items-center">
+				<TrustedBy />
+			</section>
 
-      <Features />
-      <WorkingProcess />
+			<Features />
+			<WorkingProcess />
 
-      <ServicesOffered />
+			<ServicesOffered />
 
-      <Testimonial />
+			<Testimonial />
 
-      <About />
-      <ContactUS />
-      <Footer />
-    </main>
-  );
+			<About />
+			<ContactUS />
+			<Footer />
+		</main>
+	);
 }
