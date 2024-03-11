@@ -5,6 +5,7 @@ import {
 	Card,
 	Divider,
 	Image,
+	Link,
 	Modal,
 	ModalBody,
 	ModalContent,
@@ -28,7 +29,7 @@ export default function Footer() {
 				isBlurred
 				shadow="lg"
 				radius="lg"
-				className="bg-[#1c1624] h-full flex flex-col justify-center items-center gap-5"
+				className="bg-[#1c1624] h-full flex flex-col justify-evenly items-center gap-5"
 			>
 				<div className="flex flex-row text-white w-full justify-around items-center">
 					<div className="flex flex-col ">
@@ -42,32 +43,8 @@ export default function Footer() {
 							© 2023 Patient Fitness Tracker, Inc. All rights reserved.
 						</p>
 					</div>
-					<div className="flex flex-col text-sm">
-						<p className="font-semibold mb-2">Solutions</p>
-						<p className="text-white/80">content</p>
-						<p className="text-white/80">content</p>
-						<p className="text-white/80">content</p>
-					</div>
-					<div className="flex flex-col text-sm">
-						<p className="font-semibold mb-2">Support</p>
-						<p className="text-white/80">content</p>
-						<p className="text-white/80">content</p>
-						<p className="text-white/80">content</p>
-					</div>
-					<div className="flex flex-col text-sm">
-						<p className="font-semibold mb-2">Company</p>
-						<p className="text-white/80">content</p>
-						<p className="text-white/80">content</p>
-						<p className="text-white/80">content</p>
-					</div>
-					<div className="flex flex-col text-sm">
-						<p className="font-semibold mb-2">Legal</p>
-						<p className="text-white/80">content</p>
-						<p className="text-white/80">content</p>
-						<p className="text-white/80">content</p>
-					</div>
+					<FooterLinkItem />
 				</div>
-				<Divider className="bg-white/70 w-3/5" />
 				<div className="flex flex-col justify-center items-center gap-5 w-3/5">
 					<Image src="patient.svg" height={40} width={40} />
 					<div className="text-center text-white/90">
@@ -173,4 +150,40 @@ export default function Footer() {
 			</Card>
 		</footer>
 	);
+}
+
+function FooterLinkItem() {
+	const LinkItems = [
+		{
+			title: "Solutions",
+			links: [
+				"Patient Management",
+				"Appointment Scheduling",
+				"Health Monitoring",
+			],
+		},
+		{
+			title: "Support",
+			links: ["Contact Us", "FAQs", "Documentation"],
+		},
+		{
+			title: "Company",
+			links: ["About Us", "Careers", "Blog"],
+		},
+		{
+			title: "Legal",
+			links: ["Terms of Service", "Privacy Policy", "Cookie Policy"],
+		},
+	];
+
+	return LinkItems.map((item) => (
+		<div key={item.title} className="flex flex-col">
+			<p className="text-md mb-2 tracking-wide">{item.title}</p>
+			{item.links.map((content) => (
+				<Link className="cursor-pointer text-sm text-white/75 m-1 hover:text-gray-300 ">
+					{content}
+				</Link>
+			))}
+		</div>
+	));
 }
