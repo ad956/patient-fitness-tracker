@@ -1,11 +1,11 @@
 "use client";
-import { Card, Chip, Divider, Link, Tab, Tabs } from "@nextui-org/react";
+import { Divider, Tab, Tabs } from "@nextui-org/react";
 import { FcPrivacy, FcServices } from "react-icons/fc";
 
 export default function Legal() {
 	return (
 		<section className="h-full flex	justify-center items-center">
-			<div className=" border-2 border-lime-700 flex flex-col w-3/5">
+			<div className="h-4/5 flex flex-col w-3/5">
 				<Tabs color="danger" aria-label="Tabs colors" radius="full">
 					{legalDetails.map((item, index) => (
 						<Tab
@@ -17,19 +17,18 @@ export default function Legal() {
 								</div>
 							}
 						>
-							<div className="mt-5 border-2 border-violet-700  ">
+							<div className="mt-5">
 								<p className="text-md">{item.desc}</p>
 
-								<p className="text-md">
+								<div className="text-md h[100%]">
 									{index === 0 ? (
-										"jhjjh"
-										// <TermsOfService />
+										<TermsOfService />
 									) : index === 1 ? (
 										<PrivacyPolicy />
 									) : (
 										<CookiePolicy />
 									)}
-								</p>
+								</div>
 							</div>
 						</Tab>
 					))}
@@ -67,7 +66,7 @@ function setTabIcon(index: number) {
 
 const TermsOfService = () => {
 	return (
-		<div className="p-5">
+		<div className="p-5 overflow-y-scroll h-[50vh] scrollbar">
 			<p className="text-lg font-semibold">Terms of Service</p>
 			<Divider />
 			<p className="mt-4">
@@ -118,49 +117,165 @@ const TermsOfService = () => {
 				is the property of Patient Fitness Tracker or its content suppliers and
 				protected by international copyright laws.
 			</p>
+			<p className="mt-4 font-semibold">4. Privacy Policy</p>
+			<p className="mt-2">
+				Our Privacy Policy explains how we collect, use, and disclose
+				information about you when you use our services. By using our platform,
+				you agree to the terms of our Privacy Policy.
+			</p>
+			<p className="mt-4 font-semibold">5. Service Availability</p>
+			<p className="mt-2">
+				We strive to ensure that our platform is available at all times;
+				however, we cannot guarantee uninterrupted access or that our services
+				will be error-free. We may suspend or terminate access to our platform
+				without prior notice for any reason, including maintenance or security
+				updates.
+			</p>
+			<p className="mt-4 font-semibold">6. Modifications to Services</p>
+			<p className="mt-2">
+				We reserve the right to modify, suspend, or discontinue our services at
+				any time without prior notice. We may also impose limits on certain
+				features or restrict access to parts of our platform without liability
+				or obligation.
+			</p>
+			<p className="mt-4 font-semibold">7. Feedback</p>
+			<p className="mt-2">
+				We welcome your feedback, comments, and suggestions for improving our
+				platform. You may submit feedback to us through the designated channels
+				provided on our website.
+			</p>
+			<p className="mt-4 font-semibold">8. Contact Information</p>
+			<p className="mt-2">
+				If you have any questions or concerns about these Terms of Service or
+				our services, please contact us at [contact email].
+			</p>
+			<p className="mt-4 font-semibold">9. Governing Law</p>
+			<p className="mt-2">
+				These Terms of Service are governed by and construed in accordance with
+				the laws of [your jurisdiction], without regard to its conflict of laws
+				principles. Any disputes arising out of or relating to these terms will
+				be resolved exclusively by the courts of [your jurisdiction].
+			</p>
+			<p className="mt-4 font-semibold">10. Entire Agreement</p>
+			<p className="mt-2">
+				These Terms of Service constitute the entire agreement between you and
+				Patient Fitness Tracker regarding your use of our platform and supersede
+				all prior or contemporaneous agreements and understandings, whether oral
+				or written.
+			</p>
 		</div>
 	);
 };
 
 const PrivacyPolicy = () => {
 	return (
-		<Card className="p-5 border-2 border-rose-800 overflow-y-scroll">
-			<p className="">Privacy Policy</p>
+		<div className="p-5 overflow-y-scroll h-[50vh] scrollbar">
+			<p className="text-lg font-semibold">Privacy Policy</p>
 			<Divider />
-			<p className="">
-				Your privacy is important to us. This Privacy Policy explains how we
-				collect, use, and disclose your personal information when you use our
-				services. By using our platform, you consent to the collection, use, and
-				disclosure of your personal information as described in this policy.
+			<p className="mt-4">
+				At Patient Fitness Tracker, we are committed to protecting your privacy.
+				This Privacy Policy outlines how we collect, use, and safeguard your
+				personal information when you use our services.
 			</p>
-			<p className="">1. Information We Collect</p>
-			<p className="">
-				We collect information that you provide to us when you register an
+			<p className="mt-4 font-semibold">1. Information Collection</p>
+			<p className="mt-2">
+				We may collect personal information from you when you register an
 				account, use our services, or interact with our platform. This may
-				include your name, email address, and other contact information.
+				include but is not limited to your name, email address, and demographic
+				information.
 			</p>
-			{/* Add more sections as needed */}
-		</Card>
+			<p className="mt-4 font-semibold">2. Use of Information</p>
+			<p className="mt-2">
+				We use the information we collect to provide, maintain, and improve our
+				services, as well as to communicate with you about your account and
+				updates to our platform. We may also use your information to personalize
+				your experience and to comply with legal obligations.
+			</p>
+			<p className="mt-4 font-semibold">3. Information Sharing</p>
+			<p className="mt-2">
+				We do not sell, trade, or rent your personal information to third
+				parties. However, we may share your information with trusted service
+				providers who assist us in operating our platform or servicing you,
+				subject to confidentiality agreements.
+			</p>
+			<p className="mt-4 font-semibold">4. Data Security</p>
+			<p className="mt-2">
+				We implement reasonable security measures to protect your personal
+				information from unauthorized access, alteration, or disclosure.
+				However, no method of transmission over the internet or electronic
+				storage is completely secure, and we cannot guarantee absolute security.
+			</p>
+			<p className="mt-4 font-semibold">5. Updates to Privacy Policy</p>
+			<p className="mt-2">
+				We reserve the right to update this Privacy Policy at any time. We will
+				notify you of any changes by posting the new Privacy Policy on this
+				page. It is your responsibility to review this Privacy Policy
+				periodically for changes.
+			</p>
+			<p className="mt-4 font-semibold">6. Contact Us</p>
+			<p className="mt-2">
+				If you have any questions or concerns about our Privacy Policy or our
+				handling of your personal information, please contact us at [contact
+				email].
+			</p>
+		</div>
 	);
 };
 
 const CookiePolicy = () => {
 	return (
-		<Card className="border-2 border-rose-800">
-			<p className="">Cookie Policy</p>
+		<div className="p-5 overflow-y-scroll h-[50vh] scrollbar">
+			<p className="text-lg font-semibold">Cookie Policy</p>
 			<Divider />
-			<p className="">
-				At Patient Fitness Tracker, we use cookies to improve your browsing
-				experience and personalize content. By using our website, you consent to
-				the use of cookies in accordance with this policy.
+			<p className="mt-4">
+				At Patient Fitness Tracker, we use cookies to enhance your browsing
+				experience and provide personalized content. This Cookie Policy explains
+				how we use cookies and similar technologies on our website.
 			</p>
-			<p className="">1. What Are Cookies?</p>
-			<p className="">
-				Cookies are small text files that are placed on your computer or mobile
-				device when you visit a website. They allow us to collect information
-				about your browsing behavior and preferences.
+			<p className="mt-4 font-semibold">1. What are Cookies?</p>
+			<p className="mt-2">
+				Cookies are small text files stored on your device by your web browser
+				when you visit a website. They contain information about your browsing
+				activities on that website and help recognize your device on subsequent
+				visits.
 			</p>
-			{/* Add more sections as needed */}
-		</Card>
+			<p className="mt-4 font-semibold">2. How We Use Cookies</p>
+			<p className="mt-2">
+				We use cookies for various purposes, including:
+				<ul className="list-disc ml-8 mt-2">
+					<li>Providing personalized content and recommendations;</li>
+					<li>Improving website performance and functionality;</li>
+					<li>Analyzing website traffic and usage patterns;</li>
+					<li>Tracking user preferences and settings;</li>
+					<li>Enabling social media integration;</li>
+					<li>Managing user sessions and authentication.</li>
+				</ul>
+			</p>
+			<p className="mt-4 font-semibold">3. Types of Cookies We Use</p>
+			<p className="mt-2">
+				We use both session cookies (which expire when you close your browser)
+				and persistent cookies (which remain on your device for a specified
+				period). Additionally, we use first-party cookies (set by us) and
+				third-party cookies (set by third-party service providers).
+			</p>
+			<p className="mt-4 font-semibold">4. Your Cookie Choices</p>
+			<p className="mt-2">
+				You have the option to manage your cookie preferences through your web
+				browser settings. You can choose to accept, reject, or delete cookies.
+				However, please note that disabling certain cookies may affect your
+				browsing experience and functionality of our website.
+			</p>
+			<p className="mt-4 font-semibold">5. Updates to Cookie Policy</p>
+			<p className="mt-2">
+				We may update this Cookie Policy from time to time to reflect changes in
+				our practices or legal requirements. We will notify you of any
+				significant changes by posting the updated policy on our website.
+			</p>
+			<p className="mt-4 font-semibold">6. Contact Us</p>
+			<p className="mt-2">
+				If you have any questions or concerns about our Cookie Policy or our use
+				of cookies, please contact us at [contact email].
+			</p>
+		</div>
 	);
 };
