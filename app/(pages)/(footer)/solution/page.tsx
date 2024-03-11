@@ -1,5 +1,5 @@
 "use client";
-import { Accordion, AccordionItem, Link } from "@nextui-org/react";
+import { Accordion, AccordionItem } from "@nextui-org/react";
 import { CiHospital1 } from "react-icons/ci";
 import { GrSchedules } from "react-icons/gr";
 import { TbHealthRecognition } from "react-icons/tb";
