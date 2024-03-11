@@ -40,13 +40,13 @@ export default function Footer() {
 							className="mb-2"
 						/>
 						<p className="text-xs font-light">
-							© 2023 Patient Fitness Tracker, Inc. All rights reserved.
+							© 2024 Patient Fitness Tracker, Inc. All rights reserved.
 						</p>
 					</div>
 					<FooterLinkItem />
 				</div>
 				<div className="flex flex-col justify-center items-center gap-5 w-3/5">
-					<Image src="patient.svg" height={40} width={40} />
+					<Image src="patient.svg" height={40} width={40} className="" />
 					<div className="text-center text-white/90">
 						<p className=" text-sm break-words">
 							<span className="block sm:inline">
@@ -155,32 +155,40 @@ export default function Footer() {
 function FooterLinkItem() {
 	const LinkItems = [
 		{
+			uri: "/solution",
 			title: "Solutions",
-			links: [
+			subtitle: [
 				"Patient Management",
 				"Appointment Scheduling",
 				"Health Monitoring",
 			],
 		},
 		{
+			uri: "/support",
 			title: "Support",
-			links: ["Contact Us", "FAQs", "Documentation"],
+			subtitle: ["Contact Us", "FAQs", "Documentation"],
 		},
 		{
+			uri: "/company",
 			title: "Company",
-			links: ["About Us", "Careers", "Blog"],
+			subtitle: ["About Us", "Careers", "Blog"],
 		},
 		{
+			uri: "/legal",
 			title: "Legal",
-			links: ["Terms of Service", "Privacy Policy", "Cookie Policy"],
+			subtitle: ["Terms of Service", "Privacy Policy", "Cookie Policy"],
 		},
 	];
 
 	return LinkItems.map((item) => (
 		<div key={item.title} className="flex flex-col">
 			<p className="text-md mb-2 tracking-wide">{item.title}</p>
-			{item.links.map((content) => (
-				<Link className="cursor-pointer text-sm text-white/75 m-1 hover:text-gray-300 ">
+			{item.subtitle.map((content, index) => (
+				<Link
+					key={item.subtitle[index]}
+					className="cursor-pointer text-sm text-white/75 m-1 hover:text-gray-300"
+					href={item.uri}
+				>
 					{content}
 				</Link>
 			))}
