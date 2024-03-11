@@ -13,7 +13,7 @@ import ContactUS from "./components/contact";
 
 export default function Home() {
 	return (
-		<main className="h-[100vh] scrollbar overflow-y-scroll">
+		<main className="h-[100vh]">
 			<NavBar />
 			<Intro />
 			<Lifeline />
