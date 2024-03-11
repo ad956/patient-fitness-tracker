@@ -1,42 +1,39 @@
 "use client";
-import {
-	Accordion,
-	AccordionItem,
-	Card,
-	Divider,
-	Link,
-} from "@nextui-org/react";
+import { Card, Chip, Divider, Link, Tab, Tabs } from "@nextui-org/react";
 import { FcPrivacy, FcServices } from "react-icons/fc";
 
 export default function Legal() {
 	return (
-		<section className="h-full flex	justify-around items-center">
-			<div className="w-4/5">
-				<div className=" container mx-auto">
-					<h2 className="text-3xl font-bold mb-4">Company</h2>
-					<p className="text-lg mb-4">
-						Learn more about our company and stay updated with the latest news
-						and career opportunities:
-					</p>
-					<Accordion variant="bordered" className="overflow-y-scroll">
-						{legalDetails.map((item, index) => (
-							<AccordionItem
-								key={item.title}
-								startContent={setAccordionIcon(index)}
-								title={item.title}
-							>
-								<p className="text-md text-black/90 ml-2">{item.desc}</p>
-								{index === 0 ? (
-									<TermsOfService />
-								) : index === 1 ? (
-									<CookiePolicy />
-								) : (
-									<PrivacyPolicy />
-								)}
-							</AccordionItem>
-						))}
-					</Accordion>
-				</div>
+		<section className="h-full flex	justify-center items-center">
+			<div className=" border-2 border-lime-700 flex flex-col w-3/5">
+				<Tabs color="danger" aria-label="Tabs colors" radius="full">
+					{legalDetails.map((item, index) => (
+						<Tab
+							key={item.title}
+							title={
+								<div className="flex items-center space-x-2">
+									{setTabIcon(index)}
+									<span>{item.title}</span>
+								</div>
+							}
+						>
+							<div className="mt-5 border-2 border-violet-700  ">
+								<p className="text-md">{item.desc}</p>
+
+								<p className="text-md">
+									{index === 0 ? (
+										"jhjjh"
+										// <TermsOfService />
+									) : index === 1 ? (
+										<PrivacyPolicy />
+									) : (
+										<CookiePolicy />
+									)}
+								</p>
+							</div>
+						</Tab>
+					))}
+				</Tabs>
 			</div>
 		</section>
 	);
@@ -57,7 +54,7 @@ const legalDetails = [
 	},
 ];
 
-function setAccordionIcon(index: number) {
+function setTabIcon(index: number) {
 	switch (index) {
 		case 0:
 			return <FcServices size={20} />;
@@ -125,30 +122,9 @@ const TermsOfService = () => {
 	);
 };
 
-const CookiePolicy = () => {
-	return (
-		<Card>
-			<p className="">Cookie Policy</p>
-			<Divider />
-			<p className="">
-				At Patient Fitness Tracker, we use cookies to improve your browsing
-				experience and personalize content. By using our website, you consent to
-				the use of cookies in accordance with this policy.
-			</p>
-			<p className="">1. What Are Cookies?</p>
-			<p className="">
-				Cookies are small text files that are placed on your computer or mobile
-				device when you visit a website. They allow us to collect information
-				about your browsing behavior and preferences.
-			</p>
-			{/* Add more sections as needed */}
-		</Card>
-	);
-};
-
 const PrivacyPolicy = () => {
 	return (
-		<Card>
+		<Card className="p-5 border-2 border-rose-800 overflow-y-scroll">
 			<p className="">Privacy Policy</p>
 			<Divider />
 			<p className="">
@@ -162,6 +138,27 @@ const PrivacyPolicy = () => {
 				We collect information that you provide to us when you register an
 				account, use our services, or interact with our platform. This may
 				include your name, email address, and other contact information.
+			</p>
+			{/* Add more sections as needed */}
+		</Card>
+	);
+};
+
+const CookiePolicy = () => {
+	return (
+		<Card className="border-2 border-rose-800">
+			<p className="">Cookie Policy</p>
+			<Divider />
+			<p className="">
+				At Patient Fitness Tracker, we use cookies to improve your browsing
+				experience and personalize content. By using our website, you consent to
+				the use of cookies in accordance with this policy.
+			</p>
+			<p className="">1. What Are Cookies?</p>
+			<p className="">
+				Cookies are small text files that are placed on your computer or mobile
+				device when you visit a website. They allow us to collect information
+				about your browsing behavior and preferences.
 			</p>
 			{/* Add more sections as needed */}
 		</Card>
