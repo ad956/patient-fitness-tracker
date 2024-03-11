@@ -1,15 +1,15 @@
-import About from "@/app/components/about";
-import ContactUS from "@/app/components/contact";
-import Features from "@/app/components/features";
-import Footer from "@/app/components/footer";
-import Intro from "@/app/components/intro";
-import Lifeline from "@/app/components/lifeline";
-import NavBar from "@/app/components/navbar";
-import ServicesOffered from "@/app/components/services";
-import Testimonial from "@/app/components/testimonial";
-import TrustedBy from "@/app/components/trustedby";
-import WorkingProcess from "@/app/components/working";
 import { Card, CardFooter, Image, Button, Divider } from "@nextui-org/react";
+import About from "./components/about";
+import ContactUS from "./components/contact";
+import Features from "./components/features";
+import Footer from "./components/footer";
+import Intro from "./components/intro";
+import Lifeline from "./components/lifeline";
+import NavBar from "./components/navbar";
+import ServicesOffered from "./components/services";
+import Testimonial from "./components/testimonial";
+import TrustedBy from "./components/trustedby";
+import WorkingProcess from "./components/working";
 
 export default function LandingPage() {
 	return (
