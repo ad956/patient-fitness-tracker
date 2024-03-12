@@ -1,3 +1,6 @@
+const BASE_URL = "http://localhost:3000/";
+const SERVER_URL = "http://localhost:3000/api/";
+
 const carouselData = [
   {
     image: "/reception.png",
@@ -43,4 +46,4 @@ const projectFeatures = [
   },
 ];
 
-export { carouselData, projectFeatures };
+export { carouselData, projectFeatures, BASE_URL, SERVER_URL };
