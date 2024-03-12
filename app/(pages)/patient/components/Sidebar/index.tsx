@@ -1,32 +1,33 @@
 "use client";
 
-import { Button } from "@nextui-org/react";
+import { Button, Image } from "@nextui-org/react";
 import { IoQrCodeOutline, IoSettingsOutline } from "react-icons/io5";
-import { MdOutlineSpaceDashboard } from "react-icons/md";
+import {
+	MdOutlineCurrencyRupee,
+	MdOutlineSpaceDashboard,
+} from "react-icons/md";
 import { RiMenu5Fill } from "react-icons/ri";
 import { useState } from "react";
 import { AiOutlineSchedule } from "react-icons/ai";
 import { CiHospital1 } from "react-icons/ci";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { BASE_URL } from "@/app/constants";
 
 export default function Sidebar() {
 	const [selected, setSelected] = useState(0);
-	const pathname = usePathname();
 
 	function handleButtonClick(index: number) {
 		setSelected(index);
 	}
 
 	return (
-		<aside className="border- border-red-700 h-full p-4 bg-[#f3f6fd]">
-			{/* <RiMenu5Fill size={25} className="my-5" /> */}
-
+		<aside className="h-full flex flex-col items-center p-4 bg-[#f3f6fd]">
+			<Image src="patient.svg" height={35} width={35} className="my-1" />
 			<div className="flex flex-col justify-center gap-5 items-center my-20">
 				{sidebarButtons.map((item, index) => (
 					<Button
 						key={item.title}
-						href={`${pathname}${item.uri}`}
+						href={`${BASE_URL}${item.uri}`}
 						isIconOnly
 						as={Link}
 						radius="full"
@@ -47,24 +48,28 @@ export default function Sidebar() {
 const sidebarButtons = [
 	{
 		title: "Dashboard",
-		uri: "/",
+		uri: "patient/",
 	},
 	{
 		title: "QR Code",
-		uri: "/qrcode",
+		uri: "patient/qrcode",
 	},
 	{
 		title: "Appointment",
-		uri: "/appointments",
+		uri: "patient/appointments",
+	},
+	{
+		title: "Transactions",
+		uri: "patient/transactions",
 	},
 	{
 		title: "Hospitals",
-		uri: "/hospitals",
+		uri: "patient/hospitals",
 	},
 
 	{
 		title: "Settings",
-		uri: "/settings",
+		uri: "patient/settings",
 	},
 ];
 
@@ -77,8 +82,10 @@ function setSidebarIcon(index: number) {
 		case 2:
 			return <AiOutlineSchedule size={22} />;
 		case 3:
-			return <CiHospital1 size={22} />;
+			return <MdOutlineCurrencyRupee size={22} />;
 		case 4:
+			return <CiHospital1 size={22} />;
+		case 5:
 			return <IoSettingsOutline size={22} />;
 
 		default:
