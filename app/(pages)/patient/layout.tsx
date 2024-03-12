@@ -1,5 +1,5 @@
-import Headbar from "@/app/components/patient/Headbar";
-import Sidebar from "@/app/components/patient/Sidebar";
+import Headbar from "@/app/(pages)/patient/components/Headbar";
+import Sidebar from "@/app/(pages)/patient/components/Sidebar";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -13,9 +13,9 @@ export default function PatientLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<main className="h-full flex">
+		<main className="h-[100vh] flex">
 			<Sidebar />
-			<section className="flex flex-col">
+			<section className="flex flex-col w-full">
 				<Headbar />
 				{children}
 			</section>
