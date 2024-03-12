@@ -6,9 +6,11 @@ import { GoPlus } from "react-icons/go";
 
 export default function Headbar() {
 	return (
-		<div className=" border- border-green-400 bg-[#f3f6fd] p-4 flex flex-row justify-between mx-5">
-			<div className="flex gap-5 w-3/5">
-				<BrandLogo />
+		<div className="bg-[#f3f6fd] p-4 flex flex-row justify-between mr-5">
+			<div className="flex items-center gap-5 w-3/5">
+				<p className="text-lg font-semibold tracking-wider">
+					Patient Fitness Tracker
+				</p>
 				<div className="w-2/5">
 					<Input
 						isClearable
