@@ -1,7 +1,10 @@
-import Dashboard from "./layouts/Patient";
+"use client";
+import { useRouter } from "next/navigation";
 import LandingPage from "./layouts/LandingPage";
 
 export default function Home() {
+	const router = useRouter();
+
 	const isLogged = true;
-	return isLogged ? <Dashboard /> : <LandingPage />;
+	return isLogged ? router.push("/patient") : <LandingPage />;
 }
