@@ -1,4 +1,4 @@
-import { Avatar, Card, Divider, Spacer } from "@nextui-org/react";
+import { Avatar, Card, Divider, Progress, Spacer } from "@nextui-org/react";
 import React from "react";
 
 export default function Patient() {
@@ -34,8 +34,36 @@ export default function Patient() {
 						</div>
 					</div>
 				</Card>
-				<Card className="col-span-1">2</Card>
-				<Card className="col-span-1">3</Card>
+				<Card className="col-span-1 flex justify-center gap-5 items-center p-5">
+					<Progress
+						size="sm"
+						radius="sm"
+						classNames={{
+							base: "max-w-md",
+							track: "drop-shadow-md border border-default",
+							indicator: "bg-gradient-to-r from-yellow-500 to-pink-500",
+							label: "tracking-wider font-bold text-xs",
+							value: "text-foreground/60 text-xs",
+						}}
+						label="General Health"
+						value={82}
+						showValueLabel={true}
+					/>
+					<Progress
+						size="sm"
+						radius="sm"
+						classNames={{
+							base: "max-w-md",
+							track: "drop-shadow-md border border-default",
+							label: "tracking-wider font-bold text-xs",
+							value: "text-foreground/60 text-xs",
+						}}
+						label="Water Balance"
+						value={65}
+						showValueLabel={true}
+					/>
+				</Card>
+				<Card className="col-span-1 ">3</Card>
 				<Card className=" row-span-5 col-span-2">5</Card>
 				<Card className="col-span-2 row-span-2">4</Card>
 				<Card className=" row-span-2 col-span-3">6</Card>
