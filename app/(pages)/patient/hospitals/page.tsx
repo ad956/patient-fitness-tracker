@@ -1,5 +1,3 @@
-import React from "react";
-
 export default function Hospitals() {
-	return <div>Hospitals</div>;
+	return <section className="">Hospital</section>;
 }
