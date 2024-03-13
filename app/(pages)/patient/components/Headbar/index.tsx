@@ -1,7 +1,7 @@
 import React from "react";
 import { BrandLogo } from "../../../../components/brandlogo";
 import { CiBellOn, CiSearch } from "react-icons/ci";
-import { Avatar, Button, Divider, Input } from "@nextui-org/react";
+import { Avatar, Button, Divider, Input, Link, User } from "@nextui-org/react";
 import { GoPlus } from "react-icons/go";
 
 export default function Headbar() {
@@ -58,13 +58,12 @@ export default function Headbar() {
 
 				<Divider orientation="vertical" className="h-8 bg-gray-500" />
 
-				<div className="flex justify-center items-center gap-2">
-					<Avatar
-						src="https://i.pravatar.cc/150?u=a04258114e29026302d"
-						size="md"
-					/>
-					<p className="text-md font-bold">Anand</p>
-				</div>
+				<User
+					name="Anand Suthar"
+					avatarProps={{
+						src: "https://i.pravatar.cc/150?u=a04258114e29026302d",
+					}}
+				/>
 			</div>
 		</div>
 	);
