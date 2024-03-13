@@ -129,6 +129,18 @@ const WeeklyProgress = () => {
 		<ResponsiveRadialBar
 			data={WeeklyData}
 			valueFormat=">-.2f"
+			// startAngle={-360}
+			// endAngle={-360}
+			colors={[
+				"#fd893c",
+				"#f5547e",
+				"#ffa046",
+				"#fdde50",
+				"#0babcf",
+				"#4e5bdb",
+				"#9b49ea",
+			]}
+			innerRadius={0}
 			padding={0.4}
 			cornerRadius={2}
 			margin={{ top: 40, right: 120, bottom: 40, left: 40 }}
