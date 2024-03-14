@@ -14,6 +14,7 @@ import React from "react";
 import { WeeklyProgress, HealthConditions } from "./components/Graphs";
 import Calendar from "./components/Calendar";
 import { FcLike, FcMms } from "react-icons/fc";
+import CarouselService from "./components/CarouselService";
 
 export default function Patient() {
 	return (
@@ -121,58 +122,7 @@ export default function Patient() {
 				</Card>
 				<Card className=" row-span-5 col-span-2 flex flex-col justify-center items-center p-5 w-full">
 					<Calendar />
-					<div className="flex flex-col justify-evenly items-center w-full h-full">
-						<Card
-							radius="md"
-							isBlurred
-							className="flex flex-row bg-[#9b49ea] justify-around items-center h-1/5 w-2/5"
-						>
-							<FcLike size={30} />
-							<div className="flex flex-col">
-								<p className="">Cardiologist</p>
-								<p className="">Dr. Rajnikanth</p>
-							</div>
-
-							<div className="rounded-full bg-white h-10 w-10" />
-						</Card>
-						<Card
-							radius="md"
-							isBlurred
-							className="flex flex-row bg-[#4e5bdb] justify-around items-center h-1/5 w-2/5"
-						>
-							<FcMms size={30} />
-							<div className="flex flex-col">
-								<p className="">Cardiologist</p>
-								<p className="">Dr. Rajnikanth</p>
-							</div>
-							<div className="rounded-full bg-white h-10 w-10" />
-						</Card>
-						<Card
-							radius="md"
-							isBlurred
-							className="flex flex-row bg-[#9b49ea] justify-around items-center h-1/5 w-2/5"
-						>
-							<FcLike size={30} />
-							<div className="flex flex-col">
-								<p className="">Cardiologist</p>
-								<p className="">Dr. Rajnikanth</p>
-							</div>
-
-							<div className="rounded-full bg-white h-10 w-10" />
-						</Card>
-						<Card
-							radius="md"
-							isBlurred
-							className="flex flex-row bg-[#4e5bdb] justify-around items-center h-1/5 w-2/5"
-						>
-							<FcMms size={30} />
-							<div className="flex flex-col">
-								<p className="">Cardiologist</p>
-								<p className="">Dr. Rajnikanth</p>
-							</div>
-							<div className="rounded-full bg-white h-10 w-10" />
-						</Card>
-					</div>
+					<CarouselService />
 				</Card>
 				<Card className="col-span-2 row-span-2 flex flex-col justify-center items-center">
 					<p className="text-sm font-semibold self-start ml-4 pt-2">
