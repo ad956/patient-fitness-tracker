@@ -11,7 +11,7 @@ import { useState } from "react";
 import { AiOutlineSchedule } from "react-icons/ai";
 import { CiHospital1 } from "react-icons/ci";
 import Link from "next/link";
-import { BASE_URL } from "@/app/constants";
+import { BASE_URL } from "@/app/utils/constants";
 
 export default function Sidebar() {
 	const [selected, setSelected] = useState(0);
@@ -22,7 +22,7 @@ export default function Sidebar() {
 
 	return (
 		<aside className="h-full flex flex-col items-center p-4 bg-[#f3f6fd]">
-			<Image src="patient.svg" height={35} width={35} className="my-1" />
+			<Image src="/patient.svg" height={35} width={35} className="my-1" />
 			<div className="flex flex-col justify-center gap-5 items-center my-20">
 				{sidebarButtons.map((item, index) => (
 					<Button
