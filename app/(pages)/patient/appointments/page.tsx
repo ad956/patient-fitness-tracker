@@ -3,31 +3,30 @@ import React from "react";
 
 export default function Appointments() {
 	return (
-		<section className="h-full w-full">
-			<Card isBlurred radius="lg" className="border-none flex justify-between">
+		<section className="h-full w-full p-5">
+			<Card
+				isBlurred
+				radius="lg"
+				className="border-none flex flex-row justify-around items-center mx-10 bg-[#e95b7b"
+			>
 				<div className="flex flex-col">
-					<p className="">Welcome to your appointment section</p>
-					<p className="">Anand!</p>
+					<p className="text-2xl font-bold">
+						Welcome to your appointment section,
+					</p>
+					<p className="text-2xl font-semibold">Anand!</p>
+					<p className="text-tiny text-black/80 my-2">
+						To book an appointment, first, select your city. Then, choose a
+						hospital within that city. Finally, provide your details to confirm
+						the appointment.
+					</p>
 				</div>
 				<Image
-					alt="Woman listing to music"
+					alt="Appointment Booking Instuc"
 					className="object-cover"
 					height={200}
 					src="/images/appointment1.png"
 					width={200}
 				/>
-				<CardFooter className="justify-between before:bg-white/10 border-white/20 border-1 overflow-hidden py-1 absolute before:rounded-xl rounded-large bottom-1 w-[calc(100%_-_8px)] shadow-small ml-1 z-10">
-					<p className="text-tiny text-white/80">Available soon.</p>
-					<Button
-						className="text-tiny text-white bg-black/20"
-						variant="flat"
-						color="default"
-						radius="lg"
-						size="sm"
-					>
-						Notify me
-					</Button>
-				</CardFooter>
 			</Card>
 		</section>
 	);
