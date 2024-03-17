@@ -28,7 +28,7 @@ const renderIcon = (icon: string) => {
 
 export default function Features() {
 	return (
-		<section className="h-4/5 flex flex-col justify-center items-center gap-5 p-5">
+		<section id="#features" className="h-4/5 flex flex-col justify-center items-center gap-5 p-5">
 			<div className="self-start ml-36">
 				<p className={`text-3xl font-bold tracking-wide ${poppins.className}`}>
 					Features

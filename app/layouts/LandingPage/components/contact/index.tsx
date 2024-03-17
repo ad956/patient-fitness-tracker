@@ -6,7 +6,7 @@ import "./style.css";
 
 export default function ContactUS() {
 	return (
-		<section className="h-full flex flex-col justify-center gap-5 items-center">
+		<section id="contact" className="h-full flex flex-col justify-center gap-5 items-center">
 			<div className="flex flex-col gap-2 items-center">
 				<p className="text-3xl font-bold">Get In Touch</p>
 				<p className="text-sm text-gray-500">

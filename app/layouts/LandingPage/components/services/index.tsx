@@ -36,7 +36,7 @@ const services = [
 
 export default function ServicesOffered() {
   return (
-    <section className="h-4/6 flex justify-around items-center">
+    <section id="services" className="h-4/6 flex justify-around items-center">
       <div className="flex flex-col w-2/6 gap-3 p-5">
         <p className="text-xl font-bold text-[#e95b7b] tracking-wider">
           Services

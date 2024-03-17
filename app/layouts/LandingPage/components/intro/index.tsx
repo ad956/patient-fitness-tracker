@@ -3,7 +3,7 @@ import React from "react";
 
 export default function Intro() {
   return (
-    <section className="h-5/6 p-5 flex justify-center gap-10 items-center">
+    <section id="#home" className="h-5/6 p-5 flex justify-center gap-10 items-center">
       <div className="h-4/5 w-2/5 p-5 flex flex-col justify-center gap-10 items-center text-bold">
         <h3 className="text-4xl font-medium tracking-wide">
           The <span className="text-[#e95b7b]">New Era</span> of Healthcare

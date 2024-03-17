@@ -2,7 +2,7 @@ import { Card, Image } from "@nextui-org/react";
 
 export default function About() {
   return (
-    <section className="h-full flex justify-around items-center">
+    <section id="about" className="h-full flex justify-around items-center">
       <Card isBlurred shadow="lg" className=" h-4/5 w-2/5">
         <Image src="images/about-us.jpg" height="auto" width="100%" />
       </Card>
