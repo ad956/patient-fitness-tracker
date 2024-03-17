@@ -43,7 +43,7 @@ export default function Login() {
       }
     >
       {/* left part */}
-      <div className="m-4 lg:w-1/4 flex flex-col gap-8 self-center">
+      <div className="m-4 lg:w-1/4 flex flex-col gap-5 self-center">
         <div className="flex justify-center items-center ">
           <Image src="patient.svg" height="50" width="50" alt="brand-logo" />
           <h2 className="ml-2 font-bold text-lg">Patient Fitness Tracker</h2>
@@ -91,18 +91,19 @@ export default function Login() {
             <p className="text-red-700 text-sm">{passwordError}</p>
           )}{" "}
           <Link
+            // size="sm"
             href="#"
             underline="hover"
             className="self-right m-2 text-xs text-black/70"
           >
             Forget password?
           </Link>
-          <button
-            type="submit"
-            className="text-white text-lg rounded-lg bg-[#0d0909] h-12 ml-4 my-2"
+          <Button
+            variant="shadow"
+            className="text-white self-center bg-[#161313] text-sm tracking-wide rounded-lg w-5/6 h-12 my-2"
           >
             Sign in
-          </button>
+          </Button>
         </form>
 
         <div className="flex justify-center gap-5 items-center">
@@ -111,13 +112,13 @@ export default function Login() {
           <div className="h-[1px] w-28 bg-gray-500" />
         </div>
 
-        <Button className="flex justify-center items-center gap-2 text-sm font-thin border-2 border-black rounded-lg h-12 mx-10">
+        <Button className="flex justify-center items-center gap-2 text-sm text-white bg-[#161313] rounded-lg w-5/6 h-12 mx-10">
           <Image src="google.svg" height="30" width="30" alt="google-sign-in" />{" "}
           Log in with Google
         </Button>
-        <p className="text-gray-500 text-sm text-center">
+        <p className="text-gray-500 text-xs text-center">
           Don't have an account?{" "}
-          <Link href="/signup" className="text-black">
+          <Link href="/signup" className="text-black text-xs">
             Sign Up
           </Link>
         </p>
