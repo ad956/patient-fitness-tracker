@@ -6,8 +6,16 @@ import { carouselData } from "@/app/utils/constants";
 import Carousel from "@/app/components/carousel";
 import { Button, Input, Link } from "@nextui-org/react";
 import { MdOutlineKey, MdOutlineAlternateEmail } from "react-icons/md";
+import { RootState, useAppDispatch } from "@/lib/store";
+import { login } from "@/lib/features/auth/authSlice";
+import { useSelector } from "react-redux";
 
 export default function Login() {
+  const dispatch = useAppDispatch();
+  const isAuthenticated = useSelector(
+    (state: RootState) => state.auth.isAuthenticated
+  );
+
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState(null || String);
   const [password, setPassword] = useState("");
@@ -35,7 +43,20 @@ export default function Login() {
 
   const toggleVisibility = () => setIsVisible(!isVisible);
 
-  function handleFormSubmit() {}
+  function handleFormSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const user = {
+      id: "1",
+      name: "John Doe",
+      username: "johndoe",
+      email: email,
+    };
+    dispatch(login(user));
+    console.log("dispatched");
+
+    console.log("isAuth : " + isAuthenticated);
+    // redirect("/patient");
+  }
   return (
     <div
       className={
@@ -99,6 +120,7 @@ export default function Login() {
             Forget password?
           </Link>
           <Button
+            type="submit"
             variant="shadow"
             className="text-white self-center bg-[#161313] text-sm tracking-wide rounded-lg w-5/6 h-12 my-2"
           >
