@@ -3,8 +3,8 @@
 import { Button, Image } from "@nextui-org/react";
 import { IoQrCodeOutline, IoSettingsOutline } from "react-icons/io5";
 import {
-	MdOutlineCurrencyRupee,
-	MdOutlineSpaceDashboard,
+  MdOutlineCurrencyRupee,
+  MdOutlineSpaceDashboard,
 } from "react-icons/md";
 import { RiMenu5Fill } from "react-icons/ri";
 import { useState } from "react";
@@ -13,81 +13,81 @@ import { CiHospital1 } from "react-icons/ci";
 import Link from "next/link";
 
 export default function Sidebar() {
-	const [selected, setSelected] = useState(0);
+  const [selected, setSelected] = useState(0);
 
-	function handleButtonClick(index: number) {
-		setSelected(index);
-	}
+  function handleButtonClick(index: number) {
+    setSelected(index);
+  }
 
-	return (
-		<aside className="h-full flex flex-col items-center p-4 bg-[#f3f6fd]">
-			<Image src="/patient.svg" height={35} width={35} className="my-1" />
-			<div className="flex flex-col justify-center gap-5 items-center my-20">
-				{sidebarButtons.map((item, index) => (
-					<Button
-						key={item.title}
-						href={`${process.env.BASE_URL}${item.uri}`}
-						isIconOnly
-						as={Link}
-						radius="full"
-						variant="shadow"
-						className={`${
-							selected === index ? "bg-[#1f1c2e] text-white" : "bg-gray-100"
-						}`}
-						onClick={() => handleButtonClick(index)}
-					>
-						{setSidebarIcon(index)}
-					</Button>
-				))}
-			</div>
-		</aside>
-	);
+  return (
+    <aside className="h-full flex flex-col items-center p-4 bg-[#f3f6fd]">
+      <Image src="/patient.svg" height={35} width={35} className="my-1" />
+      <div className="flex flex-col justify-center gap-5 items-center my-20">
+        {sidebarButtons.map((item, index) => (
+          <Button
+            key={item.title}
+            href={`${process.env.BASE_URL}${item.uri}`}
+            isIconOnly
+            as={Link}
+            radius="full"
+            variant="shadow"
+            className={`${
+              selected === index ? "bg-[#1f1c2e] text-white" : "bg-gray-100"
+            }`}
+            onClick={() => handleButtonClick(index)}
+          >
+            {setSidebarIcon(index)}
+          </Button>
+        ))}
+      </div>
+    </aside>
+  );
 }
 
 const sidebarButtons = [
-	{
-		title: "Dashboard",
-		uri: "patient/",
-	},
-	{
-		title: "QR Code",
-		uri: "patient/qrcode",
-	},
-	{
-		title: "Appointment",
-		uri: "patient/appointments",
-	},
-	{
-		title: "Transactions",
-		uri: "patient/transactions",
-	},
-	{
-		title: "Hospitals",
-		uri: "patient/hospitals",
-	},
+  {
+    title: "Dashboard",
+    uri: "patient/",
+  },
+  {
+    title: "QR Code",
+    uri: "patient/qrcode",
+  },
+  {
+    title: "Appointment",
+    uri: "patient/appointments",
+  },
+  {
+    title: "Transactions",
+    uri: "patient/transactions",
+  },
+  {
+    title: "Hospitals",
+    uri: "patient/hospitals",
+  },
 
-	{
-		title: "Settings",
-		uri: "patient/settings",
-	},
+  {
+    title: "Settings",
+    uri: "patient/settings",
+  },
 ];
 
 function setSidebarIcon(index: number) {
-	switch (index) {
-		case 0:
-			return <MdOutlineSpaceDashboard size={22} />;
-		case 1:
-			return <IoQrCodeOutline size={22} />;
-		case 2:
-			return <AiOutlineSchedule size={22} />;
-		case 3:
-			return <MdOutlineCurrencyRupee size={22} />;
-		case 4:
-			return <CiHospital1 size={22} />;
-		case 5:
-			return <IoSettingsOutline size={22} />;
+  switch (index) {
+    case 0:
+      return <MdOutlineSpaceDashboard size={22} />;
+    case 1:
+      return <IoQrCodeOutline size={22} />;
+    case 2:
+      return <AiOutlineSchedule size={22} />;
+    case 3:
+      return <MdOutlineCurrencyRupee size={22} />;
+    case 4:
+      return <CiHospital1 size={22} />;
+    case 5:
+      return <IoSettingsOutline size={22} />;
 
-		default:
-			break;
-	}
+    default:
+      break;
+  }
 }
