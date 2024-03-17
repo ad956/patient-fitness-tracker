@@ -11,7 +11,6 @@ import { useState } from "react";
 import { AiOutlineSchedule } from "react-icons/ai";
 import { CiHospital1 } from "react-icons/ci";
 import Link from "next/link";
-import { BASE_URL } from "@/app/utils/constants";
 
 export default function Sidebar() {
 	const [selected, setSelected] = useState(0);
@@ -27,7 +26,7 @@ export default function Sidebar() {
 				{sidebarButtons.map((item, index) => (
 					<Button
 						key={item.title}
-						href={`${BASE_URL}${item.uri}`}
+						href={`${process.env.BASE_URL}${item.uri}`}
 						isIconOnly
 						as={Link}
 						radius="full"
