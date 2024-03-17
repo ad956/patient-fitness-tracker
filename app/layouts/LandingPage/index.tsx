@@ -13,7 +13,7 @@ import WorkingProcess from "./components/working";
 
 export default function LandingPage() {
 	return (
-		<main className="h-[100vh]">
+		<main className="h-[100vh] scroll-smooth">
 			<NavBar />
 			<Intro />
 			<Lifeline />
