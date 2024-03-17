@@ -1,6 +1,5 @@
 "use client";
-import { Card } from "@nextui-org/react";
-import Image from "next/image";
+import { Card, Image } from "@nextui-org/react";
 import React, { useEffect, useRef, useState } from "react";
 
 const Carousel = ({
@@ -45,7 +44,7 @@ const Carousel = ({
   };
 
   return (
-    <Card className="flex flex-col justify-evenly p-4 h-full w-full">
+    <Card className="bg-transparent flex flex-col justify-evenly p-4 h-full w-full">
       {/* Carousel container */}
       <div className="h-full rounded-md overflow-hidden relative">
         {/* Image container */}
@@ -63,8 +62,7 @@ const Carousel = ({
             >
               <Image
                 className="pointer-events-none"
-                fill
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 150vw"
+                // sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 150vw"
                 alt={`carousel-image-${i}`}
                 src={v.image}
               />
