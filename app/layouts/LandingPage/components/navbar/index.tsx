@@ -1,4 +1,6 @@
-import React from "react";
+"use client"
+
+import React, { useState } from "react";
 import { BrandLogo } from "../brandlogo";
 import { CiMenuFries } from "react-icons/ci";
 import {
@@ -10,38 +12,43 @@ import {
   Button,
 } from "@nextui-org/react";
 
+const navLinks = [
+  { title: "Home", key: "home" },
+  { title: "Features", key: "features" },
+  { title: "Services", key: "services" },
+  { title: "About", key: "about" },
+  { title: "Contact Us", key: "contact" },
+];
+
 export default function NavBar() {
+  const [activeLink, setActiveLink] = useState<string>("");
+
+  const handleLinkClick = (link: string): void => {
+    setActiveLink(link === activeLink ? "" : link);
+  };
+
   return (
     <Navbar isBordered>
       <NavbarBrand>
         <BrandLogo />
       </NavbarBrand>
       <NavbarContent className="hidden sm:flex gap-4" justify="center">
-        <NavbarItem isActive className="text-[#e95b7b]">
-          <Link aria-current="page" href="#home">
-            Home
-          </Link>
-        </NavbarItem>
-        <NavbarItem>
-          <Link color="foreground" href="#features">
-            Features
-          </Link>
-        </NavbarItem>
-        <NavbarItem>
-          <Link color="foreground" href="#services">
-            Services
-          </Link>
-        </NavbarItem>
-        <NavbarItem>
-          <Link color="foreground" href="#about">
-            About
-          </Link>
-        </NavbarItem>
-        <NavbarItem>
-          <Link color="foreground" href="#contact">
-            Contact Us
-          </Link>
-        </NavbarItem>
+        {navLinks.map((navLink) => (
+          <NavbarItem
+            key={navLink.key}
+            isActive={activeLink === navLink.key}
+          >
+            <Link
+              aria-current={activeLink === navLink.key ? "page" : undefined}
+              data-active={activeLink === navLink.key ? "page" : undefined}
+              color={activeLink === navLink.key ? "primary" : "foreground"}
+              href={`#${navLink.key}`}
+              onClick={() => handleLinkClick(navLink.key)}
+            >
+              {navLink.title}
+            </Link>
+          </NavbarItem>
+        ))}
       </NavbarContent>
       <NavbarContent justify="end">
         <NavbarItem className="hidden lg:flex">
@@ -56,3 +63,4 @@ export default function NavBar() {
     </Navbar>
   );
 }
+
