@@ -21,7 +21,13 @@ export default function Sidebar() {
 
   return (
     <aside className="h-full flex flex-col items-center p-4 bg-[#f3f6fd]">
-      <Image src="/patient.svg" height={35} width={35} className="my-1" />
+      <Image
+        src="/patient.svg"
+        alt="brand-logo"
+        height={35}
+        width={35}
+        className="my-1"
+      />
       <div className="flex flex-col justify-center gap-5 items-center my-20">
         {sidebarButtons.map((item, index) => (
           <Button

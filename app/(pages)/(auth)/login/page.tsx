@@ -6,16 +6,9 @@ import { carouselData } from "@/app/utils/constants";
 import Carousel from "@/app/components/carousel";
 import { Button, Input, Link } from "@nextui-org/react";
 import { MdOutlineKey, MdOutlineAlternateEmail } from "react-icons/md";
-import { RootState, useAppDispatch } from "@/lib/store";
-import { login } from "@/lib/features/auth/authSlice";
-import { useSelector } from "react-redux";
+import { loginAction } from "@/app/actions";
 
 export default function Login() {
-  const dispatch = useAppDispatch();
-  const isAuthenticated = useSelector(
-    (state: RootState) => state.auth.isAuthenticated
-  );
-
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState(null || String);
   const [password, setPassword] = useState("");
@@ -43,20 +36,6 @@ export default function Login() {
 
   const toggleVisibility = () => setIsVisible(!isVisible);
 
-  function handleFormSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    const user = {
-      id: "1",
-      name: "John Doe",
-      username: "johndoe",
-      email: email,
-    };
-    dispatch(login(user));
-    console.log("dispatched");
-
-    console.log("isAuth : " + isAuthenticated);
-    // redirect("/patient");
-  }
   return (
     <div
       className={
@@ -76,7 +55,7 @@ export default function Login() {
           </p>
         </div>
 
-        <form className="flex flex-col" onSubmit={handleFormSubmit}>
+        <form className="flex flex-col" action={loginAction}>
           <Input
             variant="bordered"
             size="lg"
@@ -85,6 +64,7 @@ export default function Login() {
             startContent={<MdOutlineAlternateEmail />}
             value={email}
             className="mx-2 my-1"
+            onChange={handleEmailChange}
           />
           <Input
             variant="bordered"
@@ -92,6 +72,7 @@ export default function Login() {
             placeholder="Enter your password"
             startContent={<MdOutlineKey />}
             value={password}
+            onChange={handlePasswordChange}
             className="mx-2 my-1"
             endContent={
               <button
@@ -119,6 +100,7 @@ export default function Login() {
           >
             Forget password?
           </Link>
+          <input type="hidden" name="user-role" value="patient" />
           <Button
             type="submit"
             variant="shadow"
@@ -139,7 +121,7 @@ export default function Login() {
           Log in with Google
         </Button>
         <p className="text-gray-500 text-xs text-center">
-          Don't have an account?{" "}
+          Don&#39;t have an account?
           <Link href="/signup" className="text-black text-xs">
             Sign Up
           </Link>
