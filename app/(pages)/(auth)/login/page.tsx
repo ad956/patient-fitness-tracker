@@ -6,7 +6,7 @@ import { carouselData } from "@/app/utils/constants";
 import Carousel from "@/app/components/carousel";
 import { Button, Input, Link } from "@nextui-org/react";
 import { MdOutlineKey, MdOutlineAlternateEmail } from "react-icons/md";
-import { loginAction } from "@/app/actions";
+import { loginAction } from "@/lib/actions";
 
 export default function Login() {
   const [email, setEmail] = useState("");

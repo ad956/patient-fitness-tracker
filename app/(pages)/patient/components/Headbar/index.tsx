@@ -5,7 +5,7 @@ import { Avatar, Button, Divider, Input, Link, User } from "@nextui-org/react";
 import { GoPlus } from "react-icons/go";
 import { logout } from "@/lib/authUtils";
 import { redirect } from "next/navigation";
-import { logoutAction } from "@/app/actions";
+import { logoutAction } from "@/lib/actions";
 
 export default function Headbar() {
   return (
