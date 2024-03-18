@@ -1,7 +1,7 @@
 import { Avatar, Card, Divider, Progress, Tooltip } from "@nextui-org/react";
 import { WeeklyProgress, HealthConditions } from "./components/Graphs";
 import Calendar from "./components/Calendar";
-import CarouselService from "./components/CarouselService";
+import CarouselService from "./components/ServiceCarousel";
 
 export default function Patient() {
   return (

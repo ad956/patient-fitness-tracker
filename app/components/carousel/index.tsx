@@ -36,7 +36,7 @@ const Carousel = ({
 
     // Clear interval on unmount
     return () => clearInterval(id);
-  }, [data.length]);
+  }, [data]);
 
   const handleClick = (index: number) => {
     clearInterval(intervalId); // Clear automatic sliding interval
