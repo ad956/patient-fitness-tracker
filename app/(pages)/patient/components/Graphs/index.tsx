@@ -1,7 +1,7 @@
 "use client";
 
 import { Select, SelectItem } from "@nextui-org/react";
-import { ResponsiveLine } from "@nivo/line";
+import { PointTooltip, ResponsiveLine } from "@nivo/line";
 import { ResponsiveRadialBar } from "@nivo/radial-bar";
 
 const data = [
@@ -54,6 +54,7 @@ const HealthConditions = () => {
         <p className="text-md font-semibold">Your Health Conditions</p>
 
         <Select
+          aria-label="Select Year"
           color="secondary"
           labelPlacement="outside-left"
           className="w-1/6"
@@ -67,6 +68,12 @@ const HealthConditions = () => {
         </Select>
       </div>
       <ResponsiveLine
+        fill={[{ match: "*", id: "gradient" }]}
+        defs={[]}
+        enableCrosshair={false}
+        crosshairType="x"
+        role=""
+        sliceTooltip={({ slice }) => <></>}
         data={data}
         margin={{ top: 50, right: 110, bottom: 50, left: 60 }}
         xScale={{ type: "point" }}
@@ -88,6 +95,37 @@ const HealthConditions = () => {
           legendPosition: "middle",
         }}
         useMesh={true}
+        debugSlices={false}
+        enableSlices={false}
+        // tooltip={({ point }) => (
+        //   <div>
+        //     <strong>X value:</strong> {point.data.xFormatted}
+        //     <br />
+        //     <strong>Y value:</strong> {point.data.yFormatted}
+        //   </div>
+        // )}
+        debugMesh={false}
+        isInteractive={true}
+        legends={[]}
+        areaBaselineValue={0}
+        areaBlendMode="normal"
+        areaOpacity={0.2}
+        enableArea={false}
+        pointLabel="y"
+        enablePointLabel={false}
+        enablePoints={true}
+        layers={[
+          "grid",
+          "markers",
+          "axes",
+          "areas",
+          "crosshair",
+          "lines",
+          "slices",
+          "points",
+          "mesh",
+          "legends",
+        ]}
       />
     </div>
   );
