@@ -1,6 +1,6 @@
 "use client";
 import { format } from "date-fns";
-import React, { useEffect } from "react";
+import React from "react";
 import { type DateFormatter, DayPicker } from "react-day-picker";
 import styles from "./styles.module.css";
 import { Card } from "@nextui-org/react";
@@ -28,7 +28,6 @@ export default function Calendar({
         return new Date(year, getMonthIndex(month), day);
       });
       setAppointmentDates(selectedDates);
-      // Select the first appointment date by default
       setSelectedDate(selectedDates[0]);
     } else {
       setAppointmentDates([]);
