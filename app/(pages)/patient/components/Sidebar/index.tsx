@@ -19,6 +19,8 @@ export default function Sidebar() {
     setSelected(index);
   }
 
+  const BaseURL = process.env.BASE_URL || "http://localhost:3000/";
+
   return (
     <aside className="h-full flex flex-col items-center p-4 bg-[#f3f6fd]">
       <Image
@@ -32,7 +34,7 @@ export default function Sidebar() {
         {sidebarButtons.map((item, index) => (
           <Button
             key={item.title}
-            href={`${process.env.BASE_URL}${item.uri}`}
+            href={`${BaseURL}${item.uri}`}
             isIconOnly
             as={Link}
             radius="full"
