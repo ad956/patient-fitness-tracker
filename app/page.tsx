@@ -1,14 +1,13 @@
-"use client";
+// "use client";
 
 import { redirect } from "next/navigation";
 import LandingPage from "./layouts/LandingPage";
-import { useSelector } from "react-redux";
-import { RootState } from "@/lib/store";
+import { getSession } from "@/lib/authUtils";
 
-export default function Home() {
-  const isAuthenticated = useSelector(
-    (state: RootState) => state.auth.isAuthenticated
-  );
-  console.log("isAuth : " + isAuthenticated);
-  return isAuthenticated ? redirect("/patient") : <LandingPage />;
+export default async function Home() {
+  const isAuthenticated = getSession();
+  const user = await isAuthenticated;
+  // console.log("isAuth user : " + user);
+  // return user ? redirect("/patient") : <LandingPage />;
+  return <LandingPage />;
 }
