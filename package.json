@@ -14,6 +14,7 @@
     "@nivo/line": "^0.85.1",
     "@nivo/radial-bar": "^0.85.1",
     "date-fns": "^3.4.0",
+    "dom-to-image": "^2.6.0",
     "framer-motion": "^11.0.8",
     "jose": "^5.2.3",
     "next": "14.1.0",
@@ -24,6 +25,7 @@
     "react-icons": "^5.0.1"
   },
   "devDependencies": {
+    "@types/dom-to-image": "^2.6.7",
     "@types/js-cookie": "^3.0.6",
     "@types/node": "^20",
     "@types/react": "^18",
