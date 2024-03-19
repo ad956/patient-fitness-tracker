@@ -2,19 +2,25 @@ import { Avatar, Card, Divider, Progress, Tooltip } from "@nextui-org/react";
 import { WeeklyProgress, HealthConditions } from "./components/Graphs";
 import Calendar from "./components/Calendar";
 import CarouselService from "./components/ServiceCarousel";
+import { Patient } from "@/types";
+import { getPatientData } from "@/lib/getUserData";
+import { notFound } from "next/navigation";
 
-export default function Patient() {
+export default async function PatientPage() {
+  const { patient }: { patient: Patient } = await getPatientData();
+
+  if (!patient) {
+    return notFound();
+  }
+
   return (
     <section className="bg-[#f3f6fd] overflow-hidden p-2">
       <div className="grid grid-cols-5 grid-rows-5 h-full gap-3">
         <Card className="row-span-3 justify-center items-center">
           <div className="flex flex-col items-center">
-            <Avatar
-              size="lg"
-              src="https://i.pravatar.cc/150?u=a04258114e29026302d"
-            />
-            <p className="text-sm font-semibold">Anand Suthar</p>
-            <p className="text-xs text-gray-700">+91-8078-65-3427</p>
+            <Avatar size="lg" src={patient.profile} />
+            <p className="text-sm font-semibold">{patient.name}</p>
+            <p className="text-tiny text-gray-700">{patient.contact}</p>
           </div>
 
           <div className="p-5 w-full text-sm font-semibold m-2 text-black/75 flex flex-col gap-2">
@@ -29,10 +35,10 @@ export default function Patient() {
                 <p className="">Weight (Kg) :</p>
               </div>
               <div className="flex flex-col items-end gap-2 font-bold text-black">
-                <p className="">27 Year</p>
-                <p className="">O+</p>
-                <p className="">5.6</p>
-                <p className="">60</p>
+                <p className="">{patient.physicalDetails.age} Year</p>
+                <p className="">{patient.physicalDetails.blood} </p>
+                <p className="">{patient.physicalDetails.height} </p>
+                <p className="">{patient.physicalDetails.weight} </p>
               </div>
             </div>
           </div>
@@ -49,7 +55,7 @@ export default function Patient() {
               value: "text-foreground/60 text-xs",
             }}
             label="General Health"
-            value={82}
+            value={patient.progress.generalHealth}
             showValueLabel={true}
           />
           <Progress
@@ -64,7 +70,7 @@ export default function Patient() {
               value: "text-foreground/60 text-xs",
             }}
             label="Water Balance"
-            value={65}
+            value={patient.progress.waterBalance}
             showValueLabel={true}
           />
         </Card>
@@ -80,7 +86,7 @@ export default function Patient() {
               value: "text-foreground/60 text-xs",
             }}
             label="Current Treatment"
-            value={10}
+            value={patient.progress.currentTreatment}
             showValueLabel={true}
           />
           <Tooltip
@@ -104,23 +110,23 @@ export default function Patient() {
                 value: "text-foreground/60 text-xs",
               }}
               label="Pending Appointments"
-              value={0}
+              value={patient.progress.pendingAppointments}
               showValueLabel={true}
             />
           </Tooltip>
         </Card>
         <Card className=" row-span-5 col-span-2 flex flex-col justify-center items-center p-5 w-full">
-          <Calendar />
+          <Calendar upcomingAppointments={patient.upcomingAppointments} />
           <CarouselService />
         </Card>
         <Card className="col-span-2 row-span-2 flex flex-col justify-center items-center">
           <p className="text-sm font-semibold self-start ml-4 pt-2">
             Your Activity
           </p>
-          <WeeklyProgress />
+          <WeeklyProgress progressData={patient.activity} />
         </Card>
         <Card className="row-span-2 col-span-3">
-          <HealthConditions />
+          <HealthConditions progressData={patient.healthConditions} />
         </Card>
       </div>
     </section>

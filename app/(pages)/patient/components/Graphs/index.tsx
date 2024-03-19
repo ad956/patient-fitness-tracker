@@ -4,7 +4,7 @@ import { Select, SelectItem } from "@nextui-org/react";
 import { PointTooltip, ResponsiveLine } from "@nivo/line";
 import { ResponsiveRadialBar } from "@nivo/radial-bar";
 
-const data = [
+const healthData = [
   {
     id: "Patient A",
     data: [
@@ -47,7 +47,19 @@ const years = [
   },
 ];
 
-const HealthConditions = () => {
+type HealthProgressProps = {
+  progressData: number[];
+};
+
+const HealthConditions = ({ progressData }: HealthProgressProps) => {
+  const updatedHealthData = healthData.map((patient) => ({
+    ...patient,
+    data: patient.data.map((item, index) => ({
+      ...item,
+      y: progressData[index] !== undefined ? progressData[index] : item.y,
+    })),
+  }));
+
   return (
     <div className="h-full w-full p-5">
       <div className="flex flex-row justify-between items-center">
@@ -74,7 +86,7 @@ const HealthConditions = () => {
         crosshairType="x"
         role=""
         sliceTooltip={({ slice }) => <></>}
-        data={data}
+        data={updatedHealthData}
         margin={{ top: 50, right: 110, bottom: 50, left: 60 }}
         xScale={{ type: "point" }}
         yScale={{ type: "linear", min: 0, max: 100 }}
@@ -134,38 +146,47 @@ const HealthConditions = () => {
 const WeeklyData = [
   {
     id: "Monday",
-    data: [{ x: "Monday", y: 80 }],
+    data: [{ x: "Monday", y: 0 }],
   },
   {
     id: "Tuesday",
-    data: [{ x: "Tuesday", y: 60 }],
+    data: [{ x: "Tuesday", y: 0 }],
   },
   {
     id: "Wednesday",
-    data: [{ x: "Wednesday", y: 40 }],
+    data: [{ x: "Wednesday", y: 0 }],
   },
   {
     id: "Thursday",
-    data: [{ x: "Thursday", y: 70 }],
+    data: [{ x: "Thursday", y: 0 }],
   },
   {
     id: "Friday",
-    data: [{ x: "Friday", y: 90 }],
+    data: [{ x: "Friday", y: 0 }],
   },
   {
     id: "Saturday",
-    data: [{ x: "Saturday", y: 50 }],
+    data: [{ x: "Saturday", y: 0 }],
   },
   {
     id: "Sunday",
-    data: [{ x: "Sunday", y: 30 }],
+    data: [{ x: "Sunday", y: 0 }],
   },
 ];
 
-const WeeklyProgress = () => {
+type WeeklyProgressProps = {
+  progressData: number[];
+};
+
+const WeeklyProgress = ({ progressData }: WeeklyProgressProps) => {
+  const updatedWeeklyData = WeeklyData.map((day, index) => ({
+    ...day,
+    data: [{ x: day.id, y: progressData[index] }],
+  }));
+
   return (
     <ResponsiveRadialBar
-      data={WeeklyData}
+      data={updatedWeeklyData}
       valueFormat=">-.2f"
       // startAngle={-360}
       // endAngle={-360}
