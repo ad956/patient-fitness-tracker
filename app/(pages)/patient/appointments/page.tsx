@@ -31,7 +31,7 @@ export default function Appointments() {
         />
       </Card>
 
-      <div className="flex flex-col justify-center gap-5 mx-5">
+      <div className="flex flex-col justify-center gap-5 mx-5 mt-10">
         <p className="text-lg font-bold">Book an appointment</p>
         <SelectHosiptal />
       </div>
