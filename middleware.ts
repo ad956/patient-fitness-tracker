@@ -12,7 +12,7 @@ async function updateSessionMiddleware(request: NextRequest) {
 
 function redirectMiddleware(request: NextRequest) {
   const currentUser = request.cookies.get("session")?.value;
-  console.log("currentUser : " + currentUser + " __ " + Date.now());
+  // console.log("currentUser : " + currentUser + " __ " + Date.now());
 
   if (currentUser && !request.nextUrl.pathname.startsWith("/dashboard")) {
     return Response.redirect(new URL("/dashboard", request.url));
