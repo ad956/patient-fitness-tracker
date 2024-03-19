@@ -1,0 +1,1983 @@
+{
+    "Andhra Pradesh": {
+        "Hyderabad": [
+            "Apollo Hospitals",
+            "Yashoda Hospitals",
+            "KIMS Hospitals",
+            "Continental Hospitals",
+            "Sunshine Hospitals"
+        ],
+        "Visakhapatnam": [
+            "Care Hospitals",
+            "SevenHills Hospitals",
+            "Queens NRI Hospitals",
+            "Manipal Hospitals",
+            "Apollo Hospitals"
+        ],
+        "Vijayawada": [
+            "Nagarjuna Hospitals",
+            "Ramesh Hospitals",
+            "Andhra Hospitals",
+            "Swarnandhra Hospitals",
+            "Aayush Hospitals"
+        ],
+        "Guntur": [
+            "Latha Super Speciality Hospitals",
+            "Ramesh Hospitals",
+            "Andhra Hospitals",
+            "Vijaya Super Speciality Hospital",
+            "Lotus Hospitals"
+        ],
+        "Nellore": [
+            "Raghavendra Hospitals",
+            "Ramya Hospitals",
+            "Narayana Hospitals",
+            "Apollo Hospitals",
+            "Lotus Hospitals"
+        ],
+        "Kurnool": [
+            "Sanjeevini Hospitals",
+            "Sunrise Hospitals",
+            "Vijaya Hospitals",
+            "Sri Venkateswara Hospitals",
+            "Life Care Hospitals"
+        ],
+        "Rajahmundry": [
+            "Anu Hospitals",
+            "Pace Hospitals",
+            "Sree Krishna Hospitals",
+            "City Hospital",
+            "Satya Hospitals"
+        ],
+        "Tirupati": [
+            "Sri Venkateswara Institute of Medical Sciences",
+            "Apollo Speciality Hospitals",
+            "Tirumala Hospitals",
+            "Sunrise Hospitals",
+            "GSR Hospitals"
+        ],
+        "Kakinada": [
+            "Sai Sanjeevini Hospitals",
+            "Care Hospitals",
+            "KIMS Hospitals",
+            "Lotus Hospitals",
+            "Sri Satya Hospitals"
+        ],
+        "Anantapur": [
+            "Sri Sai Hospitals",
+            "Aditya Hospitals",
+            "Vijaya Super Speciality Hospital",
+            "Shree Hospitals",
+            "Srinivasa Hospitals"
+        ]
+    },
+    "Arunachal Pradesh": {
+        "Itanagar": [
+            "Tomar Hospital",
+            "Rama Krishna Mission Hospital",
+            "Woodland Hospital",
+            "RKMH Hospital",
+            "Arvind Hospital"
+        ],
+        "Naharlagun": [
+            "Krishna Hospital",
+            "Sanjivani Hospital",
+            "Pandit Deen Dayal Upadhyay Hospital",
+            "Sarathi Hospital",
+            "Medilane Hospital"
+        ],
+        "Pasighat": [
+            "Pasighat General Hospital",
+            "CHC Pasighat",
+            "Sicchio Hospital",
+            "Mile Hospital",
+            "Ista Hospital"
+        ],
+        "Roing": [
+            "CHC Roing",
+            "Sai Hospital",
+            "Sakti Hospital",
+            "Divine Care Hospital",
+            "RKMH Hospital"
+        ],
+        "Tezu": [
+            "Community Health Centre (CHC)",
+            "Mission Hospital",
+            "Lohit Hospital",
+            "Civil Hospital",
+            "Vivekananda Hospital"
+        ],
+        "Ziro": [
+            "Ziro Valley Hospital",
+            "RKM Hospital",
+            "District Hospital",
+            "Huda Hospital",
+            "Apollo Hospitals"
+        ],
+        "Daporijo": [
+            "CHC Daporijo",
+            "Grace Hospital",
+            "General Hospital",
+            "Arunachal Hospital",
+            "RKM Hospital"
+        ],
+        "Aalo": [
+            "CHC Aalo",
+            "General Hospital",
+            "Arunachal Hospital",
+            "RK Mission Hospital",
+            "Mendalium Hospital"
+        ],
+        "Bomdila": [
+            "District Hospital",
+            "Mundri Hospital",
+            "General Hospital",
+            "Arunachal Hospital",
+            "CHC Bomdila"
+        ],
+        "Tawang": [
+            "District Hospital",
+            "CHC Tawang",
+            "Arunachal Hospital",
+            "RK Mission Hospital",
+            "Puneet Hospital"
+        ]
+    },
+    "Assam": {
+        "Guwahati": [
+            "GNRC Hospitals",
+            "Excelcare Hospitals",
+            "Nemcare Hospital",
+            "Hayat Hospital",
+            "Down Town Hospital"
+        ],
+        "Silchar": [
+            "Cachar Cancer Hospital",
+            "Medistar Hospital",
+            "Holy Cross Hospital",
+            "Mission Hospital",
+            "Nazrul Islam Memorial Hospital"
+        ],
+        "Dibrugarh": [
+            "Assam Medical College & Hospital",
+            "Sankaradeva Nethralaya",
+            "Aditya Diagnostics & Hospital",
+            "Aayush Hospital",
+            "Brahmaputra Hospital"
+        ],
+        "Jorhat": [
+            "Jorhat Medical College and Hospital",
+            "Brahmaputra Diagnostics & Hospital",
+            "Jivan Jyoti Hospital",
+            "Gorajan Nursing Home",
+            "Brahmaputra Hospital"
+        ],
+        "Nagaon": [
+            "Nagaon Civil Hospital",
+            "Aditya Diagnostics & Hospital",
+            "Pratiksha Hospital",
+            "Life Care Hospital",
+            "Sankardev Hospital"
+        ],
+        "Tinsukia": [
+            "Tinsukia Civil Hospital",
+            "Ayush Hospital",
+            "Kundan Nursing Home",
+            "Brahmaputra Hospital",
+            "Kailash Hospital"
+        ],
+        "Tezpur": [
+            "Tezpur Medical College & Hospital",
+            "Mission Hospital",
+            "Mental Health Institute",
+            "Down Town Hospital",
+            "Cachar Cancer Hospital"
+        ],
+        "Karimganj": [
+            "Karimganj Civil Hospital",
+            "Dr. D. D. Kashyap Memorial Eye Hospital",
+            "Nazrul Islam Memorial Hospital",
+            "City Hospital",
+            "Sanjivani Hospital"
+        ],
+        "Sibsagar": [
+            "Sibsagar Civil Hospital",
+            "Sankardev Hospital",
+            "Ayush Hospital",
+            "Dr. Sengupta Nursing Home",
+            "Green View Hospital"
+        ],
+        "Dhubri": [
+            "Dhubri Civil Hospital",
+            "Arunachal Hospital",
+            "Ayush Hospital",
+            "Dibrugarh Cancer Hospital",
+            "Dr. Bhupen Hazarika Civil Hospital"
+        ]
+    },
+    "Bihar": {
+        "Patna": [
+            "Patna Medical College and Hospital",
+            "AIIMS Patna",
+            "Ruban Emergency Hospital",
+            "Siddharth Multispeciality Hospital",
+            "Max Super Specialty Hospital"
+        ],
+        "Gaya": [
+            "Anugrah Narayan Magadh Medical College and Hospital",
+            "Bee Enn General Hospital",
+            "Rajendra Memorial Research Institute of Medical Sciences",
+            "Gaya Hospital",
+            "Indira Gandhi Institute of Medical Sciences"
+        ],
+        "Bhagalpur": [
+            "Jawaharlal Nehru Medical College and Hospital",
+            "Bhagalpur Medical College and Hospital",
+            "Nagar Nigam Hospital",
+            "Vikramshila Hospital",
+            "Brahmananda Narayana Multispeciality Hospital"
+        ],
+        "Muzaffarpur": [
+            "Sri Krishna Medical College and Hospital",
+            "Krishna Memorial College and Hospital",
+            "Eminent Nursing Home",
+            "Brahmanand Narayana Multispeciality Hospital",
+            "Kesarwani Hospital"
+        ],
+        "Purnia": [
+            "Katihar Medical College and Hospital",
+            "Purnia Medical College and Hospital",
+            "Shrinath Hospital",
+            "Kumar Hospital",
+            "Hira Lal Memorial Hospital"
+        ],
+        "Darbhanga": [
+            "Darbhanga Medical College and Hospital",
+            "Laxmi Medical Hall and Hospital",
+            "Sadar Hospital",
+            "Neha Medical Hall and Hospital",
+            "Jeevan Jyoti Hospital"
+        ],
+        "Bihar Sharif": [
+            "Bihar Sharif Medical College and Hospital",
+            "City Hospital",
+            "Bihar Sharif Hospital",
+            "Badi Dargah Hospital",
+            "Yugantar Hospital"
+        ],
+        "Arrah": [
+            "B.R.Ambedkar Memorial Hospital",
+            "Dr. Ruban Emergency Hospital",
+            "Maurya Multispeciality Hospital",
+            "Nishita Hospital",
+            "Pushpanjali Hospital"
+        ],
+        "Begusarai": [
+            "Mata Roop Rani Magadh Hospital",
+            "Sadar Hospital",
+            "Anugrah Narayan Memorial Magadh Medical College and Hospital",
+            "Shri Sai Nath Hospital",
+            "Vikram Hospital"
+        ],
+        "Katihar": [
+            "Sadra Hospital",
+            "A.N.M. Medical College and Hospital",
+            "Amit Nursing Home",
+            "Divya Hospital",
+            "Dr. Ruban Emergency Hospital"
+        ]
+    },
+    "Chhattisgarh": {
+        "Raipur": [
+            "Pt. JNM Medical College",
+            "Shri Balaji Institute of Medical Sciences",
+            "Ramakrishna Care Hospital",
+            "Narmada Trauma Centre",
+            "RK Hospital"
+        ],
+        "Bhilai": [
+            "JLN Medical College and Hospital",
+            "Apollo Hospitals",
+            "Bhilai Steel Plant Hospital",
+            "Sri Sai Hospital",
+            "Sun Hospital"
+        ],
+        "Bilaspur": [
+            "Chhattisgarh Institute of Medical Sciences",
+            "Life Line Hospital",
+            "Metro Hospital",
+            "Vivekanand Hospital",
+            "Vikas Hospital"
+        ],
+        "Korba": [
+            "SMIMSR Medical College",
+            "Central Hospital",
+            "Ekta Hospital",
+            "Apollo Hospitals",
+            "Balaji Hospital"
+        ],
+        "Durg": [
+            "J.L.N Medical College and Hospital",
+            "Chandra Hospital",
+            "Ishwar Hospital",
+            "Nanda Hospital",
+            "Mittal Hospital"
+        ],
+        "Raigarh": [
+            "Raigarh Medical College and Hospital",
+            "Vidya Hospital",
+            "K.P. Hospital",
+            "Jay Bajrangbali Hospital",
+            "Balco Hospital"
+        ],
+        "Rajnandgaon": [
+            "MIMS College and Hospital",
+            "Santoshi Hospital",
+            "Bala Ji Hospital",
+            "Kalyani Hospital",
+            "Apollo Hospitals"
+        ],
+        "Jagdalpur": [
+            "Apollo Hospitals",
+            "Lokmanya Hospital",
+            "Sarvodaya Hospital",
+            "Dr. Sharma's Hospital",
+            "Chhattisgarh Institute of Medical Sciences"
+        ],
+        "Ambikapur": [
+            "Apollo Hospitals",
+            "Nikunj Hospital",
+            "Patni Hospital",
+            "Shree Sai Hospital",
+            "Krishna Hospital"
+        ],
+        "Dhamtari": [
+            "Nakoda Hospital",
+            "PHC Dhamtari",
+            "Sri Krishna Hospital",
+            "Durg Hospital",
+            "Ambulance Hospital"
+        ]
+    },
+    "Goa": {
+        "Panaji": [
+            "Goa Medical College and Hospital",
+            "Manipal Hospitals",
+            "Apollo Victor Hospital",
+            "Wockhardt Hospitals",
+            "Esperance Hospital"
+        ],
+        "Margao": [
+            "Grace Intensive Cardiac Care Centre",
+            "Holy Spirit Hospital",
+            "Sapana Healthcare",
+            "Devi Hospital",
+            "Grace Healthcare"
+        ],
+        "Vasco da Gama": [
+            "Sub-District Hospital",
+            "Carmo Hospital",
+            "Dr. Sunita Bandekar Nursing Home",
+            "Saikripa Hospital",
+            "Victor Hospital"
+        ],
+        "Mapusa": [
+            "Community Health Centre",
+            "Vision Hospital",
+            "Mapusa District Hospital",
+            "Chaitanya Hospital",
+            "PHC Hospital"
+        ],
+        "Ponda": [
+            "Shree Shantadurga Hospital",
+            "Grace Healthcare",
+            "Sapana Healthcare",
+            "Hospicio Hospital",
+            "Vishwasrao Dharmaji Adhar Hospital"
+        ]
+    },
+    "Gujarat": {
+        "Ahmedabad": [
+            "Apollo Hospitals",
+            "Sterling Hospitals",
+            "Shalby Hospitals",
+            "CIMS Hospital",
+            "Zydus Hospitals"
+        ],
+        "Surat": [
+            "Noble Hospitals",
+            "Sun Hospital",
+            "Care Hospitals",
+            "Venus Hospital",
+            "Platinum Hospital"
+        ],
+        "Vadodara": [
+            "HCG Hospitals",
+            "Nishtha Hospital",
+            "Zenith Hospital",
+            "Arihant Hospital",
+            "Pearl Hospital"
+        ],
+        "Rajkot": [
+            "Paras Hospitals",
+            "Star Hospital",
+            "Indus Hospital",
+            "KRIPA Hospital",
+            "Sheth Hospital"
+        ],
+        "Bhavnagar": [
+            "Apollo Hospitals",
+            "Bhailal Amin General Hospital",
+            "Shrey Hospital",
+            "Safal Hospital",
+            "HCG Hospitals"
+        ],
+        "Jamnagar": [
+            "Guru Govindsingh Hospital",
+            "Gayatri Hospital",
+            "Icon Hospital",
+            "Deepti Hospital",
+            "HCG Hospitals"
+        ],
+        "Junagadh": [
+            "Shree Swaminarayan Hospital",
+            "HCG Hospitals",
+            "Dhara Hospital",
+            "Mavjat Hospital",
+            "Vasan Eye Care Hospital"
+        ],
+        "Gandhinagar": [
+            "Apollo Hospitals",
+            "Columbia Asia Hospital",
+            "Health City Hospital",
+            "Zydus Hospitals",
+            "Nisarg Hospital"
+        ],
+        "Anand": [
+            "Apollo Hospitals",
+            "Shree Krishna Hospital",
+            "Ramkrishna Hospital",
+            "Om Hospital",
+            "Soham Hospital"
+        ],
+        "Nadiad": [
+            "Smt. G.R. Doshi and Smt. K.M. Mehta Institute of Kidney Diseases and Research Centre",
+            "Santram Hospital",
+            "Jeevan Deep Hospital",
+            "Poojan Hospital",
+            "HCG Hospitals"
+        ]
+    },
+    "Haryana": {
+        "Faridabad": [
+            "Asian Institute of Medical Sciences",
+            "Sarvodaya Hospital & Research Centre",
+            "Qrg Central Hospital & Research Centre",
+            "Fortis Escorts Hospital",
+            "Metro Heart Institute"
+        ],
+        "Gurgaon": [
+            "Medanta - The Medicity",
+            "Artemis Hospital",
+            "Fortis Memorial Research Institute",
+            "Columbia Asia Hospital",
+            "Max Hospital"
+        ],
+        "Panipat": [
+            "Sugam Hospital",
+            "Bansal Hospital",
+            "Deep Hospital",
+            "Himgiri Hospital",
+            "KCM Hospital"
+        ],
+        "Ambala": [
+            "Panchkula Hospital",
+            "Ambala Hospital",
+            "Shri Krishan Satya Sai Hospital",
+            "Utkarsh Hospital",
+            "Vinayak Hospital"
+        ],
+        "Yamunanagar": [
+            "Raj Hospital",
+            "Agarwal Hospital",
+            "Sahara Hospital",
+            "Shanti Devi Hospital",
+            "Suman Hospital"
+        ],
+        "Rohtak": [
+            "Punjab Medical Centre",
+            "Sanjivani Hospital",
+            "Tara Hospital",
+            "Tej Hospital",
+            "Verma Hospital"
+        ],
+        "Hisar": [
+            "Aman Hospital",
+            "Jindal Hospital",
+            "Kanta Hospital",
+            "Kumari Hospital",
+            "Saraswati Hospital"
+        ],
+        "Karnal": [
+            "Tagore Hospital",
+            "Adarsh Hospital",
+            "Dev Hospital",
+            "Karnal Nursing Home",
+            "Sarvodaya Hospital"
+        ],
+        "Sonipat": [
+            "Arora Nursing Home",
+            "Batra Nursing Home",
+            "Bhagwati Hospital",
+            "Bharat Hospital",
+            "Bhatia Hospital"
+        ],
+        "Panchkula": [
+            "Chaitanya Hospital",
+            "Ghosh Hospital",
+            "Jain Hospital",
+            "Preet Hospital",
+            "Sharma Hospital"
+        ]
+    },
+    "Himachal Pradesh": {
+        "Shimla": [
+            "Indus Hospital",
+            "IGMC Hospital",
+            "Maharishi Markandeshwar Medical College & Hospital",
+            "Fortis Hospital",
+            "Max Hospital"
+        ],
+        "Mandi": [
+            "Zonal Hospital Mandi",
+            "Tagore Hospital",
+            "Prathana Hospital",
+            "Punj Hospital",
+            "Pankaj Hospital"
+        ],
+        "Solan": [
+            "Solan Civil Hospital",
+            "Bimla Hospital",
+            "Bharat Hospital",
+            "Bishnoi Hospital",
+            "Sharma Hospital"
+        ],
+        "Dharamshala": [
+            "Dharamshala Civil Hospital",
+            "Raja Ka Bagh Hospital",
+            "Columbia Asia Hospital",
+            "Prakash Hospital",
+            "D.C. Hospital"
+        ],
+        "Kullu": [
+            "Kullu Civil Hospital",
+            "Bishan Hospital",
+            "Chandan Hospital",
+            "Aashirwad Hospital",
+            "Sudarshan Hospital"
+        ],
+        "Chamba": [
+            "Chamba Civil Hospital",
+            "Kothi Hospital",
+            "Sankalp Hospital",
+            "Rajiv Gandhi Government Post Graduate Ayurvedic Hospital",
+            "City Hospital"
+        ],
+        "Nahan": [
+            "Nahan Civil Hospital",
+            "Dr. Pramod Sharma Hospital",
+            "Sunder Lal Memorial Hospital",
+            "Pandit Jawahar Lal Nehru Government Medical College",
+            "Anurag Hospital"
+        ],
+        "Una": [
+            "Una Civil Hospital",
+            "Government Hospital Amb",
+            "Joshi Nursing Home",
+            "Chand Hospital",
+            "Rattan Hospital"
+        ],
+        "Bilaspur": [
+            "Bilaspur Civil Hospital",
+            "Rattan Hospital",
+            "Chand Hospital",
+            "Chandulal Hospital",
+            "Mata Kaushalya Hospital"
+        ],
+        "Palampur": [
+            "Civil Hospital Palampur",
+            "Neelkanth Hospital",
+            "Prabhat Hospital",
+            "D.C. Hospital",
+            "Pankaj Hospital"
+        ]
+    },
+    "Jharkhand": {
+        "Ranchi": [
+            "Raj Hospital",
+            "Apollo Hospitals",
+            "Medanta Ranchi Hospital",
+            "Raj Hospital",
+            "CIMS Hospital"
+        ],
+        "Jamshedpur": [
+            "Tata Main Hospital",
+            "Care Hospitals",
+            "Goyal Hospital",
+            "Life Care Hospital",
+            "Tata Memorial Hospital"
+        ],
+        "Dhanbad": [
+            "ASG Hospital",
+            "Balaji Hospital",
+            "Batra Hospital",
+            "Chandi Ma Hospital",
+            "Citi Hospital"
+        ],
+        "Bokaro Steel City": [
+            "BSLMC Hospital",
+            "Dr. Maheshwari Hospital",
+            "JK Hospital",
+            "K.C. Gupta Hospital",
+            "K.D Hospital"
+        ],
+        "Deoghar": [
+            "Basudeo Memorial Hospital",
+            "Deoghar Hospital",
+            "Ganga Hospital",
+            "Gautam Hospital",
+            "Goel Hospital"
+        ],
+        "Hazaribagh": [
+            "Hazaribagh Medical College and Hospital",
+            "Adarsh Hospital",
+            "Anand Hospital",
+            "Ashok Hospital",
+            "Gupta Hospital"
+        ],
+        "Giridih": [
+            "Giridih Sadar Hospital",
+            "Gupta Hospital",
+            "Healthcare Hospital",
+            "Jain Hospital",
+            "Jeevan Hospital"
+        ],
+        "Ramgarh": [
+            "CIMFR Hospital",
+            "Civil Hospital",
+            "Daga Hospital",
+            "Devkamal Hospital",
+            "Dhami Hospital"
+        ],
+        "Medininagar": [
+            "District Hospital",
+            "Gupta Hospital",
+            "K.B.Hospital",
+            "Kamla Prasad Hospital",
+            "Kumar Hospital"
+        ],
+        "Chirkunda": [
+            "Jawaharlal Nehru Hospital",
+            "Care Hospital",
+            "Jagannath Hospital",
+            "Jagriti Hospital",
+            "Kasturba Hospital"
+        ]
+    },
+    "Karnataka": {
+        "Bangalore": [
+            "Apollo Hospitals",
+            "Manipal Hospitals",
+            "Columbia Asia Hospital",
+            "Fortis Hospitals",
+            "Narayana Health"
+        ],
+        "Mysore": [
+            "Narayana Multispeciality Hospital",
+            "Columbia Asia Hospital",
+            "Bharath Hospital",
+            "Cheluvamba Hospital",
+            "JSS Hospital"
+        ],
+        "Hubli-Dharwad": [
+            "SDM Hospital",
+            "Ayush Hospital",
+            "Bharat Hospital",
+            "Chigateri District Hospital",
+            "Vasan Eye Care Hospital"
+        ],
+        "Mangalore": [
+            "Wenlock District Hospital",
+            "Unity Hospital",
+            "Fr. Muller Medical College Hospital",
+            "Kadri Manjunath Temple Hospital",
+            "Vikram Hospital"
+        ],
+        "Belgaum": [
+            "KLE Dr. Prabhakar Kore Hospital",
+            "Hindalga Hospital",
+            "Siddeshwar Hospital",
+            "Anand Hospital",
+            "Cantonment General Hospital"
+        ],
+        "Gulbarga": [
+            "Alfred Albert Memorial Hospital",
+            "Basaveshwar Hospital",
+            "Dr. Virupaksha Hospital",
+            "Eskenazi Hospital",
+            "Faith Hospital"
+        ],
+        "Davanagere": [
+            "Shivajinagar Hospital",
+            "Bapuji Hospital",
+            "Ayurvedic Hospital",
+            "Cardio Care Hospital",
+            "City Hospital"
+        ],
+        "Bellary": [
+            "Vijaya Hospital",
+            "Ashok Hospital",
+            "Sri Sai Hospital",
+            "Basava Hospital",
+            "Balaji Hospital"
+        ],
+        "Bijapur": [
+            "Shri B M Patil Hospital",
+            "KLES Dr. Prabhakar Kore Hospital",
+            "ESI Hospital",
+            "HMS Hospital",
+            "Basaveshwar Hospital"
+        ],
+        "Shimoga": [
+            "McGann Hospital",
+            "K.M. Hospital",
+            "Lakshmi Hospital",
+            "K.G Hospital",
+            "District Hospital"
+        ]
+    },
+    "Kerala": {
+        "Thiruvananthapuram": [
+            "Sree Chitra Tirunal Institute for Medical Sciences and Technology",
+            "Kerala Institute of Medical Sciences",
+            "Medical College Hospital",
+            "Travancore Medical College Hospital",
+            "Vijayalakshmi Medical Centre"
+        ],
+        "Kochi": [
+            "Aster Medcity",
+            "Amrita Institute of Medical Sciences and Research Centre",
+            "Lakeshore Hospital",
+            "Renai Medicity",
+            "PVS Memorial Hospital"
+        ],
+        "Kozhikode": [
+            "Baby Memorial Hospital",
+            "Malabar Institute of Medical Sciences",
+            "MES Medical College Hospital",
+            "Co-operative Hospital",
+            "Koyilandy Taluk Hospital"
+        ],
+        "Thrissur": [
+            "West Fort Hospital",
+            "Daya General Hospital",
+            "Thrissur Heart Hospital",
+            "Elite Mission Hospital",
+            "Guruvayurappan Institute of Medical Sciences"
+        ],
+        "Kollam": [
+            "District Hospital",
+            "Upasana Hospital",
+            "Holy Cross Hospital",
+            "Al Saj Hospital",
+            "St. Joseph's Hospital"
+        ],
+        "Palakkad": [
+            "District Hospital",
+            "Sevana Hospital",
+            "Sreedhareeyam Ayurvedic Hospital",
+            "Karunalayam Hospital",
+            "Mangalam Hospital"
+        ],
+        "Alappuzha": [
+            "Government General Hospital",
+            "Bishop Benziger Hospital",
+            "District Hospital",
+            "National Hospital",
+            "Marthoma Hospital"
+        ],
+        "Kannur": [
+            "Government Medical College Hospital",
+            "Co-operative Hospital",
+            "Koyili Hospital",
+            "Malabar Cancer Centre",
+            "Santhi Hospital"
+        ],
+        "Kottayam": [
+            "Government Medical College Hospital",
+            "Caritas Hospital",
+            "Saint Joseph's Hospital",
+            "Holy Cross Hospital",
+            "Vijaya Hospital"
+        ],
+        "Manjeri": [
+            "Malabar Hospital",
+            "Mallapuram Medical College Hospital",
+            "Al Salama Hospital",
+            "MIMS Hospital",
+            "Karuna Hospital"
+        ]
+    },
+    "Madhya Pradesh": {
+        "Indore": [
+            "Choithram Hospital",
+            "Apollo Hospitals",
+            "Bombay Hospital",
+            "Life Care Hospital",
+            "Unique Hospital"
+        ],
+        "Bhopal": [
+            "Hamidia Hospital",
+            "Chirayu Hospital",
+            "Narmada Trauma Centre",
+            "Apex Hospital",
+            "Ashoka Hospital"
+        ],
+        "Jabalpur": [
+            "Netaji Subhash Chandra Bose Medical College",
+            "Metro Hospital",
+            "Narmada Hospital",
+            "Patanjali Hospital",
+            "Suyash Hospital"
+        ],
+        "Gwalior": [
+            "Kamla Raja Hospital",
+            "Mayo Hospital",
+            "Apollo Hospitals",
+            "Sikandar Kampoo Hospital",
+            "Eurokids Hospital"
+        ],
+        "Ujjain": [
+            "Charak Hospital",
+            "Bansal Hospital",
+            "Mahakal Hospital",
+            "Saket Hospital",
+            "Rajshree Hospitals"
+        ],
+        "Sagar": [
+            "Bundelkhand Medical College",
+            "Diksha Hospital",
+            "Gomti Hospital",
+            "Maharaja Yeshwantrao Hospital",
+            "Swastik Hospital"
+        ],
+        "Dewas": [
+            "Sudarshan Hospital",
+            "Agarwal Hospital",
+            "Government Hospital",
+            "Madhuri Hospital",
+            "Sanjeevani Hospital"
+        ],
+        "Satna": [
+            "Sri Satya Sai Hospital",
+            "Nathani Hospital",
+            "Kasturba Hospital",
+            "Apollo Hospitals",
+            "Anand Hospital"
+        ],
+        "Ratlam": [
+            "Government Hospital",
+            "CHL Hospitals",
+            "Arihant Hospital",
+            "Shree Ram Hospital",
+            "Shri Siddhi Vinayak Hospital"
+        ],
+        "Rewa": [
+            "Sanjeevani Hospital",
+            "Chandan Hospital",
+            "Abhinav Hospital",
+            "Naveen Hospital",
+            "Gurukripa Hospital"
+        ]
+    },
+    "Maharashtra": {
+        "Mumbai": [
+            "Bombay Hospital",
+            "Jaslok Hospital",
+            "Lilavati Hospital",
+            "Kokilaben Dhirubhai Ambani Hospital",
+            "Hinduja Hospital"
+        ],
+        "Pune": [
+            "Ruby Hall Clinic",
+            "Sahyadri Hospital",
+            "Deenanath Mangeshkar Hospital",
+            "Columbia Asia Hospital",
+            "Poona Hospital"
+        ],
+        "Nagpur": [
+            "Government Medical College and Hospital",
+            "Wockhardt Hospital",
+            "Neuron Hospital",
+            "Sunshine Hospital",
+            "Orange City Hospital"
+        ],
+        "Thane": [
+            "Jupiter Hospital",
+            "Bethany Hospital",
+            "Hiranandani Hospital",
+            "Currae Specialty Hospital",
+            "Dhanvantari Hospital"
+        ],
+        "Nashik": [
+            "Wockhardt Hospitals",
+            "Apollo Hospitals",
+            "Suyash Hospital",
+            "Sai Baba Hospital",
+            "Nashik City Hospital"
+        ],
+        "Kalyan-Dombivli": [
+            "Titan Hospital",
+            "Shivam Hospital",
+            "Vedant Hospital",
+            "Fortis Hospital",
+            "Sai Seva Hospital"
+        ],
+        "Vasai-Virar": [
+            "Vedant Hospital",
+            "Shree Hospital",
+            "Anand Hospital",
+            "Vasai Virar Municipal Corporation Hospital",
+            "Om Hospital"
+        ],
+        "Aurangabad": [
+            "Government Medical College and Hospital",
+            "Mahatma Gandhi Mission Medical College and Hospital",
+            "Dr. Hedgewar Hospital",
+            "Lotus Hospital",
+            "Aadhar Hospital"
+        ],
+        "Navi Mumbai": [
+            "Apollo Hospitals",
+            "MGM Hospital",
+            "Vasan Eye Care Hospital",
+            "Reliance Hospital",
+            "Fortis Hospital"
+        ],
+        "Solapur": [
+            "Chintamani Hospital",
+            "Shri Siddheshwar Hospital",
+            "Ashwini Sahakari Rugnalaya",
+            "Deshpande Hospital",
+            "City Hospital"
+        ]
+    },
+    "Manipur": {
+        "Imphal": [
+            "Shija Hospitals",
+            "RIMS Hospital",
+            "Sky Hospital",
+            "Manipur Hospital",
+            "Lions Hospital"
+        ],
+        "Thoubal": [
+            "Thoubal District Hospital",
+            "Chingtam Hospital",
+            "Tera Hospital",
+            "Wangoi Hospital",
+            "Borayangbi Hospital"
+        ],
+        "Bishnupur": [
+            "District Hospital",
+            "Roma Hospital",
+            "MI Hospital",
+            "Narayana Hospital",
+            "Bishnupur Christian Hospital"
+        ],
+        "Churachandpur": [
+            "District Hospital",
+            "Grace Hospital",
+            "Royal Hospital",
+            "Life Care Hospital",
+            "Churachandpur Christian Hospital"
+        ],
+        "Chandel": [
+            "District Hospital",
+            "Zoveng Hospital",
+            "Seva Hospital",
+            "Christian Hospital",
+            "Sai Hospital"
+        ],
+        "Senapati": [
+            "District Hospital",
+            "Bethesda Hospital",
+            "Raj Medicity Hospital",
+            "Senapati Christian Hospital",
+            "Senapati Civil Hospital"
+        ],
+        "Ukhrul": [
+            "District Hospital",
+            "Ukhrul Christian Hospital",
+            "Public Hospital",
+            "Holy Family Hospital",
+            "Ukhrul Civil Hospital"
+        ],
+        "Kakching": [
+            "District Hospital",
+            "Kakching Christian Hospital",
+            "Kakching Civil Hospital",
+            "Life Care Hospital",
+            "Sub-Divisional Hospital"
+        ],
+        "Jiribam": [
+            "District Hospital",
+            "Jiribam Christian Hospital",
+            "Jiribam Sub-Divisional Hospital",
+            "Railway Hospital",
+            "Lalsan Hospital"
+        ],
+        "Kangpokpi": [
+            "District Hospital",
+            "Christian Hospital",
+            "Public Hospital",
+            "Baptist Hospital",
+            "Kangpokpi Civil Hospital"
+        ]
+    },
+    "Meghalaya": {
+        "Shillong": [
+            "North Eastern Indira Gandhi Regional Institute of Health and Medical Sciences",
+            "Woodland Hospital",
+            "Nazareth Hospital",
+            "Bansara Eye Care Centre",
+            "Bethesda Hospital"
+        ],
+        "Tura": [
+            "District Hospital",
+            "Christian Hospital",
+            "Holy Cross Hospital",
+            "Poly Clinic Hospital",
+            "Joyful Christian Hospital"
+        ],
+        "Nongpoh": [
+            "CHC Hospital",
+            "KVK Hospital",
+            "Nongpoh Civil Hospital",
+            "Mission Hospital",
+            "Kalpana Hospital"
+        ],
+        "Williamnagar": [
+            "District Hospital",
+            "Zoveng Hospital",
+            "Seva Hospital",
+            "Christian Hospital",
+            "Sai Hospital"
+        ],
+        "Baghmara": [
+            "CHC Hospital",
+            "CHC Baghmara",
+            "Mission Hospital",
+            "Sub-Divisional Hospital",
+            "P.H.C Baghmara"
+        ],
+        "Nongstoin": [
+            "District Hospital",
+            "Nongstoin Civil Hospital",
+            "Mission Hospital",
+            "Lakadong Hospital",
+            "KVK Hospital"
+        ],
+        "Resubelpara": [
+            "CHC Hospital",
+            "Christian Hospital",
+            "Resubelpara Civil Hospital",
+            "Mission Hospital",
+            "RKM Hospital"
+        ],
+        "Jowai": [
+            "District Hospital",
+            "Christian Hospital",
+            "Mission Hospital",
+            "Civil Hospital",
+            "PHC Hospital"
+        ],
+        "Amlarem": [
+            "District Hospital",
+            "Christian Hospital",
+            "Mission Hospital",
+            "Amlarem Civil Hospital",
+            "CHC Hospital"
+        ],
+        "Cherrapunji": [
+            "District Hospital",
+            "Christian Hospital",
+            "Mission Hospital",
+            "Civil Hospital",
+            "PHC Hospital"
+        ]
+    },
+    "Mizoram": {
+        "Aizawl": [
+            "Civil Hospital",
+            "Bethesda Hospital",
+            "Falkawn Hospital",
+            "Mission Hospital",
+            "Zoram Medical College Hospital"
+        ],
+        "Lunglei": [
+            "Civil Hospital",
+            "Presbyterian Hospital",
+            "Health Care Centre",
+            "TB Hospital",
+            "Eye Hospital"
+        ],
+        "Saiha": [
+            "Civil Hospital",
+            "Zion Hospital",
+            "District Hospital",
+            "Presbyterian Hospital",
+            "TB Hospital"
+        ],
+        "Champhai": [
+            "Civil Hospital",
+            "Presbyterian Hospital",
+            "Aibawk Hospital",
+            "Mission Hospital",
+            "TB Hospital"
+        ],
+        "Kolasib": [
+            "Civil Hospital",
+            "Presbyterian Hospital",
+            "Tuirial Hospital",
+            "Mission Hospital",
+            "TB Hospital"
+        ],
+        "Serchhip": [
+            "Civil Hospital",
+            "Presbyterian Hospital",
+            "District Hospital",
+            "Mission Hospital",
+            "TB Hospital"
+        ],
+        "Lawngtlai": [
+            "Civil Hospital",
+            "Presbyterian Hospital",
+            "District Hospital",
+            "Mission Hospital",
+            "TB Hospital"
+        ],
+        "Saitual": [
+            "Civil Hospital",
+            "Presbyterian Hospital",
+            "District Hospital",
+            "Mission Hospital",
+            "TB Hospital"
+        ],
+        "Khawzawl": [
+            "Civil Hospital",
+            "Presbyterian Hospital",
+            "District Hospital",
+            "Mission Hospital",
+            "TB Hospital"
+        ],
+        "Hnahthial": [
+            "Civil Hospital",
+            "Presbyterian Hospital",
+            "District Hospital",
+            "Mission Hospital",
+            "TB Hospital"
+        ]
+    },
+    "Nagaland": {
+        "Kohima": [
+            "Naga Hospital Authority Kohima",
+            "Pfutsero Hospital",
+            "Zunheboto Hospital",
+            "Phek Hospital",
+            "Chumukedima Hospital"
+        ],
+        "Dimapur": [
+            "Civil Hospital",
+            "Faith Hospital",
+            "Medi City Hospital",
+            "Srishti Hospital",
+            "Sunrise Hospital"
+        ],
+        "Mokokchung": [
+            "District Hospital",
+            "Referral Hospital",
+            "Urbane Hospital",
+            "Grace Hospital",
+            "Main Hospital"
+        ],
+        "Tuensang": [
+            "District Hospital",
+            "Referral Hospital",
+            "Tuensang Baptist Hospital",
+            "Crescent Hospital",
+            "Mission Hospital"
+        ],
+        "Wokha": [
+            "District Hospital",
+            "Referral Hospital",
+            "Mission Hospital",
+            "Grace Hospital",
+            "Civil Hospital"
+        ],
+        "Zunheboto": [
+            "District Hospital",
+            "Referral Hospital",
+            "Civil Hospital",
+            "Mission Hospital",
+            "Baptist Hospital"
+        ],
+        "Phek": [
+            "District Hospital",
+            "Referral Hospital",
+            "Civil Hospital",
+            "Mission Hospital",
+            "Baptist Hospital"
+        ],
+        "Chumukedima": [
+            "District Hospital",
+            "Referral Hospital",
+            "Civil Hospital",
+            "Mission Hospital",
+            "Baptist Hospital"
+        ],
+        "Mon": [
+            "District Hospital",
+            "Referral Hospital",
+            "Civil Hospital",
+            "Mission Hospital",
+            "Baptist Hospital"
+        ],
+        "Longleng": [
+            "District Hospital",
+            "Referral Hospital",
+            "Civil Hospital",
+            "Mission Hospital",
+            "Baptist Hospital"
+        ]
+    },
+    "Odisha": {
+        "Bhubaneswar": [
+            "AIIMS Bhubaneswar",
+            "Capital Hospital",
+            "Apollo Hospitals",
+            "Kalinga Hospital",
+            "AMRI Hospital"
+        ],
+        "Cuttack": [
+            "SCB Medical College",
+            "ESIC Hospital",
+            "Jawaharlal Nehru Medical College",
+            "GEM Hospital",
+            "Sun Hospital"
+        ],
+        "Rourkela": [
+            "Ispat General Hospital",
+            "Sun Hospital",
+            "Brahmani Tarang Hospital",
+            "Sai Hospital",
+            "Railway Hospital"
+        ],
+        "Brahmapur": [
+            "MKCG Medical College and Hospital",
+            "City Hospital",
+            "Sun Hospital",
+            "Apollo Hospitals",
+            "Life Care Hospital"
+        ],
+        "Sambalpur": [
+            "VIMSAR Burla",
+            "District Headquarters Hospital",
+            "Apollo Hospitals",
+            "Vedanta Hospital",
+            "Sai Hospital"
+        ],
+        "Puri": [
+            "District Headquarters Hospital",
+            "Anand Hospital",
+            "Apollo Hospitals",
+            "Maa Tarini Hospital",
+            "Balabhadra Eye Hospital"
+        ],
+        "Balasore": [
+            "District Headquarters Hospital",
+            "Balasore Alloys Hospital",
+            "Apollo Hospitals",
+            "Star Hospital",
+            "Niranjan Hospital"
+        ],
+        "Bhadrak": [
+            "District Headquarters Hospital",
+            "Apollo Hospitals",
+            "Aditya Hospital",
+            "City Hospital",
+            "Sri Sri Hospital"
+        ],
+        "Baripada": [
+            "District Headquarters Hospital",
+            "MCH Baripada",
+            "Apollo Hospitals",
+            "Life Line Hospital",
+            "Chintamani Hospital"
+        ],
+        "Jharsuguda": [
+            "District Headquarters Hospital",
+            "Apollo Hospitals",
+            "Sarala Hospital",
+            "Swastik Hospital",
+            "Vision Care Hospital"
+        ]
+    },
+    "Punjab": {
+        "Ludhiana": [
+            "Christian Medical College & Hospital",
+            "Dayanand Medical College & Hospital",
+            "Fortis Hospital",
+            "Sohana Hospital",
+            "Satguru Partap Singh Hospital"
+        ],
+        "Amritsar": [
+            "Government Medical College & Hospital",
+            "Guru Nanak Dev Hospital",
+            "Amandeep Hospital",
+            "Fortis Escorts Hospital",
+            "Sri Guru Ram Das Institute of Medical Sciences & Research"
+        ],
+        "Jalandhar": [
+            "Civil Hospital",
+            "Sukhmani Hospital",
+            "Amandeep Hospital",
+            "SGL Charitable Hospital",
+            "Tagore Hospital"
+        ],
+        "Patiala": [
+            "Government Medical College & Hospital",
+            "Patiala Heart Institute",
+            "Rajindra Hospital",
+            "Patiala Eye Hospital",
+            "Arora Hospital"
+        ],
+        "Bathinda": [
+            "Civil Hospital",
+            "Bathinda Heart Hospital",
+            "Guru Nanak Hospital",
+            "Bathinda Eye Hospital",
+            "Gobind Hospital"
+        ],
+        "Hoshiarpur": [
+            "Civil Hospital",
+            "Hoshiarpur Eye Hospital",
+            "Dasuya Eye Hospital",
+            "Hoshiarpur Heart Hospital",
+            "Aggarwal Hospital"
+        ],
+        "Mohali": [
+            "Fortis Hospital",
+            "Indus Hospital",
+            "Ivy Hospital",
+            "Max Super Specialty Hospital",
+            "Chandigarh Hospital"
+        ],
+        "Batala": [
+            "Civil Hospital",
+            "Batala Eye Hospital",
+            "Guru Nanak Dev Hospital",
+            "Batala Heart Hospital",
+            "Sukhjinder Hospital"
+        ],
+        "Pathankot": [
+            "Civil Hospital",
+            "Pathankot Eye Hospital",
+            "Ajay Hospital",
+            "Sachdeva Hospital",
+            "Military Hospital"
+        ],
+        "Moga": [
+            "Civil Hospital",
+            "Moga Eye Hospital",
+            "Guru Nanak Hospital",
+            "Moga Heart Hospital",
+            "Shanti Devi Hospital"
+        ]
+    },
+    "Rajasthan": {
+        "Jaipur": [
+            "SMS Hospital",
+            "Fortis Escorts Hospital",
+            "Apex Hospitals",
+            "Sawai Man Singh Hospital",
+            "Santokba Durlabhji Memorial Hospital"
+        ],
+        "Jodhpur": [
+            "AIIMS Jodhpur",
+            "MG Hospital",
+            "Jodhpur Hospital",
+            "Mehul Hospital",
+            "Kamla Nagar Hospital"
+        ],
+        "Udaipur": [
+            "MDS Hospital",
+            "Dharmarth Hospital",
+            "MG Hospital",
+            "Mewar Hospital",
+            "Madar Hospital"
+        ],
+        "Kota": [
+            "Government Medical College Kota",
+            "Apollo Hospital",
+            "Santokba Durlabhji Memorial Hospital",
+            "Soni Manipal Hospital",
+            "Bhandari Hospital & Research Centre"
+        ],
+        "Bikaner": [
+            "PBM Hospital",
+            "Sri Ganganagar Hospital",
+            "Priti Hospital",
+            "Tej Hospital",
+            "Ghanshyam Seva Trust Hospital"
+        ],
+        "Ajmer": [
+            "JLN Hospital",
+            "Sachdeva Hospital",
+            "Nirmal Hospital",
+            "Raghu Hospital",
+            "Ashadeep Hospital"
+        ],
+        "Sikar": [
+            "Kalyan Hospital",
+            "Rajasthan Hospital",
+            "Radha Hospital",
+            "Sangam Hospital",
+            "Sunrise Hospital"
+        ],
+        "Alwar": [
+            "Amrit Hospital",
+            "Bharat Hospital",
+            "Bharti Hospital",
+            "Chandan Hospital",
+            "Garg Hospital"
+        ],
+        "Bhilwara": [
+            "Ganesh Hospital",
+            "T.B. Hospital",
+            "Shree Ram Hospital",
+            "Jagdamba Hospital",
+            "Chandan Hospital"
+        ],
+        "Ganganagar": [
+            "Kanwar Hospital",
+            "Goyal Hospital",
+            "BRS Hospital",
+            "Parihar Hospital",
+            "Jain Hospital"
+        ]
+    },
+    "Sikkim": {
+        "Gangtok": [
+            "STNM Hospital",
+            "Sikim Manipal Hospital",
+            "Central Referral Hospital",
+            "Khamdong Hospital",
+            "Phensang Hospital"
+        ],
+        "Namchi": [
+            "District Hospital",
+            "Gurung Hospital",
+            "Singh Hospital",
+            "Bhandari Hospital",
+            "Hill Hospital"
+        ],
+        "Mangan": [
+            "District Hospital",
+            "Senyuk Hospital",
+            "Kazi Hospital",
+            "Zilla Hospital",
+            "Private Hospital"
+        ],
+        "Gyalshing": [
+            "District Hospital",
+            "Kazi Hospital",
+            "STNM Hospital",
+            "Singh Hospital",
+            "CST Hospital"
+        ],
+        "Singtam": [
+            "District Hospital",
+            "Gurung Hospital",
+            "Singh Hospital",
+            "Bhandari Hospital",
+            "Hill Hospital"
+        ],
+        "Rangpo": [
+            "District Hospital",
+            "Senyuk Hospital",
+            "Kazi Hospital",
+            "Zilla Hospital",
+            "Private Hospital"
+        ],
+        "Jorethang": [
+            "District Hospital",
+            "Kazi Hospital",
+            "STNM Hospital",
+            "Singh Hospital",
+            "CST Hospital"
+        ],
+        "Ravangla": [
+            "District Hospital",
+            "Gurung Hospital",
+            "Singh Hospital",
+            "Bhandari Hospital",
+            "Hill Hospital"
+        ],
+        "Soreng": [
+            "District Hospital",
+            "Senyuk Hospital",
+            "Kazi Hospital",
+            "Zilla Hospital",
+            "Private Hospital"
+        ],
+        "Phensang": [
+            "District Hospital",
+            "Senyuk Hospital",
+            "Kazi Hospital",
+            "Zilla Hospital",
+            "Private Hospital"
+        ]
+    },
+    "Tamil Nadu": {
+        "Chennai": [
+            "Apollo Hospital",
+            "Fortis Malar Hospital",
+            "Kauvery Hospital",
+            "MIOT International",
+            "Billroth Hospitals"
+        ],
+        "Coimbatore": [
+            "KG Hospital",
+            "Ganga Hospital",
+            "Kovai Medical Center and Hospital",
+            "Sri Ramakrishna Hospital",
+            "Lotus Eye Hospital and Institute"
+        ],
+        "Madurai": [
+            "Apollo Speciality Hospitals",
+            "Vadamalayan Hospitals",
+            "Aravind Eye Hospital",
+            "Meenakshi Mission Hospital",
+            "Gandhi Memorial Hospital"
+        ],
+        "Tiruchirappalli": [
+            "Apollo Speciality Hospitals",
+            "KMC Hospital",
+            "Cethar Hospitals",
+            "Sri Ramakrishna Hospital",
+            "Jeevan Hospital"
+        ],
+        "Salem": [
+            "Salem Polyclinic",
+            "Vasan Eye Care Hospital",
+            "National Hospital",
+            "KG Hospital",
+            "Gowtham Hospital"
+        ],
+        "Tirunelveli": [
+            "Tirunelveli Medical College Hospital",
+            "Kalyani Kidney Care Centre",
+            "Sugam Hospital",
+            "M M Hospital",
+            "C R Nursing Home"
+        ],
+        "Tiruppur": [
+            "Tiruppur Government Hospital",
+            "Selvam Hospital",
+            "Adithya Hospital",
+            "Avinash Hospital",
+            "A G Hospital"
+        ],
+        "Kanchipuram": [
+            "Kanchi Kamakoti Childs Trust Hospital",
+            "Arokya Hospital",
+            "Balaji Hospital",
+            "MNM Hospital",
+            "RMS Hospital"
+        ],
+        "Thanjavur": [
+            "Thanjavur Medical College Hospital",
+            "Rajarajeswari Hospital",
+            "Saravana Hospital",
+            "Abi Hospital",
+            "Revathi Hospital"
+        ],
+        "Vellore": [
+            "Christian Medical College & Hospital",
+            "Government Vellore Medical College Hospital",
+            "Sri Narayani Hospital & Research Centre",
+            "Bilroth Hospital",
+            "Aarupadai Veedu Medical College Hospital"
+        ]
+    },
+    "Telangana": {
+        "Hyderabad": [
+            "Apollo Hospitals",
+            "Yashoda Hospitals",
+            "Care Hospitals",
+            "KIMS Hospitals",
+            "Sunshine Hospitals"
+        ],
+        "Warangal": [
+            "Vijaya Hospital",
+            "City Hospital",
+            "Ashoka Hospital",
+            "Surya Hospital",
+            "Akshaya Hospital"
+        ],
+        "Nizamabad": [
+            "Krishna Hospital",
+            "Gowri Hospital",
+            "Vijaya Hospital",
+            "Nalanda Hospital",
+            "Narayana Hospital"
+        ],
+        "Karimnagar": [
+            "Sanjivani Hospital",
+            "Sri Vijaya Hospital",
+            "Anil Hospital",
+            "Eashwar Hospital",
+            "Indo-US Hospital"
+        ],
+        "Ramagundam": [
+            "Government General Hospital",
+            "Dr. Ambedkar Hospital",
+            "Ankur Hospital",
+            "Shreyas Hospital",
+            "Gayatri Hospital"
+        ],
+        "Khammam": [
+            "CARE Hospitals",
+            "Abhaya Hospital",
+            "Apollo Reach Hospitals",
+            "Sagar Hospital",
+            "Swarna Bharathi Institute of Neuro Science"
+        ],
+        "Mahbubnagar": [
+            "Owaisi Hospital",
+            "Ramadevi Hospital",
+            "Ahmed Hospital",
+            "Majestic Hospital",
+            "Shivam Hospital"
+        ],
+        "Nalgonda": [
+            "Kamineni Hospitals",
+            "SVS Hospital",
+            "Sri Raghavendra Hospital",
+            "Swathi Hospital",
+            "Vijaya Hospital"
+        ],
+        "Adilabad": [
+            "Government Area Hospital",
+            "Sri Sai Baba Hospital",
+            "Sri Krishna Hospital",
+            "Annapurna Hospital",
+            "Ganga Hospital"
+        ],
+        "Suryapet": [
+            "Aravind Hospital",
+            "CARE Hospitals",
+            "Harsha Hospitals",
+            "Hyderabad Multi Specialty Hospital",
+            "Kamineni Hospitals"
+        ]
+    },
+    "Tripura": {
+        "Agartala": [
+            "AGMC & GBP Hospital",
+            "Tripura Medical College & Dr. B R Ambedkar Memorial Teaching Hospital",
+            "Tripura Sundari Maternity Hospital",
+            "Ils Hospital",
+            "Bibha Clinic"
+        ],
+        "Udaipur": [
+            "Bisramganj Sub-Divisional Hospital",
+            "Sadar Hospital",
+            "Sonamura Hospital",
+            "Radhamadhab Hospital",
+            "Chowmanu Hospital"
+        ],
+        "Dharmanagar": [
+            "Sub-Divisional Hospital",
+            "Dharmanagar District Hospital",
+            "New Capital Hospital",
+            "Areefa Medical Hall",
+            "Ayushi Medical Hall"
+        ],
+        "Kailasahar": [
+            "Sub-Divisional Hospital",
+            "Kailashahar District Hospital",
+            "New Capital Hospital",
+            "Kalibari Hospital",
+            "Joyguru Hospital"
+        ],
+        "Belonia": [
+            "Sub-Divisional Hospital",
+            "Belonia District Hospital",
+            "New Capital Hospital",
+            "Ramthakur Hospital",
+            "Abhiram Medical Hall"
+        ],
+        "Ambassa": [
+            "Sub-Divisional Hospital",
+            "Ambassa District Hospital",
+            "New Capital Hospital",
+            "Shree Eye Care Hospital",
+            "Daya Memorial Hospital"
+        ],
+        "Khowai": [
+            "Sub-Divisional Hospital",
+            "Khowai District Hospital",
+            "New Capital Hospital",
+            "Khowai Sub-Divisional Hospital",
+            "H.K. Hospital"
+        ],
+        "Santirbazar": [
+            "Sub-Divisional Hospital",
+            "Santirbazar District Hospital",
+            "New Capital Hospital",
+            "City Hospital",
+            "Santiram Hospital"
+        ],
+        "Sabroom": [
+            "Sub-Divisional Hospital",
+            "Sabroom District Hospital",
+            "New Capital Hospital",
+            "Rupasi Nursing Home",
+            "Matruna Nursing Home"
+        ],
+        "Sonamura": [
+            "Sub-Divisional Hospital",
+            "Sonamura District Hospital",
+            "New Capital Hospital",
+            "Niribili Nursing Home",
+            "Shanti Sadan Hospital"
+        ]
+    },
+    "Uttar Pradesh": {
+        "Lucknow": [
+            "King George's Medical University",
+            "Sanjay Gandhi Postgraduate Institute of Medical Sciences",
+            "Dr. Ram Manohar Lohia Institute of Medical Sciences",
+            "Rohit Hospital",
+            "Sahara Hospital"
+        ],
+        "Kanpur": [
+            "Lala Lajpat Rai Hospital",
+            "Ganesh Shankar Vidyarthi Memorial Medical College",
+            "Regency Hospital",
+            "Rama Hospital",
+            "Anand Hospital"
+        ],
+        "Ghaziabad": [
+            "Yashoda Super Speciality Hospital",
+            "Max Super Speciality Hospital",
+            "Columbia Asia Hospital",
+            "Santosh Medical College & Hospital",
+            "Pushpanjali Crosslay Hospital"
+        ],
+        "Agra": [
+            "Sarojini Naidu Medical College",
+            "SN Medical College",
+            "Agra Medical College",
+            "Upadhyay Hospital",
+            "Shri Ram Hospital"
+        ],
+        "Varanasi": [
+            "Institute of Medical Sciences, Banaras Hindu University",
+            "Sudarshan Hospital",
+            "City Hospital",
+            "Shri Ram Hospital",
+            "Heritage Hospital"
+        ],
+        "Allahabad": [
+            "Moti Lal Nehru Medical College",
+            "Swarup Rani Nehru Hospital",
+            "Meenakshi Hospital",
+            "Yadav Hospital",
+            "Jagdish Hospital"
+        ],
+        "Meerut": [
+            "Lala Lajpat Rai Memorial Medical College",
+            "Chandra Hospital",
+            "Metro Hospital & Heart Institute",
+            "Harsh Hospital",
+            "KMC Hospital"
+        ],
+        "Bareilly": [
+            "Rohilkhand Medical College",
+            "Maya Hospital",
+            "Chandan Hospital",
+            "Life Line Hospital",
+            "Vinayak Hospital"
+        ],
+        "Aligarh": [
+            "Jawaharlal Nehru Medical College",
+            "Aligarh Muslim University Medical College",
+            "Bilquis Begum Memorial Hospital",
+            "Thukral Nursing Home",
+            "Agarwal Hospital"
+        ],
+        "Moradabad": [
+            "Rajkiya Medical College",
+            "Rama Medical College",
+            "Purshottam Das Savitridevi Cancer Care Hospital",
+            "Heritage Hospital",
+            "FIMS Hospital"
+        ]
+    },
+    "Uttarakhand": {
+        "Dehradun": [
+            "Himalayan Institute of Medical Sciences",
+            "Doon Medical College",
+            "Shri Mahant Indiresh Hospital",
+            "Jolly Grant Hospital",
+            "Suyash Hospital"
+        ],
+        "Haridwar": [
+            "Government District Hospital",
+            "City Hospital",
+            "Ramanand Institute of Pharmacy",
+            "Gangotri Hospital",
+            "Suri Hospital"
+        ],
+        "Roorkee": [
+            "Government District Hospital",
+            "City Hospital",
+            "Ramanand Institute of Pharmacy",
+            "Gangotri Hospital",
+            "Suri Hospital"
+        ],
+        "Haldwani": [
+            "Government District Hospital",
+            "City Hospital",
+            "Ramanand Institute of Pharmacy",
+            "Gangotri Hospital",
+            "Suri Hospital"
+        ],
+        "Rudrapur": [
+            "Government District Hospital",
+            "City Hospital",
+            "Ramanand Institute of Pharmacy",
+            "Gangotri Hospital",
+            "Suri Hospital"
+        ],
+        "Kashipur": [
+            "Government District Hospital",
+            "City Hospital",
+            "Ramanand Institute of Pharmacy",
+            "Gangotri Hospital",
+            "Suri Hospital"
+        ],
+        "Rishikesh": [
+            "AIIMS Rishikesh",
+            "Rishikul Ayurvedic Hospital",
+            "Parmarth Niketan Hospital",
+            "Jolly Grant Hospital",
+            "Suyash Hospital"
+        ],
+        "Pauri": [
+            "Government District Hospital",
+            "City Hospital",
+            "Ramanand Institute of Pharmacy",
+            "Gangotri Hospital",
+            "Suri Hospital"
+        ],
+        "Ramnagar": [
+            "Government District Hospital",
+            "City Hospital",
+            "Ramanand Institute of Pharmacy",
+            "Gangotri Hospital",
+            "Suri Hospital"
+        ],
+        "Ranikhet": [
+            "Government District Hospital",
+            "City Hospital",
+            "Ramanand Institute of Pharmacy",
+            "Gangotri Hospital",
+            "Suri Hospital"
+        ]
+    },
+    "West Bengal": {
+        "Kolkata": [
+            "Apollo Gleneagles Hospital",
+            "AMRI Hospitals",
+            "Fortis Hospital",
+            "Medica Superspecialty Hospital",
+            "Peerless Hospital"
+        ],
+        "Asansol": [
+            "Asansol District Hospital",
+            "Lion's Club Central Hospital",
+            "West Bank Hospital",
+            "City Hospital",
+            "Modern Medicare"
+        ],
+        "Siliguri": [
+            "Siliguri District Hospital",
+            "North Bengal Medical College and Hospital",
+            "Neotia Getwel Healthcare Centre",
+            "Vivekananda Memorial Hospital",
+            "Dr. Bedi Medical & Heart Centre"
+        ],
+        "Durgapur": [
+            "Durgapur Steel Plant Hospital",
+            "IQ City Medical College and Hospital",
+            "Adhunik Hospital",
+            "Durgapur Mission Hospital",
+            "The Mission Hospital"
+        ],
+        "Bardhaman": [
+            "Bardhaman Medical College and Hospital",
+            "C.M.C. Hospital",
+            "District Hospital",
+            "Raj College of Nursing",
+            "Sharon Nursing Home"
+        ],
+        "Malda": [
+            "Malda Medical College and Hospital",
+            "J.J. Hospital",
+            "Iris Hospital",
+            "Niranjan Diagnostic",
+            "Healthpoint Hospital"
+        ],
+        "Baharampur": [
+            "Baharampur Medical College and Hospital",
+            "District Hospital",
+            "The Town Hospital",
+            "DPS Hospital",
+            "Saroj Gupta Cancer Centre & Research Institute"
+        ],
+        "Habra": [
+            "Habra General Hospital",
+            "Habra City Hospital",
+            "Ipsita Memorial Hospital",
+            "Rajarhat Health Centre",
+            "Biswas General Hospital"
+        ],
+        "Kharagpur": [
+            "Kharagpur Sub-Divisional Hospital",
+            "Kharagpur City Hospital",
+            "Kharagpur Railway Hospital",
+            "Kharagpur Diagnostic Centre",
+            "Kharagpur Medical College and Hospital"
+        ],
+        "Shantipur": [
+            "Shantipur Sub-Divisional Hospital",
+            "Shantipur City Hospital",
+            "Shantipur Railway Hospital",
+            "Shantipur Diagnostic Centre",
+            "Shantipur Medical College and Hospital"
+        ]
+    }
+}
