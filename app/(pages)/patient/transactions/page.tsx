@@ -1,5 +1,4 @@
-import React from "react";
-import Payments from "../components/payments";
+import Payments from "../components/Payments";
 
 export default function Transactions() {
   return (
