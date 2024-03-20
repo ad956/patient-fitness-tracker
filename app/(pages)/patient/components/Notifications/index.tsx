@@ -5,9 +5,12 @@ import {
   PopoverTrigger,
   PopoverContent,
   Button,
+  Listbox,
+  ListboxItem,
 } from "@nextui-org/react";
 import React from "react";
 import { CiBellOn } from "react-icons/ci";
+import { FcCloseUpMode } from "react-icons/fc";
 
 export default function Notifications() {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -16,7 +19,8 @@ export default function Notifications() {
       isOpen={isOpen}
       onOpenChange={(open) => setIsOpen(open)}
       showArrow
-      placement="bottom-start" // Adjust placement as needed
+      placement="bottom-start"
+      size="lg"
       offset={10}
     >
       <PopoverTrigger>
@@ -27,7 +31,22 @@ export default function Notifications() {
       <PopoverContent>
         <div className="px-1 py-2">
           <div className="text-small font-bold">Notifications</div>
-          <div className="text-tiny">This is the popover content</div>
+          <div className="text-tiny">
+            <Listbox aria-label="Actions">
+              <ListboxItem key="" className="flex flex-row gap-5">
+                <FcCloseUpMode /> This is a notification
+              </ListboxItem>
+              <ListboxItem key="" className="flex flex-row gap-5">
+                <FcCloseUpMode /> This is a notification
+              </ListboxItem>
+              <ListboxItem key="" className="flex flex-row gap-5">
+                <FcCloseUpMode /> This is a notification
+              </ListboxItem>
+              <ListboxItem key="" className="flex flex-row gap-5">
+                <FcCloseUpMode /> This is a notification
+              </ListboxItem>
+            </Listbox>
+          </div>
         </div>
       </PopoverContent>
     </Popover>
