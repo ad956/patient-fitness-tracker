@@ -1,13 +1,18 @@
-import React from "react";
-import { BrandLogo } from "../../../../components/brandlogo";
-import { CiBellOn, CiSearch } from "react-icons/ci";
+import { CiLogin, CiSearch } from "react-icons/ci";
 import { Avatar, Button, Divider, Input, Link, User } from "@nextui-org/react";
 import { GoPlus } from "react-icons/go";
-import { logout } from "@/lib/authUtils";
-import { redirect } from "next/navigation";
 import { logoutAction } from "@/lib/actions";
+import Notifications from "../Notifications";
+import { getPatientData } from "@/lib/getUserData";
+import { Patient } from "@/types";
+import { notFound } from "next/navigation";
 
-export default function Headbar() {
+export default async function Headbar() {
+  const { patient }: { patient: Patient } = await getPatientData();
+
+  if (!patient) {
+    return notFound();
+  }
   return (
     <div className="bg-[#f3f6fd] p-4 flex flex-row justify-between mr-5">
       <div className="flex items-center gap-5 w-3/5">
@@ -47,29 +52,39 @@ export default function Headbar() {
 
       <div className="flex justify-center items-center gap-2">
         <Button
+          as={Link}
           isIconOnly
           radius="full"
           variant="shadow"
           size="sm"
-          className="bg-black text-white font-bold h-[30px]"
-          // onClick={() => console.log("")}
+          className=" font-bold"
+          href={`${process.env.BASE_URL}/patient/appointments`}
         >
-          <GoPlus size={15} />
+          <GoPlus size={20} />
         </Button>
 
-        <CiBellOn size={30} />
+        <Notifications />
 
         <Divider orientation="vertical" className="h-8 bg-gray-500" />
 
         <User
-          name="Anand Suthar"
+          name={patient.name}
           avatarProps={{
-            src: "https://i.pravatar.cc/150?u=a04258114e29026302d",
+            src: patient.profile,
           }}
+          description={
+            <Link
+              href={`${process.env.BASE_URL}/patient/settings`}
+              color="secondary"
+              className="text-xs"
+            >{`@${patient.username}`}</Link>
+          }
         />
 
         <form action={logoutAction}>
-          <Button type="submit">Logout</Button>
+          <Button size="sm" type="submit" isIconOnly className="bg-transparent">
+            <CiLogin size={25} />
+          </Button>
         </form>
       </div>
     </div>
