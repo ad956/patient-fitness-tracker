@@ -1,4 +1,4 @@
-import { Card, Image, Button, Select, SelectItem } from "@nextui-org/react";
+import { Card, Image, Button, Textarea } from "@nextui-org/react";
 import SelectHosiptal from "../components/SelectHospital";
 
 export default function Appointments() {
@@ -31,10 +31,7 @@ export default function Appointments() {
         />
       </Card>
 
-      <div className="flex flex-col justify-center gap-5 mx-5 mt-10">
-        <p className="text-lg font-bold">Book an appointment</p>
-        <SelectHosiptal />
-      </div>
+      <SelectHosiptal />
     </section>
   );
 }
