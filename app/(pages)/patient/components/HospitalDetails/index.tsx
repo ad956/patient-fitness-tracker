@@ -37,7 +37,7 @@ export default function HospitalDetails() {
           throw new Error("Failed to fetch payments");
         }
         const data = await response.json();
-        setDetails(data.hospitalsData);
+        setDetails(data);
       } catch (error) {
         console.error("Error fetching payments:", error);
       }

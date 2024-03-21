@@ -35,7 +35,7 @@ export default function Payments() {
           throw new Error("Failed to fetch payments");
         }
         const data = await response.json();
-        setPayments(data.paymentData);
+        setPayments(data);
       } catch (error) {
         console.error("Error fetching payments:", error);
       }
