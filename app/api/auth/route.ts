@@ -2,7 +2,7 @@ import dbConfig from "@/lib/db";
 import WelcomeTemplate from "@/emails/otpmail";
 import { sendEmail } from "@/lib/email";
 import { render } from "@react-email/render";
-import { generateSecureOTP } from "@/lib/generateOtp";
+import { generateSecureOTP } from "@/app/utils/generateOtp";
 
 type LoginBody = {
   email: string;
