@@ -1,22 +1,31 @@
 "use server";
 
 import { login, logout } from "@/lib/authUtils";
+import { User } from "@/types";
 import { redirect } from "next/navigation";
 
 export async function loginAction(formData: FormData) {
-  const redirectPath = formData.get("user-role");
+  try {
+    const selectedRole = formData.get("role");
+    const response = await fetch("http://localhost:3000/ap/auth", {
+      method: "POST",
+      body: formData,
+    });
 
-  await login(formData);
+    if (!response.ok) {
+      const errorData = await response.json();
+      return Error(errorData.error || "Failed to login");
+    }
 
-  const user: User = {
-    id: 1,
-    name: "Anand",
-    username: "ad956",
-    email: "anandsuthar956@gmail.com",
-  };
+    const userData = await response.json();
+    return userData;
 
-  redirect(`/${redirectPath}`);
+    // redirect(`/${selectedRole}`);
+  } catch (error) {
+    console.error("Login failed:", error);
+  }
 }
+
 export async function logoutAction() {
   await logout();
   redirect("/");
