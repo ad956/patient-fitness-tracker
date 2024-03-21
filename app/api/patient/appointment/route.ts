@@ -1,26 +1,60 @@
-type appointmentBody = {
+import dbConfig from "@/lib/db";
+
+type AppointmentBody = {
+  id: number;
+  date: string;
   state: string;
   city: string;
   hospital: string;
   disease: string;
   note: string;
+  approved: string;
 };
 
-export function GET() {
-  return Response.json({ msg: "is it working" });
-}
 export async function POST(req: Request) {
-  const body: appointmentBody = await req.json();
+  try {
+    const body: AppointmentBody = await req.json();
 
-  const { state, city, hospital, disease, note } = body;
+    const { id, date, state, city, hospital, disease, note, approved } = body;
 
-  const data = { state, city, hospital, disease, note };
-  console.log("Received appointment request:");
-  console.log("State:", state);
-  console.log("City:", city);
-  console.log("Hospital:", hospital);
-  console.log("Disease:", disease);
-  console.log("Note:", note);
+    const appointmentData = {
+      date,
+      state,
+      city,
+      hospital,
+      disease,
+      note,
+      approved,
+    };
 
-  return Response.json({ msg: "ok", data });
+    const db = await dbConfig();
+    const collection = db.collection("patient");
+
+    const patient = await collection.findOne({ id });
+
+    if (!patient) {
+      return Response.json({ error: "Patient not found" }, { status: 404 });
+    }
+
+    if (!Array.isArray(patient.bookAppointment)) {
+      console.error("bookAppointment field is not an array");
+      return Response.json({ error: "Internal Server Error" }, { status: 500 });
+    }
+
+    patient.bookAppointment.push(appointmentData);
+
+    await collection.updateOne(
+      { id: 1 },
+      { $set: { bookAppointment: patient.bookAppointment } }
+    );
+
+    console.log("Appointment request added for patient:", patient.id);
+
+    return Response.json({
+      msg: "Appointment request added successfully",
+    });
+  } catch (error) {
+    console.error("Error adding appointment request:", error);
+    return Response.json({ error: "Internal Server Error" }, { status: 500 });
+  }
 }

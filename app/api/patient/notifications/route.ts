@@ -1,15 +1,21 @@
-export function GET() {
-  const notificationsData = [
-    {
-      Hospital: "HCG Hospitals",
-      Type: "Fever",
-      Date: "Mar 19, 2024",
-      Amount: 1000,
-      Status: "Pending",
-      Image:
-        "https://media.istockphoto.com/id/1624291952/vector/medical-health-logo-design-illustration.jpg?s=612x612&w=0&k=20&c=RdOq1SRcWwS_12_c5Zg2_QOUz1GD-YwGvfRodtOPN5w=",
-    },
-  ];
+import dbConfig from "@/lib/db";
 
-  return Response.json({ notificationsData });
+export async function GET() {
+  try {
+    const db = await dbConfig();
+    const collection = db.collection("patient");
+
+    const patient = await collection.findOne({ id: 1 });
+
+    if (!patient) {
+      return Response.json({ error: "Patient not found" }, { status: 404 });
+    }
+
+    const notificationsData = patient.notifications;
+
+    return Response.json(notificationsData);
+  } catch (error) {
+    console.error("Error fetching notifications data:", error);
+    return Response.json({ error: "Internal Server Error" }, { status: 500 });
+  }
 }

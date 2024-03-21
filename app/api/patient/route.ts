@@ -1,39 +1,40 @@
-import { NextResponse } from "next/server";
+import dbConfig from "@/lib/db";
 
-export function GET() {
-  const patient = {
-    id: 1,
-    name: "Anand Suthar",
-    username: "ad956",
-    email: "anandsuthar956@mail.com",
-    contact: "917098765469",
-    profile: "https://i.pravatar.cc/150?u=a04258114e29026302d",
-    physicalDetails: {
-      age: 27,
-      blood: "O+",
-      height: 5.6,
-      weight: 60,
-    },
-    progress: {
-      generalHealth: 85,
-      waterBalance: 78,
-      currentTreatment: 10,
-      pendingAppointments: 10,
-    },
-    activity: [80, 60, 40, 70, 90, 55, 30],
-    healthConditions: [40, 70, 90, 60, 50, 80, 95, 45, 85, 70, 88, 75],
-    upcomingAppointments: [
-      {
-        day: 25,
-        month: "March",
-        year: 2024,
-      },
-      {
-        day: 29,
-        month: "March",
-        year: 2024,
-      },
-    ],
-  };
-  return Response.json({ patient });
+export async function GET() {
+  try {
+    const db = await dbConfig();
+    const collection = db.collection("patient");
+
+    const projection = {
+      _id: 0,
+      id: 1,
+      name: 1,
+      username: 1,
+      email: 1,
+      contact: 1,
+      profile: 1,
+      "physicalDetails.age": 1,
+      "physicalDetails.blood": 1,
+      "physicalDetails.height": 1,
+      "physicalDetails.weight": 1,
+      "progress.generalHealth": 1,
+      "progress.waterBalance": 1,
+      "progress.currentTreatment": 1,
+      "progress.pendingAppointments": 1,
+      activity: 1,
+      healthConditions: 1,
+      upcomingAppointments: 1,
+    };
+
+    const patientData = await collection.findOne({ id: 1 }, { projection });
+
+    if (!patientData) {
+      return Response.json({ error: "Patient not found" }, { status: 404 });
+    }
+
+    return Response.json({ patient: patientData });
+  } catch (error) {
+    console.error("Error fetching patient data:", error);
+    return Response.json({ error: "Internal Server Error" }, { status: 500 });
+  }
 }

@@ -23,6 +23,7 @@ interface DetailsType {
   Image: string;
 }
 
+// Add medicine details
 export default function HospitalDetails() {
   const [details, setDetails] = useState<DetailsType[]>([]);
 
@@ -30,7 +31,7 @@ export default function HospitalDetails() {
     async function fetchPayments() {
       try {
         const response = await fetch(
-          "http://localhost:3000/api/patient/hospitals"
+          "http://localhost:3000/api/patient/medicalhistory"
         );
         if (!response.ok) {
           throw new Error("Failed to fetch payments");

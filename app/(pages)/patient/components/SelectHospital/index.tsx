@@ -17,6 +17,7 @@ import {
   useDisclosure,
 } from "@nextui-org/react";
 import { states } from "@/app/utils/constants";
+import { getCurrentDateFormatted } from "@/app/utils/getDate";
 
 export default function SelectHospital() {
   const [state, setState] = useState("");
@@ -160,11 +161,14 @@ export default function SelectHospital() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
+            id: 1,
+            date: getCurrentDateFormatted(),
             state,
             city: selectedCity,
             hospital: selectedHospital,
             disease: selectedDisease,
             note: additionalNote,
+            approved: "pending",
           }),
         }
       );
