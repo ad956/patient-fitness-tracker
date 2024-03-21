@@ -5,11 +5,13 @@ import { User } from "@/types";
 import { redirect } from "next/navigation";
 
 export async function loginAction(formData: FormData) {
+  const email = formData.get("email");
+  const password = formData.get("password");
+  const role = formData.get("role");
   try {
-    const selectedRole = formData.get("role");
-    const response = await fetch("http://localhost:3000/ap/auth", {
+    const response = await fetch("http://localhost:3000/api/auth", {
       method: "POST",
-      body: formData,
+      body: JSON.stringify({ email, password, role }),
     });
 
     if (!response.ok) {
@@ -19,8 +21,6 @@ export async function loginAction(formData: FormData) {
 
     const userData = await response.json();
     return userData;
-
-    // redirect(`/${selectedRole}`);
   } catch (error) {
     console.error("Login failed:", error);
   }
