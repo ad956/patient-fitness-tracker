@@ -41,6 +41,17 @@ export default async function ProfileSettings() {
         className="mx-2 my-1"
         // onChange={handleEmailChange}
       />
+      <Input
+        name="email"
+        variant="bordered"
+        size="lg"
+        type="email"
+        placeholder="you@example.com"
+        // startContent={<MdOutlineAlternateEmail />}
+        // value={email}
+        className="mx-2 my-1"
+        // onChange={handleEmailChange}
+      />
     </div>
   );
 }
