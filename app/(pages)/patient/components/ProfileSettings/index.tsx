@@ -1,6 +1,6 @@
 import { getPatientData } from "@/lib/getUserData";
 import { Patient } from "@/types";
-import { Link, Image } from "@nextui-org/react";
+import { Link, Image, Input } from "@nextui-org/react";
 import { notFound } from "next/navigation";
 import React from "react";
 
@@ -29,6 +29,18 @@ export default async function ProfileSettings() {
           <Link size="sm">@{patient.username}</Link>
         </div>
       </div>
+
+      <Input
+        name="email"
+        variant="bordered"
+        size="lg"
+        type="email"
+        placeholder="you@example.com"
+        // startContent={<MdOutlineAlternateEmail />}
+        // value={email}
+        className="mx-2 my-1"
+        // onChange={handleEmailChange}
+      />
     </div>
   );
 }
