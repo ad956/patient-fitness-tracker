@@ -8,10 +8,10 @@ export default function Settings() {
         Settings
       </p>
 
-      <SpinnerLoader />
+      {/* <SpinnerLoader /> */}
 
       {/* profile settings to be added */}
-      {/* <ProfileSettings /> */}
+      <ProfileSettings />
     </section>
   );
 }
