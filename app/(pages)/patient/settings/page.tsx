@@ -9,6 +9,8 @@ export default function Settings() {
       </p>
 
       <SpinnerLoader />
+
+      {/* profile settings to be added */}
       {/* <ProfileSettings /> */}
     </section>
   );
