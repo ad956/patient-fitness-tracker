@@ -12,16 +12,8 @@ export default async function ProfileSettings() {
   }
 
   return (
-    <div className="flex flex-row justify-center items-center h-full w-full">
-      <div className="flex flex-row justify-center gap-5 items-center h-3/5 w-2/5 border-2 border-violet-600">
-        <Image src={patient.profile} radius="full" className="" />
-
-        <div className="flex flex-col">
-          <p className="">{patient.name}</p>
-          <Link size="sm">@{patient.username}</Link>
-        </div>
-      </div>
-      <div className="flex flex-row justify-center gap-5 items-center h-3/5 w-2/5 border-2 border-violet-600">
+    <div className="flex flex-col justify-center items-center h-full w-full">
+      <div className="flex flex-row justify-center gap-5 items-center">
         <Image src={patient.profile} radius="full" className="" />
 
         <div className="flex flex-col">
@@ -30,7 +22,29 @@ export default async function ProfileSettings() {
         </div>
       </div>
 
-      <Input
+      <div className="flex flex-row">
+        <div className="flex flex-col">
+          <p>firstname</p>
+          <p>email</p>
+          <p>bio</p>
+        </div>
+        <div className="flex flex-col">
+          <p>lastname</p>
+          <p>phone</p>
+        </div>
+      </div>
+      <div className="flex flex-row">
+        <div className="flex flex-col">
+          <p>country</p>
+          <p>postal</p>
+        </div>
+        <div className="flex flex-col">
+          <p>country</p>
+          <p>postal</p>
+        </div>
+      </div>
+
+      {/* <Input
         name="email"
         variant="bordered"
         size="lg"
@@ -51,7 +65,7 @@ export default async function ProfileSettings() {
         // value={email}
         className="mx-2 my-1"
         // onChange={handleEmailChange}
-      />
+      /> */}
     </div>
   );
 }
