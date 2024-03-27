@@ -12,8 +12,8 @@ export default async function ProfileSettings() {
   }
 
   return (
-    <div className="flex flex-col justify-evenly items-center h-full w-full border-2 border-purple-700">
-      <div className="flex flex-row justify-center gap-5 items-center  border-2 border-orange-700">
+    <div className="flex flex-col justify-evenly items-center h-full w-full">
+      <div className="flex flex-row justify-center gap-5 items-center">
         <Image src={patient.profile} radius="full" className="" />
 
         <div className="flex flex-col">
@@ -26,31 +26,79 @@ export default async function ProfileSettings() {
         </Button>
       </div>
 
-      <div className="flex flex-col border-2 border-green-700">
+      <div className="flex flex-col justify-center gap-5 items-center">
         <p className="text-md font-bold">Personal Information</p>
         <div className="flex flex-row">
           <div className="flex flex-col">
-            <p>firstname</p>
-            <p>email</p>
-            <p>bio</p>
+            <Input
+              type="text"
+              variant="underlined"
+              label="First Name"
+              placeholder="Enter your Firstname"
+            />
+            <Input
+              type="email"
+              variant="underlined"
+              label="Email address"
+              placeholder="Enter your Email"
+            />
+            <Input
+              type="text"
+              variant="underlined"
+              label="Bio"
+              placeholder="Enter your Firstname"
+            />
           </div>
           <div className="flex flex-col">
-            <p>lastname</p>
-            <p>phone</p>
+            <Input
+              type="text"
+              variant="underlined"
+              label="Last Name"
+              placeholder="Enter your Lastname"
+            />
+            <Input
+              type="text"
+              variant="underlined"
+              label="Phone"
+              placeholder="Phone"
+            />
           </div>
+          <Button size="sm" className="text-xs">
+            Edit
+          </Button>
         </div>
       </div>
 
-      <div className="flex flex-col border-2 border-blue-700">
+      <div className="flex flex-col justify-center gap-5 items-center">
         <p className="text-md font-bold">Address</p>
         <div className="flex flex-row">
           <div className="flex flex-col">
-            <p>country</p>
-            <p>postal</p>
+            <Input
+              type="text"
+              variant="underlined"
+              label="Counrty"
+              placeholder="Enter your Country"
+            />
+            <Input
+              type="text"
+              variant="underlined"
+              label="Postal Code"
+              placeholder="Enter your Postal"
+            />
           </div>
           <div className="flex flex-col">
-            <p>country</p>
-            <p>postal</p>
+            <Input
+              type="text"
+              variant="underlined"
+              label="Counrty"
+              placeholder="Enter your Country"
+            />
+            <Input
+              type="text"
+              variant="underlined"
+              label="Postal Code"
+              placeholder="Enter your Postal"
+            />
           </div>
         </div>
       </div>
