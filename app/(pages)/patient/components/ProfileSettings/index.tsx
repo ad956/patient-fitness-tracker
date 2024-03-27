@@ -26,50 +26,34 @@ export default async function ProfileSettings() {
         </Button>
       </div>
 
-      <div className="flex flex-row border-2 border-green-700">
-        <div className="flex flex-col">
-          <p>firstname</p>
-          <p>email</p>
-          <p>bio</p>
-        </div>
-        <div className="flex flex-col">
-          <p>lastname</p>
-          <p>phone</p>
-        </div>
-      </div>
-      <div className="flex flex-row border-2 border-blue-700">
-        <div className="flex flex-col">
-          <p>country</p>
-          <p>postal</p>
-        </div>
-        <div className="flex flex-col">
-          <p>country</p>
-          <p>postal</p>
+      <div className="flex flex-col border-2 border-green-700">
+        <p className="text-md font-bold">Personal Information</p>
+        <div className="flex flex-row">
+          <div className="flex flex-col">
+            <p>firstname</p>
+            <p>email</p>
+            <p>bio</p>
+          </div>
+          <div className="flex flex-col">
+            <p>lastname</p>
+            <p>phone</p>
+          </div>
         </div>
       </div>
 
-      {/* <Input
-        name="email"
-        variant="bordered"
-        size="lg"
-        type="email"
-        placeholder="you@example.com"
-        // startContent={<MdOutlineAlternateEmail />}
-        // value={email}
-        className="mx-2 my-1"
-        // onChange={handleEmailChange}
-      />
-      <Input
-        name="email"
-        variant="bordered"
-        size="lg"
-        type="email"
-        placeholder="you@example.com"
-        // startContent={<MdOutlineAlternateEmail />}
-        // value={email}
-        className="mx-2 my-1"
-        // onChange={handleEmailChange}
-      /> */}
+      <div className="flex flex-col border-2 border-blue-700">
+        <p className="text-md font-bold">Address</p>
+        <div className="flex flex-row">
+          <div className="flex flex-col">
+            <p>country</p>
+            <p>postal</p>
+          </div>
+          <div className="flex flex-col">
+            <p>country</p>
+            <p>postal</p>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
