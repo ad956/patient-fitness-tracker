@@ -1,4 +1,3 @@
-import SpinnerLoader from "@/app/components/SpinnerLoader";
 import ProfileSettings from "../components/ProfileSettings";
 
 export default function Settings() {
@@ -7,10 +6,6 @@ export default function Settings() {
       <p className="self-start font-medium text-lg tracking-wider ml-5">
         Settings
       </p>
-
-      {/* <SpinnerLoader /> */}
-
-      {/* profile settings to be added */}
       <ProfileSettings />
     </section>
   );
