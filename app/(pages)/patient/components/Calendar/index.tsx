@@ -10,6 +10,7 @@ import {
   ModalHeader,
   useDisclosure,
 } from "@nextui-org/react";
+import { getFormattedDate } from "@/app/utils/getDate";
 
 type upcomingAppointmentProps = {
   upcomingAppointments: [
@@ -30,18 +31,25 @@ export default function Calendar({
 }: upcomingAppointmentProps) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
-  const [appointmentDetail, setappointmentDetail] = React.useState("");
+  const [appointmentDetail, setappointmentDetail] = React.useState<{
+    date: string;
+    state: string;
+    city: string;
+    hospital: string;
+    disease: string;
+    note: string;
+    approved: string;
+  } | null>(null);
+
   const [appointmentDates, setAppointmentDates] = React.useState<Date[]>([]);
 
   React.useEffect(() => {
     if (upcomingAppointments && upcomingAppointments.length > 0) {
-      const selectedDates = upcomingAppointments.map((appointment) => {
-        return new Date(appointment.date);
-      });
-      console.log("ae bhalo pa ate :" + selectedDates);
+      const selectedDates = upcomingAppointments
+        .filter((appointment) => appointment.approved === "approved")
+        .map((approvedAppointment) => new Date(approvedAppointment.date));
       setAppointmentDates(selectedDates);
     } else {
-      console.log("ae bhalo pa ate :(");
       setAppointmentDates([]);
     }
   }, [upcomingAppointments]);
@@ -74,16 +82,17 @@ export default function Calendar({
   };
 
   function handleDayClick(day: Date): void {
-    const dayString = day.toDateString();
-    const appointmentDatesString = appointmentDates.map((date) =>
-      date.toDateString()
-    );
+    const dayString = getFormattedDate(day);
 
-    if (appointmentDatesString.includes(dayString)) {
-      setappointmentDetail("abar dou ho");
+    const selectedAppointment = upcomingAppointments.find(
+      (appointment) =>
+        getFormattedDate(new Date(appointment.date)) === dayString
+    );
+    if (selectedAppointment) {
+      setappointmentDetail(selectedAppointment);
       onOpen();
     } else {
-      setappointmentDetail("");
+      setappointmentDetail(null);
     }
   }
 
@@ -121,29 +130,31 @@ export default function Calendar({
               <p className="text-danger mx-2"> Appointment Details</p>
             </ModalHeader>
             <ModalBody>
-              <p>{appointmentDetail}</p>
+              <p>
+                <span className="font-bold">Date:</span>
+                {appointmentDetail &&
+                  getFormattedDate(new Date(appointmentDetail.date))}
+              </p>
+              <p>
+                <span className="font-bold">Disease :</span>
+                {appointmentDetail?.disease}
+              </p>
+              <p>
+                <span className="font-bold">Hospital :</span>
+                {appointmentDetail?.hospital}
+              </p>
+              <p>
+                <span className="font-bold">Note :</span>
+                {appointmentDetail?.note}
+              </p>
+              <p>
+                <span className="font-bold">City :</span>
+                {appointmentDetail?.city}
+              </p>
             </ModalBody>
           </>
         </ModalContent>
       </Modal>
     </Card>
   );
-}
-
-function getMonthIndex(month: string): number {
-  const months = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ];
-  return months.indexOf(month);
 }
