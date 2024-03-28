@@ -2,7 +2,6 @@
 import { format } from "date-fns";
 import React from "react";
 import { type DateFormatter, DayPicker } from "react-day-picker";
-import styles from "./styles.module.css";
 import { Card } from "@nextui-org/react";
 
 type upcomingAppointmentProps = {
@@ -79,28 +78,31 @@ export default function Calendar({
     );
   };
 
-  const dayPickerStyle = `h-full w-3/5 ${styles.day_input} ${styles.day_button} ${styles.dialog_sheet} ${styles.bg_white} ${styles.dark_gray} ${styles.black} ${styles.white} ${styles.bg_near_black} ${styles.bg_near_white} ${styles.rdp} ${styles.ba}`;
+  // const dayPickerStyle = `h-full w-3/5 ${styles.day_input} ${styles.day_button} ${styles.dialog_sheet} ${styles.bg_white} ${styles.dark_gray} ${styles.black} ${styles.white} ${styles.bg_near_black} ${styles.bg_near_white} ${styles.rdp} ${styles.ba}`;
   return (
-    <Card className="bg-[#111] w-full h-full flex flex-row justify-around items-center p-5">
+    <Card className="bg-[#f5f5f5] w-full h-full flex flex-row justify-around items-center p-5">
       <DayPicker
         mode="single"
         showOutsideDays
         fromYear={2024}
-        selected={selectedDate}
-        onSelect={setSelectedDate}
-        className={dayPickerStyle}
+        // selected={selectedDate}
+        // onSelect={setSelectedDate}
+        // className={dayPickerStyle}
+        classNames={{
+          button: "text-md px-2 py-1",
+        }}
         formatters={{ formatCaption }}
-        disabled
+        // disabled
       />
       <div>
         {appointmentDates.length > 0 ? (
-          <ul className="text-white/80 text-md font-medium">
+          <ul className="text-black/80 text-md font-medium">
             {appointmentDates.map((date, index) => (
               <li key={index}>{format(date, "LLLL dd, yyyy")}</li>
             ))}
           </ul>
         ) : (
-          <p className="text-white/80 text-md font-medium">Please wait.</p>
+          <p className="text-black/80 text-md font-medium">Please wait.</p>
         )}
       </div>
     </Card>
