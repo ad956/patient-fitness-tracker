@@ -1,5 +1,5 @@
 import { Card, Image, Button, Textarea } from "@nextui-org/react";
-import SelectHosiptal from "../components/SelectHospital";
+import BookAppointment from "../components/BookAppointment";
 
 export default function Appointments() {
   return (
@@ -31,7 +31,7 @@ export default function Appointments() {
         />
       </Card>
 
-      <SelectHosiptal />
+      <BookAppointment />
     </section>
   );
 }
