@@ -77,16 +77,18 @@ export default function Calendar({
   };
 
   function handleDayClick(day: Date): void {
-    appointmentDates.map((date) => console.log(date));
-    console.log("ne aope : " + day);
+    const dayString = day.toDateString();
+    const appointmentDatesString = appointmentDates.map((date) =>
+      date.toDateString()
+    );
 
-    if (appointmentDates.includes(day)) console.log("hey", day.getDate());
-    else console.log("nope");
-
-    // throw new Error("Function not implemented.");
+    if (appointmentDatesString.includes(dayString)) {
+      console.log("hey", day.getDate());
+    } else {
+      console.log("nope");
+    }
   }
 
-  // const dayPickerStyle = `h-full w-3/5 ${styles.day_input} ${styles.day_button} ${styles.dialog_sheet} ${styles.bg_white} ${styles.dark_gray} ${styles.black} ${styles.white} ${styles.bg_near_black} ${styles.bg_near_white} ${styles.rdp} ${styles.ba}`;
   return (
     <Card className="bg-[#f5f5f5] w-full h-full flex flex-row justify-around items-center p-5">
       <DayPicker
