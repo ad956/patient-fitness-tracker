@@ -12,12 +12,10 @@ import {
   Modal,
   ModalBody,
   ModalContent,
-  ModalFooter,
   ModalHeader,
   useDisclosure,
 } from "@nextui-org/react";
 import { states } from "@/app/utils/constants";
-import { getCurrentDateFormatted } from "@/app/utils/getDate";
 
 export default function BookAppointment() {
   const [state, setState] = useState("");
@@ -44,7 +42,7 @@ export default function BookAppointment() {
     const selectedState = e.target.value;
     setState(selectedState);
     setSelectedCity("");
-    setIsOpenPopover(false); // Close the popover when a state is selected
+    setIsOpenPopover(false);
   };
 
   const handleCityChange = (e: ChangeEvent<HTMLSelectElement>) => {
@@ -162,7 +160,7 @@ export default function BookAppointment() {
           },
           body: JSON.stringify({
             id: 1,
-            date: getCurrentDateFormatted(),
+            date: new Date(),
             state,
             city: selectedCity,
             hospital: selectedHospital,
