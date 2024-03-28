@@ -14,9 +14,13 @@ import {
 type upcomingAppointmentProps = {
   upcomingAppointments: [
     {
-      day: number;
-      month: string;
-      year: number;
+      date: string;
+      state: string;
+      city: string;
+      hospital: string;
+      disease: string;
+      note: string;
+      approved: string;
     }
   ];
 };
@@ -32,11 +36,12 @@ export default function Calendar({
   React.useEffect(() => {
     if (upcomingAppointments && upcomingAppointments.length > 0) {
       const selectedDates = upcomingAppointments.map((appointment) => {
-        const { day, month, year } = appointment;
-        return new Date(year, getMonthIndex(month), day);
+        return new Date(appointment.date);
       });
+      console.log("ae bhalo pa ate :" + selectedDates);
       setAppointmentDates(selectedDates);
     } else {
+      console.log("ae bhalo pa ate :(");
       setAppointmentDates([]);
     }
   }, [upcomingAppointments]);
