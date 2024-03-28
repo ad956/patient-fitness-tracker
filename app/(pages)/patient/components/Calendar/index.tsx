@@ -2,7 +2,14 @@
 import { format } from "date-fns";
 import React from "react";
 import { type DateFormatter, DayPicker } from "react-day-picker";
-import { Card } from "@nextui-org/react";
+import {
+  Card,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalHeader,
+  useDisclosure,
+} from "@nextui-org/react";
 
 type upcomingAppointmentProps = {
   upcomingAppointments: [
@@ -17,6 +24,8 @@ type upcomingAppointmentProps = {
 export default function Calendar({
   upcomingAppointments,
 }: upcomingAppointmentProps) {
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+
   const [appointmentDetail, setappointmentDetail] = React.useState("");
   const [appointmentDates, setAppointmentDates] = React.useState<Date[]>([]);
 
@@ -31,23 +40,6 @@ export default function Calendar({
       setAppointmentDates([]);
     }
   }, [upcomingAppointments]);
-  function getMonthIndex(month: string): number {
-    const months = [
-      "January",
-      "February",
-      "March",
-      "April",
-      "May",
-      "June",
-      "July",
-      "August",
-      "September",
-      "October",
-      "November",
-      "December",
-    ];
-    return months.indexOf(month);
-  }
 
   const seasonEmoji: Record<string, string> = {
     winter: "⛄️",
@@ -84,13 +76,17 @@ export default function Calendar({
 
     if (appointmentDatesString.includes(dayString)) {
       setappointmentDetail("abar dou ho");
+      onOpen();
     } else {
       setappointmentDetail("");
     }
   }
 
   return (
-    <Card className="bg-[#f5f5f5] w-full h-full flex flex-row justify-around items-center p-5">
+    <Card
+      shadow="lg"
+      className="bg-[#f5f5f5] w-full h-full flex flex-row justify-between items-center p-5"
+    >
       <DayPicker
         mode="multiple"
         showOutsideDays
@@ -107,17 +103,42 @@ export default function Calendar({
         }}
         formatters={{ formatCaption }}
       />
-      <div>
-        {appointmentDetail ? (
-          <ul className="text-black/80 text-md font-medium">
-            {appointmentDetail}
-          </ul>
-        ) : (
-          <p className="text-black/80 text-md font-medium">
-            Select a day to see details.
-          </p>
-        )}
-      </div>
+
+      <p className="mx-auto text-black/80 text-md font-bold tracking-wide">
+        Have a good
+        <span className="text-danger ml-1">day</span>
+      </p>
+
+      <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+        <ModalContent>
+          <>
+            <ModalHeader className="flex flex-col gap-1 font-bold">
+              <p className="text-danger mx-2"> Appointment Details</p>
+            </ModalHeader>
+            <ModalBody>
+              <p>{appointmentDetail}</p>
+            </ModalBody>
+          </>
+        </ModalContent>
+      </Modal>
     </Card>
   );
+}
+
+function getMonthIndex(month: string): number {
+  const months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+  return months.indexOf(month);
 }
