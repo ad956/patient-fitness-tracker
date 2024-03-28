@@ -17,7 +17,7 @@ type upcomingAppointmentProps = {
 export default function Calendar({
   upcomingAppointments,
 }: upcomingAppointmentProps) {
-  // const [selectedDate, setSelectedDate] = React.useState<Date | undefined>();
+  const [appointmentDetail, setappointmentDetail] = React.useState("");
   const [appointmentDates, setAppointmentDates] = React.useState<Date[]>([]);
 
   React.useEffect(() => {
@@ -83,9 +83,9 @@ export default function Calendar({
     );
 
     if (appointmentDatesString.includes(dayString)) {
-      console.log("hey", day.getDate());
+      setappointmentDetail("abar dou ho");
     } else {
-      console.log("nope");
+      setappointmentDetail("");
     }
   }
 
@@ -106,17 +106,16 @@ export default function Calendar({
           day_selected: "bg-danger/80 rounded-lg text-white",
         }}
         formatters={{ formatCaption }}
-        // disabled
       />
       <div>
-        {appointmentDates.length > 0 ? (
+        {appointmentDetail ? (
           <ul className="text-black/80 text-md font-medium">
-            {appointmentDates.map((date, index) => (
-              <li key={index}>{format(date, "LLLL dd, yyyy")}</li>
-            ))}
+            {appointmentDetail}
           </ul>
         ) : (
-          <p className="text-black/80 text-md font-medium">Please wait.</p>
+          <p className="text-black/80 text-md font-medium">
+            Select a day to see details.
+          </p>
         )}
       </div>
     </Card>
