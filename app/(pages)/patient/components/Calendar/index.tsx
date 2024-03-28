@@ -17,7 +17,7 @@ type upcomingAppointmentProps = {
 export default function Calendar({
   upcomingAppointments,
 }: upcomingAppointmentProps) {
-  const [selectedDate, setSelectedDate] = React.useState<Date | undefined>();
+  // const [selectedDate, setSelectedDate] = React.useState<Date | undefined>();
   const [appointmentDates, setAppointmentDates] = React.useState<Date[]>([]);
 
   React.useEffect(() => {
@@ -27,10 +27,8 @@ export default function Calendar({
         return new Date(year, getMonthIndex(month), day);
       });
       setAppointmentDates(selectedDates);
-      setSelectedDate(selectedDates[0]);
     } else {
       setAppointmentDates([]);
-      setSelectedDate(undefined);
     }
   }, [upcomingAppointments]);
   function getMonthIndex(month: string): number {
@@ -78,18 +76,32 @@ export default function Calendar({
     );
   };
 
+  function handleDayClick(day: Date): void {
+    appointmentDates.map((date) => console.log(date));
+    console.log("ne aope : " + day);
+
+    if (appointmentDates.includes(day)) console.log("hey", day.getDate());
+    else console.log("nope");
+
+    // throw new Error("Function not implemented.");
+  }
+
   // const dayPickerStyle = `h-full w-3/5 ${styles.day_input} ${styles.day_button} ${styles.dialog_sheet} ${styles.bg_white} ${styles.dark_gray} ${styles.black} ${styles.white} ${styles.bg_near_black} ${styles.bg_near_white} ${styles.rdp} ${styles.ba}`;
   return (
     <Card className="bg-[#f5f5f5] w-full h-full flex flex-row justify-around items-center p-5">
       <DayPicker
-        mode="single"
+        mode="multiple"
         showOutsideDays
         fromYear={2024}
-        // selected={selectedDate}
+        selected={appointmentDates}
+        onDayClick={handleDayClick}
         // onSelect={setSelectedDate}
-        // className={dayPickerStyle}
         classNames={{
+          day_outside: "text-black/30",
           button: "text-md px-2 py-1",
+          nav: "inline-block bg-orange-70",
+          nav_button: "bg-rose700 border- ",
+          day_selected: "bg-danger/80 rounded-lg text-white",
         }}
         formatters={{ formatCaption }}
         // disabled
