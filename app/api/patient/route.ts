@@ -23,7 +23,7 @@ export async function GET() {
       "progress.pendingAppointments": 1,
       activity: 1,
       healthConditions: 1,
-      upcomingAppointments: 1,
+      bookedAppointments: 1,
     };
 
     const patientData = await collection.findOne({ id: 1 }, { projection });
