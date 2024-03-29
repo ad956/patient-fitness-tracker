@@ -35,6 +35,7 @@ export default function BookAppointment() {
   const [noteError, setNoteError] = useState("");
   const [appointmentSuccess, setAppointmentSuccess] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [showFailed, setShowFailed] = useState(false);
 
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
@@ -73,7 +74,7 @@ export default function BookAppointment() {
   useEffect(() => {
     if (appointmentSuccess) {
       setShowSuccess(true);
-    }
+    } else setShowFailed(true);
   }, [appointmentSuccess]);
 
   const fetchCities = async () => {
@@ -159,7 +160,7 @@ export default function BookAppointment() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            id: 1,
+            patient_email: "anandsuthar956@gmail.com",
             date: new Date(),
             state,
             city: selectedCity,
@@ -171,13 +172,21 @@ export default function BookAppointment() {
         }
       );
       if (!response.ok) {
-        throw new Error("Failed to fetch cities");
-      }
-      setAppointmentSuccess(true);
+        setAppointmentSuccess(false);
+        throw new Error("Failed to book appointment");
+      } else setAppointmentSuccess(true);
     } catch (error) {
       console.error("Error booking apppointment:", error);
     }
   }
+
+  const isButtonDisabled =
+    !state ||
+    !selectedCity ||
+    !selectedHospital ||
+    !selectedDisease ||
+    !additionalNote ||
+    noteError !== "";
 
   return (
     <div className="flex flex-col justify-center gap-5 mx-5 mt-10">
@@ -330,18 +339,19 @@ export default function BookAppointment() {
         className="bg-gradient-to-tr from-pink-500 to-yellow-500 text-white shadow-lg max-w-40 self-center"
         onClick={handleAppointmentButtonClick}
         onPress={onOpen}
+        isDisabled={isButtonDisabled}
       >
         Request Appointment
       </Button>
 
-      {showSuccess && (
+      {(showSuccess || showFailed) && (
         <Modal
           isOpen={isOpen}
           placement="bottom-center"
           onOpenChange={onOpenChange}
         >
           <ModalContent>
-            {(onClose) => (
+            {showSuccess ? (
               <>
                 <ModalHeader className="flex flex-col gap-1 text-success">
                   Appointment Request Successful
@@ -350,6 +360,15 @@ export default function BookAppointment() {
                   <p>
                     Your appointment request has been successfully submitted.
                   </p>
+                </ModalBody>
+              </>
+            ) : (
+              <>
+                <ModalHeader className="flex flex-col gap-1 text-danger">
+                  Appointment Request Failed
+                </ModalHeader>
+                <ModalBody>
+                  <p>Sorry your appointment request failed 😥</p>
                 </ModalBody>
               </>
             )}
