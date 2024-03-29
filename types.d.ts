@@ -22,16 +22,21 @@ export type Patient = User & {
   };
   activity: number[];
   healthConditions: number[];
-  bookedAppointments: [
-    {
-      date: string;
-      timing: string;
-      state: string;
-      city: string;
-      hospital: string;
-      disease: string;
-      note: string;
-      approved: string;
-    }
-  ];
 };
+
+export type bookedAppointments = [
+  {
+    patient_email: string;
+    date: string;
+    timing: string;
+    state: string;
+    city: string;
+    hospital: string;
+    disease: string;
+    note: string;
+    approved: string;
+    patient_id: string;
+    doctor_id: string;
+    receptionist_id: string;
+  }
+];
