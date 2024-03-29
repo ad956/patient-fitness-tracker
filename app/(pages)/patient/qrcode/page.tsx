@@ -1,4 +1,4 @@
-import { getPatientData } from "@/lib/getUserData";
+import { getPatientData } from "@/lib/patient/getPatientData";
 import { Patient } from "@/types";
 import { Button, Card, Image, Link, User } from "@nextui-org/react";
 import { notFound } from "next/navigation";
