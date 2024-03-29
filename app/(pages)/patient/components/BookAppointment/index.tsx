@@ -36,10 +36,8 @@ export default function BookAppointment() {
   const [appointmentSuccess, setAppointmentSuccess] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const [showFailed, setShowFailed] = useState(false);
-  const [loading, setLoading] = useState(false);
 
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-
   const handleStateChange = (e: ChangeEvent<HTMLSelectElement>) => {
     const selectedState = e.target.value;
     setState(selectedState);
@@ -72,24 +70,6 @@ export default function BookAppointment() {
       fetchDiseases();
     }
   }, [selectedHospital]);
-
-  useEffect(() => {
-    // Show modal only when loading is false and either success or failure state is true
-    if (!loading && (appointmentSuccess || !appointmentSuccess)) {
-      setShowSuccess(appointmentSuccess);
-      setShowFailed(!appointmentSuccess);
-    }
-  }, [loading, appointmentSuccess]);
-
-  useEffect(() => {
-    if (appointmentSuccess) {
-      setShowFailed(false);
-      setShowSuccess(true);
-    } else {
-      setShowSuccess(false);
-      setShowFailed(true);
-    }
-  }, [appointmentSuccess]);
 
   const fetchCities = async () => {
     try {
@@ -185,18 +165,19 @@ export default function BookAppointment() {
         }
       );
       if (!response.ok) {
-        setAppointmentSuccess(false);
         throw new Error("Failed to book appointment");
-      } else setAppointmentSuccess(true);
+      }
+      setAppointmentSuccess(true);
+      setShowSuccess(true);
+      setShowFailed(false);
     } catch (error) {
       console.error("Error booking apppointment:", error);
-    } finally {
-      setLoading(false); // Set loading state to false when fetch completes (whether it succeeds or fails)
+      setShowSuccess(false);
+      setShowFailed(true);
     }
   }
 
   const isButtonDisabled =
-    loading ||
     !state ||
     !selectedCity ||
     !selectedHospital ||
