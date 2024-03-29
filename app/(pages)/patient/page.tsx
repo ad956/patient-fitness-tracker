@@ -3,7 +3,7 @@ import { WeeklyProgress, HealthConditions } from "./components/Graphs";
 import Calendar from "./components/Calendar";
 import CarouselService from "./components/ServiceCarousel";
 import { Patient } from "@/types";
-import { getPatientData } from "@/lib/getUserData";
+import { getPatientData } from "@/lib/patient/getPatientData";
 import { notFound } from "next/navigation";
 
 export default async function PatientPage() {
@@ -116,7 +116,7 @@ export default async function PatientPage() {
           </Tooltip>
         </Card>
         <Card className=" row-span-5 col-span-2 flex flex-col justify-center items-center p-5 w-full">
-          <Calendar upcomingAppointments={patient.bookedAppointments} />
+          <Calendar />
           <CarouselService />
         </Card>
         <Card className="col-span-2 row-span-2 flex flex-col justify-center items-center">
