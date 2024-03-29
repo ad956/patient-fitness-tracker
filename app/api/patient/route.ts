@@ -1,13 +1,13 @@
 import dbConfig from "@/lib/db";
 
 export async function GET() {
+  const mail = "anandsuthar956@gmail.com";
   try {
     const db = await dbConfig();
     const collection = db.collection("patient");
 
     const projection = {
       _id: 0,
-      id: 1,
       name: 1,
       username: 1,
       email: 1,
@@ -23,10 +23,12 @@ export async function GET() {
       "progress.pendingAppointments": 1,
       activity: 1,
       healthConditions: 1,
-      bookedAppointments: 1,
     };
 
-    const patientData = await collection.findOne({ id: 1 }, { projection });
+    const patientData = await collection.findOne(
+      { email: mail },
+      { projection }
+    );
 
     if (!patientData) {
       return Response.json({ error: "Patient not found" }, { status: 404 });
