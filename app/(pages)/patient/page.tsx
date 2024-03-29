@@ -2,9 +2,10 @@ import { Avatar, Card, Divider, Progress, Tooltip } from "@nextui-org/react";
 import { WeeklyProgress, HealthConditions } from "./components/Graphs";
 import Calendar from "./components/Calendar";
 import CarouselService from "./components/ServiceCarousel";
-import { Patient } from "@/types";
+import { Patient, bookedAppointments } from "@/types";
 import { getPatientData } from "@/lib/patient/getPatientData";
 import { notFound } from "next/navigation";
+import getUpcomingAppointments from "@/lib/patient/getUpcomingAppointments";
 
 export default async function PatientPage() {
   const { patient }: { patient: Patient } = await getPatientData();
@@ -12,6 +13,9 @@ export default async function PatientPage() {
   if (!patient) {
     return notFound();
   }
+
+  const upcomingAppointments: bookedAppointments =
+    await getUpcomingAppointments();
 
   return (
     <section className="bg-[#f3f6fd] overflow-hidden p-2">
@@ -116,7 +120,7 @@ export default async function PatientPage() {
           </Tooltip>
         </Card>
         <Card className=" row-span-5 col-span-2 flex flex-col justify-center items-center p-5 w-full">
-          <Calendar />
+          <Calendar upcomingAppointments={upcomingAppointments} />
           <CarouselService />
         </Card>
         <Card className="col-span-2 row-span-2 flex flex-col justify-center items-center">
