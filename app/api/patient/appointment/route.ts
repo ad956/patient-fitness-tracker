@@ -1,21 +1,29 @@
 import dbConfig from "@/lib/db";
 
 type AppointmentBody = {
-  id: number;
+  patient_email: string;
   date: string;
   state: string;
   city: string;
   hospital: string;
   disease: string;
   note: string;
-  approved: string;
 };
 
 export async function POST(req: Request) {
   try {
     const body: AppointmentBody = await req.json();
 
-    const { id, date, state, city, hospital, disease, note, approved } = body;
+    const { patient_email, date, state, city, hospital, disease, note } = body;
+
+    const db = await dbConfig();
+    const patient_collection = db.collection("patient");
+
+    const patient = await patient_collection.findOne({ email: patient_email });
+
+    if (!patient) {
+      return Response.json({ error: "Patient not found" }, { status: 404 });
+    }
 
     const appointmentData = {
       date,
@@ -24,31 +32,19 @@ export async function POST(req: Request) {
       hospital,
       disease,
       note,
-      approved,
+      approved: "pending",
+      patient_id: patient._id,
+      doctor_id: null,
+      receptionist_id: null,
     };
 
-    const db = await dbConfig();
-    const collection = db.collection("patient");
+    const appointment_collection = db.collection("bookedAppointments");
+    const res = await appointment_collection.insertOne(appointmentData);
 
-    const patient = await collection.findOne({ id });
-
-    if (!patient) {
-      return Response.json({ error: "Patient not found" }, { status: 404 });
-    }
-
-    if (!Array.isArray(patient.bookAppointment)) {
-      console.error("bookAppointment field is not an array");
-      return Response.json({ error: "Internal Server Error" }, { status: 500 });
-    }
-
-    patient.bookAppointment.push(appointmentData);
-
-    await collection.updateOne(
-      { id: 1 },
-      { $set: { bookAppointment: patient.bookAppointment } }
-    );
-
-    console.log("Appointment request added for patient:", patient.id);
+    if (!res)
+      return Response.json({
+        msg: "Error saving appointment info",
+      });
 
     return Response.json({
       msg: "Appointment request added successfully",
