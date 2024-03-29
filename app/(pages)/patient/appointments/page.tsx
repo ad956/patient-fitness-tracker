@@ -1,7 +1,7 @@
 import { Card, Image, Button, Textarea } from "@nextui-org/react";
 import BookAppointment from "../components/BookAppointment";
 import { Patient } from "@/types";
-import { getPatientData } from "@/lib/getUserData";
+import { getPatientData } from "@/lib/patient/getPatientData";
 import { notFound } from "next/navigation";
 
 export default async function Appointments() {
