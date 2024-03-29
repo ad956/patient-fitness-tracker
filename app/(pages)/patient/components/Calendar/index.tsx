@@ -15,37 +15,14 @@ import { getFormattedDate } from "@/app/utils/getDate";
 import { LuCalendarClock } from "react-icons/lu";
 import { bookedAppointments } from "@/types";
 
-// type upcomingAppointmentProps = {
-//   upcomingAppointments: [
-//     {
-//       date: string;
-//       timing: string;
-//       state: string;
-//       city: string;
-//       hospital: string;
-//       disease: string;
-//       note: string;
-//       approved: string;
-//     }
-//   ];
-// };
+type upcomingAppointmentsType = {
+  upcomingAppointments: bookedAppointments;
+};
 
-export default function Calendar() {
+export default function Calendar({
+  upcomingAppointments,
+}: upcomingAppointmentsType) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-
-  const upcomingAppointments: bookedAppointments = [
-    {
-      date: "2024-03-30T15:59:59.094Z",
-      timing: "02:25 PM - 03:00 PM",
-      state: "Gujarat",
-      city: "Vadodara",
-      hospital: "Pearl Hospital",
-      disease: "Common Cold",
-      note: "I got common cold from yesterday.",
-      approved: "approved",
-      doctor_id: "660682d54e864f93f957de86",
-    },
-  ];
 
   const [appointmentDetail, setappointmentDetail] = React.useState<{
     date: string;
