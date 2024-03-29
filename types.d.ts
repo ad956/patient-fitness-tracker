@@ -25,6 +25,7 @@ export type Patient = User & {
   bookedAppointments: [
     {
       date: string;
+      timing: string;
       state: string;
       city: string;
       hospital: string;
