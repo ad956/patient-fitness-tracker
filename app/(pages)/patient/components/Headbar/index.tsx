@@ -3,7 +3,7 @@ import { Avatar, Button, Divider, Input, Link, User } from "@nextui-org/react";
 import { GoPlus } from "react-icons/go";
 import { logoutAction } from "@/lib/actions";
 import Notifications from "../Notifications";
-import { getPatientData } from "@/lib/getUserData";
+import { getPatientData } from "@/lib/patient/getPatientData";
 import { Patient } from "@/types";
 import { notFound } from "next/navigation";
 
