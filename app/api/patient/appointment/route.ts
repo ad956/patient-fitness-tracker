@@ -10,6 +10,52 @@ type AppointmentBody = {
   note: string;
 };
 
+export async function GET(req: Request) {
+  try {
+    const { searchParams } = new URL(req.url);
+    const email = searchParams.get("email");
+
+    if (!email) {
+      return new Response("Email parameter is missing", {
+        status: 400,
+      });
+    }
+
+    const db = await dbConfig();
+    const patient_collection = db.collection("patient");
+    const patient = await patient_collection.findOne({ email });
+
+    if (!patient) {
+      return new Response(JSON.stringify({ error: "Patient not found" }), {
+        status: 404,
+      });
+    }
+
+    const bookedAppointments_collection = db.collection("bookedAppointments");
+    const appointmentsCursor = bookedAppointments_collection.find({
+      patient_id: patient._id,
+      approved: "approved",
+    });
+
+    const appointments = await appointmentsCursor.toArray(); // Convert cursor to array
+
+    if (appointments.length === 0) {
+      return new Response(JSON.stringify({ error: "Appointments not found" }), {
+        status: 404,
+      });
+    }
+
+    return new Response(JSON.stringify(appointments), {
+      status: 200,
+    });
+  } catch (error) {
+    console.error("Error getting appointments:", error);
+    return new Response(JSON.stringify({ error: "Internal Server Error" }), {
+      status: 500,
+    });
+  }
+}
+
 export async function POST(req: Request) {
   try {
     const body: AppointmentBody = await req.json();
