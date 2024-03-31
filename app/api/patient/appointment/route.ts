@@ -53,9 +53,13 @@ export async function GET(req: Request) {
       .toArray();
 
     appointments.forEach((appointment) => {
-      const doctor = doctors.find((doc) => doc._id === appointment.doctor_id);
-      console.log("Appointment Doctor ID:", appointment.doctor_id);
-      console.log("Found Doctor:", doctor);
+      // const doctor = doctors.find((doc) => doc._id === appointment.doctor_id);
+      const doctor = doctors.find(
+        (doc) => doc._id.toString() === appointment.doctor_id.toString()
+      );
+
+      // console.log("Appointment Doctor ID:", appointment.doctor_id);
+      // console.log("Found Doctor:", doctor);
       if (doctor) {
         appointment.doctor = {
           name: doctor.name,
@@ -66,7 +70,7 @@ export async function GET(req: Request) {
       }
     });
 
-    return new Response(JSON.stringify(doctors), {
+    return new Response(JSON.stringify(appointments), {
       status: 200,
     });
   } catch (error) {
