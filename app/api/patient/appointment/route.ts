@@ -45,7 +45,7 @@ export async function GET(req: Request) {
       });
     }
 
-    const projection = { _id: 1, name: 1, specialty: 1 };
+    const projection = { _id: 1, name: 1, specialty: 1, profile: 1 };
     const doctorIds = appointments.map((appointment) => appointment.doctor_id);
     const doctor_collection = db.collection("doctor");
     const doctors = await doctor_collection
