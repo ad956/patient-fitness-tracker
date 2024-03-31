@@ -53,7 +53,6 @@ export async function GET(req: Request) {
       .toArray();
 
     appointments.forEach((appointment) => {
-      // const doctor = doctors.find((doc) => doc._id === appointment.doctor_id);
       const doctor = doctors.find(
         (doc) => doc._id.toString() === appointment.doctor_id.toString()
       );
@@ -66,7 +65,6 @@ export async function GET(req: Request) {
           profile: doctor.profile,
           specialty: doctor.specialty,
         };
-        delete appointment.doctor_id;
       }
     });
 
