@@ -45,11 +45,12 @@ export async function GET(req: Request) {
       });
     }
 
+    const projection = { _id: 0, name: 1, specialty: 1 };
     // Fetch doctor details for each appointment
     const doctorIds = appointments.map((appointment) => appointment.doctor_id);
     const doctor_collection = db.collection("doctor");
     const doctors = await doctor_collection
-      .find({ _id: { $in: doctorIds } })
+      .find({ _id: { $in: doctorIds } }, { projection })
       .toArray();
 
     // Replace doctor_id with doctor details in each appointment
@@ -65,7 +66,7 @@ export async function GET(req: Request) {
       }
     });
 
-    return new Response(JSON.stringify(appointments), {
+    return new Response(JSON.stringify(doctors), {
       status: 200,
     });
   } catch (error) {
