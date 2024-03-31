@@ -33,6 +33,11 @@ export default function Calendar({
     disease: string;
     note: string;
     approved: string;
+    doctor: {
+      name: string;
+      profile: string;
+      specialty: string;
+    };
   } | null>(null);
 
   const [appointmentDates, setAppointmentDates] = React.useState<Date[]>([]);
@@ -126,14 +131,16 @@ export default function Calendar({
             <ModalBody className="flex flex-col items-start">
               <div className="flex flex-row w-full p-2 justify-around items-center ">
                 <Avatar
-                  src="https://i.pravatar.cc/150?u=a04258114e29026708c"
-                  className="w-30 h-30 text-large"
+                  src={appointmentDetail?.doctor.profile}
+                  className="w-28 h-28 text-large"
                 />
                 <div className="flex flex-col justify-center items-start">
                   <div className="mb-2">
-                    <p className="font-bold text-xl">John Doe</p>
+                    <p className="font-bold text-xl">
+                      {appointmentDetail?.doctor.name}
+                    </p>
                     <p className="font-bold text-black/80 text-sm">
-                      Sr. Doctor
+                      {appointmentDetail?.doctor.specialty}
                     </p>
                   </div>
 
