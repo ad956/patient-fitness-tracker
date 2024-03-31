@@ -37,7 +37,7 @@ export async function GET(req: Request) {
       approved: "approved",
     });
 
-    const appointments = await appointmentsCursor.toArray(); // Convert cursor to array
+    const appointments = await appointmentsCursor.toArray(); // convert cursor to array
 
     if (appointments.length === 0) {
       return new Response(JSON.stringify({ error: "Appointments not found" }), {
