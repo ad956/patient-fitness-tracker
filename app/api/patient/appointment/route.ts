@@ -45,6 +45,26 @@ export async function GET(req: Request) {
       });
     }
 
+    // Fetch doctor details for each appointment
+    const doctorIds = appointments.map((appointment) => appointment.doctor_id);
+    const doctor_collection = db.collection("doctor");
+    const doctors = await doctor_collection
+      .find({ _id: { $in: doctorIds } })
+      .toArray();
+
+    // Replace doctor_id with doctor details in each appointment
+    appointments.forEach((appointment) => {
+      const doctor = doctors.find((doc) => doc._id === appointment.doctor_id);
+      if (doctor) {
+        appointment.doctor = {
+          name: doctor.name,
+          profile: doctor.profile,
+          specialty: doctor.specialty,
+        };
+        delete appointment.doctor_id;
+      }
+    });
+
     return new Response(JSON.stringify(appointments), {
       status: 200,
     });
