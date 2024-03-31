@@ -45,7 +45,7 @@ export async function GET(req: Request) {
       });
     }
 
-    const projection = { _id: 0, name: 1, specialty: 1 };
+    const projection = { _id: 1, name: 1, specialty: 1 };
     const doctorIds = appointments.map((appointment) => appointment.doctor_id);
     const doctor_collection = db.collection("doctor");
     const doctors = await doctor_collection
@@ -54,6 +54,8 @@ export async function GET(req: Request) {
 
     appointments.forEach((appointment) => {
       const doctor = doctors.find((doc) => doc._id === appointment.doctor_id);
+      console.log("Appointment Doctor ID:", appointment.doctor_id);
+      console.log("Found Doctor:", doctor);
       if (doctor) {
         appointment.doctor = {
           name: doctor.name,
