@@ -1,6 +1,7 @@
 export type User = {
   id: number;
-  name: string;
+  firstname: string;
+  lastname: string;
   username: string;
   email: string;
   contact: string;
@@ -37,6 +38,11 @@ export type bookedAppointments = [
     approved: string;
     patient_id: string;
     doctor_id: string;
+    doctor: {
+      name: string;
+      profile: string;
+      specialty: string;
+    };
     receptionist_id: string;
   }
 ];
