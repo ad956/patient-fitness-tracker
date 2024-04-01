@@ -11,9 +11,20 @@ import { useState } from "react";
 import { AiOutlineSchedule } from "react-icons/ai";
 import { CiHospital1 } from "react-icons/ci";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 export default function Sidebar() {
-  const [selected, setSelected] = useState(0);
+  const router = useRouter();
+  const [selected, setSelected] = useState(
+    getInitialSelectedIndex(router.pathname)
+  );
+
+  function getInitialSelectedIndex(pathname: string) {
+    const foundIndex = sidebarButtons.findIndex((item) =>
+      pathname.includes(item.uri)
+    );
+    return foundIndex !== -1 ? foundIndex : 0;
+  }
 
   function handleButtonClick(index: number) {
     setSelected(index);
