@@ -13,21 +13,22 @@ export default async function ProfileSettings() {
 
   return (
     <div className="flex flex-col justify-center items-center h-full w-full">
-      <div className="flex flex-row justify-center gap-5 items-center">
-        <Image src={patient.profile} radius="full" className="" />
+      <div className="flex flex-row justify-around items-center w-3/5 border-2 border-rose-600">
+        <div className="flex flex-row justify-center items-center gap-5">
+          <Image src={patient.profile} radius="full" className="" />
 
-        <div className="flex flex-col">
-          <p className="">{patient.firstname}</p>
-          <Link size="sm">@{patient.username}</Link>
+          <div className="flex flex-col">
+            <p className="">{patient.firstname + " " + patient.lastname}</p>
+            <Link size="sm">@{patient.username}</Link>
+          </div>
         </div>
-
         <Button size="sm" className="text-xs">
           Edit
         </Button>
       </div>
 
-      <div className="flex flex-col justify-center gap-5 items-center">
-        <p className="text-md font-bold self-start">Personal Information</p>
+      <div className="flex flex-col justify-center gap-5 items-cente w-3/5 border-2 border-rose-600">
+        <p className="text-md font-bold self-star">Personal Information</p>
         <div className="flex flex-row justify-center gap-10">
           <div className="flex flex-col gap-5">
             <Input
@@ -65,7 +66,7 @@ export default async function ProfileSettings() {
         </div>
       </div>
 
-      <div className="flex flex-col justify-center gap-5 items-center">
+      <div className="flex flex-col justify-center gap-5 items-center w-3/5 border-2 border-rose-600">
         <p className="text-md font-bold self-start">Address</p>
         <div className="flex flex-row justify-center gap-10">
           <div className="flex flex-col gap-5">
