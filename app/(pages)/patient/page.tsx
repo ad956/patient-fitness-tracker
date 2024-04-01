@@ -23,7 +23,9 @@ export default async function PatientPage() {
         <Card className="row-span-3 justify-center items-center">
           <div className="flex flex-col items-center">
             <Avatar size="lg" src={patient.profile} />
-            <p className="text-sm font-semibold">{patient.name}</p>
+            <p className="text-sm font-semibold">
+              {patient.firstname + " " + patient.lastname}
+            </p>
             <p className="text-tiny text-gray-700">{patient.contact}</p>
           </div>
 

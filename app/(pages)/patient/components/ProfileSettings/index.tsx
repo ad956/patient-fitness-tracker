@@ -17,7 +17,7 @@ export default async function ProfileSettings() {
         <Image src={patient.profile} radius="full" className="" />
 
         <div className="flex flex-col">
-          <p className="">{patient.name}</p>
+          <p className="">{patient.firstname}</p>
           <Link size="sm">@{patient.username}</Link>
         </div>
 
@@ -34,14 +34,14 @@ export default async function ProfileSettings() {
               type="text"
               variant="underlined"
               label="First Name"
-              value={patient.name}
+              value={patient.firstname}
               disabled
             />
             <Input
               type="email"
               variant="underlined"
               label="Email address"
-              value={patient.name}
+              value={patient.lastname}
               disabled
             />
           </div>

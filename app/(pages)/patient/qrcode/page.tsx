@@ -19,7 +19,7 @@ export default async function QRCodePage() {
     >
       <div className="h-4/5 w-2/6 flex flex-col justify-center gap-5 items-center">
         <User
-          name={patient.name}
+          name={patient.firstname}
           description={
             <Link size="sm" isExternal>
               @{patient.username}

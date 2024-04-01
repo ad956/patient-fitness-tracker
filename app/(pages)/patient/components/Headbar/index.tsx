@@ -68,7 +68,7 @@ export default async function Headbar() {
         <Divider orientation="vertical" className="h-8 bg-gray-500" />
 
         <User
-          name={patient.name}
+          name={patient.firstname}
           avatarProps={{
             src: patient.profile,
           }}
