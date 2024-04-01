@@ -11,19 +11,31 @@ import { useState } from "react";
 import { AiOutlineSchedule } from "react-icons/ai";
 import { CiHospital1 } from "react-icons/ci";
 import Link from "next/link";
-import { useRouter } from "next/router";
+import { usePathname } from "next/navigation";
 
 export default function Sidebar() {
-  const router = useRouter();
-  const [selected, setSelected] = useState(
-    getInitialSelectedIndex(router.pathname)
-  );
+  const pathname = usePathname();
+  console.log("path : " + pathname);
+
+  const [selected, setSelected] = useState(getInitialSelectedIndex(pathname));
 
   function getInitialSelectedIndex(pathname: string) {
-    const foundIndex = sidebarButtons.findIndex((item) =>
-      pathname.includes(item.uri)
-    );
-    return foundIndex !== -1 ? foundIndex : 0;
+    switch (pathname) {
+      case "/patient/":
+        return 0;
+      case "/patient/qrcode":
+        return 1;
+      case "/patient/appointments":
+        return 2;
+      case "/patient/transactions":
+        return 3;
+      case "/patient/hospitals":
+        return 4;
+      case "/patient/settings":
+        return 5;
+      default:
+        return 0;
+    }
   }
 
   function handleButtonClick(index: number) {
