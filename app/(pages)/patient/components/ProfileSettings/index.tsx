@@ -34,19 +34,15 @@ export default async function ProfileSettings() {
               type="text"
               variant="underlined"
               label="First Name"
-              placeholder="Enter your Firstname"
+              value={patient.name}
+              disabled
             />
             <Input
               type="email"
               variant="underlined"
               label="Email address"
-              placeholder="Enter your Email"
-            />
-            <Input
-              type="text"
-              variant="underlined"
-              label="Bio"
-              placeholder="Enter your Firstname"
+              value={patient.name}
+              disabled
             />
           </div>
           <div className="flex flex-col gap-5">
