@@ -8,7 +8,8 @@ export async function GET() {
 
     const projection = {
       _id: 0,
-      name: 1,
+      firstname: 1,
+      lastname: 1,
       username: 1,
       email: 1,
       contact: 1,
