@@ -4,8 +4,9 @@ import { GoPlus } from "react-icons/go";
 import { logoutAction } from "@/lib/actions";
 import Notifications from "../Notifications";
 import { getPatientData } from "@/lib/patient/getPatientData";
-import { Patient } from "@/types";
+import { Patient, bookedAppointments } from "@/types";
 import { notFound } from "next/navigation";
+import getUpcomingAppointments from "@/lib/patient/getUpcomingAppointments";
 
 export default async function Headbar() {
   const { patient }: { patient: Patient } = await getPatientData();
@@ -13,6 +14,10 @@ export default async function Headbar() {
   if (!patient) {
     return notFound();
   }
+
+  const upcomingAppointments: bookedAppointments =
+    await getUpcomingAppointments();
+
   return (
     <div className="bg-[#f3f6fd] p-4 flex flex-row justify-between mr-5">
       <div className="flex items-center gap-5 w-3/5">
@@ -63,7 +68,7 @@ export default async function Headbar() {
           <GoPlus size={20} />
         </Button>
 
-        <Notifications />
+        <Notifications upcomingAppointments={upcomingAppointments} />
 
         <Divider orientation="vertical" className="h-8 bg-gray-500" />
 
