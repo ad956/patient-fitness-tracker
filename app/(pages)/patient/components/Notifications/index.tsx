@@ -22,20 +22,8 @@ export default function Notifications({
   const [isOpen, setIsOpen] = React.useState(false);
 
   //
-  const [appointmentDetail, setappointmentDetail] = React.useState<{
-    date: string;
-    timing: string;
-    state: string;
-    city: string;
+  const [notificationDetail, setNotificationDetail] = React.useState<{
     hospital: string;
-    disease: string;
-    note: string;
-    approved: string;
-    doctor: {
-      name: string;
-      profile: string;
-      specialty: string;
-    };
   } | null>(null);
 
   // React.useEffect(() => {
@@ -43,9 +31,9 @@ export default function Notifications({
   //     const selectedDates = upcomingAppointments
   //       .filter((appointment) => appointment.approved === "approved")
   //       .map((approvedAppointment) => new Date(approvedAppointment.date));
-  //     setappointmentDetail(selectedDates);
+  //     setNotificationDetail(selectedDates);
   //   } else {
-  //     setappointmentDetail([]);
+  //     setNotificationDetail([]);
   //   }
   // }, [upcomingAppointments]);
 
@@ -68,32 +56,27 @@ export default function Notifications({
         <Listbox aria-label="Actions">
           <ListboxItem key="">
             <div className="flex flex-row justify-center items-center gap-5">
-              <FaRegHospital size={30} />
-
-              <p className="font-medium text-[13px] text-wrap">
-                <span className="font-bold">Appointment confirmed!</span> See
-                you on <span className="text-danger">Apr 21, 2024</span> at{" "}
+              <FaRegHospital size={25} />
+              <p className="text-xs text-wrap">
+                Appointment confirmed! See you at{" "}
                 <span className="text-danger">Apollo Hospitals</span>.
               </p>
             </div>
           </ListboxItem>
           <ListboxItem key="">
             <div className="flex flex-row justify-center items-center gap-5">
-              <FaRegHospital size={30} />
-              <p className="font-medium text-[13px] text-wrap">
-                <span className="font-bold">Appointment confirmed!</span> See
-                you on <span className="text-danger">Apr 21, 2024</span> at{" "}
+              <FaRegHospital size={25} />
+              <p className="text-xs text-wrap">
+                Appointment confirmed! See you at{" "}
                 <span className="text-danger">Apollo Hospitals</span>.
               </p>
             </div>
           </ListboxItem>
           <ListboxItem key="">
             <div className="flex flex-row justify-center items-center gap-5">
-              <FaRegHospital size={30} />
-
-              <p className="font-medium text-[13px] text-wrap">
-                <span className="font-bold">Appointment confirmed!</span> See
-                you on <span className="text-danger">Apr 21, 2024</span> at{" "}
+              <FaRegHospital size={25} />
+              <p className="text-xs text-wrap">
+                Appointment confirmed! See you at{" "}
                 <span className="text-danger">Apollo Hospitals</span>.
               </p>
             </div>
