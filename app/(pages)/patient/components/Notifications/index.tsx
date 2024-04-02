@@ -11,7 +11,7 @@ import {
 } from "@nextui-org/react";
 import React from "react";
 import { CiBellOn } from "react-icons/ci";
-import { FcCloseUpMode, FcLikePlaceholder, FcMms } from "react-icons/fc";
+import { FaRegHospital } from "react-icons/fa6";
 type upcomingAppointmentsType = {
   upcomingAppointments: bookedAppointments;
 };
@@ -68,32 +68,32 @@ export default function Notifications({
         <Listbox aria-label="Actions">
           <ListboxItem key="">
             <div className="flex flex-row justify-center items-center gap-5">
-              <FcMms size={25} />
+              <FaRegHospital size={30} />
 
-              <p className="font-bold text-[13px] text-wrap">
-                Appointment confirmed! See you on{" "}
-                <span className="text-danger">Apr 21, 2024</span> at{" "}
+              <p className="font-medium text-[13px] text-wrap">
+                <span className="font-bold">Appointment confirmed!</span> See
+                you on <span className="text-danger">Apr 21, 2024</span> at{" "}
                 <span className="text-danger">Apollo Hospitals</span>.
               </p>
             </div>
           </ListboxItem>
           <ListboxItem key="">
             <div className="flex flex-row justify-center items-center gap-5">
-              <FcMms size={25} />
-              <p className="font-bold text-[13px] text-wrap">
-                Appointment confirmed! See you on{" "}
-                <span className="text-danger">Apr 21, 2024</span> at{" "}
+              <FaRegHospital size={30} />
+              <p className="font-medium text-[13px] text-wrap">
+                <span className="font-bold">Appointment confirmed!</span> See
+                you on <span className="text-danger">Apr 21, 2024</span> at{" "}
                 <span className="text-danger">Apollo Hospitals</span>.
               </p>
             </div>
           </ListboxItem>
           <ListboxItem key="">
             <div className="flex flex-row justify-center items-center gap-5">
-              <FcMms size={25} />
+              <FaRegHospital size={30} />
 
-              <p className="font-bold text-[13px] text-wrap">
-                Appointment confirmed! See you on{" "}
-                <span className="text-danger">Apr 21, 2024</span> at{" "}
+              <p className="font-medium text-[13px] text-wrap">
+                <span className="font-bold">Appointment confirmed!</span> See
+                you on <span className="text-danger">Apr 21, 2024</span> at{" "}
                 <span className="text-danger">Apollo Hospitals</span>.
               </p>
             </div>
