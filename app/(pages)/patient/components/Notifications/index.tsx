@@ -11,7 +11,7 @@ import {
 } from "@nextui-org/react";
 import React from "react";
 import { CiBellOn } from "react-icons/ci";
-import { FcCloseUpMode } from "react-icons/fc";
+import { FcCloseUpMode, FcLikePlaceholder, FcMms } from "react-icons/fc";
 type upcomingAppointmentsType = {
   upcomingAppointments: bookedAppointments;
 };
@@ -63,39 +63,38 @@ export default function Notifications({
           <CiBellOn size={25} />
         </Button>
       </PopoverTrigger>
-      <PopoverContent>
+      <PopoverContent className="max-w-xs">
         <div className="text-md font-bold self-start my-2">Notifications</div>
         <Listbox aria-label="Actions">
           <ListboxItem key="">
             <div className="flex flex-row justify-center items-center gap-5">
-              <FcCloseUpMode size={25} />
-              <p className="text-sm max-w-xs text-wrap">
-                Your appointment request has been accepted! Join us on{" "}
-                <span className="text-danger">21 Apr 2024</span> at{" "}
-                <span className="text-danger">Apollo Hospitals</span> for your
-                consultation.
+              <FcMms size={25} />
+
+              <p className="font-bold text-[13px] text-wrap">
+                Appointment confirmed! See you on{" "}
+                <span className="text-danger">Apr 21, 2024</span> at{" "}
+                <span className="text-danger">Apollo Hospitals</span>.
               </p>
             </div>
           </ListboxItem>
           <ListboxItem key="">
             <div className="flex flex-row justify-center items-center gap-5">
-              <FcCloseUpMode size={25} />
-              <p className="text-sm max-w-xs text-wrap">
-                Your appointment request has been accepted! Join us on{" "}
-                <span className="text-danger">21 Apr 2024</span> at{" "}
-                <span className="text-danger">Apollo Hospitals</span> for your
-                consultation.
+              <FcMms size={25} />
+              <p className="font-bold text-[13px] text-wrap">
+                Appointment confirmed! See you on{" "}
+                <span className="text-danger">Apr 21, 2024</span> at{" "}
+                <span className="text-danger">Apollo Hospitals</span>.
               </p>
             </div>
           </ListboxItem>
           <ListboxItem key="">
             <div className="flex flex-row justify-center items-center gap-5">
-              <FcCloseUpMode size={25} />
-              <p className="text-sm max-w-xs text-wrap">
-                Your appointment request has been accepted! Join us on{" "}
-                <span className="text-danger">21 Apr 2024</span> at{" "}
-                <span className="text-danger">Apollo Hospitals</span> for your
-                consultation.
+              <FcMms size={25} />
+
+              <p className="font-bold text-[13px] text-wrap">
+                Appointment confirmed! See you on{" "}
+                <span className="text-danger">Apr 21, 2024</span> at{" "}
+                <span className="text-danger">Apollo Hospitals</span>.
               </p>
             </div>
           </ListboxItem>
