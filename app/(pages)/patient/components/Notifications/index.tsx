@@ -21,22 +21,6 @@ export default function Notifications({
 }: upcomingAppointmentsType) {
   const [isOpen, setIsOpen] = React.useState(false);
 
-  //
-  const [notificationDetail, setNotificationDetail] = React.useState<{
-    hospital: string;
-  } | null>(null);
-
-  // React.useEffect(() => {
-  //   if (upcomingAppointments && upcomingAppointments.length > 0) {
-  //     const selectedDates = upcomingAppointments
-  //       .filter((appointment) => appointment.approved === "approved")
-  //       .map((approvedAppointment) => new Date(approvedAppointment.date));
-  //     setNotificationDetail(selectedDates);
-  //   } else {
-  //     setNotificationDetail([]);
-  //   }
-  // }, [upcomingAppointments]);
-
   return (
     <Popover
       isOpen={isOpen}
@@ -54,33 +38,17 @@ export default function Notifications({
       <PopoverContent className="max-w-xs">
         <div className="text-md font-bold self-start my-2">Notifications</div>
         <Listbox aria-label="Actions">
-          <ListboxItem key="">
-            <div className="flex flex-row justify-center items-center gap-5">
-              <FaRegHospital size={25} />
-              <p className="text-xs text-wrap">
-                Appointment confirmed! See you at{" "}
-                <span className="text-danger">Apollo Hospitals</span>.
-              </p>
-            </div>
-          </ListboxItem>
-          <ListboxItem key="">
-            <div className="flex flex-row justify-center items-center gap-5">
-              <FaRegHospital size={25} />
-              <p className="text-xs text-wrap">
-                Appointment confirmed! See you at{" "}
-                <span className="text-danger">Apollo Hospitals</span>.
-              </p>
-            </div>
-          </ListboxItem>
-          <ListboxItem key="">
-            <div className="flex flex-row justify-center items-center gap-5">
-              <FaRegHospital size={25} />
-              <p className="text-xs text-wrap">
-                Appointment confirmed! See you at{" "}
-                <span className="text-danger">Apollo Hospitals</span>.
-              </p>
-            </div>
-          </ListboxItem>
+          {upcomingAppointments.map((item) => (
+            <ListboxItem key="">
+              <div className="flex flex-row justify-center items-center gap-5">
+                <FaRegHospital size={25} />
+                <p className="text-xs text-wrap">
+                  Appointment confirmed! See you at{" "}
+                  <span className="text-danger">{item.hospital}</span>.
+                </p>
+              </div>
+            </ListboxItem>
+          ))}
         </Listbox>
       </PopoverContent>
     </Popover>
