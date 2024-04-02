@@ -80,7 +80,7 @@ export default async function Headbar() {
           description={
             <Link
               href={`${process.env.BASE_URL}/patient/settings`}
-              color="secondary"
+              color="primary"
               className="text-xs"
             >{`@${patient.username}`}</Link>
           }
