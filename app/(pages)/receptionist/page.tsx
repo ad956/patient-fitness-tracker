@@ -8,8 +8,6 @@ import {
 } from "@nextui-org/react";
 import React from "react";
 import Calendar from "../patient/components/Calendar";
-import { WeeklyProgress, HealthConditions } from "../patient/components/Graphs";
-import CarouselService from "../patient/components/ServiceCarousel";
 import { FcCloseUpMode } from "react-icons/fc";
 
 export default function ReceptionistPage() {
