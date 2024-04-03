@@ -19,17 +19,17 @@ export default function Sidebar() {
 
   function getInitialSelectedIndex(pathname: string) {
     switch (pathname) {
-      case "/patient/":
+      case "/receptionist/":
         return 0;
-      case "/patient/qrcode":
+      case "/receptionist/qrcode":
         return 1;
-      case "/patient/appointments":
+      case "/receptionist/appointments":
         return 2;
-      case "/patient/transactions":
+      case "/receptionist/transactions":
         return 3;
-      case "/patient/hospitals":
+      case "/receptionist/hospitals":
         return 4;
-      case "/patient/settings":
+      case "/receptionist/settings":
         return 5;
       default:
         return 0;
@@ -76,28 +76,28 @@ export default function Sidebar() {
 const sidebarButtons = [
   {
     title: "Dashboard",
-    uri: "patient/",
+    uri: "receptionist/",
   },
   {
     title: "QR Code",
-    uri: "patient/qrcode",
+    uri: "receptionist/qrcode",
   },
   {
     title: "Appointment",
-    uri: "patient/appointments",
+    uri: "receptionist/appointments",
   },
   {
     title: "Transactions",
-    uri: "patient/transactions",
+    uri: "receptionist/transactions",
   },
   {
     title: "Hospitals",
-    uri: "patient/hospitals",
+    uri: "receptionist/hospitals",
   },
 
   {
     title: "Settings",
-    uri: "patient/settings",
+    uri: "receptionist/settings",
   },
 ];
 
