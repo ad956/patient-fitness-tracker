@@ -18,7 +18,40 @@ export default function ReceptionistPage() {
           <p className="text-sm font-medium self-start">Statistics</p>
           <div className="flex flex-row">
             <div className="flex flex-col">
-              <FcCloseUpMode />
+              <div className="flex flex-row justify-center items-center">
+                <FcCloseUpMode />
+
+                <div className="flex flex-col">
+                  <p className=""> Somehting</p>
+                  <p className=""> Somehting2</p>
+                </div>
+              </div>
+              <div className="flex flex-row justify-center items-center">
+                <FcCloseUpMode />
+
+                <div className="flex flex-col">
+                  <p className=""> Somehting</p>
+                  <p className=""> Somehting2</p>
+                </div>
+              </div>
+            </div>
+            <div className="flex flex-col">
+              <div className="flex flex-row justify-center items-center">
+                <FcCloseUpMode />
+
+                <div className="flex flex-col">
+                  <p className=""> Somehting</p>
+                  <p className=""> Somehting2</p>
+                </div>
+              </div>
+              <div className="flex flex-row justify-center items-center">
+                <FcCloseUpMode />
+
+                <div className="flex flex-col">
+                  <p className=""> Somehting</p>
+                  <p className=""> Somehting2</p>
+                </div>
+              </div>
             </div>
           </div>
         </Card>
