@@ -9,51 +9,70 @@ import {
 import React from "react";
 import Calendar from "../patient/components/Calendar";
 import { FcCloseUpMode } from "react-icons/fc";
-import { BsFillPersonPlusFill, BsPersonCheckFill } from "react-icons/bs";
+import {
+  BsFillPersonPlusFill,
+  BsPersonBoundingBox,
+  BsPersonCheckFill,
+  BsPersonLinesFill,
+} from "react-icons/bs";
 
 export default function ReceptionistPage() {
   return (
     <section className="bg-[#f3f6fd] overflow-hidden p-2">
       <div className="grid grid-cols-5 grid-rows-5 h-full gap-3">
-        <Card className="row-span-2 col-span-2 flex flex-col justify-center items-center p-5">
-          <p className="text-sm font-medium self-start">Statistics</p>
-          <div className="flex flex-row">
-            <div className="flex flex-col">
-              <div className="flex flex-row justify-center items-center">
-                <FcCloseUpMode
-                  size={25}
-                  className="bg-[#1fbcf0] rounded-full "
+        <Card className="row-span-2 col-span-2 flex flex-col justify-evenly items-center p-5">
+          <p className="text-sm font-semibold self-start">Statistics</p>
+          <div className="flex flex-row justify-between items-center w-4/5">
+            <div className="flex flex-col justify-center items-start gap-5 border2 border-orange-500">
+              <div className="flex flex-row justify-center items-center gap-2">
+                <BsPersonLinesFill
+                  size={30}
+                  fill="#fff"
+                  className="bg-black rounded-full p-2"
                 />
 
                 <div className="flex flex-col">
-                  <p className=""> Somehting</p>
-                  <p className=""> Somehting2</p>
+                  <p className="text-sm font-bold">34 Patients</p>
+                  <p className="text-xs text-black/80">In the last 30 days</p>
                 </div>
               </div>
-              <div className="flex flex-row justify-center items-center">
-                <BsPersonCheckFill />
+              <div className="flex flex-row justify-center items-center gap-2">
+                <BsFillPersonPlusFill
+                  size={30}
+                  fill="#fff"
+                  className="bg-black rounded-full p-2"
+                />
 
                 <div className="flex flex-col">
-                  <p className=""> Somehting</p>
-                  <p className=""> Somehting2</p>
+                  <p className="text-sm font-bold">14 Patients</p>
+                  <p className="text-xs text-black/80">In the last 7 days</p>
                 </div>
               </div>
             </div>
-            <div className="flex flex-col">
-              <div className="flex flex-row justify-center items-center">
-                <BsFillPersonPlusFill />
+            <div className="flex flex-col justify-center items-start gap-5 border2 border-green-700">
+              <div className="flex flex-row justify-center items-center gap-2">
+                <BsPersonCheckFill
+                  size={30}
+                  fill="#fff"
+                  className="bg-black rounded-full p-2"
+                />
 
                 <div className="flex flex-col">
-                  <p className=""> Somehting</p>
-                  <p className=""> Somehting2</p>
+                  <p className="text-sm font-bold">10 Done</p>
+                  <p className="text-xs text-black/80">In the last 7 days</p>
                 </div>
               </div>
-              <div className="flex flex-row justify-center items-center">
-                <FcCloseUpMode />
+
+              <div className="flex flex-row justify-center items-center gap-2">
+                <BsPersonBoundingBox
+                  size={30}
+                  fill="#fff"
+                  className="bg-black rounded-full p-2"
+                />
 
                 <div className="flex flex-col">
-                  <p className=""> Somehting</p>
-                  <p className=""> Somehting2</p>
+                  <p className="text-sm font-bold">4 New</p>
+                  <p className="text-xs text-black/80">Waiting for approval</p>
                 </div>
               </div>
             </div>
