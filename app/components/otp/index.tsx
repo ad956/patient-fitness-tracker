@@ -10,7 +10,7 @@ import {
   Button,
 } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 
 type userDataType = {
   userData: {
@@ -22,40 +22,67 @@ type userDataType = {
 export default function OtpSection({ userData }: userDataType) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
-  const [otp, setOtp] = useState("");
+  const [otp, setOtp] = useState<Array<string>>(["", "", "", "", ""]);
   const [showError, setShowError] = useState("");
 
   const router = useRouter();
-  const handleSubmit = async () => {
-    try {
-      const response = await fetch("http://localhost:3000/api/auth/verifyotp", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          otp: otp,
-          email: userData.email,
-          role: userData.role,
-        }),
-      });
+  // const handleSubmit = async () => {
+  //   try {
+  //     const response = await fetch("http://localhost:3000/api/auth/verifyotp", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({
+  //         otp: otp,
+  //         email: userData.email,
+  //         role: userData.role,
+  //       }),
+  //     });
 
-      const data = await response.json();
+  //     const data = await response.json();
 
-      if (data.error) {
-        setShowError(data.error);
-      } else {
-        setShowError("");
-        router.push(`/${userData.role}`);
-      }
-    } catch (error) {
-      console.error("Error:", error);
+  //     if (data.error) {
+  //       setShowError(data.error);
+  //     } else {
+  //       setShowError("");
+  //       router.push(`/${userData.role}`);
+  //     }
+  //   } catch (error) {
+  //     console.error("Error:", error);
+  //   }
+  // };
+
+  const inputRefs = useRef<(HTMLInputElement | null)[]>([]); // Ref to store references to input elements
+
+  const handleInputChange = (index: number, value: string) => {
+    if (value.length > 1) {
+      // If more than one digit entered, take only the last digit
+      value = value[value.length - 1];
+    }
+
+    setOtp((prevOtp) => {
+      const newOtp = [...prevOtp];
+      newOtp[index] = value; // Update the specific index with the entered value
+      return newOtp;
+    });
+
+    if (value && inputRefs.current[index + 1]) {
+      // Move cursor to the next input field if there's a value and next input field exists
+      inputRefs.current[index + 1]?.focus();
     }
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setOtp((prevOtp) => prevOtp + value);
+  const handleFocus = (index: number) => {
+    if (otp[index] === "") {
+      // Move cursor to the previous input field if the current field is empty
+      inputRefs.current[index - 1]?.focus();
+    }
+  };
+
+  const handleSubmit = async () => {
+    const enteredOtp = otp.join(""); // Combine individual digits to form OTP
+    // Your submission logic here
   };
 
   return (
@@ -74,15 +101,15 @@ export default function OtpSection({ userData }: userDataType) {
               />
 
               <div className="flex justify-center gap-2 w-full">
-                {[...Array(5)].map((_, index) => (
+                {otp.map((digit, index) => (
                   <Input
                     key={index}
+                    ref={(ref) => (inputRefs.current[index] = ref)} // Assign ref to input element
                     type="text"
-                    variant={showError ? "flat" : "bordered"}
-                    className="max-w-10"
-                    color={showError ? "danger" : "default"}
+                    value={digit}
                     maxLength={1}
-                    onChange={handleInputChange}
+                    onChange={(e) => handleInputChange(index, e.target.value)}
+                    onFocus={() => handleFocus(index)}
                   />
                 ))}
               </div>
