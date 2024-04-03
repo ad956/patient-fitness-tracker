@@ -1,5 +1,5 @@
-import SpinnerLoader from "@/app/components/SpinnerLoader";
+import SpinnerLoader from "@components/SpinnerLoader";
 
 export default function loading() {
-	return <SpinnerLoader />;
+  return <SpinnerLoader />;
 }
