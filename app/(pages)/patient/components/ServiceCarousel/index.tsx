@@ -47,15 +47,14 @@ export default function CarouselService() {
         >
           {images.map((v, i) => (
             <div
-              // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
               key={i}
               className="h-full w-full self-center relative shrink-0"
             >
-              {/* <Image
+              <Image
                 className="pointer-events-none"
                 alt={`carousel-image-${i}`}
                 src={v}
-              /> */}
+              />
             </div>
           ))}
         </div>
