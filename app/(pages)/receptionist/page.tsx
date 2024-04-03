@@ -9,6 +9,7 @@ import {
 import React from "react";
 import Calendar from "../patient/components/Calendar";
 import { FcCloseUpMode } from "react-icons/fc";
+import { BsFillPersonPlusFill, BsPersonCheckFill } from "react-icons/bs";
 
 export default function ReceptionistPage() {
   return (
@@ -19,7 +20,10 @@ export default function ReceptionistPage() {
           <div className="flex flex-row">
             <div className="flex flex-col">
               <div className="flex flex-row justify-center items-center">
-                <FcCloseUpMode />
+                <FcCloseUpMode
+                  size={25}
+                  className="bg-[#1fbcf0] rounded-full "
+                />
 
                 <div className="flex flex-col">
                   <p className=""> Somehting</p>
@@ -27,7 +31,7 @@ export default function ReceptionistPage() {
                 </div>
               </div>
               <div className="flex flex-row justify-center items-center">
-                <FcCloseUpMode />
+                <BsPersonCheckFill />
 
                 <div className="flex flex-col">
                   <p className=""> Somehting</p>
@@ -37,7 +41,7 @@ export default function ReceptionistPage() {
             </div>
             <div className="flex flex-col">
               <div className="flex flex-row justify-center items-center">
-                <FcCloseUpMode />
+                <BsFillPersonPlusFill />
 
                 <div className="flex flex-col">
                   <p className=""> Somehting</p>
