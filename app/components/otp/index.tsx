@@ -11,6 +11,7 @@ import {
 } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 import React, { useRef, useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
 
 type userDataType = {
   userData: {
@@ -22,67 +23,65 @@ type userDataType = {
 export default function OtpSection({ userData }: userDataType) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
-  const [otp, setOtp] = useState<Array<string>>(["", "", "", "", ""]);
+  const [otp, setOtp] = useState("");
   const [showError, setShowError] = useState("");
 
   const router = useRouter();
-  // const handleSubmit = async () => {
-  //   try {
-  //     const response = await fetch("http://localhost:3000/api/auth/verifyotp", {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify({
-  //         otp: otp,
-  //         email: userData.email,
-  //         role: userData.role,
-  //       }),
-  //     });
 
-  //     const data = await response.json();
+  const inputsRefs = Array.from({ length: 5 }, () =>
+    useRef<HTMLInputElement>(null)
+  );
 
-  //     if (data.error) {
-  //       setShowError(data.error);
-  //     } else {
-  //       setShowError("");
-  //       router.push(`/${userData.role}`);
-  //     }
-  //   } catch (error) {
-  //     console.error("Error:", error);
-  //   }
-  // };
-
-  const inputRefs = useRef<(HTMLInputElement | null)[]>([]); // Ref to store references to input elements
-
-  const handleInputChange = (index: number, value: string) => {
-    if (value.length > 1) {
-      // If more than one digit entered, take only the last digit
-      value = value[value.length - 1];
-    }
-
-    setOtp((prevOtp) => {
-      const newOtp = [...prevOtp];
-      newOtp[index] = value; // Update the specific index with the entered value
-      return newOtp;
-    });
-
-    if (value && inputRefs.current[index + 1]) {
-      // Move cursor to the next input field if there's a value and next input field exists
-      inputRefs.current[index + 1]?.focus();
-    }
-  };
-
-  const handleFocus = (index: number) => {
-    if (otp[index] === "") {
-      // Move cursor to the previous input field if the current field is empty
-      inputRefs.current[index - 1]?.focus();
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    index: number
+  ) => {
+    const value = e.target.value;
+    setOtp((prevOtp) => prevOtp + value);
+    if (value && index < 4) {
+      inputsRefs[index + 1].current?.focus();
     }
   };
 
   const handleSubmit = async () => {
-    const enteredOtp = otp.join(""); // Combine individual digits to form OTP
-    // Your submission logic here
+    try {
+      const response = await fetch("http://localhost:3000/api/auth/verifyotp", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          otp: otp,
+          email: userData.email,
+          role: userData.role,
+        }),
+      });
+      const data = await response.json();
+
+      if (data.error) {
+        setShowError(data.error);
+      } else {
+        setShowError("");
+        const sendingOtpPromise = new Promise((resolve) => {
+          setTimeout(() => {
+            resolve(true);
+            // router.push(`/${userData.role}`);
+          }, 2000);
+        });
+
+        toast.promise(
+          sendingOtpPromise,
+          {
+            loading: "Please wait...",
+            success: "Login Success!",
+            error: "Error while verifying OTP",
+          },
+          { position: "bottom-center" }
+        );
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
 
   return (
@@ -101,15 +100,19 @@ export default function OtpSection({ userData }: userDataType) {
               />
 
               <div className="flex justify-center gap-2 w-full">
-                {otp.map((digit, index) => (
+                {[...Array(5)].map((_, index) => (
                   <Input
                     key={index}
-                    ref={(ref) => (inputRefs.current[index] = ref)} // Assign ref to input element
                     type="text"
-                    value={digit}
+                    variant={showError ? "flat" : "bordered"}
+                    className="max-w-10"
+                    classNames={{
+                      inputWrapper: "border-gray-500/40",
+                    }}
+                    color={showError ? "danger" : "default"}
                     maxLength={1}
-                    onChange={(e) => handleInputChange(index, e.target.value)}
-                    onFocus={() => handleFocus(index)}
+                    onChange={(e) => handleInputChange(e, index)}
+                    ref={inputsRefs[index]}
                   />
                 ))}
               </div>
@@ -122,7 +125,7 @@ export default function OtpSection({ userData }: userDataType) {
 
               <Button
                 variant="shadow"
-                className="my-2 bg-[#c2d3fc]"
+                className="my-2 bg-black/85 text-white"
                 onClick={handleSubmit}
               >
                 Submit
@@ -131,6 +134,7 @@ export default function OtpSection({ userData }: userDataType) {
           </>
         )}
       </ModalContent>
+      <Toaster />
     </Modal>
   );
 }
