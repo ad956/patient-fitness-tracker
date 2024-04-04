@@ -1,5 +1,3 @@
-import React from "react";
-
 export default async function getSessionReq(email: string, role: string) {
   const res = await fetch(`${process.env.SERVER_URL}auth/session`, {
     method: "POST",
