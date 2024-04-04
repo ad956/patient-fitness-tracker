@@ -36,7 +36,6 @@ export async function logout() {
   cookies().set("session", "", { expires: new Date(0) });
 }
 
-//
 export async function getSession() {
   const session = cookies().get("session")?.value;
   if (!session) return null;
