@@ -1,5 +1,6 @@
 "use client";
 
+import setSessionReq from "@sessions/setSessionReq";
 import {
   Modal,
   ModalBody,
@@ -12,6 +13,7 @@ import {
 import { useRouter } from "next/navigation";
 import React, { useRef, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
+import verifyOtp from "@lib/verifyOtp";
 
 type userDataType = {
   userData: {
@@ -44,43 +46,31 @@ export default function OtpSection({ userData }: userDataType) {
   };
 
   const handleSubmit = async () => {
-    try {
-      const response = await fetch("http://localhost:3000/api/auth/verifyotp", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          otp: otp,
-          email: userData.email,
-          role: userData.role,
-        }),
+    const data = await verifyOtp(userData.email, userData.role, otp);
+
+    if (data.error) {
+      setShowError(data.error);
+    } else {
+      setShowError("");
+
+      const sendingOtpPromise = new Promise((resolve) => {
+        setTimeout(() => {
+          resolve(true);
+
+          setSessionReq(userData.email, userData.role);
+          // router.push(`/${userData.role}`);
+        }, 2000);
       });
-      const data = await response.json();
 
-      if (data.error) {
-        setShowError(data.error);
-      } else {
-        setShowError("");
-        const sendingOtpPromise = new Promise((resolve) => {
-          setTimeout(() => {
-            resolve(true);
-            // router.push(`/${userData.role}`);
-          }, 2000);
-        });
-
-        toast.promise(
-          sendingOtpPromise,
-          {
-            loading: "Please wait...",
-            success: "Login Success!",
-            error: "Error while verifying OTP",
-          },
-          { position: "bottom-center" }
-        );
-      }
-    } catch (error) {
-      console.error("Error:", error);
+      toast.promise(
+        sendingOtpPromise,
+        {
+          loading: "Please wait...",
+          success: "Login Success!",
+          error: "Error while verifying OTP",
+        },
+        { position: "bottom-center" }
+      );
     }
   };
 
