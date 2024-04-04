@@ -7,6 +7,7 @@ export async function GET() {
     const res = await getSession();
 
     if (res) {
+      console.log("session on ways");
       return Response.json(
         { message: "Session get successfully", res },
         { status: 200 }
@@ -26,7 +27,7 @@ export async function GET() {
 // setting session
 export async function POST(req: Request) {
   const { email, role } = await req.json();
-
+  console.log("AT SERVER : " + email + " " + role);
   try {
     // from sessionUtils
     await setSession(email, role);
