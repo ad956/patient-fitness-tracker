@@ -1,5 +1,5 @@
 import { NextRequest } from "next/server";
-import { updateSession } from "./lib/authUtils";
+import { updateSession } from "@sessions/sessionUtils";
 
 export async function middleware(request: NextRequest) {
   await updateSessionMiddleware(request);
