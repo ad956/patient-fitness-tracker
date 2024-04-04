@@ -1,5 +1,5 @@
 export default async function setSessionReq(email: string, role: string) {
-  const res = await fetch(`${process.env.SERVER_URL}auth/session`, {
+  const res = await fetch(`http://localhost:3000/api/auth/session`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -10,5 +10,5 @@ export default async function setSessionReq(email: string, role: string) {
     }),
   });
   const setSessionData = await res.json();
-  console.log("Session set response:", setSessionData);
+  return setSessionData;
 }
