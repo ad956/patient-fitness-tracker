@@ -41,7 +41,10 @@ async function setOTP(loginBody: LoginBody) {
   const user = await collection.findOne({ email });
 
   if (!user || user.password !== loginBody.password) {
-    return Response.json({ error: "Invalid email or password" });
+    return Response.json(
+      { error: "Invalid email or password" },
+      { status: 401 }
+    );
   }
 
   const generatedOTP = generateSecureOTP();
@@ -65,5 +68,5 @@ async function setOTP(loginBody: LoginBody) {
   });
 
   if (!mailsent) return Response.json({ error: "Email Sending Failed" });
-  return Response.json({ message: "ok" });
+  return Response.json({ message: "ok" }, { status: 201 });
 }
