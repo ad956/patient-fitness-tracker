@@ -16,6 +16,8 @@ export async function loginAction(formData: FormData) {
 
     if (!response.ok) {
       const errorData = await response.json();
+      console.log("kon vetu login " + errorData);
+
       return Error(errorData.error || "Failed to login");
     }
 
