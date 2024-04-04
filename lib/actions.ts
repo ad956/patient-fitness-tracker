@@ -1,6 +1,6 @@
 "use server";
 
-import { logout } from "@/lib/authUtils";
+import { logout } from "@sessions/sessionUtils";
 import { redirect } from "next/navigation";
 
 export async function loginAction(formData: FormData) {
