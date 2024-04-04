@@ -23,7 +23,9 @@
       "@layouts/*": ["./app/layouts/*"],
       "@utils/*": ["./app/utils/*"],
       "@patient/*": ["./app/(pages)/patient/*"],
-      "@receptionist/*": ["./app/(pages)/receptionist/*"]
+      "@receptionist/*": ["./app/(pages)/receptionist/*"],
+      "@lib/*": ["./lib/*"],
+      "@sessions/*": ["./lib/sessions/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
