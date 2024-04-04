@@ -50,5 +50,5 @@ async function checkOTP(body: bodyType) {
 
   await collection.updateOne({ email }, { $set: { otp: "" } });
 
-  return Response.json({ message: "ok" });
+  return Response.json({ message: "ok" }, { status: 200 });
 }
