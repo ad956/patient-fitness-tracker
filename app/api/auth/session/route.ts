@@ -1,15 +1,21 @@
-import { setSession } from "@/lib/sessions/sessionUtils";
+import { getSession, logout, setSession } from "@sessions/sessionUtils";
 
 // get session
-export async function GET(req: Request) {
-  const { email, role } = await req.json();
-
+export async function GET() {
   try {
-    // from authUtils
-    await setSession(email, role);
+    // from sessionUtils
+    const res = await getSession();
+
+    if (res) {
+      return Response.json(
+        { message: "Session get successfully", res },
+        { status: 200 }
+      );
+    }
+
     return Response.json(
-      { message: "Session set successfully" },
-      { status: 200 }
+      { message: "Session isn't available", res },
+      { status: 401 }
     );
   } catch (error) {
     console.error("Error setting session:", error);
@@ -22,7 +28,7 @@ export async function POST(req: Request) {
   const { email, role } = await req.json();
 
   try {
-    // from authUtils
+    // from sessionUtils
     await setSession(email, role);
     return Response.json(
       { message: "Session set successfully" },
