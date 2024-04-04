@@ -2,7 +2,7 @@
 
 import { redirect } from "next/navigation";
 import LandingPage from "./layouts/LandingPage";
-import { getSession } from "@/lib/authUtils";
+import { getSession } from "@sessions/sessionUtils";
 
 export default async function Home() {
   const isAuthenticated = getSession();
