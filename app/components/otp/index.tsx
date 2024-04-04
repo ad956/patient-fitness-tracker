@@ -54,11 +54,10 @@ export default function OtpSection({ userData }: userDataType) {
       setShowError("");
 
       const sendingOtpPromise = new Promise((resolve) => {
-        setTimeout(() => {
+        setTimeout(async () => {
           resolve(true);
-
-          setSessionReq(userData.email, userData.role);
-          // router.push(`/${userData.role}`);
+          await setSessionReq(userData.email, userData.role);
+          router.push(`/${userData.role}`);
         }, 2000);
       });
 
