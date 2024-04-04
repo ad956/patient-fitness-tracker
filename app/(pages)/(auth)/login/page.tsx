@@ -1,5 +1,5 @@
 "use client";
-import { useState, type ChangeEvent, FormEvent } from "react";
+import { useState, type ChangeEvent, FormEvent, useRef } from "react";
 import { AiTwotoneEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { carouselData } from "@/app/utils/constants";
 import Carousel from "@/app/components/carousel";
@@ -18,6 +18,7 @@ import {
 import { MdOutlineKey, MdOutlineAlternateEmail } from "react-icons/md";
 import { loginAction } from "@/lib/actions";
 import OtpSection from "@/app/components/otp";
+import toast, { Toaster } from "react-hot-toast";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -28,10 +29,13 @@ export default function Login() {
   const [Error, setError] = useState(null || String);
   const [showOtp, setShowOtp] = useState(false);
   const [userData, setUserData] = useState({ email: "", role: "" });
+  const emailRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
 
   function handleEmailChange(e: ChangeEvent<HTMLInputElement>) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const isValidEmail = emailRegex.test(e.target.value);
+
     setEmailError(isValidEmail ? "" : "Please enter a valid email address");
     setEmail(e.target.value);
   }
@@ -40,10 +44,34 @@ export default function Login() {
     const passwordRegex =
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
     const isValidPassword = passwordRegex.test(e.target.value);
+    const missingComponents = [];
+
+    if (!/[a-z]/.test(e.target.value)) {
+      missingComponents.push("at least one lowercase letter");
+    }
+
+    if (!/[A-Z]/.test(e.target.value)) {
+      missingComponents.push("at least one uppercase letter");
+    }
+
+    if (!/[0-9]/.test(e.target.value)) {
+      missingComponents.push("at least one number");
+    }
+
+    if (!/[@$!%*?&]/.test(e.target.value)) {
+      missingComponents.push(
+        "at least one special character (@, $, !, %, *, ?, &)"
+      );
+    }
+
     setPasswordError(
       isValidPassword
         ? ""
-        : "Password must contain at least 8 characters, including at least one uppercase letter, one lowercase letter, one number, and one special character (@, $, !, %, *, ?, &)"
+        : missingComponents.length > 0
+        ? `Password must contain at least 8 characters, and ${missingComponents.join(
+            " and "
+          )}.`
+        : "Password is too short. It must be at least 8 characters long."
     );
     setPassword(e.target.value);
   }
@@ -64,21 +92,58 @@ export default function Login() {
     const formData = new FormData(e.currentTarget as HTMLFormElement);
 
     try {
-      await loginAction(formData);
-      setError("");
-      const userRole = formData.get("role");
-      const userEmail = formData.get("email");
-      if (userEmail) {
-        setUserData({
-          email: userEmail.toString(),
-          role: userRole?.toString() || "",
-        });
-        setShowOtp(true);
+      const isValidUser = await loginAction(formData);
+      if (isValidUser?.unauthorized) {
+        toast.error("Invalid email or password. Please try again.");
+      } else {
+        setError("");
+        const userRole = formData.get("role");
+        const userEmail = formData.get("email");
+        if (userEmail) {
+          setUserData({
+            email: userEmail.toString(),
+            role: userRole?.toString() || "",
+          });
+
+          const sendingOtpPromise = new Promise((resolve) => {
+            setTimeout(() => {
+              resolve(true);
+              setShowOtp(true);
+            }, 2000);
+          });
+
+          toast.promise(
+            sendingOtpPromise,
+            {
+              loading: "Please wait...",
+              success: "OTP Sent !",
+              error: "Error while sending OTP",
+            },
+            { position: "bottom-center" }
+          );
+        }
       }
     } catch (error) {
-      setError("Invalid email or password. Please try again.");
+      toast.error("Invalid email or password. Please try again.");
     }
   }
+
+  const showToast = (inputRef: React.RefObject<HTMLInputElement>) => {
+    if (inputRef.current?.name === "email") {
+      if (emailError) {
+        toast.error(emailError, {
+          position: "bottom-center",
+        });
+      }
+    }
+    if (inputRef.current?.name === "password") {
+      if (passwordError) {
+        toast.error(passwordError, {
+          position: "bottom-center",
+        });
+      }
+    }
+  };
 
   return (
     <div
@@ -109,6 +174,8 @@ export default function Login() {
             value={email}
             className="mx-2 my-1"
             onChange={handleEmailChange}
+            ref={emailRef}
+            onBlur={() => showToast(emailRef)}
           />
           <Input
             name="password"
@@ -133,10 +200,9 @@ export default function Login() {
               </button>
             }
             type={isVisible ? "text" : "password"}
+            ref={passwordRef}
+            onBlur={() => showToast(passwordRef)}
           />
-          {passwordError && (
-            <p className="text-red-700 text-sm">{passwordError}</p>
-          )}{" "}
           <Select
             name="role"
             isRequired
@@ -159,6 +225,7 @@ export default function Login() {
           >
             Forget password?
           </Link>
+          {/* passing the user data to otp section */}
           {showOtp && <OtpSection userData={userData} />}
           <Modal
             isOpen={!!Error}
@@ -208,6 +275,7 @@ export default function Login() {
             Sign Up
           </Link>
         </p>
+        <Toaster />
       </div>
       {/* // right part only visible from lg */}
       <div className="hidden lg:w-2/5 m-2 bg-[#161313] rounded-t-2xl rounded-br-2xl  rounded-bl-[40px]  lg:flex lg:flex-col lg:justify-center lg:items-center">
