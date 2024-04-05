@@ -9,6 +9,8 @@ import toast, { Toaster } from "react-hot-toast";
 import { MdAlternateEmail, MdOutlineKey } from "react-icons/md";
 import { PiUserCircleDuotone } from "react-icons/pi";
 import { IoPersonCircleOutline } from "react-icons/io5";
+import { signupAction } from "@/lib/actions";
+import OtpSection from "@/app/components/otp";
 
 export default function Signup() {
   const [firstName, setFirstName] = useState("");
@@ -24,6 +26,8 @@ export default function Signup() {
   const [confirmPassword, setconfirmPassword] = useState("");
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
   const [isVisible, setIsVisible] = useState(false);
+  const [showOtp, setShowOtp] = useState(false);
+  const [userData, setUserData] = useState({ email: "", role: "" });
 
   const firstNameRef = useRef<HTMLInputElement>(null);
   const lastNameRef = useRef<HTMLInputElement>(null);
@@ -150,7 +154,53 @@ export default function Signup() {
     setconfirmPassword(e.target.value);
   }
 
-  function handleFormSubmit() {}
+  async function handleFormSubmit(
+    e: React.FormEvent<HTMLFormElement>
+  ): Promise<void> {
+    e.preventDefault();
+
+    const formData = new FormData(e.currentTarget as HTMLFormElement);
+
+    try {
+      const signUpSuccess = true; // await signupAction(formData);
+      if (!signUpSuccess) {
+        toast.error("Error while creating account. Please try again.");
+      } else {
+        console.log("ate aave b h");
+
+        // set error
+        const userRole = formData.get("role");
+        const userEmail = formData.get("email");
+        if (userEmail) {
+          setUserData({
+            email: userEmail.toString(),
+            role: userRole?.toString() || "",
+          });
+
+          const sendingOtpPromise = new Promise((resolve) => {
+            setTimeout(() => {
+              resolve(true);
+              //   setShowOtp(true);
+            }, 2000);
+          });
+
+          toast.promise(
+            sendingOtpPromise,
+            {
+              loading: "Please wait...",
+              success:
+                "Almost done! Please use the OTP you received to complete signup. Thank you!",
+              error: "Error while sending OTP",
+            },
+            { position: "bottom-center", duration: 5000 }
+          );
+        }
+      }
+    } catch (error) {
+      toast.error("Error signing up");
+      console.error("Error signing up");
+    }
+  }
 
   const showToast = (inputRef: React.RefObject<HTMLInputElement>) => {
     if (inputRef.current?.name === "firstname") {
@@ -275,7 +325,7 @@ export default function Signup() {
             startContent={<MdAlternateEmail size={20} />}
             size="lg"
             value={email}
-            autoComplete="username"
+            autoComplete="email"
             className="mx-2 my-1"
             onChange={handleEmailChange}
             ref={emailRef}
@@ -286,6 +336,7 @@ export default function Signup() {
             variant="bordered"
             size="lg"
             placeholder="Password"
+            autoComplete="new-password"
             startContent={<MdOutlineKey />}
             value={password}
             onChange={handlePasswordChange}
@@ -312,6 +363,7 @@ export default function Signup() {
             variant="bordered"
             size="lg"
             placeholder="Confirm Password"
+            autoComplete="new-password"
             startContent={<MdOutlineKey />}
             value={confirmPassword}
             onChange={handleConfirmPasswordChange}
@@ -355,6 +407,10 @@ export default function Signup() {
             Sign up
           </Button>
         </form>
+        {/* passing the user data to otp section */}
+        {showOtp && <OtpSection userData={userData} />}
+
+        <Toaster />
 
         {/* <div className="flex justify-center gap-5 items-center">
           <div className="h-[1px] w-28 bg-gray-500" />
