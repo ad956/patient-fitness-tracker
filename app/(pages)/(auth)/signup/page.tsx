@@ -180,7 +180,7 @@ export default function Signup() {
           const sendingOtpPromise = new Promise((resolve) => {
             setTimeout(() => {
               resolve(true);
-              //   setShowOtp(true);
+              setShowOtp(true);
             }, 2000);
           });
 
