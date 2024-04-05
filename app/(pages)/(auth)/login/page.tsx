@@ -209,7 +209,7 @@ export default function Login() {
             items={roles}
             variant="bordered"
             size="md"
-            label="Select role"
+            label="Role"
             placeholder="Select who you are"
             className="mx-2 my-2"
           >
