@@ -1,19 +1,22 @@
 "use client";
 import { useState, useRef, type ChangeEvent } from "react";
-import Image from "next/image";
 import { AiTwotoneEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { carouselData, roles } from "@constants/index";
 import Carousel from "@/app/components/carousel";
 import Link from "next/link";
-import { Button, Input, Select, SelectItem } from "@nextui-org/react";
+import { Button, Image, Input, Select, SelectItem } from "@nextui-org/react";
 import toast, { Toaster } from "react-hot-toast";
 import { MdAlternateEmail, MdOutlineKey } from "react-icons/md";
-import { FaRegUserCircle, FaUserCircle } from "react-icons/fa";
 import { PiUserCircleDuotone } from "react-icons/pi";
-import { BsCalendar2Date } from "react-icons/bs";
+import { IoPersonCircleOutline } from "react-icons/io5";
 
 export default function Signup() {
-  const [name, setName] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [firstNameError, setFirstNameError] = useState(null || String);
+  const [lastName, setLastName] = useState("");
+  const [lastNameError, setLastNameError] = useState(null || String);
+  const [username, setUsername] = useState("");
+  const [usernameError, setUsernameError] = useState(null || String);
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState(null || String);
   const [password, setPassword] = useState("");
@@ -22,18 +25,49 @@ export default function Signup() {
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
   const [isVisible, setIsVisible] = useState(false);
 
-  const nameRef = useRef<HTMLInputElement>(null);
+  const firstNameRef = useRef<HTMLInputElement>(null);
+  const lastNameRef = useRef<HTMLInputElement>(null);
   const usernameRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const confirmPasswordRef = useRef<HTMLInputElement>(null);
-  const dobRef = useRef<HTMLInputElement>(null);
 
   const toggleVisibility = () => setIsVisible(!isVisible);
 
-  function handleNameChange(e: ChangeEvent<HTMLInputElement>) {
-    setName(e.target.value);
-    name;
+  function handleFirstNameChange(e: ChangeEvent<HTMLInputElement>) {
+    const firstNameRegex = /^[a-zA-Z'-]+$/;
+    const isValidFirstName = firstNameRegex.test(e.target.value);
+
+    setFirstNameError(
+      isValidFirstName
+        ? ""
+        : "First name must only contain letters, hyphens, and apostrophes"
+    );
+    setFirstName(e.target.value);
+  }
+
+  function handleLastNameChange(e: ChangeEvent<HTMLInputElement>) {
+    const lastNameRegex = /^[a-zA-Z'-]+(?: [a-zA-Z'-]+)*$/;
+    const isValidLastName = lastNameRegex.test(e.target.value);
+
+    setLastNameError(
+      isValidLastName
+        ? ""
+        : "Last name must only contain letters, hyphens, and apostrophes, with optional spaces between parts"
+    );
+    setLastName(e.target.value);
+  }
+
+  function handleUserNameChange(e: ChangeEvent<HTMLInputElement>) {
+    const usernameRegex = /^[a-zA-Z0-9]{5,10}$/;
+    const isValidUsername = usernameRegex.test(e.target.value);
+
+    setUsernameError(
+      isValidUsername
+        ? ""
+        : "Username must be between 5 and 10 characters long and contain only letters and numbers"
+    );
+    setUsername(e.target.value);
   }
 
   function handleEmailChange(e: ChangeEvent<HTMLInputElement>) {
@@ -119,6 +153,27 @@ export default function Signup() {
   function handleFormSubmit() {}
 
   const showToast = (inputRef: React.RefObject<HTMLInputElement>) => {
+    if (inputRef.current?.name === "firstname") {
+      if (firstNameError) {
+        toast.error(firstNameError, {
+          position: "bottom-center",
+        });
+      }
+    }
+    if (inputRef.current?.name === "lastname") {
+      if (lastNameError) {
+        toast.error(lastNameError, {
+          position: "bottom-center",
+        });
+      }
+    }
+    if (inputRef.current?.name === "username") {
+      if (usernameError) {
+        toast.error(usernameError, {
+          position: "bottom-center",
+        });
+      }
+    }
     if (inputRef.current?.name === "email") {
       if (emailError) {
         toast.error(emailError, {
@@ -174,34 +229,49 @@ export default function Signup() {
             <Input
               type="text"
               variant="bordered"
-              placeholder="Name"
-              startContent={<FaRegUserCircle size={20} />}
+              name="firstname"
+              placeholder="First name"
+              startContent={<IoPersonCircleOutline size={25} />}
               size="lg"
-              value={name}
-              autoComplete="username"
+              value={firstName}
               className="mx-2 my-1"
-              onChange={handleNameChange}
-              ref={nameRef}
-              onBlur={() => showToast(nameRef)}
+              onChange={handleFirstNameChange}
+              ref={firstNameRef}
+              onBlur={() => showToast(firstNameRef)}
             />
             <Input
               type="text"
               variant="bordered"
-              placeholder="Username"
-              startContent={<PiUserCircleDuotone size={25} />}
+              name="lastname"
+              placeholder="Last name"
+              startContent={<IoPersonCircleOutline size={25} />}
               size="lg"
-              value={name}
-              autoComplete="username"
+              value={lastName}
               className="mx-2 my-1"
-              onChange={handleNameChange}
-              ref={usernameRef}
-              onBlur={() => showToast(usernameRef)}
+              onChange={handleLastNameChange}
+              ref={lastNameRef}
+              onBlur={() => showToast(lastNameRef)}
             />
           </div>
+          <Input
+            type="text"
+            variant="bordered"
+            name="username"
+            placeholder="Username"
+            startContent={<PiUserCircleDuotone size={25} />}
+            size="lg"
+            value={username}
+            autoComplete="username"
+            className="mx-2 my-1"
+            onChange={handleUserNameChange}
+            ref={usernameRef}
+            onBlur={() => showToast(usernameRef)}
+          />
           <Input
             type="email"
             variant="bordered"
             placeholder="you@example.com"
+            name="email"
             startContent={<MdAlternateEmail size={20} />}
             size="lg"
             value={email}
@@ -277,12 +347,13 @@ export default function Signup() {
               <SelectItem key={roles.value}>{roles.label}</SelectItem>
             )}
           </Select>
-          <button
+          <Button
             type="submit"
+            variant="shadow"
             className="text-white text-lg rounded-lg bg-[#0d0909] h-12 ml-4 my-2"
           >
             Sign up
-          </button>
+          </Button>
         </form>
 
         {/* <div className="flex justify-center gap-5 items-center">
