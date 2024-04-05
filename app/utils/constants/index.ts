@@ -74,4 +74,11 @@ const states = [
   "West Bengal",
 ];
 
-export { carouselData, projectFeatures, states };
+const roles = [
+  { label: "Patient", value: "patient" },
+  { label: "Hospital", value: "hospital" },
+  { label: "Receptionist", value: "receptionist" },
+  { label: "Doctor", value: "doctor" },
+];
+
+export { carouselData, projectFeatures, states, roles };
