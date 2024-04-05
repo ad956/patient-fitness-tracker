@@ -25,6 +25,7 @@ export default function Signup() {
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const confirmPasswordRef = useRef<HTMLInputElement>(null);
+  const dobRef = useRef<HTMLInputElement>(null);
 
   const toggleVisibility = () => setIsVisible(!isVisible);
 
@@ -113,6 +114,9 @@ export default function Signup() {
     setconfirmPassword(e.target.value);
   }
 
+  function handleDobChange(e: ChangeEvent<HTMLInputElement>) {
+    console.log("=> " + e.target.value);
+  }
   function handleFormSubmit() {}
 
   const roles = [
@@ -157,7 +161,7 @@ export default function Signup() {
       </div>
 
       {/* left part */}
-      <div className="m-4 lg:w-2/5 flex flex-col gap-8 self-center">
+      <div className="m-4 lg:w-2/6 flex flex-col gap-8 self-center">
         <div className="flex justify-center items-center ">
           <Image src="patient.svg" height="50" width="50" alt="brand-logo" />
           <h2 className="ml-2 font-bold text-lg">Patient Fitness Tracker</h2>
@@ -169,7 +173,10 @@ export default function Signup() {
           </p>
         </div>
 
-        <form className="flex flex-col" onSubmit={handleFormSubmit}>
+        <form
+          className="flex flex-col justify-center tems-center"
+          onSubmit={handleFormSubmit}
+        >
           <div className="flex flex-row">
             <Input
               type="text"
@@ -263,37 +270,6 @@ export default function Signup() {
             ref={confirmPasswordRef}
             onBlur={() => showToast(confirmPasswordRef)}
           />
-
-          <div className="flex flex-row justify-center items-center">
-            <Select
-              name="role"
-              items={roles}
-              variant="bordered"
-              size="sm"
-              label="Gender"
-              placeholder="Select your gender"
-              className="mx-2 my-2"
-            >
-              {(roles) => (
-                <SelectItem key={roles.value}>{roles.label}</SelectItem>
-              )}
-            </Select>
-            <Input
-              name="dob"
-              type="date"
-              variant="bordered"
-              size="lg"
-              value={confirmPassword}
-              onChange={handleConfirmPasswordChange}
-              className="mx-2 my-1"
-              classNames={{
-                inputWrapper: "rounded-lg text-gray-500",
-                input: "text-sm",
-              }}
-              //   ref={confirmPasswordRef}
-              //   onBlur={() => showToast(confirmPasswordRef)}
-            />
-          </div>
 
           <Select
             name="role"
