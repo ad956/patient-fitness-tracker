@@ -1,5 +1,5 @@
 "use client";
-import { useState, type ChangeEvent, FormEvent, useRef } from "react";
+import { useState, type ChangeEvent, useRef } from "react";
 import { AiTwotoneEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { carouselData, roles } from "@constants/index";
 import Carousel from "@/app/components/carousel";
@@ -13,7 +13,6 @@ import {
   Modal,
   ModalContent,
   ModalBody,
-  useDisclosure,
 } from "@nextui-org/react";
 import { MdOutlineKey, MdOutlineAlternateEmail } from "react-icons/md";
 import { loginAction } from "@/lib/actions";
