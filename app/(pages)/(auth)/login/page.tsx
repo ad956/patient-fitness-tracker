@@ -1,7 +1,7 @@
 "use client";
 import { useState, type ChangeEvent, FormEvent, useRef } from "react";
 import { AiTwotoneEye, AiOutlineEyeInvisible } from "react-icons/ai";
-import { carouselData } from "@/app/utils/constants";
+import { carouselData, roles } from "@constants/index";
 import Carousel from "@/app/components/carousel";
 import {
   Button,
@@ -77,13 +77,6 @@ export default function Login() {
   }
 
   const toggleVisibility = () => setIsVisible(!isVisible);
-
-  const roles = [
-    { label: "Patient", value: "patient" },
-    { label: "Hospital", value: "hospital" },
-    { label: "Receptionist", value: "receptionist" },
-    { label: "Doctor", value: "doctor" },
-  ];
 
   async function handleFormSubmit(
     e: React.FormEvent<HTMLFormElement>

@@ -2,7 +2,7 @@
 import { useState, useRef, type ChangeEvent } from "react";
 import Image from "next/image";
 import { AiTwotoneEye, AiOutlineEyeInvisible } from "react-icons/ai";
-import { carouselData } from "@/app/utils/constants";
+import { carouselData, roles } from "@constants/index";
 import Carousel from "@/app/components/carousel";
 import Link from "next/link";
 import { Button, Input, Select, SelectItem } from "@nextui-org/react";
@@ -22,6 +22,8 @@ export default function Signup() {
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
   const [isVisible, setIsVisible] = useState(false);
 
+  const nameRef = useRef<HTMLInputElement>(null);
+  const usernameRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const confirmPasswordRef = useRef<HTMLInputElement>(null);
@@ -114,17 +116,8 @@ export default function Signup() {
     setconfirmPassword(e.target.value);
   }
 
-  function handleDobChange(e: ChangeEvent<HTMLInputElement>) {
-    console.log("=> " + e.target.value);
-  }
   function handleFormSubmit() {}
 
-  const roles = [
-    { label: "Patient", value: "patient" },
-    { label: "Hospital", value: "hospital" },
-    { label: "Receptionist", value: "receptionist" },
-    { label: "Doctor", value: "doctor" },
-  ];
   const showToast = (inputRef: React.RefObject<HTMLInputElement>) => {
     if (inputRef.current?.name === "email") {
       if (emailError) {
@@ -188,8 +181,8 @@ export default function Signup() {
               autoComplete="username"
               className="mx-2 my-1"
               onChange={handleNameChange}
-              ref={emailRef}
-              onBlur={() => showToast(emailRef)}
+              ref={nameRef}
+              onBlur={() => showToast(nameRef)}
             />
             <Input
               type="text"
@@ -201,8 +194,8 @@ export default function Signup() {
               autoComplete="username"
               className="mx-2 my-1"
               onChange={handleNameChange}
-              ref={emailRef}
-              onBlur={() => showToast(emailRef)}
+              ref={usernameRef}
+              onBlur={() => showToast(usernameRef)}
             />
           </div>
           <Input
