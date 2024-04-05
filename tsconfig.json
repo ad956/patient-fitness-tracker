@@ -22,6 +22,7 @@
       "@components/*": ["./app/components/*"],
       "@layouts/*": ["./app/layouts/*"],
       "@utils/*": ["./app/utils/*"],
+      "@constants/*": ["./app/utils/constants/*"],
       "@patient/*": ["./app/(pages)/patient/*"],
       "@receptionist/*": ["./app/(pages)/receptionist/*"],
       "@lib/*": ["./lib/*"],
