@@ -99,7 +99,7 @@ async function createAccount(signupBody: SignupBody) {
     { status: 201 }
   );
 
-  //   return Response.json({ error: "ATE VEN" }, { status: 201 });
+  return Response.json({ error: "ATE VEN" }, { status: 201 });
 
   //   const generatedOTP = generateSecureOTP();
   //   await collection.updateOne({ email }, { $set: { otp: generatedOTP } });
