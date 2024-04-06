@@ -115,7 +115,7 @@ async function createAccount(signupBody: SignupBody) {
     },
   });
 
-  if (!mailsent) return Response.json({ error: "Email Sending Failed" });
+  if (!mailsent) return Response.json({ error: "Signup email sending failed" });
   return Response.json(
     { message: "Account created successfully" },
     { status: 201 }
