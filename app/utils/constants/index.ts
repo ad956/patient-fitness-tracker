@@ -81,4 +81,73 @@ const roles = [
   { label: "Doctor", value: "doctor" },
 ];
 
-export { carouselData, projectFeatures, states, roles };
+const commonadditionalDetails = {
+  otp: "",
+  dob: "",
+  gender: "",
+  contact: "",
+  profile: "",
+  address: {
+    address_line_1: "",
+    address_line_2: "",
+    city: "",
+    state: "",
+    country: "",
+    zip_code: "",
+  },
+  current_hospital: "",
+  notifications: [],
+};
+
+const patientadditionalDetails = {
+  ...commonadditionalDetails,
+  physicalDetails: {
+    age: 0,
+    blood: "",
+    height: 0,
+    weight: 0,
+  },
+  progress: {
+    generalHealth: 0,
+    waterBalance: 0,
+    currentTreatment: 0,
+    pendingAppointments: 0,
+  },
+  activity: Array(7).fill(0),
+  healthConditions: Array(12).fill(0),
+};
+
+const hospitaladditionalDetails = {
+  otp: "",
+  contact: "",
+  profile: "",
+  address: {
+    address_line_1: "",
+    address_line_2: "",
+    city: "",
+    state: "",
+    country: "",
+    zip_code: "",
+  },
+};
+
+const doctoradditionalDetails = {
+  patients: [],
+  ...commonadditionalDetails,
+  specialty: "",
+};
+
+const receptionistadditionalDetails = {
+  ...commonadditionalDetails,
+};
+
+export {
+  carouselData,
+  projectFeatures,
+  states,
+  roles,
+  patientadditionalDetails,
+  hospitaladditionalDetails,
+  doctoradditionalDetails,
+  receptionistadditionalDetails,
+};
