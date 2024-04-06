@@ -94,57 +94,15 @@ async function createAccount(signupBody: SignupBody) {
   const user = { ...signupBody, ...additionalDetails };
 
   await collection.insertOne(user);
-  return Response.json(
-    { message: "Account created successfully" },
-    { status: 201 }
-  );
-
-  //   const generatedOTP = generateSecureOTP();
-  //   await collection.updateOne({ email }, { $set: { otp: generatedOTP } });
-
-  //   const send = {
-  //     to: user.email,
-  //     subject: "OTP Verification",
-  //     otp: generatedOTP,
-  //     name: user.name,
-  //   };
-
-  //   const mailsent = await sendEmail({
-  //     to: send.to,
-  //     subject: send.subject,
-  //     html: render(WelcomeTemplate(send.name, send.otp)),
-  //     from: {
-  //       name: "Patient Fitness Tracker",
-  //       address: "support@patientfitnesstracker.com",
-  //     },
-  //   });
-
-  //   if (!mailsent) return Response.json({ error: "Email Sending Failed" });
-  //   return Response.json({ message: "ok" }, { status: 201 });
-}
-
-async function setOTP(signupBody: SignupBody) {
-  const db = await dbConfig();
-
-  const collection = db.collection(signupBody.role);
-  const email = signupBody.email;
-  const user = await collection.findOne({ email });
-
-  if (!user || user.password !== signupBody.password) {
-    return Response.json(
-      { error: "Invalid email or password" },
-      { status: 401 }
-    );
-  }
 
   const generatedOTP = generateSecureOTP();
   await collection.updateOne({ email }, { $set: { otp: generatedOTP } });
 
   const send = {
     to: user.email,
-    subject: "OTP Verification",
+    subject: "Verification of OTP for Account Creation",
     otp: generatedOTP,
-    name: user.name,
+    name: user.firstname,
   };
 
   const mailsent = await sendEmail({
@@ -158,7 +116,10 @@ async function setOTP(signupBody: SignupBody) {
   });
 
   if (!mailsent) return Response.json({ error: "Email Sending Failed" });
-  return Response.json({ message: "ok" }, { status: 201 });
+  return Response.json(
+    { message: "Account created successfully" },
+    { status: 201 }
+  );
 }
 
 function checkMissingElements(body: SignupBody) {
