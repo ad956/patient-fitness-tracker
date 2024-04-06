@@ -36,20 +36,22 @@ export async function signupAction(formData: FormData) {
 
   const user = { firstname, lastname, username, email, password, role };
 
-  // try {
-  //   const response = await fetch("http://localhost:3000/api/auth/signup", {
-  //     method: "POST",
-  //     body: JSON.stringify({ user }),
-  //   });
+  console.log(user);
 
-  //   const userData = await response.json();
+  try {
+    const response = await fetch("http://localhost:3000/api/auth/signup", {
+      method: "POST",
+      body: JSON.stringify(user),
+    });
 
-  //   if (!response.ok) {
-  return { msg: "userData.error", failure: false };
-  //   } else return userData;
-  // } catch (error) {
-  //   console.error("Login failed:", error);
-  // }
+    const userData = await response.json();
+
+    if (!response.ok) {
+      return { msg: userData.error, failure: true };
+    } else return userData;
+  } catch (error) {
+    console.error("Signup failed:", error);
+  }
 }
 
 export async function logoutAction() {
