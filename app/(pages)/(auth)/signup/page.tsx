@@ -162,13 +162,10 @@ export default function Signup() {
     const formData = new FormData(e.currentTarget as HTMLFormElement);
 
     try {
-      const signUpSuccess = true; // await signupAction(formData);
-      if (!signUpSuccess) {
-        toast.error("Error while creating account. Please try again.");
+      const signUpSuccess = await signupAction(formData);
+      if (signUpSuccess.failure) {
+        toast.error(signUpSuccess.msg);
       } else {
-        console.log("ate aave b h");
-
-        // set error
         const userRole = formData.get("role");
         const userEmail = formData.get("email");
         if (userEmail) {
@@ -197,7 +194,7 @@ export default function Signup() {
         }
       }
     } catch (error) {
-      toast.error("Error signing up");
+      toast.error("Error signing up. Please try again!");
       console.error("Error signing up");
     }
   }
