@@ -1,10 +1,23 @@
 import dbConfig from "@/lib/db";
+import { decrypt } from "@/lib/sessions/sessionUtils";
+import { NextApiRequest } from "next";
 
-export async function GET() {
-  const mail = "anandsuthar956@gmail.com";
+export async function GET(req: NextApiRequest) {
+  let token;
+  if (req.headers && req.headers.authorization) {
+    token = req.headers.authorization.split(" ")[1];
+  }
+  console.log("receiving token " + token);
+
+  if (!token) {
+    return Response.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
   try {
     const db = await dbConfig();
     const collection = db.collection("patient");
+    const res = await decrypt(token);
+    const email = res.user.email;
 
     const projection = {
       _id: 0,
@@ -26,10 +39,7 @@ export async function GET() {
       healthConditions: 1,
     };
 
-    const patientData = await collection.findOne(
-      { email: mail },
-      { projection }
-    );
+    const patientData = await collection.findOne({ email }, { projection });
 
     if (!patientData) {
       return Response.json({ error: "Patient not found" }, { status: 404 });
