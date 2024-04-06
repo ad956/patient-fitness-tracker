@@ -86,7 +86,8 @@ const commonadditionalDetails = {
   dob: "",
   gender: "",
   contact: "",
-  profile: "",
+  profile:
+    "https://cdn.pixabay.com/photo/2021/07/02/04/48/user-6380868_1280.png",
   address: {
     address_line_1: "",
     address_line_2: "",
@@ -118,8 +119,8 @@ const patientadditionalDetails = {
 };
 
 const hospitaladditionalDetails = {
-  otp: "",
   contact: "",
+  otp: "",
   profile: "",
   address: {
     address_line_1: "",
@@ -129,6 +130,10 @@ const hospitaladditionalDetails = {
     country: "",
     zip_code: "",
   },
+  patients: [],
+  doctors: [],
+  receptionists: [],
+  notifications: [],
 };
 
 const doctoradditionalDetails = {
