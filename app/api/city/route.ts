@@ -1,8 +1,4 @@
-import data from "./data.json";
-
-type CityType = {
-  [key: string]: string[];
-};
+import dbConfig from "@/lib/db";
 
 export async function GET(req: Request) {
   try {
@@ -14,17 +10,24 @@ export async function GET(req: Request) {
       return new Response("State parameter is missing", { status: 400 });
     }
 
-    const jsonData: CityType = data;
+    const db = await dbConfig();
+    const collection = db.collection("citystate_hospitals");
 
-    if (!(state in jsonData)) {
+    const stateHospitals = await collection.findOne({
+      [state]: { $exists: true },
+    });
+
+    if (!stateHospitals) {
       return new Response("State not found", { status: 404 });
     }
 
-    const cities: string[] = jsonData[state];
+    const cities: string[] = Object.keys(stateHospitals[state]);
 
-    return new Response(JSON.stringify({ cities }), {
-      headers: { "Content-Type": "application/json" },
-    });
+    if (!cities) {
+      return Response.json(cities, { status: 404 });
+    }
+
+    return Response.json(cities, { status: 201 });
   } catch (error) {
     console.error("Error fetching state and city data:", error);
     return new Response("Internal Server Error", { status: 500 });
