@@ -14,22 +14,26 @@ import {
   ModalContent,
   ModalHeader,
   useDisclosure,
+  Spinner,
 } from "@nextui-org/react";
-import { states } from "@/app/utils/constants";
 
 export default function BookAppointment() {
-  const [state, setState] = useState("");
+  const [states, setStates] = useState<string[]>([]);
+  const [selectedState, setSelectedState] = useState("");
   const [cities, setCities] = useState<string[]>([]);
   const [selectedCity, setSelectedCity] = useState("");
   const [selectedHospital, setSelectedHospital] = useState("");
   const [selectedDisease, setSelectedDisease] = useState("");
+  const [loadingStates, setLoadingStates] = useState(false);
   const [loadingCities, setLoadingCities] = useState(false);
   const [loadingHospitals, setLoadingHospitals] = useState(false);
   const [loadingDiseases, setLoadingDiseases] = useState(false);
   const [isOpenPopover, setIsOpenPopover] = useState(false);
   const [isOpenHospitalPopover, setIsOpenHospitalPopover] = useState(false);
   const [isOpenDiseasePopover, setIsOpenDiseasePopover] = useState(false);
-  const [hospitals, setHospitals] = useState<string[]>([]);
+  const [hospitals, setHospitals] = useState<
+    { hospital_id: string; hospital_name: string }[]
+  >([]);
   const [diseases, setDiseases] = useState<string[]>([]);
   const [additionalNote, setAdditionalNote] = useState("");
   const [noteError, setNoteError] = useState("");
@@ -40,7 +44,7 @@ export default function BookAppointment() {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const handleStateChange = (e: ChangeEvent<HTMLSelectElement>) => {
     const selectedState = e.target.value;
-    setState(selectedState);
+    setSelectedState(selectedState);
     setSelectedCity("");
     setIsOpenPopover(false);
   };
@@ -51,11 +55,16 @@ export default function BookAppointment() {
   };
 
   useEffect(() => {
-    if (state) {
+    setLoadingStates(true);
+    fetchStates();
+  }, []);
+
+  useEffect(() => {
+    if (selectedState) {
       setLoadingCities(true);
       fetchCities();
     }
-  }, [state]);
+  }, [selectedState]);
 
   useEffect(() => {
     if (selectedCity) {
@@ -71,16 +80,30 @@ export default function BookAppointment() {
     }
   }, [selectedHospital]);
 
+  const fetchStates = async () => {
+    try {
+      const response = await fetch(`http://localhost:3000/api/states`);
+      if (!response.ok) {
+        throw new Error("Failed to fetch states");
+      }
+      const data = await response.json();
+      setStates(data);
+    } catch (error) {
+      console.error("Error fetching cities:", error);
+    } finally {
+      setLoadingStates(false);
+    }
+  };
   const fetchCities = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3000/api/city/?state=${state}`
+        `http://localhost:3000/api/city/?state=${selectedState}`
       );
       if (!response.ok) {
         throw new Error("Failed to fetch cities");
       }
       const data = await response.json();
-      setCities(data.cities);
+      setCities(data);
     } catch (error) {
       console.error("Error fetching cities:", error);
     } finally {
@@ -91,13 +114,15 @@ export default function BookAppointment() {
   const fetchHospitals = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3000/api/gethospitals/?state=${state}&city=${selectedCity}`
+        `http://localhost:3000/api/gethospitals/?state=${selectedState}&city=${selectedCity}`
       );
       if (!response.ok) {
         throw new Error("Failed to fetch hospitals");
       }
       const data = await response.json();
-      setHospitals(data.hospitals);
+      console.log("hospitals : " + data);
+
+      setHospitals(data);
     } catch (error) {
       console.error("Error fetching hospitals:", error);
     } finally {
@@ -114,7 +139,7 @@ export default function BookAppointment() {
         throw new Error("Failed to fetch diseases");
       }
       const data = await response.json();
-      setDiseases(data.commonDiseases);
+      setDiseases(data);
     } catch (error) {
       console.error("Error fetching diseases:", error);
     } finally {
@@ -154,9 +179,8 @@ export default function BookAppointment() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            patient_email: "anandsuthar956@gmail.com",
             date: new Date(),
-            state,
+            state: selectedState,
             city: selectedCity,
             hospital: selectedHospital,
             disease: selectedDisease,
@@ -178,7 +202,7 @@ export default function BookAppointment() {
   }
 
   const isButtonDisabled =
-    !state ||
+    !selectedState ||
     !selectedCity ||
     !selectedHospital ||
     !selectedDisease ||
@@ -195,8 +219,15 @@ export default function BookAppointment() {
           placeholder="Select your state"
           className="max-w-xs"
           variant="bordered"
-          value={state}
+          value={selectedState}
           onChange={handleStateChange}
+          endContent={
+            loadingStates ? (
+              <Spinner color="primary" size="sm" className="bottom-1/2" />
+            ) : (
+              ""
+            )
+          }
           scrollShadowProps={{
             isEnabled: true,
           }}
@@ -210,7 +241,7 @@ export default function BookAppointment() {
 
         <Popover
           placement="right"
-          isOpen={isOpenPopover && !state}
+          isOpen={isOpenPopover && !selectedState}
           onOpenChange={(open) => setIsOpenPopover(open)}
         >
           <PopoverTrigger>
@@ -222,10 +253,17 @@ export default function BookAppointment() {
               variant="bordered"
               value={selectedCity}
               onChange={handleCityChange}
-              disabled={loadingCities || !state}
+              disabled={loadingCities || !selectedState}
               scrollShadowProps={{
                 isEnabled: true,
               }}
+              endContent={
+                loadingCities ? (
+                  <Spinner color="primary" size="sm" className="bottom-1/2" />
+                ) : (
+                  ""
+                )
+              }
             >
               {cities.map((city) => (
                 <SelectItem key={city} value={city}>
@@ -260,14 +298,21 @@ export default function BookAppointment() {
               variant="bordered"
               value={selectedHospital}
               onChange={handleHospitalChnage}
-              disabled={loadingCities || !state}
+              disabled={loadingCities || !selectedState}
               scrollShadowProps={{
                 isEnabled: true,
               }}
+              endContent={
+                loadingHospitals ? (
+                  <Spinner color="primary" size="sm" className="bottom-1/2" />
+                ) : (
+                  ""
+                )
+              }
             >
               {hospitals.map((item) => (
-                <SelectItem key={item} value={item}>
-                  {item}
+                <SelectItem key={item.hospital_id} value={item.hospital_id}>
+                  {item.hospital_name}
                 </SelectItem>
               ))}
             </Select>
@@ -301,6 +346,13 @@ export default function BookAppointment() {
               scrollShadowProps={{
                 isEnabled: true,
               }}
+              endContent={
+                loadingDiseases ? (
+                  <Spinner color="primary" size="sm" className="bottom-1/2" />
+                ) : (
+                  ""
+                )
+              }
             >
               {diseases.map((item) => (
                 <SelectItem key={item} value={item}>
