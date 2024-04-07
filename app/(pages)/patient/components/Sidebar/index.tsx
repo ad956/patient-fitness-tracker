@@ -27,7 +27,7 @@ export default function Sidebar() {
         return 2;
       case "/patient/payments":
         return 3;
-      case "/patient/hospitals":
+      case "/patient/medicalhistory":
         return 4;
       case "/patient/settings":
         return 5;
@@ -91,8 +91,8 @@ const sidebarButtons = [
     uri: "patient/payments",
   },
   {
-    title: "Hospitals",
-    uri: "patient/hospitals",
+    title: "Medical History",
+    uri: "patient/medicalhistory",
   },
 
   {
