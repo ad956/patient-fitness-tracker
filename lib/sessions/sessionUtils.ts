@@ -42,11 +42,6 @@ export async function getSession() {
   return await decrypt(session);
 }
 
-export async function getAccessToken() {
-  const session = cookies().get("session")?.value;
-  return session || null;
-}
-
 export async function updateSession(request: NextRequest) {
   const session = request.cookies.get("session")?.value;
   if (!session) return;
