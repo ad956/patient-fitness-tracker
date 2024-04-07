@@ -4,14 +4,14 @@ import Calendar from "./components/Calendar";
 import CarouselService from "./components/ServiceCarousel";
 import { Patient, bookedAppointments } from "@/types";
 import { getPatientData } from "@/lib/patient/getPatientData";
-import { notFound } from "next/navigation";
 import getUpcomingAppointments from "@/lib/patient/getUpcomingAppointments";
+import ErrorPage from "@/app/components/errorpage";
 
 export default async function PatientPage() {
   const { patient }: { patient: Patient } = await getPatientData();
 
   if (!patient) {
-    return notFound();
+    return ErrorPage("fetching patient data");
   }
 
   const upcomingAppointments: bookedAppointments =
