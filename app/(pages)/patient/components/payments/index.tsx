@@ -43,7 +43,8 @@ export default function Payments() {
       <Table aria-label="Payment history" className="h-5/6">
         <TableHeader>
           <TableColumn>Hospital</TableColumn>
-          <TableColumn>Type</TableColumn>
+          <TableColumn>Disease</TableColumn>
+          <TableColumn>Description</TableColumn>
           <TableColumn>Date</TableColumn>
           <TableColumn>Amount</TableColumn>
           <TableColumn>Status</TableColumn>
@@ -67,6 +68,7 @@ export default function Payments() {
                 </User>
               </TableCell>
               <TableCell>{payment.disease}</TableCell>
+              <TableCell>{payment.description}</TableCell>
               <TableCell>{payment.date}</TableCell>
               <TableCell>{payment.amount}</TableCell>
               <TableCell>
