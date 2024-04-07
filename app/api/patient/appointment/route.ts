@@ -1,7 +1,7 @@
 import dbConfig from "@/lib/db";
+import { getSession } from "@sessions/sessionUtils";
 
 type AppointmentBody = {
-  patient_email: string;
   date: string;
   state: string;
   city: string;
@@ -10,16 +10,17 @@ type AppointmentBody = {
   note: string;
 };
 
-export async function GET(req: Request) {
+export async function GET() {
   try {
-    const { searchParams } = new URL(req.url);
-    const email = searchParams.get("email");
+    const userSession = await getSession();
 
-    if (!email) {
-      return new Response("Email parameter is missing", {
-        status: 400,
-      });
-    }
+    if (!userSession)
+      return Response.json(
+        { error: "Patient session not found" },
+        { status: 401 }
+      );
+
+    const email = userSession?.user.email;
 
     const db = await dbConfig();
     const patient_collection = db.collection("patient");
@@ -45,7 +46,13 @@ export async function GET(req: Request) {
       });
     }
 
-    const projection = { _id: 1, name: 1, specialty: 1, profile: 1 };
+    const projection = {
+      _id: 1,
+      firstname: 1,
+      lastname: 1,
+      specialty: 1,
+      profile: 1,
+    };
     const doctorIds = appointments.map((appointment) => appointment.doctor_id);
     const doctor_collection = db.collection("doctor");
     const doctors = await doctor_collection
@@ -57,11 +64,9 @@ export async function GET(req: Request) {
         (doc) => doc._id.toString() === appointment.doctor_id.toString()
       );
 
-      // console.log("Appointment Doctor ID:", appointment.doctor_id);
-      // console.log("Found Doctor:", doctor);
       if (doctor) {
         appointment.doctor = {
-          name: doctor.name,
+          name: `${doctor.firstname} ${doctor.lastname}`,
           profile: doctor.profile,
           specialty: doctor.specialty,
         };
@@ -83,12 +88,22 @@ export async function POST(req: Request) {
   try {
     const body: AppointmentBody = await req.json();
 
-    const { patient_email, date, state, city, hospital, disease, note } = body;
+    const { date, state, city, hospital, disease, note } = body;
+
+    const userSession = await getSession();
+
+    if (!userSession)
+      return Response.json(
+        { error: "Patient session not found" },
+        { status: 401 }
+      );
+
+    const email = userSession?.user.email;
 
     const db = await dbConfig();
     const patient_collection = db.collection("patient");
 
-    const patient = await patient_collection.findOne({ email: patient_email });
+    const patient = await patient_collection.findOne({ email });
 
     if (!patient) {
       return Response.json({ error: "Patient not found" }, { status: 404 });
@@ -115,9 +130,12 @@ export async function POST(req: Request) {
         msg: "Error saving appointment info",
       });
 
-    return Response.json({
-      msg: "Appointment request added successfully",
-    });
+    return Response.json(
+      {
+        msg: "Appointment request added successfully",
+      },
+      { status: 200 }
+    );
   } catch (error) {
     console.error("Error adding appointment request:", error);
     return Response.json({ error: "Internal Server Error" }, { status: 500 });
