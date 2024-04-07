@@ -58,3 +58,18 @@ export interface PaymentsHistory {
   amount: number;
   status: string;
 }
+
+export interface MedicalHistoryType {
+  hospital: {
+    name: string;
+    profile: string;
+  };
+  doctor: {
+    name: string;
+    profile: string;
+  };
+  start_date: string;
+  end_date: string;
+  TreatmentStatus: "Completed" | "Ongoing";
+  disease: string;
+}
