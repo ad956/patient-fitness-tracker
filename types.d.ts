@@ -27,7 +27,7 @@ export type Patient = User & {
 
 export type bookedAppointments = [
   {
-    patient_email: string;
+    _id: string;
     date: string;
     timing: string;
     state: string;
@@ -38,11 +38,11 @@ export type bookedAppointments = [
     approved: string;
     patient_id: string;
     doctor_id: string;
+    receptionist_id: string;
     doctor: {
       name: string;
       profile: string;
       specialty: string;
     };
-    receptionist_id: string;
   }
 ];
