@@ -46,3 +46,15 @@ export type bookedAppointments = [
     };
   }
 ];
+
+export interface PaymentsHistory {
+  hospital: {
+    name: string;
+    profile: string;
+  };
+  disease: string;
+  description: string;
+  date: string;
+  amount: number;
+  status: string;
+}
