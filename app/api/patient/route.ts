@@ -1,23 +1,20 @@
 import dbConfig from "@/lib/db";
-import { decrypt } from "@/lib/sessions/sessionUtils";
-import { NextApiRequest } from "next";
+import { getSession } from "@sessions/sessionUtils";
 
-export async function GET(req: NextApiRequest) {
-  let token;
-  if (req.headers && req.headers.authorization) {
-    token = req.headers.authorization.split(" ")[1];
-  }
-  console.log("receiving token " + token);
+export async function GET() {
+  const userSession = await getSession();
 
-  if (!token) {
-    return Response.json({ error: "Unauthorized" }, { status: 401 });
-  }
+  if (!userSession)
+    return Response.json(
+      { error: "Patient session not found" },
+      { status: 401 }
+    );
+
+  const email = userSession?.user.email;
 
   try {
     const db = await dbConfig();
     const collection = db.collection("patient");
-    const res = await decrypt(token);
-    const email = res.user.email;
 
     const projection = {
       _id: 0,
