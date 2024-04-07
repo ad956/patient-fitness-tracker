@@ -1,8 +1,4 @@
-import data from "./data.json";
-
-type HospitalData = {
-  [state: string]: { [city: string]: string[] };
-};
+import dbConfig from "@/lib/db";
 
 export async function GET(req: Request) {
   try {
@@ -17,23 +13,28 @@ export async function GET(req: Request) {
       });
     }
 
-    const jsonData: HospitalData = data;
+    const db = await dbConfig();
+    const collection = db.collection("citystate_hospitals");
 
-    if (!(state in jsonData)) {
-      return new Response("State not found", { status: 404 });
-    }
-
-    const cities = jsonData[state];
-
-    if (!cities.hasOwnProperty(city)) {
-      return new Response("City not found", { status: 404 });
-    }
-
-    const hospitals = cities[city];
-
-    return new Response(JSON.stringify({ hospitals }), {
-      headers: { "Content-Type": "application/json" },
+    const stateHospitals = await collection.findOne({
+      [state]: { $exists: true },
     });
+
+    if (!stateHospitals) {
+      return new Response("No hospitals found for the specified state", {
+        status: 404,
+      });
+    }
+
+    const cityHospitals = stateHospitals[state][city];
+
+    if (!cityHospitals) {
+      return new Response("No hospitals found in the specified city", {
+        status: 404,
+      });
+    }
+
+    return new Response(JSON.stringify(cityHospitals), { status: 200 });
   } catch (error) {
     console.error("Error fetching hospital data:", error);
     return new Response("Internal Server Error", { status: 500 });
