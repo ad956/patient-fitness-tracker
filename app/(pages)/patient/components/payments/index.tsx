@@ -1,5 +1,6 @@
 "use client";
 
+import { PaymentsHistory } from "@/types";
 import {
   Chip,
   Spinner,
@@ -13,17 +14,8 @@ import {
 } from "@nextui-org/react";
 import { useState, useEffect } from "react";
 
-interface Payment {
-  Hospital: string;
-  Type: string;
-  Date: string;
-  Amount: number;
-  Status: string;
-  Image: string;
-}
-
 export default function Payments() {
-  const [payments, setPayments] = useState<Payment[]>([]);
+  const [payments, setPayments] = useState<PaymentsHistory[]>([]);
 
   useEffect(() => {
     async function fetchPayments() {
@@ -35,6 +27,8 @@ export default function Payments() {
           throw new Error("Failed to fetch payments");
         }
         const data = await response.json();
+        console.log(data);
+
         setPayments(data);
       } catch (error) {
         console.error("Error fetching payments:", error);
@@ -65,26 +59,26 @@ export default function Payments() {
                 <User
                   avatarProps={{
                     radius: "lg",
-                    src: payment.Image,
+                    src: payment.hospital.profile,
                   }}
-                  name={payment.Hospital}
+                  name={payment.hospital.name}
                 >
                   abc
                 </User>
               </TableCell>
-              <TableCell>{payment.Type}</TableCell>
-              <TableCell>{payment.Date}</TableCell>
-              <TableCell>{payment.Amount}</TableCell>
+              <TableCell>{payment.disease}</TableCell>
+              <TableCell>{payment.date}</TableCell>
+              <TableCell>{payment.amount}</TableCell>
               <TableCell>
                 <Chip
                   className="capitalize"
                   color={`${
-                    payment.Status === "Completed" ? "success" : "danger"
+                    payment.status === "Completed" ? "success" : "danger"
                   }`}
                   size="sm"
                   variant="flat"
                 >
-                  {payment.Status}
+                  {payment.status}
                 </Chip>
               </TableCell>
             </TableRow>

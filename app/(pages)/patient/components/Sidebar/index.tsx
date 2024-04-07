@@ -6,7 +6,6 @@ import {
   MdOutlineCurrencyRupee,
   MdOutlineSpaceDashboard,
 } from "react-icons/md";
-import { RiMenu5Fill } from "react-icons/ri";
 import { useState } from "react";
 import { AiOutlineSchedule } from "react-icons/ai";
 import { CiHospital1 } from "react-icons/ci";
@@ -26,7 +25,7 @@ export default function Sidebar() {
         return 1;
       case "/patient/appointments":
         return 2;
-      case "/patient/transactions":
+      case "/patient/payments":
         return 3;
       case "/patient/hospitals":
         return 4;
@@ -88,8 +87,8 @@ const sidebarButtons = [
     uri: "patient/appointments",
   },
   {
-    title: "Transactions",
-    uri: "patient/transactions",
+    title: "Payments",
+    uri: "patient/payments",
   },
   {
     title: "Hospitals",
