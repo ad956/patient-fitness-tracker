@@ -2,6 +2,7 @@ import { NextRequest } from "next/server";
 import { updateSession } from "@sessions/sessionUtils";
 
 export async function middleware(request: NextRequest) {
+  // console.log("CALLED");
   await updateSessionMiddleware(request);
   // redirectMiddleware(request);
 }
@@ -23,6 +24,7 @@ async function updateSessionMiddleware(request: NextRequest) {
 //   }
 // }
 
+// Optionally, don't invoke Middleware on some paths
 // export const config = {
 //   matcher: ["/((?!api|_next/static|_next/image|.*\\.png$).*)"],
 //   missing: [
