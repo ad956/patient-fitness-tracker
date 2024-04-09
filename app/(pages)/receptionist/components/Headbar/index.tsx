@@ -3,16 +3,16 @@ import { Avatar, Button, Divider, Input, Link, User } from "@nextui-org/react";
 import { GoPlus } from "react-icons/go";
 import { logoutAction } from "@/lib/actions";
 import Notifications from "@receptionist/components/Notifications";
-import { getPatientData } from "@/lib/patient/getPatientData";
-import { Patient, bookedAppointments } from "@/types";
-import { notFound } from "next/navigation";
+import { Receptionist, bookedAppointments } from "@/types";
 import getUpcomingAppointments from "@/lib/patient/getUpcomingAppointments";
+import ErrorPage from "@components/errorpage";
+import { getReceptionistData } from "@/lib/receptionist/getReceptionistData";
 
 export default async function Headbar() {
-  const { patient }: { patient: Patient } = await getPatientData();
+  const receptionist: Receptionist = await getReceptionistData();
 
-  if (!patient) {
-    return notFound();
+  if (!receptionist) {
+    return ErrorPage("fetching receptionist data");
   }
 
   const upcomingAppointments: bookedAppointments =
@@ -73,16 +73,16 @@ export default async function Headbar() {
         <Divider orientation="vertical" className="h-8 bg-gray-500" />
 
         <User
-          name={patient.firstname}
+          name={receptionist.firstname}
           avatarProps={{
-            src: patient.profile,
+            src: receptionist.profile,
           }}
           description={
             <Link
               href={`${process.env.BASE_URL}/patient/settings`}
               color="primary"
               className="text-xs"
-            >{`@${patient.username}`}</Link>
+            >{`@${receptionist.username}`}</Link>
           }
         />
 

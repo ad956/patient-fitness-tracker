@@ -21,7 +21,7 @@ export default function Sidebar() {
     switch (pathname) {
       case "/receptionist/":
         return 0;
-      case "/receptionist/qrcode":
+      case "/receptionist/qrscanner":
         return 1;
       case "/receptionist/appointments":
         return 2;
@@ -79,8 +79,8 @@ const sidebarButtons = [
     uri: "receptionist/",
   },
   {
-    title: "QR Code",
-    uri: "receptionist/qrcode",
+    title: "QR Scanner",
+    uri: "receptionist/qrscanner",
   },
   {
     title: "Appointment",
