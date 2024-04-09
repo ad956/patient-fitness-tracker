@@ -25,6 +25,8 @@ export type Patient = User & {
   healthConditions: number[];
 };
 
+export type Receptionist = User & {};
+
 export type bookedAppointments = [
   {
     _id: string;
