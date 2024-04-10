@@ -1,6 +1,7 @@
 export async function getPatientData() {
   const res = await fetch(`http://localhost:3000/api/patient`, {
-    next: { revalidate: 10 },
+    // next: { revalidate: 10 },
+    cache: "no-store",
   });
 
   if (!res.ok) {

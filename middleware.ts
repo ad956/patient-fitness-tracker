@@ -3,7 +3,7 @@ import { updateSession } from "@sessions/sessionUtils";
 
 export async function middleware(request: NextRequest) {
   // console.log("CALLED");
-  await updateSessionMiddleware(request);
+  // await updateSessionMiddleware(request);
   // redirectMiddleware(request);
 }
 

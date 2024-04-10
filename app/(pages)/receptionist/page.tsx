@@ -15,8 +15,17 @@ import {
   BsPersonCheckFill,
   BsPersonLinesFill,
 } from "react-icons/bs";
+import { Receptionist } from "@/types";
+import { getReceptionistData } from "@/lib/receptionist/getReceptionistData";
+import { getSession } from "@/lib/sessions/sessionUtils";
 
-export default function ReceptionistPage() {
+export default async function ReceptionistPage() {
+  // const { receptionist }: { receptionist: Receptionist } =
+  //   await getReceptionistData();
+
+  const data = await getSession();
+  console.log(data.user);
+
   return (
     <section className="bg-[#f3f6fd] overflow-hidden p-2">
       <div className="grid grid-cols-5 grid-rows-5 h-full gap-3">

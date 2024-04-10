@@ -3,13 +3,21 @@ import { Avatar, Button, Divider, Input, Link, User } from "@nextui-org/react";
 import { GoPlus } from "react-icons/go";
 import { logoutAction } from "@/lib/actions";
 import Notifications from "@receptionist/components/Notifications";
-import { Receptionist, bookedAppointments } from "@/types";
+import { Patient, Receptionist, bookedAppointments } from "@/types";
 import getUpcomingAppointments from "@/lib/patient/getUpcomingAppointments";
 import ErrorPage from "@components/errorpage";
 import { getReceptionistData } from "@/lib/receptionist/getReceptionistData";
+import { getPatientData } from "@/lib/patient/getPatientData";
 
 export default async function Headbar() {
-  const receptionist: Receptionist = await getReceptionistData();
+  const { receptionist }: { receptionist: Receptionist } =
+    await getReceptionistData();
+
+  // const { patient }: { patient: Patient } = await getPatientData();
+
+  // if (!patient) {
+  //   return ErrorPage("fetching receptionist data");
+  // }
 
   if (!receptionist) {
     return ErrorPage("fetching receptionist data");

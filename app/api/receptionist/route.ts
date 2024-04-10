@@ -4,7 +4,7 @@ import { getSession } from "@sessions/sessionUtils";
 export async function GET() {
   const userSession = await getSession();
 
-  console.log("session is  : " + userSession);
+  // console.log("session is  : " + userSession);
 
   if (!userSession)
     return Response.json(
@@ -41,7 +41,8 @@ export async function GET() {
       );
     }
 
-    return Response.json({ receptionist: receptionistData }, { status: 200 });
+    return Response.json({ receptionistData }, { status: 200 });
+    // return Response.json({ receptionist: receptionistData }, { status: 200 });
   } catch (error) {
     console.error("Error fetching receptionist data:", error);
     return Response.json({ error: "Internal Server Error" }, { status: 500 });
