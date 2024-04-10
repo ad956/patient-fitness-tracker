@@ -56,6 +56,7 @@ export default function OtpSection({ userData }: userDataType) {
       const sendingOtpPromise = new Promise((resolve) => {
         setTimeout(async () => {
           resolve(true);
+          // as the setSession method uses next/headers it can't be called from a client componnet
           await setSessionReq(userData.email, userData.role);
           router.push(`/${userData.role}`);
         }, 2000);
