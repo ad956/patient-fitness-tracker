@@ -10,24 +10,24 @@ import { getReceptionistData } from "@/lib/receptionist/getReceptionistData";
 import { getPatientData } from "@/lib/patient/getPatientData";
 
 export default async function Headbar() {
-  const { receptionist }: { receptionist: Receptionist } =
-    await getReceptionistData();
+  // const { receptionist }: { receptionist: Receptionist } =
+  //   await getReceptionistData();
 
-  // const { patient }: { patient: Patient } = await getPatientData();
+  const { patient }: { patient: Patient } = await getPatientData();
 
-  // if (!patient) {
-  //   return ErrorPage("fetching receptionist data");
-  // }
-
-  if (!receptionist) {
+  if (!patient) {
     return ErrorPage("fetching receptionist data");
   }
+
+  // if (!receptionist) {
+  //   return ErrorPage("fetching receptionist data");
+  // }
 
   const upcomingAppointments: bookedAppointments =
     await getUpcomingAppointments();
 
   return (
-    <div className="bg-[#f3f6fd] p-4 flex flex-row justify-between mr-5">
+    <div className="bg-[#f3f6fd] p-4 flex flex-row justify-between">
       <div className="flex items-center gap-5 w-3/5">
         <p className="text-lg font-semibold tracking-wider">
           Patient Fitness Tracker
@@ -81,16 +81,16 @@ export default async function Headbar() {
         <Divider orientation="vertical" className="h-8 bg-gray-500" />
 
         <User
-          name={receptionist.firstname}
+          name={patient.firstname}
           avatarProps={{
-            src: receptionist.profile,
+            src: patient.profile,
           }}
           description={
             <Link
               href={`${process.env.BASE_URL}/patient/settings`}
               color="primary"
               className="text-xs"
-            >{`@${receptionist.username}`}</Link>
+            >{`@${patient.username}`}</Link>
           }
         />
 
