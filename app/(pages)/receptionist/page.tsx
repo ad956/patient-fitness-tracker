@@ -18,26 +18,27 @@ import {
 import { Receptionist } from "@/types";
 import { getReceptionistData } from "@/lib/receptionist/getReceptionistData";
 import { getSession } from "@/lib/sessions/sessionUtils";
+import { WeeklyProgress } from "./components/Graphs";
 
 export default async function ReceptionistPage() {
   // const { receptionist }: { receptionist: Receptionist } =
   //   await getReceptionistData();
 
-  const data = await getSession();
-  console.log(data.user);
+  // const data = await getSession();
+  // console.log(data.user);
 
   return (
-    <section className="bg-[#f3f6fd] overflow-hidden p-2">
-      <div className="grid grid-cols-5 grid-rows-5 h-full gap-3">
-        <Card className="row-span-2 col-span-2 flex flex-col justify-evenly items-center p-5">
-          <p className="text-sm font-semibold self-start">Statistics</p>
-          <div className="flex flex-row justify-between items-center w-4/5">
-            <div className="flex flex-col justify-center items-start gap-5 border2 border-orange-500">
+    <section className="bg-[#f3f6fd] overflowhidden p-2 h-full">
+      <div className="border2 border-rose-600 grid grid-cols-7 grid-rows-5 h-full gap-3">
+        <Card className="row-span-2 col-span-2 flex flex-col gap-10 items-center p-5">
+          <p className="text-sm font-semibold self-start">Patient Statistics</p>
+          <div className="flex flex-row justify-around gap-10 items-center w-full">
+            <div className="flex flex-col justify-center items-start gap-5">
               <div className="flex flex-row justify-center items-center gap-2">
                 <BsPersonLinesFill
-                  size={30}
+                  size={35}
                   fill="#fff"
-                  className="bg-black rounded-full p-2"
+                  className="bg-gradient-to-r from-yellow-500 to-pink-500 rounded-full p-2"
                 />
 
                 <div className="flex flex-col">
@@ -47,9 +48,9 @@ export default async function ReceptionistPage() {
               </div>
               <div className="flex flex-row justify-center items-center gap-2">
                 <BsFillPersonPlusFill
-                  size={30}
+                  size={35}
                   fill="#fff"
-                  className="bg-black rounded-full p-2"
+                  className="bg-success rounded-full p-2"
                 />
 
                 <div className="flex flex-col">
@@ -58,12 +59,12 @@ export default async function ReceptionistPage() {
                 </div>
               </div>
             </div>
-            <div className="flex flex-col justify-center items-start gap-5 border2 border-green-700">
+            <div className="flex flex-col justify-center items-start gap-5">
               <div className="flex flex-row justify-center items-center gap-2">
                 <BsPersonCheckFill
-                  size={30}
+                  size={35}
                   fill="#fff"
-                  className="bg-black rounded-full p-2"
+                  className="bg-secondary rounded-full p-2"
                 />
 
                 <div className="flex flex-col">
@@ -74,9 +75,9 @@ export default async function ReceptionistPage() {
 
               <div className="flex flex-row justify-center items-center gap-2">
                 <BsPersonBoundingBox
-                  size={30}
+                  size={35}
                   fill="#fff"
-                  className="bg-black rounded-full p-2"
+                  className="bg-warning rounded-full p-2"
                 />
 
                 <div className="flex flex-col">
@@ -87,62 +88,69 @@ export default async function ReceptionistPage() {
             </div>
           </div>
         </Card>
-        <Card className="col-span-1 flex justify-center gap-5 items-center p-5">
-          <Progress
-            size="sm"
-            radius="sm"
-            classNames={{
-              base: "max-w-md",
-              track: "drop-shadow-md border border-default",
-              indicator: "bg-gradient-to-r from-yellow-500 to-pink-500",
-              label: "tracking-wider font-bold text-xs",
-              value: "text-foreground/60 text-xs",
-            }}
-            label="General Health"
-            value={56}
-            // value={patient.progress.generalHealth}
-            showValueLabel={true}
-          />
-          <Progress
-            size="sm"
-            radius="sm"
-            color="secondary"
-            classNames={{
-              base: "max-w-md",
-              track: "drop-shadow-md border border-default",
+        <Card className="row-span-2 col-span-2 flex flex-col gap-5 items-center p-5">
+          <p className="text-sm font-semibold self-start">Todays Statistics</p>
 
-              label: "tracking-wider font-bold text-xs",
-              value: "text-foreground/60 text-xs",
-            }}
-            label="Water Balance"
-            value={87}
-            // value={patient.progress.waterBalance}
-            showValueLabel={true}
-          />
-        </Card>
-        <Card className="col-span-1 flex justify-center gap-5 items-center p-5">
-          <Progress
-            size="sm"
-            radius="sm"
-            color="success"
-            classNames={{
-              base: "max-w-md",
-              track: "drop-shadow-md border border-default",
-              label: "tracking-wider font-bold text-xs",
-              value: "text-foreground/60 text-xs",
-            }}
-            label="Current Treatment"
-            value={96}
-            // value={patient.progress.currentTreatment}
-            showValueLabel={true}
-          />
           <Tooltip
             showArrow={true}
             placement="right-end"
             content={
               <div className="px-1 py-2">
                 <div className="text-small font-bold">Tip</div>
-                <div className="text-tiny">Each 10 % equals 1 appointment</div>
+                <div className="text-tiny">Each 1% equals 1 patient</div>
+              </div>
+            }
+          >
+            <Progress
+              size="sm"
+              radius="sm"
+              classNames={{
+                base: "max-w-md",
+                track: "drop-shadow-md border border-default",
+                indicator: "bg-gradient-to-r from-yellow-500 to-pink-500",
+                label: "tracking-wider font-bold text-xs",
+                value: "text-foreground/60 text-xs",
+              }}
+              label="Patients Waiting"
+              value={30}
+              // value={patient.progress.generalHealth}
+              showValueLabel={true}
+            />
+          </Tooltip>
+          <Tooltip
+            showArrow={true}
+            placement="right-end"
+            content={
+              <div className="px-1 py-2">
+                <div className="text-small font-bold">Tip</div>
+                <div className="text-tiny">Each 10 % equals 1 patient</div>
+              </div>
+            }
+          >
+            <Progress
+              size="sm"
+              radius="sm"
+              color="secondary"
+              classNames={{
+                base: "max-w-md",
+                track: "drop-shadow-md border border-default",
+
+                label: "tracking-wider font-bold text-xs",
+                value: "text-foreground/60 text-xs",
+              }}
+              label="Approved Patients"
+              value={30}
+              // value={patient.progress.waterBalance}
+              showValueLabel={true}
+            />
+          </Tooltip>
+          <Tooltip
+            showArrow={true}
+            placement="right-end"
+            content={
+              <div className="px-1 py-2">
+                <div className="text-small font-bold">Tip</div>
+                <div className="text-tiny">Each 10 % equals 1 patient</div>
               </div>
             }
           >
@@ -157,24 +165,21 @@ export default async function ReceptionistPage() {
                 value: "text-foreground/60 text-xs",
               }}
               label="Pending Appointments"
-              value={77}
+              value={17}
               // value={patient.progress.pendingAppointments}
               showValueLabel={true}
             />
           </Tooltip>
         </Card>
-        <Card className=" row-span-5 col-span-2 flex flex-col justify-center items-center p-5 w-full">
-          {/* <Calendar upcomingAppointments={upcomingAppointments} /> */}
-          {/* <CarouselService /> */}
+
+        <Card className="col-span-3 row-span-5 flex justify-center gap-5 items-center p-5">
+          PENDING REQUESTS
         </Card>
-        <Card className="col-span-2 row-span-2 flex flex-col justify-center items-center">
-          <p className="text-sm font-semibold self-start ml-4 pt-2">
-            Your Activity
-          </p>
-          {/* <WeeklyProgress progressData={patient.activity} /> */}
-        </Card>
-        <Card className="row-span-2 col-span-3">
-          {/* <HealthConditions progressData={patient.healthConditions} /> */}
+        <Card className="row-span-3 col-span-1  flex flex-col justify-evenly items-center p5">
+          kun h re thu
+          {/* <p className="text-sm font-semibold self-start">Statistics</p> */}
+          {/* todays accepted , pending and waiting ] */}
+          {/* <WeeklyProgress progressData={[10, 20, 30]} /> */}
         </Card>
       </div>
     </section>
