@@ -18,7 +18,8 @@ import {
 import { Receptionist } from "@/types";
 import { getReceptionistData } from "@/lib/receptionist/getReceptionistData";
 import { getSession } from "@/lib/sessions/sessionUtils";
-import { WeeklyProgress } from "./components/Graphs";
+import { WeeklyProgress, MonthlyVisitors } from "./components/Graphs";
+import PatientTabs from "./components/PatientTabs";
 
 export default async function ReceptionistPage() {
   // const { receptionist }: { receptionist: Receptionist } =
@@ -28,8 +29,8 @@ export default async function ReceptionistPage() {
   // console.log(data.user);
 
   return (
-    <section className="bg-[#f3f6fd] overflowhidden p-2 h-full">
-      <div className="border2 border-rose-600 grid grid-cols-7 grid-rows-5 h-full gap-3">
+    <section className="bg-[#f3f6fd] overflow-hidden p-2 h-full">
+      <div className="border2 border-rose-600 grid grid-cols-6 grid-rows-5 h-full gap-3">
         <Card className="row-span-2 col-span-2 flex flex-col gap-10 items-center p-5">
           <p className="text-sm font-semibold self-start">Patient Statistics</p>
           <div className="flex flex-row justify-around gap-10 items-center w-full">
@@ -172,14 +173,14 @@ export default async function ReceptionistPage() {
           </Tooltip>
         </Card>
 
-        <Card className="col-span-3 row-span-5 flex justify-center gap-5 items-center p-5">
-          PENDING REQUESTS
+        <Card className="row-span-6  col-span-2 flex justify-center gap-5 items-center p-5">
+          <PatientTabs />
         </Card>
-        <Card className="row-span-3 col-span-1  flex flex-col justify-evenly items-center p5">
-          kun h re thu
-          {/* <p className="text-sm font-semibold self-start">Statistics</p> */}
-          {/* todays accepted , pending and waiting ] */}
-          {/* <WeeklyProgress progressData={[10, 20, 30]} /> */}
+
+        <Card className="row-span-3 col-span-4  flex flex-col justify-evenly items-center p-2">
+          <MonthlyVisitors
+            progressData={[10, 30, 20, 40, 50, 50, 70, 80, 45, 55, 33, 77]}
+          />
         </Card>
       </div>
     </section>
