@@ -3,6 +3,7 @@ import { getSession } from "@sessions/sessionUtils";
 
 export async function GET() {
   const userSession = await getSession();
+  console.log("p sess :" + userSession);
 
   if (!userSession)
     return Response.json(
