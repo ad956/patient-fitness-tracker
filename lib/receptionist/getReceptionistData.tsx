@@ -1,7 +1,7 @@
 export async function getReceptionistData() {
   const res = await fetch(`http://localhost:3000/api/receptionist`, {
-    cache: "no-cache",
-    // next: { revalidate: 10 },
+    // cache: "no-cache",
+    next: { revalidate: 10 },
   });
 
   if (!res.ok) {
