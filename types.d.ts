@@ -97,3 +97,23 @@ export interface MedicalHistoryType {
   TreatmentStatus: "Completed" | "Ongoing";
   disease: string;
 }
+
+export interface PatientDetails {
+  patientDetails: any;
+  _id: string;
+  firstname: string;
+  lastname: string;
+  email: string;
+  dob: string;
+  gender: string;
+  contact: string;
+  profile: string;
+  address: {
+    address_line_1: string;
+    address_line_2: string;
+    city: string;
+    state: string;
+    country: string;
+    zip_code: string;
+  };
+}
