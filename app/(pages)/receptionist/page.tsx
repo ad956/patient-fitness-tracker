@@ -1,14 +1,5 @@
-import {
-  Card,
-  Avatar,
-  Divider,
-  Progress,
-  Tooltip,
-  Image,
-} from "@nextui-org/react";
+import { Card, Progress, Tooltip } from "@nextui-org/react";
 import React from "react";
-import Calendar from "../patient/components/Calendar";
-import { FcCloseUpMode } from "react-icons/fc";
 import {
   BsFillPersonPlusFill,
   BsPersonBoundingBox,
@@ -17,16 +8,15 @@ import {
 } from "react-icons/bs";
 import { Receptionist } from "@/types";
 import { getReceptionistData } from "@/lib/receptionist/getReceptionistData";
-import { getSession } from "@/lib/sessions/sessionUtils";
-import { WeeklyProgress, MonthlyVisitors } from "./components/Graphs";
+import { MonthlyVisitors } from "./components/Graphs";
 import PatientTabs from "./components/PatientTabs";
+import ErrorPage from "@/app/components/errorpage";
 
 export default async function ReceptionistPage() {
-  // const { receptionist }: { receptionist: Receptionist } =
-  //   await getReceptionistData();
+  const { receptionist }: { receptionist: Receptionist } =
+    await getReceptionistData();
 
-  // const data = await getSession();
-  // console.log(data.user);
+  if (!receptionist) return ErrorPage("fetching receptionist data");
 
   return (
     <section className="bg-[#f3f6fd] overflow-hidden p-2 h-full">
@@ -82,7 +72,9 @@ export default async function ReceptionistPage() {
                 />
 
                 <div className="flex flex-col">
-                  <p className="text-sm font-bold">4 New</p>
+                  <p className="text-sm font-bold">
+                    {receptionist.dailyCount.waiting} New
+                  </p>
                   <p className="text-xs text-black/80">Waiting for approval</p>
                 </div>
               </div>
@@ -113,8 +105,7 @@ export default async function ReceptionistPage() {
                 value: "text-foreground/60 text-xs",
               }}
               label="Patients Waiting"
-              value={30}
-              // value={patient.progress.generalHealth}
+              value={receptionist.dailyCount.waiting}
               showValueLabel={true}
             />
           </Tooltip>
@@ -140,8 +131,7 @@ export default async function ReceptionistPage() {
                 value: "text-foreground/60 text-xs",
               }}
               label="Approved Patients"
-              value={30}
-              // value={patient.progress.waterBalance}
+              value={receptionist.dailyCount.approved}
               showValueLabel={true}
             />
           </Tooltip>
@@ -166,8 +156,7 @@ export default async function ReceptionistPage() {
                 value: "text-foreground/60 text-xs",
               }}
               label="Pending Appointments"
-              value={17}
-              // value={patient.progress.pendingAppointments}
+              value={receptionist.dailyCount.pending}
               showValueLabel={true}
             />
           </Tooltip>
