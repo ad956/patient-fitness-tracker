@@ -1,5 +1,14 @@
+import { getSessionToken } from "../sessions/sessionUtils";
+
 export async function getPatientData() {
+  const session = await getSessionToken();
+
+  const headers = {
+    Authorization: `Bearer ${session}`,
+  };
+
   const res = await fetch(`http://localhost:3000/api/patient`, {
+    headers,
     next: { revalidate: 10 },
     // cache: "no-store",
   });
