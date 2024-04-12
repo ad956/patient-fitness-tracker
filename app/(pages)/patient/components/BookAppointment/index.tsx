@@ -19,12 +19,20 @@ import {
 import bookAppointment from "@/lib/patient/bookAppointment";
 import { SERVER_URL } from "@constants/index";
 
+type Hospital = {
+  hospital_id: string;
+  hospital_name: string;
+};
+
 export default function BookAppointment() {
   const [states, setStates] = useState<string[]>([]);
   const [selectedState, setSelectedState] = useState("");
   const [cities, setCities] = useState<string[]>([]);
   const [selectedCity, setSelectedCity] = useState("");
-  const [selectedHospital, setSelectedHospital] = useState("");
+  const [selectedHospital, setSelectedHospital] = useState<Hospital>({
+    hospital_id: "",
+    hospital_name: "",
+  });
   const [selectedDisease, setSelectedDisease] = useState("");
   const [loadingStates, setLoadingStates] = useState(false);
   const [loadingCities, setLoadingCities] = useState(false);
@@ -157,8 +165,19 @@ export default function BookAppointment() {
     }
   };
 
-  function handleHospitalChnage(e: ChangeEvent<HTMLSelectElement>): void {
-    setSelectedHospital(e.target.value);
+  function handleHospitalChange(e: ChangeEvent<HTMLSelectElement>): void {
+    const selectedId = e.target.value;
+
+    const selectedHospitalObj: Hospital | undefined = hospitals.find(
+      (hospital) => hospital.hospital_id === selectedId
+    );
+
+    if (selectedHospitalObj) {
+      setSelectedHospital({
+        hospital_id: selectedId,
+        hospital_name: selectedHospitalObj.hospital_name,
+      });
+    }
     setIsOpenHospitalPopover(false);
   }
 
@@ -196,7 +215,7 @@ export default function BookAppointment() {
   function clearSelected() {
     setSelectedState("");
     setSelectedCity("");
-    setSelectedHospital("");
+    // setSelectedHospital("");
     setSelectedDisease("");
     setAdditionalNote("");
   }
@@ -296,8 +315,8 @@ export default function BookAppointment() {
               placeholder="Select your preferred hospital"
               className="max-w-xs"
               variant="bordered"
-              value={selectedHospital}
-              onChange={handleHospitalChnage}
+              value={selectedHospital.hospital_name}
+              onChange={handleHospitalChange}
               disabled={loadingCities || !selectedState}
               scrollShadowProps={{
                 isEnabled: true,

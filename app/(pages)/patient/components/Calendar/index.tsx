@@ -29,7 +29,10 @@ export default function Calendar({
     timing: string;
     state: string;
     city: string;
-    hospital: string;
+    hospital: {
+      id: string;
+      name: string;
+    };
     disease: string;
     note: string;
     approved: string;
@@ -166,7 +169,7 @@ export default function Calendar({
                   </tr>
                   <tr className="border-b border-gray-200">
                     <td className="font-bold pr-4 py-2">Hospital</td>
-                    <td className="py-2">{appointmentDetail?.hospital}</td>
+                    <td className="py-2">{appointmentDetail?.hospital.name}</td>
                   </tr>
                   <tr className="border-b border-gray-200">
                     <td className="font-bold pr-4 py-2">Note</td>
