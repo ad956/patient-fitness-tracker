@@ -1,7 +1,7 @@
 import ErrorPage from "@components/errorpage";
 import { getPatientData } from "@/lib/patient/";
 import { Patient } from "@/types";
-import { Image, Input, Button, Card } from "@nextui-org/react";
+import { Input, Button, Card, Avatar } from "@nextui-org/react";
 import React from "react";
 
 export default async function ProfileSettings() {
@@ -23,7 +23,7 @@ export default async function ProfileSettings() {
 
       <div className="flex flex-row justify-around gap-5 p-5 items-center h-full w-full ">
         <div className="relative">
-          <Image src={patient.profile} radius="full" className="max-w-md" />
+          <Avatar src={patient.profile} className="w-48 h-48 text-large" />
         </div>
         <div className="flex flex-col w-full gap-5">
           <Input
@@ -51,7 +51,7 @@ export default async function ProfileSettings() {
             type="text"
             variant="underlined"
             label="DOB"
-            value={"patient."}
+            value={patient.dob}
             className="max-w-xs"
           />
         </div>

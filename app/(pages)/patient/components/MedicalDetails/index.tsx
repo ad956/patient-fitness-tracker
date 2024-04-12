@@ -15,25 +15,13 @@ import {
 } from "@nextui-org/react";
 import { useState, useEffect } from "react";
 
-export default function MedicalDetails() {
-  const [details, setDetails] = useState<MedicalHistoryType[]>([]);
+type MedicalDetailsProps = {
+  medicalDetails: MedicalHistoryType[];
+};
 
-  useEffect(() => {
-    async function fetchMedicalHistory() {
-      try {
-        const response = await getPatientMedicalHistory();
-        if (response.error) {
-          throw new Error("Failed to fetch payments");
-        }
-        setDetails(response);
-      } catch (error) {
-        console.error("Error fetching payments:", error);
-      }
-    }
-
-    fetchMedicalHistory();
-  }, []);
-
+export default function MedicalDetails({
+  medicalDetails,
+}: MedicalDetailsProps) {
   return (
     <div className="h-full w-full flex flex-col">
       <Table aria-label="Payment history" className="h/6">
@@ -47,10 +35,16 @@ export default function MedicalDetails() {
         </TableHeader>
         <TableBody
           emptyContent={
-            <Spinner className="" label="Loading..." color="warning" />
+            medicalDetails.length === 0 ? (
+              <div className="h-full w-full font-bold text-black/70 grid place-items-center">
+                No medical history available for this user.
+              </div>
+            ) : (
+              <Spinner className="" label="Loading..." color="warning" />
+            )
           }
         >
-          {details.map((history, index) => (
+          {medicalDetails.map((history, index) => (
             <TableRow key={index}>
               <TableCell>
                 <User

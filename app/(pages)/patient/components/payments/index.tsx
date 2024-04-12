@@ -15,26 +15,11 @@ import {
 } from "@nextui-org/react";
 import React from "react";
 
-export default function Payments() {
-  const [payments, setPayments] = React.useState<PaymentsHistory[]>([]);
+type paymentsPropType = {
+  paymentHistory: PaymentsHistory[];
+};
 
-  React.useEffect(() => {
-    async function fetchPayments() {
-      try {
-        // calling helper method to get payments data
-        const response = await getPayments();
-        if (response.error) {
-          throw new Error("Failed to fetch payments");
-        }
-        setPayments(response);
-      } catch (error) {
-        console.error("Error fetching payments : ", error);
-      }
-    }
-
-    fetchPayments();
-  }, []);
-
+export default function Payments({ paymentHistory }: paymentsPropType) {
   return (
     <div className="h-full w-full flex flex-col">
       <Table aria-label="Payment history" className="h-5/6">
@@ -48,10 +33,16 @@ export default function Payments() {
         </TableHeader>
         <TableBody
           emptyContent={
-            <Spinner className="" label="Loading..." color="danger" />
+            paymentHistory.length === 0 ? (
+              <div className="h-full w-full font-bold text-black/70 grid place-items-center">
+                No payments history available for this user.
+              </div>
+            ) : (
+              <Spinner className="" label="Loading..." color="warning" />
+            )
           }
         >
-          {payments.map((payment, index) => (
+          {paymentHistory.map((payment, index) => (
             <TableRow key={index}>
               <TableCell>
                 <User
