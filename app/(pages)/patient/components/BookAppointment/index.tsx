@@ -185,11 +185,20 @@ export default function BookAppointment() {
       setAppointmentSuccess(true);
       setShowSuccess(true);
       setShowFailed(false);
+      clearSelected();
     } catch (error) {
       console.error("Error booking apppointment:", error);
       setShowSuccess(false);
       setShowFailed(true);
     }
+  }
+
+  function clearSelected() {
+    setSelectedState("");
+    setSelectedCity("");
+    setSelectedHospital("");
+    setSelectedDisease("");
+    setAdditionalNote("");
   }
 
   const isButtonDisabled =
