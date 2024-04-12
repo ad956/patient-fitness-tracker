@@ -6,17 +6,24 @@ import {
   BsPersonCheckFill,
   BsPersonLinesFill,
 } from "react-icons/bs";
-import { Receptionist } from "@/types";
+import { PatientDetails, Receptionist } from "@/types";
 import { getReceptionistData } from "@/lib/receptionist/getReceptionistData";
 import { MonthlyVisitors } from "./components/Graphs";
 import PatientTabs from "./components/PatientTabs";
 import ErrorPage from "@/app/components/errorpage";
+import { getPendingAppointments } from "@/lib/receptionist/getPendingAppointments";
 
 export default async function ReceptionistPage() {
   const { receptionist }: { receptionist: Receptionist } =
     await getReceptionistData();
 
   if (!receptionist) return ErrorPage("fetching receptionist data");
+
+  const pendingPatients = await getPendingAppointments();
+
+  if (!pendingPatients) {
+    return ErrorPage("fetching patient appointments");
+  }
 
   return (
     <section className="bg-[#f3f6fd] overflow-hidden p-2 h-full">
@@ -163,7 +170,7 @@ export default async function ReceptionistPage() {
         </Card>
 
         <Card className="row-span-6  col-span-2 flex justify-center gap-5 items-center p-5">
-          <PatientTabs />
+          <PatientTabs pendingAppointments={pendingPatients} />
         </Card>
 
         <Card className="row-span-3 col-span-4  flex flex-col justify-evenly items-center p-2">
