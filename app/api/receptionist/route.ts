@@ -1,21 +1,19 @@
 import dbConfig from "@/lib/db";
-import { getSession } from "@sessions/sessionUtils";
+import { decryptSessionToken, getSession } from "@sessions/sessionUtils";
 
-export async function GET() {
-  const userSession = await getSession();
-
-  // console.log("session is  : " + userSession);
-
-  if (!userSession)
-    return Response.json(
-      { error: "receptionist session not found" },
-      { status: 401 }
-    );
-
-  const email = userSession?.user.email;
-  console.log("email : " + email);
+export async function GET(request: Request) {
+  const session = request.headers.get("Authorization");
+  if (!session) {
+    return Response.json({ error: "Unauthorized" }, { status: 401 });
+  }
 
   try {
+    const token = session.split("Bearer ")[1];
+
+    const decryptedUser = await decryptSessionToken(token);
+
+    const email = decryptedUser.user.email;
+
     const db = await dbConfig();
     const collection = db.collection("receptionist");
 
@@ -41,8 +39,7 @@ export async function GET() {
       );
     }
 
-    return Response.json({ receptionistData }, { status: 200 });
-    // return Response.json({ receptionist: receptionistData }, { status: 200 });
+    return Response.json({ receptionist: receptionistData }, { status: 200 });
   } catch (error) {
     console.error("Error fetching receptionist data:", error);
     return Response.json({ error: "Internal Server Error" }, { status: 500 });
