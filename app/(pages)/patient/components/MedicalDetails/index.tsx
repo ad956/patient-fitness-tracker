@@ -1,5 +1,6 @@
 "use client";
 
+import getPatientMedicalHistory from "@/lib/patient/getPatientMedicalHistory";
 import { MedicalHistoryType } from "@/types";
 import {
   Chip,
@@ -18,22 +19,19 @@ export default function MedicalDetails() {
   const [details, setDetails] = useState<MedicalHistoryType[]>([]);
 
   useEffect(() => {
-    async function fetchPayments() {
+    async function fetchMedicalHistory() {
       try {
-        const response = await fetch(
-          "http://localhost:3000/api/patient/medicalhistory"
-        );
-        if (!response.ok) {
+        const response = await getPatientMedicalHistory();
+        if (response.error) {
           throw new Error("Failed to fetch payments");
         }
-        const data = await response.json();
-        setDetails(data);
+        setDetails(response);
       } catch (error) {
         console.error("Error fetching payments:", error);
       }
     }
 
-    fetchPayments();
+    fetchMedicalHistory();
   }, []);
 
   return (
