@@ -16,6 +16,8 @@ import {
   useDisclosure,
   Spinner,
 } from "@nextui-org/react";
+import bookAppointment from "@/lib/patient/bookAppointment";
+import { SERVER_URL } from "@constants/index";
 
 export default function BookAppointment() {
   const [states, setStates] = useState<string[]>([]);
@@ -82,7 +84,7 @@ export default function BookAppointment() {
 
   const fetchStates = async () => {
     try {
-      const response = await fetch(`http://localhost:3000/api/states`);
+      const response = await fetch(`${SERVER_URL}states`);
       if (!response.ok) {
         throw new Error("Failed to fetch states");
       }
@@ -96,9 +98,7 @@ export default function BookAppointment() {
   };
   const fetchCities = async () => {
     try {
-      const response = await fetch(
-        `http://localhost:3000/api/city/?state=${selectedState}`
-      );
+      const response = await fetch(`${SERVER_URL}city/?state=${selectedState}`);
       if (!response.ok) {
         throw new Error("Failed to fetch cities");
       }
@@ -114,7 +114,7 @@ export default function BookAppointment() {
   const fetchHospitals = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3000/api/gethospitals/?state=${selectedState}&city=${selectedCity}`
+        `${SERVER_URL}gethospitals/?state=${selectedState}&city=${selectedCity}`
       );
       if (!response.ok) {
         throw new Error("Failed to fetch hospitals");
@@ -132,9 +132,7 @@ export default function BookAppointment() {
 
   const fetchDiseases = async () => {
     try {
-      const response = await fetch(
-        `http://localhost:3000/api/gethospitals/disease/`
-      );
+      const response = await fetch(`${SERVER_URL}gethospitals/disease/`);
       if (!response.ok) {
         throw new Error("Failed to fetch diseases");
       }
@@ -171,24 +169,17 @@ export default function BookAppointment() {
 
   async function handleAppointmentButtonClick(): Promise<void> {
     try {
-      const response = await fetch(
-        `http://localhost:3000/api/patient/appointment`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            date: new Date(),
-            state: selectedState,
-            city: selectedCity,
-            hospital: selectedHospital,
-            disease: selectedDisease,
-            note: additionalNote,
-          }),
-        }
-      );
-      if (!response.ok) {
+      const bookAppointmentData = {
+        date: new Date(),
+        state: selectedState,
+        city: selectedCity,
+        hospital: selectedHospital,
+        disease: selectedDisease,
+        note: additionalNote,
+      };
+
+      const response = await bookAppointment(bookAppointmentData);
+      if (response.error) {
         throw new Error("Failed to book appointment");
       }
       setAppointmentSuccess(true);
