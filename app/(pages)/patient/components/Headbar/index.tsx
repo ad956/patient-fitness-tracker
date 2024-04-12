@@ -63,7 +63,7 @@ export default async function Headbar() {
           variant="shadow"
           size="sm"
           className=" font-bold"
-          href={`${process.env.BASE_URL}/patient/appointments`}
+          href={`${process.env.BASE_URL}patient/appointments`}
         >
           <GoPlus size={20} />
         </Button>
@@ -79,7 +79,7 @@ export default async function Headbar() {
           }}
           description={
             <Link
-              href={`${process.env.BASE_URL}/patient/settings`}
+              href={`${process.env.BASE_URL}patient/settings`}
               color="primary"
               className="text-xs"
             >{`@${patient.username}`}</Link>
