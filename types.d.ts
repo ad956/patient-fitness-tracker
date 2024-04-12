@@ -6,6 +6,7 @@ export type User = {
   email: string;
   contact: string;
   profile: string;
+  dob: string;
 };
 
 export type Patient = User & {
@@ -25,7 +26,13 @@ export type Patient = User & {
   healthConditions: number[];
 };
 
-export type Receptionist = User & {};
+export type Receptionist = User & {
+  dailyCount: {
+    approved: number;
+    pending: number;
+    waiting: number;
+  };
+};
 
 export type bookedAppointments = [
   {
