@@ -121,7 +121,7 @@ export default async function PatientPage() {
             />
           </Tooltip>
         </Card>
-        <Card className=" row-span-5 col-span-2 flex flex-col justify-center items-center p-5 w-full">
+        <Card className=" row-span-5 col-span-2 flex flex-col gap-5 justify-center items-center p-5 w-full">
           <Calendar upcomingAppointments={upcomingAppointments} />
           <CarouselService />
         </Card>
