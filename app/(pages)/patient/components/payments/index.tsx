@@ -1,5 +1,6 @@
 "use client";
 
+import getPayments from "@/lib/patient/getPayments";
 import { PaymentsHistory } from "@/types";
 import {
   Chip,
@@ -12,24 +13,22 @@ import {
   TableRow,
   User,
 } from "@nextui-org/react";
-import { useState, useEffect } from "react";
+import React from "react";
 
 export default function Payments() {
-  const [payments, setPayments] = useState<PaymentsHistory[]>([]);
+  const [payments, setPayments] = React.useState<PaymentsHistory[]>([]);
 
-  useEffect(() => {
+  React.useEffect(() => {
     async function fetchPayments() {
       try {
-        const response = await fetch(
-          "http://localhost:3000/api/patient/payment"
-        );
-        if (!response.ok) {
+        // calling helper method to get payments data
+        const response = await getPayments();
+        if (response.error) {
           throw new Error("Failed to fetch payments");
         }
-        const data = await response.json();
-        setPayments(data);
+        setPayments(response);
       } catch (error) {
-        console.error("Error fetching payments:", error);
+        console.error("Error fetching payments : ", error);
       }
     }
 
