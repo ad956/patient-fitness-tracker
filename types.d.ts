@@ -41,7 +41,10 @@ export type bookedAppointments = [
     timing: string;
     state: string;
     city: string;
-    hospital: string;
+    hospital: {
+      id: string;
+      name: string;
+    };
     disease: string;
     note: string;
     approved: string;
@@ -60,7 +63,10 @@ export type bookingAppointment = {
   date: Date;
   state: string;
   city: string;
-  hospital: string;
+  hospital: {
+    hospital_id: string;
+    hospital_name: string;
+  };
   disease: string;
   note: string;
 };
