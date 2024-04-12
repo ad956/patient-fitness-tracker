@@ -1,6 +1,6 @@
 import { getSessionToken } from "../sessions/sessionUtils";
 
-export async function getPatientData() {
+async function getPatientData() {
   const session = await getSessionToken();
 
   const headers = {
@@ -21,3 +21,5 @@ export async function getPatientData() {
   const patientData = await res.json();
   return patientData;
 }
+
+export default getPatientData;
