@@ -49,6 +49,15 @@ export type bookedAppointments = [
   }
 ];
 
+export type bookingAppointment = {
+  date: Date;
+  state: string;
+  city: string;
+  hospital: string;
+  disease: string;
+  note: string;
+};
+
 export interface PaymentsHistory {
   hospital: {
     name: string;
