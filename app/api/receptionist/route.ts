@@ -25,6 +25,8 @@ export async function GET(request: Request) {
       email: 1,
       contact: 1,
       profile: 1,
+      dob: 1,
+      dailyCount: 1,
     };
 
     const receptionistData = await collection.findOne(

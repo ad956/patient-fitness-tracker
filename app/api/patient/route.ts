@@ -23,6 +23,7 @@ export async function GET(request: Request) {
       email: 1,
       contact: 1,
       profile: 1,
+      dob: 1,
       "physicalDetails.age": 1,
       "physicalDetails.blood": 1,
       "physicalDetails.height": 1,
