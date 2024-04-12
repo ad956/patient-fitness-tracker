@@ -1,6 +1,6 @@
-import { ObjectId } from "mongodb"; // Import ObjectId from mongodb library
+import { ObjectId } from "mongodb";
 import dbConfig from "@/lib/db";
-import { getSession } from "@sessions/sessionUtils";
+import { decryptSessionToken } from "@sessions/sessionUtils";
 
 interface Transaction {
   _id: ObjectId;
@@ -14,17 +14,15 @@ interface Hospital {
   profile: string;
 }
 
-export async function GET() {
+export async function GET(request: Request) {
+  const session = request.headers.get("Authorization");
+  if (!session) {
+    return Response.json({ error: "Unauthorized" }, { status: 401 });
+  }
   try {
-    const userSession = await getSession();
-
-    if (!userSession)
-      return Response.json(
-        { error: "Patient session not found" },
-        { status: 401 }
-      );
-
-    const email = userSession?.user.email;
+    const token = session.split("Bearer ")[1];
+    const decryptedUser = await decryptSessionToken(token);
+    const email = decryptedUser.user.email;
 
     const db = await dbConfig();
     const patientCollection = db.collection("patient");
