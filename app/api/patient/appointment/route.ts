@@ -1,5 +1,5 @@
 import dbConfig from "@/lib/db";
-import { getSession } from "@sessions/sessionUtils";
+import { decryptSessionToken } from "@sessions/sessionUtils";
 
 type AppointmentBody = {
   date: string;
@@ -10,17 +10,15 @@ type AppointmentBody = {
   note: string;
 };
 
-export async function GET() {
+export async function GET(request: Request) {
+  const session = request.headers.get("Authorization");
+  if (!session) {
+    return Response.json({ error: "Unauthorized" }, { status: 401 });
+  }
   try {
-    const userSession = await getSession();
-
-    if (!userSession)
-      return Response.json(
-        { error: "Patient session not found" },
-        { status: 401 }
-      );
-
-    const email = userSession?.user.email;
+    const token = session.split("Bearer ")[1];
+    const decryptedUser = await decryptSessionToken(token);
+    const email = decryptedUser.user.email;
 
     const db = await dbConfig();
     const patient_collection = db.collection("patient");
@@ -85,20 +83,18 @@ export async function GET() {
 }
 
 export async function POST(req: Request) {
+  const session = req.headers.get("Authorization");
+  if (!session) {
+    return Response.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
   try {
     const body: AppointmentBody = await req.json();
-
     const { date, state, city, hospital, disease, note } = body;
 
-    const userSession = await getSession();
-
-    if (!userSession)
-      return Response.json(
-        { error: "Patient session not found" },
-        { status: 401 }
-      );
-
-    const email = userSession?.user.email;
+    const token = session.split("Bearer ")[1];
+    const decryptedUser = await decryptSessionToken(token);
+    const email = decryptedUser.user.email;
 
     const db = await dbConfig();
     const patient_collection = db.collection("patient");
