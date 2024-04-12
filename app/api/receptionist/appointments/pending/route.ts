@@ -15,28 +15,69 @@ export async function GET(request: Request) {
     const email = decryptedUser.user.email;
 
     const db = await dbConfig();
-    const collection = db.collection("receptionist");
+    const receptionistCollection = db.collection("receptionist");
+    const bookedAppointmentsCollection = db.collection("bookedAppointments");
+    const patientCollection = db.collection("patient");
 
+    // Find the current_hospital for the receptionist
     const projection = {
       _id: 0,
       current_hospital: 1,
     };
-
-    const current_hospital = await collection.findOne(
+    const currentHospitalResult = await receptionistCollection.findOne(
       { email },
       { projection }
     );
-
-    if (!current_hospital) {
+    if (!currentHospitalResult) {
       return Response.json(
-        { error: "receptionist hospital isn't selected" },
+        { error: "Receptionist hospital isn't selected" },
+        { status: 404 }
+      );
+    }
+    const currentHospitalId = currentHospitalResult.current_hospital;
+
+    // Find the patient_ids from bookedAppointments where approved is "pending" and hospital.id matches current_hospital
+    const pendingAppointments = await bookedAppointmentsCollection
+      .find({
+        approved: "pending",
+        "hospital.id": currentHospitalId,
+      })
+      .toArray();
+    if (pendingAppointments.length === 0) {
+      return Response.json(
+        { error: "No pending appointments found for the current hospital" },
+        { status: 404 }
+      );
+    }
+    const patientIds = pendingAppointments.map(
+      (appointment) => appointment.patient_id
+    );
+
+    const projection_patient = {
+      firstname: 1,
+      lastname: 1,
+      email: 1,
+      dob: 1,
+      gender: 1,
+      contact: 1,
+      profile: 1,
+      address: 1,
+    };
+    // Fetch patient details using patient_ids
+    const patientDetails = await patientCollection
+      .find({ _id: { $in: patientIds } }, { projection: projection_patient })
+      .toArray();
+
+    if (patientDetails.length === 0) {
+      return Response.json(
+        { error: "Patient details not found" },
         { status: 404 }
       );
     }
 
-    return Response.json({ receptionist: current_hospital }, { status: 200 });
+    return Response.json({ patientDetails }, { status: 200 });
   } catch (error) {
-    console.error("Error fetching pending appointments data:", error);
+    console.error("Error fetching  pending patient appointments:", error);
     return Response.json({ error: "Internal Server Error" }, { status: 500 });
   }
 }
