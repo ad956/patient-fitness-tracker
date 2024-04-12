@@ -1,19 +1,17 @@
 import dbConfig from "@/lib/db";
-import { getSession } from "@sessions/sessionUtils";
+import { decryptSessionToken } from "@sessions/sessionUtils";
 
-export async function GET() {
-  const userSession = await getSession();
-  console.log("p sess :" + userSession);
-
-  if (!userSession)
-    return Response.json(
-      { error: "Patient session not found" },
-      { status: 401 }
-    );
-
-  const email = userSession?.user.email;
+export async function GET(request: Request) {
+  const session = request.headers.get("Authorization");
+  if (!session) {
+    return Response.json({ error: "Unauthorized" }, { status: 401 });
+  }
 
   try {
+    const token = session.split("Bearer ")[1];
+    const decryptedUser = await decryptSessionToken(token);
+    const email = decryptedUser.user.email;
+
     const db = await dbConfig();
     const collection = db.collection("patient");
 

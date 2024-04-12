@@ -1,5 +1,5 @@
 import dbConfig from "@/lib/db";
-import { decryptSessionToken, getSession } from "@sessions/sessionUtils";
+import { decryptSessionToken } from "@sessions/sessionUtils";
 
 export async function GET(request: Request) {
   const session = request.headers.get("Authorization");
