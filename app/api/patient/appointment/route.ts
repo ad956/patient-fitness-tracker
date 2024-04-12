@@ -1,6 +1,7 @@
 import dbConfig from "@/lib/db";
 import { bookingAppointment } from "@/types";
 import { decryptSessionToken } from "@sessions/sessionUtils";
+import { ObjectId } from "mongodb";
 
 export async function GET(request: Request) {
   const session = request.headers.get("Authorization");
@@ -102,7 +103,10 @@ export async function POST(req: Request) {
       date,
       state,
       city,
-      hospital,
+      hospital: {
+        id: new ObjectId(hospital.hospital_id),
+        name: hospital.hospital_name,
+      },
       disease,
       note,
       approved: "pending",
