@@ -1,4 +1,3 @@
-"use server";
 import { getSessionToken } from "@sessions/sessionUtils";
 
 export default async function getPatientMedicalHistory() {
