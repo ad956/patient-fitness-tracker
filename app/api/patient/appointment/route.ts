@@ -1,14 +1,6 @@
 import dbConfig from "@/lib/db";
+import { bookingAppointment } from "@/types";
 import { decryptSessionToken } from "@sessions/sessionUtils";
-
-type AppointmentBody = {
-  date: string;
-  state: string;
-  city: string;
-  hospital: string;
-  disease: string;
-  note: string;
-};
 
 export async function GET(request: Request) {
   const session = request.headers.get("Authorization");
@@ -89,7 +81,8 @@ export async function POST(req: Request) {
   }
 
   try {
-    const body: AppointmentBody = await req.json();
+    const body: bookingAppointment = await req.json();
+
     const { date, state, city, hospital, disease, note } = body;
 
     const token = session.split("Bearer ")[1];
@@ -123,7 +116,7 @@ export async function POST(req: Request) {
 
     if (!res)
       return Response.json({
-        msg: "Error saving appointment info",
+        error: "Error saving appointment info",
       });
 
     return Response.json(
