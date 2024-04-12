@@ -1,4 +1,5 @@
 import { SignJWT, jwtVerify } from "jose";
+import { JWTExpired } from "jose/errors";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -9,16 +10,38 @@ export async function encrypt(payload: any) {
   return await new SignJWT(payload)
     .setProtectedHeader({ alg: "HS256" })
     .setIssuedAt()
-    .setExpirationTime("15 minutes from now")
+    .setExpirationTime("30 minutes from now")
     .sign(key);
 }
 
 export async function decrypt(input: string): Promise<any> {
-  const { payload } = await jwtVerify(input, key, {
-    algorithms: ["HS256"],
-  });
-  return payload;
+  try {
+    const { payload } = await jwtVerify(input, key, {
+      algorithms: ["HS256"],
+    });
+
+    // checking if token expired
+    if (payload.exp && payload.exp * 1000 < Date.now()) {
+      throw new JWTExpired("Token has expired");
+    }
+
+    return payload;
+  } catch (error) {
+    if (error instanceof JWTExpired) {
+      console.error("Token has expired :", error.message);
+      return Response.json({ error: "Unauthorized" }, { status: 401 });
+    }
+    console.error("Error decrypting session token:", error);
+    return null;
+  }
 }
+
+// export async function decrypt(input: string): Promise<any> {
+//   const { payload } = await jwtVerify(input, key, {
+//     algorithms: ["HS256"],
+//   });
+//   return payload;
+// }
 
 export async function setSession(email: string, role: string) {
   const user = { email, role };
