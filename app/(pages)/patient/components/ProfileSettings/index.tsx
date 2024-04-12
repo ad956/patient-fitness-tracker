@@ -1,7 +1,7 @@
 import ErrorPage from "@components/errorpage";
-import { getPatientData } from "@/lib/patient/getPatientData";
+import { getPatientData } from "@/lib/patient/";
 import { Patient } from "@/types";
-import { Link, Image, Input, Button, Card } from "@nextui-org/react";
+import { Image, Input, Button, Card } from "@nextui-org/react";
 import React from "react";
 
 export default async function ProfileSettings() {

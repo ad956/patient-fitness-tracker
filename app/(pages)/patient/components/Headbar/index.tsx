@@ -1,25 +1,24 @@
 import { CiLogin, CiSearch } from "react-icons/ci";
-import { Avatar, Button, Divider, Input, Link, User } from "@nextui-org/react";
+import { Button, Divider, Input, Link, User } from "@nextui-org/react";
 import { GoPlus } from "react-icons/go";
 import { logoutAction } from "@/lib/actions";
 import Notifications from "../Notifications";
-import { getPatientData } from "@/lib/patient/getPatientData";
+import { getPatientData, getUpcomingAppointments } from "@/lib/patient/index";
 import { Patient, bookedAppointments } from "@/types";
-import { notFound } from "next/navigation";
-import getUpcomingAppointments from "@/lib/patient/getUpcomingAppointments";
+import ErrorPage from "@components/errorpage";
 
 export default async function Headbar() {
   const { patient }: { patient: Patient } = await getPatientData();
 
   if (!patient) {
-    return notFound();
+    return ErrorPage("fetching patient data");
   }
 
   const upcomingAppointments: bookedAppointments =
     await getUpcomingAppointments();
 
   return (
-    <div className="bg-[#f3f6fd] p-4 flex flex-row justify-between mr-5">
+    <div className="bg-[#f3f6fd] p-4 flex flex-row justify-between">
       <div className="flex items-center gap-5 w-3/5">
         <p className="text-lg font-semibold tracking-wider">
           Patient Fitness Tracker

@@ -1,6 +1,6 @@
 "use client";
 
-import getPatientMedicalHistory from "@/lib/patient/getPatientMedicalHistory";
+import { getPatientMedicalHistory } from "@/lib/patient/";
 import { MedicalHistoryType } from "@/types";
 import {
   Chip,

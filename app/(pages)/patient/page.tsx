@@ -3,8 +3,8 @@ import { WeeklyProgress, HealthConditions } from "./components/Graphs";
 import Calendar from "./components/Calendar";
 import CarouselService from "./components/ServiceCarousel";
 import { Patient, bookedAppointments } from "@/types";
-import { getPatientData } from "@/lib/patient/getPatientData";
-import getUpcomingAppointments from "@/lib/patient/getUpcomingAppointments";
+import { getPatientData } from "@/lib/patient/";
+import { getUpcomingAppointments } from "@/lib/patient/";
 import ErrorPage from "@/app/components/errorpage";
 
 export default async function PatientPage() {

@@ -11,7 +11,7 @@ import {
   ModalHeader,
   useDisclosure,
 } from "@nextui-org/react";
-import { getFormattedDate } from "@/app/utils/getDate";
+import { getFormattedDate } from "@utils/getDate";
 import { LuCalendarClock } from "react-icons/lu";
 import { bookedAppointments } from "@/types";
 

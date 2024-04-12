@@ -1,15 +1,14 @@
-import { getPatientData } from "@/lib/patient/getPatientData";
+import { getPatientData } from "@/lib/patient/";
 import { Patient } from "@/types";
-import { Button, Card, Image, Link, User } from "@nextui-org/react";
-import { notFound } from "next/navigation";
-import { MdOutlineFileDownload } from "react-icons/md";
+import { Card, Link, User } from "@nextui-org/react";
 import QRCode from "../components/QR";
+import ErrorPage from "@components/errorpage";
 
 export default async function QRCodePage() {
   const { patient }: { patient: Patient } = await getPatientData();
 
   if (!patient) {
-    return notFound();
+    return ErrorPage("fetching patient data!");
   }
 
   return (
