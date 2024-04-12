@@ -1,27 +1,20 @@
 import { CiLogin, CiSearch } from "react-icons/ci";
-import { Avatar, Button, Divider, Input, Link, User } from "@nextui-org/react";
+import { Button, Divider, Input, Link, User } from "@nextui-org/react";
 import { GoPlus } from "react-icons/go";
 import { logoutAction } from "@/lib/actions";
 import Notifications from "@receptionist/components/Notifications";
-import { Patient, Receptionist, bookedAppointments } from "@/types";
+import { Receptionist, bookedAppointments } from "@/types";
 import getUpcomingAppointments from "@/lib/patient/getUpcomingAppointments";
 import ErrorPage from "@components/errorpage";
 import { getReceptionistData } from "@/lib/receptionist/getReceptionistData";
-import { getPatientData } from "@/lib/patient/getPatientData";
 
 export default async function Headbar() {
-  // const { receptionist }: { receptionist: Receptionist } =
-  //   await getReceptionistData();
+  const { receptionist }: { receptionist: Receptionist } =
+    await getReceptionistData();
 
-  const { patient }: { patient: Patient } = await getPatientData();
-
-  if (!patient) {
+  if (!receptionist) {
     return ErrorPage("fetching receptionist data");
   }
-
-  // if (!receptionist) {
-  //   return ErrorPage("fetching receptionist data");
-  // }
 
   const upcomingAppointments: bookedAppointments =
     await getUpcomingAppointments();
@@ -71,7 +64,7 @@ export default async function Headbar() {
           variant="shadow"
           size="sm"
           className=" font-bold"
-          href={`${process.env.BASE_URL}/patient/appointments`}
+          href={`${process.env.BASE_URL}/receptionist/appointments`}
         >
           <GoPlus size={20} />
         </Button>
@@ -81,16 +74,16 @@ export default async function Headbar() {
         <Divider orientation="vertical" className="h-8 bg-gray-500" />
 
         <User
-          name={patient.firstname}
+          name={receptionist.firstname}
           avatarProps={{
-            src: patient.profile,
+            src: receptionist.profile,
           }}
           description={
             <Link
-              href={`${process.env.BASE_URL}/patient/settings`}
+              href={`${process.env.BASE_URL}/receptionist/settings`}
               color="primary"
               className="text-xs"
-            >{`@${patient.username}`}</Link>
+            >{`@${receptionist.username}`}</Link>
           }
         />
 
