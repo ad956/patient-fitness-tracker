@@ -116,4 +116,8 @@ export interface PatientDetails {
     country: string;
     zip_code: string;
   };
+  disease: string;
+  note: string;
+  date: string;
+  timing: string;
 }
