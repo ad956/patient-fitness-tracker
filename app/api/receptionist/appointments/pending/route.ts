@@ -4,14 +4,14 @@ import { decryptSessionToken } from "@sessions/sessionUtils";
 export async function GET(request: Request) {
   const session = request.headers.get("Authorization");
   if (!session) {
-    return Response.json({ error: "Unauthorized" }, { status: 401 });
+    return new Response(JSON.stringify({ error: "Unauthorized" }), {
+      status: 401,
+    });
   }
 
   try {
     const token = session.split("Bearer ")[1];
-
     const decryptedUser = await decryptSessionToken(token);
-
     const email = decryptedUser.user.email;
 
     const db = await dbConfig();
@@ -19,7 +19,6 @@ export async function GET(request: Request) {
     const bookedAppointmentsCollection = db.collection("bookedAppointments");
     const patientCollection = db.collection("patient");
 
-    // Find the current_hospital for the receptionist
     const projection = {
       _id: 0,
       current_hospital: 1,
@@ -29,26 +28,24 @@ export async function GET(request: Request) {
       { projection }
     );
     if (!currentHospitalResult) {
-      return Response.json(
-        { error: "Receptionist hospital isn't selected" },
+      return new Response(
+        JSON.stringify({ error: "Receptionist hospital isn't selected" }),
         { status: 404 }
       );
     }
     const currentHospitalId = currentHospitalResult.current_hospital;
 
-    // Find the patient_ids from bookedAppointments where approved is "pending" and hospital.id matches current_hospital
     const pendingAppointments = await bookedAppointmentsCollection
-      .find({
-        approved: "pending",
-        "hospital.id": currentHospitalId,
-      })
+      .find({ approved: "pending", "hospital.id": currentHospitalId })
       .toArray();
+
+    // If appointments are not found, return an empty array
     if (pendingAppointments.length === 0) {
-      return Response.json(
-        { error: "No pending appointments found for the current hospital" },
-        { status: 404 }
-      );
+      return new Response(JSON.stringify({ patientDetails: [] }), {
+        status: 200,
+      });
     }
+
     const patientIds = pendingAppointments.map(
       (appointment) => appointment.patient_id
     );
@@ -63,21 +60,36 @@ export async function GET(request: Request) {
       profile: 1,
       address: 1,
     };
-    // Fetch patient details using patient_ids
     const patientDetails = await patientCollection
       .find({ _id: { $in: patientIds } }, { projection: projection_patient })
       .toArray();
 
-    if (patientDetails.length === 0) {
-      return Response.json(
-        { error: "Patient details not found" },
-        { status: 404 }
+    // Add disease, note, date, and timing to each patient detail
+    const patientDetailsWithAdditionalInfo = patientDetails.map((patient) => {
+      const appointment = pendingAppointments.find(
+        (appointment) =>
+          appointment.patient_id.toString() === patient._id.toString()
       );
-    }
+      if (appointment) {
+        return {
+          ...patient,
+          disease: appointment.disease,
+          note: appointment.note,
+          date: appointment.date,
+          timing: appointment.timing,
+        };
+      }
+      return patient;
+    });
 
-    return Response.json({ patientDetails }, { status: 200 });
+    return new Response(
+      JSON.stringify({ patientDetails: patientDetailsWithAdditionalInfo }),
+      { status: 200 }
+    );
   } catch (error) {
-    console.error("Error fetching  pending patient appointments:", error);
-    return Response.json({ error: "Internal Server Error" }, { status: 500 });
+    console.error("Error fetching pending patient appointments:", error);
+    return new Response(JSON.stringify({ error: "Internal Server Error" }), {
+      status: 500,
+    });
   }
 }

@@ -23,7 +23,7 @@ export default async function Headbar() {
         <p className="text-lg font-semibold tracking-wider">
           Patient Fitness Tracker
         </p>
-        <div className="w-2/5">
+        {/* <div className="w-2/5">
           <Input
             isClearable
             radius="lg"
@@ -51,7 +51,7 @@ export default async function Headbar() {
               <CiSearch className="text-black/50 mb-0.5 dark:text-white/90 text-slate-400 pointer-events-none flex-shrink-0" />
             }
           />
-        </div>
+        </div> */}
       </div>
 
       <div className="flex justify-center items-center gap-2">

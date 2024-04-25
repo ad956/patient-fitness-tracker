@@ -80,7 +80,7 @@ export default async function ReceptionistPage() {
 
                 <div className="flex flex-col">
                   <p className="text-sm font-bold">
-                    {receptionist.dailyCount.waiting} New
+                    {pendingPatients.patientDetails.length} New
                   </p>
                   <p className="text-xs text-black/80">Waiting for approval</p>
                 </div>
@@ -163,7 +163,7 @@ export default async function ReceptionistPage() {
                 value: "text-foreground/60 text-xs",
               }}
               label="Pending Appointments"
-              value={receptionist.dailyCount.pending}
+              value={pendingPatients.patientDetails.length}
               showValueLabel={true}
             />
           </Tooltip>

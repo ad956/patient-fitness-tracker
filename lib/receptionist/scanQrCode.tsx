@@ -1,8 +1,8 @@
-const scanQRCode = async (data: string) => {
+const scanQRCode = async (email: string) => {
   try {
     const res = await fetch("http://localhost:3000/api/receptionist/scan", {
       method: "POST",
-      body: JSON.stringify({ data }),
+      body: JSON.stringify({ email }),
       headers: {
         "Content-Type": "application/json",
       },

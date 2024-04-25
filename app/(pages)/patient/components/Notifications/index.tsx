@@ -44,7 +44,7 @@ export default function Notifications({
                 <FaRegHospital size={25} />
                 <p className="text-xs text-wrap">
                   Appointment confirmed! See you at{" "}
-                  <span className="text-danger">{item.hospital}</span>.
+                  <span className="text-danger">{item.hospital.name}</span>.
                 </p>
               </div>
             </ListboxItem>
