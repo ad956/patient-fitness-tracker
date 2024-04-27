@@ -39,7 +39,7 @@ export async function GET(request: Request) {
       .find({ approved: "pending", "hospital.id": currentHospitalId })
       .toArray();
 
-    // If appointments are not found, return an empty array
+    //  empty array returned, If appointments are not found
     if (pendingAppointments.length === 0) {
       return new Response(JSON.stringify({ patientDetails: [] }), {
         status: 200,
@@ -64,7 +64,7 @@ export async function GET(request: Request) {
       .find({ _id: { $in: patientIds } }, { projection: projection_patient })
       .toArray();
 
-    // Add disease, note, date, and timing to each patient detail
+    // Adding disease, note, date, and timing to each patient detail
     const patientDetailsWithAdditionalInfo = patientDetails.map((patient) => {
       const appointment = pendingAppointments.find(
         (appointment) =>
