@@ -1,4 +1,4 @@
-import { Card, Progress, Tooltip } from "@nextui-org/react";
+import { Card, Progress } from "@nextui-org/react";
 import React from "react";
 import {
   BsFillPersonPlusFill,
@@ -24,6 +24,10 @@ export default async function ReceptionistPage() {
   if (!pendingPatients) {
     return ErrorPage("fetching patient appointments");
   }
+
+  const pendingAppointments = pendingPatients.patientDetails.length;
+  const approvedAppointments = receptionist.dailyCount.approved;
+  const waitingPatients = receptionist.dailyCount.waiting;
 
   return (
     <section className="bg-[#f3f6fd] overflow-hidden p-2 h-full">
@@ -91,82 +95,54 @@ export default async function ReceptionistPage() {
         <Card className="row-span-2 col-span-2 flex flex-col gap-5 items-center p-5">
           <p className="text-sm font-semibold self-start">Todays Statistics</p>
 
-          <Tooltip
-            showArrow={true}
-            placement="right-end"
-            content={
-              <div className="px-1 py-2">
-                <div className="text-small font-bold">Tip</div>
-                <div className="text-tiny">Each 1% equals 1 patient</div>
-              </div>
-            }
-          >
-            <Progress
-              size="sm"
-              radius="sm"
-              classNames={{
-                base: "max-w-md",
-                track: "drop-shadow-md border border-default",
-                indicator: "bg-gradient-to-r from-yellow-500 to-pink-500",
-                label: "tracking-wider font-bold text-xs",
-                value: "text-foreground/60 text-xs",
-              }}
-              label="Patients Waiting"
-              value={receptionist.dailyCount.waiting}
-              showValueLabel={true}
-            />
-          </Tooltip>
-          <Tooltip
-            showArrow={true}
-            placement="right-end"
-            content={
-              <div className="px-1 py-2">
-                <div className="text-small font-bold">Tip</div>
-                <div className="text-tiny">Each 10 % equals 1 patient</div>
-              </div>
-            }
-          >
-            <Progress
-              size="sm"
-              radius="sm"
-              color="secondary"
-              classNames={{
-                base: "max-w-md",
-                track: "drop-shadow-md border border-default",
+          <Progress
+            size="sm"
+            radius="sm"
+            classNames={{
+              base: "max-w-md",
+              track: "drop-shadow-md border border-default",
+              indicator: "bg-gradient-to-r from-yellow-500 to-pink-500",
+              label: "tracking-wider font-bold text-xs",
+              value: "text-foreground/60 text-xs",
+            }}
+            label="Patients Waiting"
+            formatOptions={{ style: "decimal" }}
+            value={waitingPatients}
+            showValueLabel={true}
+          />
 
-                label: "tracking-wider font-bold text-xs",
-                value: "text-foreground/60 text-xs",
-              }}
-              label="Approved Patients"
-              value={receptionist.dailyCount.approved}
-              showValueLabel={true}
-            />
-          </Tooltip>
-          <Tooltip
-            showArrow={true}
-            placement="right-end"
-            content={
-              <div className="px-1 py-2">
-                <div className="text-small font-bold">Tip</div>
-                <div className="text-tiny">Each 10 % equals 1 patient</div>
-              </div>
-            }
-          >
-            <Progress
-              size="sm"
-              radius="sm"
-              color="warning"
-              classNames={{
-                base: "max-w-md",
-                track: "drop-shadow-md border border-default",
-                label: "tracking-wider font-bold text-xs",
-                value: "text-foreground/60 text-xs",
-              }}
-              label="Pending Appointments"
-              value={pendingPatients.patientDetails.length}
-              showValueLabel={true}
-            />
-          </Tooltip>
+          <Progress
+            size="sm"
+            radius="sm"
+            color="secondary"
+            classNames={{
+              base: "max-w-md",
+              track: "drop-shadow-md border border-default",
+
+              label: "tracking-wider font-bold text-xs",
+              value: "text-foreground/60 text-xs",
+            }}
+            label="Approved Patients"
+            formatOptions={{ style: "decimal" }}
+            value={approvedAppointments}
+            showValueLabel={true}
+          />
+
+          <Progress
+            size="sm"
+            radius="sm"
+            color="warning"
+            classNames={{
+              base: "max-w-md",
+              track: "drop-shadow-md border border-default",
+              label: "tracking-wider font-bold text-xs",
+              value: "text-foreground/60 text-xs",
+            }}
+            label="Pending Appointments"
+            formatOptions={{ style: "decimal" }}
+            value={pendingAppointments}
+            showValueLabel={true}
+          />
         </Card>
 
         <Card className="row-span-6  col-span-2 flex justify-center gap-5 items-center p-5">
