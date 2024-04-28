@@ -3,6 +3,7 @@ import { bookingAppointment } from "@/types";
 import { decryptSessionToken } from "@sessions/sessionUtils";
 import { ObjectId } from "mongodb";
 
+// getting patients approved appointments
 export async function GET(request: Request) {
   const session = request.headers.get("Authorization");
   if (!session) {
@@ -75,6 +76,7 @@ export async function GET(request: Request) {
   }
 }
 
+// booking an appointment
 export async function POST(req: Request) {
   const session = req.headers.get("Authorization");
   if (!session) {
@@ -92,11 +94,25 @@ export async function POST(req: Request) {
 
     const db = await dbConfig();
     const patient_collection = db.collection("patient");
+    const appointment_collection = db.collection("bookedAppointments");
 
     const patient = await patient_collection.findOne({ email });
 
     if (!patient) {
       return Response.json({ error: "Patient not found" }, { status: 404 });
+    }
+
+    // Checking if the patient already has a pending appointment
+    const alreadyBookedAppointment = await appointment_collection.findOne({
+      patient_id: patient._id,
+      approved: "pending",
+    });
+
+    if (alreadyBookedAppointment) {
+      return Response.json(
+        { error: "You already have a pending appointment request" },
+        { status: 400 }
+      );
     }
 
     const appointmentData = {
@@ -115,7 +131,6 @@ export async function POST(req: Request) {
       receptionist_id: null,
     };
 
-    const appointment_collection = db.collection("bookedAppointments");
     const res = await appointment_collection.insertOne(appointmentData);
 
     if (!res)

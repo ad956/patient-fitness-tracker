@@ -32,7 +32,7 @@ export async function GET(request: Request) {
       "progress.waterBalance": 1,
       "progress.currentTreatment": 1,
       "progress.pendingAppointments": 1,
-      activity: 1,
+      medicines: 1,
       healthConditions: 1,
     };
 
