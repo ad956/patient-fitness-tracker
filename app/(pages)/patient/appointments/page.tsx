@@ -2,13 +2,13 @@ import { Card, Image, Button, Textarea } from "@nextui-org/react";
 import BookAppointment from "../components/BookAppointment";
 import { Patient } from "@/types";
 import { getPatientData } from "@/lib/patient/";
-import { notFound } from "next/navigation";
+import ErrorPage from "@components/errorpage";
 
 export default async function Appointments() {
   const { patient }: { patient: Patient } = await getPatientData();
 
   if (!patient) {
-    return notFound();
+    return ErrorPage("fetching patient data!");
   }
 
   return (

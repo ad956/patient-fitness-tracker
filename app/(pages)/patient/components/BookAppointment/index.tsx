@@ -9,15 +9,11 @@ import {
   PopoverContent,
   Button,
   Textarea,
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalHeader,
-  useDisclosure,
   Spinner,
 } from "@nextui-org/react";
 import bookAppointment from "@/lib/patient/bookAppointment";
 import { SERVER_URL } from "@constants/index";
+import toast, { Toaster } from "react-hot-toast";
 
 type Hospital = {
   hospital_id: string;
@@ -47,11 +43,6 @@ export default function BookAppointment() {
   const [diseases, setDiseases] = useState<string[]>([]);
   const [additionalNote, setAdditionalNote] = useState("");
   const [noteError, setNoteError] = useState("");
-  const [appointmentSuccess, setAppointmentSuccess] = useState(false);
-  const [showSuccess, setShowSuccess] = useState(false);
-  const [showFailed, setShowFailed] = useState(false);
-
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const handleStateChange = (e: ChangeEvent<HTMLSelectElement>) => {
     const selectedState = e.target.value;
     setSelectedState(selectedState);
@@ -199,25 +190,25 @@ export default function BookAppointment() {
 
       const response = await bookAppointment(bookAppointmentData);
       if (response.error) {
-        throw new Error("Failed to book appointment");
+        throw new Error(response.error);
       }
-      setAppointmentSuccess(true);
-      setShowSuccess(true);
-      setShowFailed(false);
       clearSelected();
-    } catch (error) {
+      toast.success(response.msg);
+    } catch (error: any) {
       console.error("Error booking apppointment:", error);
-      setShowSuccess(false);
-      setShowFailed(true);
+      toast.error(error.message);
     }
   }
 
   function clearSelected() {
     setSelectedState("");
     setSelectedCity("");
-    // setSelectedHospital("");
+    setSelectedHospital({ hospital_id: "", hospital_name: "" });
     setSelectedDisease("");
-    setAdditionalNote("");
+    setNoteError("");
+    setIsOpenPopover(false);
+    setIsOpenHospitalPopover(false);
+    setIsOpenDiseasePopover(false);
   }
 
   const isButtonDisabled =
@@ -230,6 +221,7 @@ export default function BookAppointment() {
 
   return (
     <div className="flex flex-col justify-center gap-5 mx-5 mt-10">
+      <Toaster />
       <p className="text-lg font-bold">Book an appointment</p>
       <div className="flex flex-row items-center gap-5">
         <Select
@@ -406,43 +398,10 @@ export default function BookAppointment() {
         radius="full"
         className="bg-gradient-to-tr from-pink-500 to-yellow-500 text-white shadow-lg max-w-40 self-center"
         onClick={handleAppointmentButtonClick}
-        onPress={onOpen}
         isDisabled={isButtonDisabled}
       >
         Request Appointment
       </Button>
-
-      {(showSuccess || showFailed) && (
-        <Modal
-          isOpen={isOpen}
-          placement="bottom-center"
-          onOpenChange={onOpenChange}
-        >
-          <ModalContent>
-            {showSuccess ? (
-              <>
-                <ModalHeader className="flex flex-col gap-1 text-success">
-                  Appointment Request Successful
-                </ModalHeader>
-                <ModalBody>
-                  <p>
-                    Your appointment request has been successfully submitted.
-                  </p>
-                </ModalBody>
-              </>
-            ) : (
-              <>
-                <ModalHeader className="flex flex-col gap-1 text-danger">
-                  Appointment Request Failed
-                </ModalHeader>
-                <ModalBody>
-                  <p>Sorry your appointment request failed 😥</p>
-                </ModalBody>
-              </>
-            )}
-          </ModalContent>
-        </Modal>
-      )}
     </div>
   );
 }
