@@ -6,6 +6,7 @@ import { Patient, bookedAppointments } from "@/types";
 import { getPatientData } from "@/lib/patient/";
 import { getUpcomingAppointments } from "@/lib/patient/";
 import ErrorPage from "@/app/components/errorpage";
+import MedicineDetails from "./components/MedicineDetails";
 
 export default async function PatientPage() {
   const { patient }: { patient: Patient } = await getPatientData();
@@ -127,9 +128,9 @@ export default async function PatientPage() {
         </Card>
         <Card className="col-span-2 row-span-2 flex flex-col justify-center items-center">
           <p className="text-sm font-semibold self-start ml-4 pt-2">
-            Your Activity
+            Medicine Dosages
           </p>
-          <WeeklyProgress progressData={patient.activity} />
+          <MedicineDetails details={patient.medicines} />
         </Card>
         <Card className="row-span-2 col-span-3">
           <HealthConditions progressData={patient.healthConditions} />
