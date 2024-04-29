@@ -1,17 +1,19 @@
-// import { getSessionToken } from "../sessions/sessionUtils";
+"use server";
+
+import { getSessionToken } from "../sessions/sessionUtils";
 
 export default async function approveAppointment(patientId: string) {
-  //   const session = await getSessionToken();
+  const session = await getSessionToken();
 
-  //   const headers = {
-  //     Authorization: `Bearer ${session}`,
-  //   };
+  const headers = {
+    Authorization: `Bearer ${session}`,
+  };
 
   const response = await fetch(
     "http://localhost:3000/api/receptionist/appointments/approve",
     {
       method: "POST",
-      //   headers,
+      headers,
       body: JSON.stringify({ patient_id: patientId }),
     }
   );
