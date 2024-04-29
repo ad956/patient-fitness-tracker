@@ -117,6 +117,7 @@ export default async function PatientPage() {
                 value: "text-foreground/60 text-xs",
               }}
               label="Pending Appointments"
+              formatOptions={{ style: "decimal" }}
               value={patient.progress.pendingAppointments}
               showValueLabel={true}
             />
@@ -126,8 +127,8 @@ export default async function PatientPage() {
           <Calendar upcomingAppointments={upcomingAppointments} />
           <CarouselService />
         </Card>
-        <Card className="col-span-2 row-span-2 flex flex-col justify-center items-center">
-          <p className="text-sm font-semibold self-start ml-4 pt-2">
+        <Card className="col-span-2 row-span-2 flex flex-col items-center">
+          <p className="text-sm font-semibold self-start m-4 pt-2">
             Medicine Dosages
           </p>
           <MedicineDetails details={patient.medicines} />
