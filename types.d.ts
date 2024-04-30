@@ -22,7 +22,15 @@ export type Patient = User & {
     currentTreatment: number;
     pendingAppointments: number;
   };
-  activity: number[];
+  medicines: [
+    {
+      name: string;
+      dosage: string;
+      frequency: string;
+      start_date: string;
+      end_date: string;
+    }
+  ];
   healthConditions: number[];
 };
 
