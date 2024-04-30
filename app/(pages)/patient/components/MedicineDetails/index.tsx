@@ -14,6 +14,19 @@ type MedicineDetailsProp = {
 };
 
 export default function MedicineDetails({ details }: MedicineDetailsProp) {
+  if (details.length < 1) {
+    return (
+      <div className="flex justify-center items-center h-full">
+        <div className="flex items-center">
+          <Image src="/images/medicines.webp" className="h-44" />
+          <div className="font-semibold text-black/60">
+            No medicines prescribed
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div
       className={`flex flex-row flex-wrap px-2 ${
