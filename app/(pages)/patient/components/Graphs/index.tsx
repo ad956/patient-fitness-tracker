@@ -1,12 +1,11 @@
 "use client";
 
-import { Select, SelectItem } from "@nextui-org/react";
-import { PointTooltip, ResponsiveLine } from "@nivo/line";
+import { ResponsiveLine } from "@nivo/line";
 import { ResponsiveRadialBar } from "@nivo/radial-bar";
 
 const healthData = [
   {
-    id: "Patient A",
+    id: "patient",
     data: [
       { x: "Jan", y: 40 },
       { x: "Feb", y: 70 },
@@ -24,29 +23,6 @@ const healthData = [
   },
 ];
 
-const years = [
-  {
-    label: "2020",
-    year: 2020,
-  },
-  {
-    label: "2021",
-    year: 2021,
-  },
-  {
-    label: "2022",
-    year: 2022,
-  },
-  {
-    label: "2023",
-    year: 2023,
-  },
-  {
-    label: "2024",
-    year: 2024,
-  },
-];
-
 type HealthProgressProps = {
   progressData: number[];
 };
@@ -56,7 +32,15 @@ const HealthConditions = ({ progressData }: HealthProgressProps) => {
     ...patient,
     data: patient.data.map((item, index) => ({
       ...item,
-      y: progressData[index] !== undefined ? progressData[index] : item.y,
+      y: progressData[index] !== undefined ? progressData[index] : null,
+    })),
+  }));
+
+  const updatedDataWithNull = updatedHealthData.map((patient) => ({
+    ...patient,
+    data: patient.data.map((item) => ({
+      ...item,
+      y: item.y === 0 ? "Data not available for this month" : item.y,
     })),
   }));
 
@@ -64,20 +48,6 @@ const HealthConditions = ({ progressData }: HealthProgressProps) => {
     <div className="h-full w-full p-5">
       <div className="flex flex-row justify-between items-center">
         <p className="text-md font-semibold">Your Health Conditions</p>
-
-        <Select
-          aria-label="Select Year"
-          color="secondary"
-          labelPlacement="outside-left"
-          className="w-1/6"
-          defaultSelectedKeys={["2024"]}
-        >
-          {years.map((year) => (
-            <SelectItem key={year.year} value={year.year}>
-              {year.label}
-            </SelectItem>
-          ))}
-        </Select>
       </div>
       <ResponsiveLine
         fill={[{ match: "*", id: "gradient" }]}
@@ -86,8 +56,8 @@ const HealthConditions = ({ progressData }: HealthProgressProps) => {
         crosshairType="x"
         role=""
         sliceTooltip={({ slice }) => <></>}
-        data={updatedHealthData}
-        margin={{ top: 50, right: 110, bottom: 50, left: 60 }}
+        data={updatedDataWithNull}
+        margin={{ top: 50, right: 10, bottom: 50, left: 30 }}
         xScale={{ type: "point" }}
         yScale={{ type: "linear", min: 0, max: 100 }}
         curve="catmullRom"
@@ -109,13 +79,6 @@ const HealthConditions = ({ progressData }: HealthProgressProps) => {
         useMesh={true}
         debugSlices={false}
         enableSlices={false}
-        // tooltip={({ point }) => (
-        //   <div>
-        //     <strong>X value:</strong> {point.data.xFormatted}
-        //     <br />
-        //     <strong>Y value:</strong> {point.data.yFormatted}
-        //   </div>
-        // )}
         debugMesh={false}
         isInteractive={true}
         legends={[]}
