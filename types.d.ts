@@ -27,8 +27,6 @@ export type Patient = User & {
       name: string;
       dosage: string;
       frequency: string;
-      start_date: string;
-      end_date: string;
     }
   ];
   healthConditions: number[];
