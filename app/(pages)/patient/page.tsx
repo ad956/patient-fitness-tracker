@@ -1,5 +1,5 @@
 import { Avatar, Card, Divider, Progress, Tooltip } from "@nextui-org/react";
-import { WeeklyProgress, HealthConditions } from "./components/Graphs";
+import { HealthConditions } from "./components/Graphs";
 import Calendar from "./components/Calendar";
 import CarouselService from "./components/ServiceCarousel";
 import { Patient, bookedAppointments } from "@/types";
@@ -128,9 +128,7 @@ export default async function PatientPage() {
           <CarouselService />
         </Card>
         <Card className="col-span-2 row-span-2 flex flex-col items-center">
-          <p className="text-sm font-semibold self-start m-4 pt-2">
-            Medicine Dosages
-          </p>
+          <p className="text-sm font-semibold self-start m-4 pt-2">Medicines</p>
           <MedicineDetails details={patient.medicines} />
         </Card>
         <Card className="row-span-2 col-span-3">
