@@ -5,14 +5,13 @@ import CarouselService from "./components/ServiceCarousel";
 import { Patient, bookedAppointments } from "@/types";
 import { getPatientData } from "@/lib/patient/";
 import { getUpcomingAppointments } from "@/lib/patient/";
-import ErrorPage from "@/app/components/errorpage";
 import MedicineDetails from "./components/MedicineDetails";
 
 export default async function PatientPage() {
   const { patient }: { patient: Patient } = await getPatientData();
 
   if (!patient) {
-    return ErrorPage("fetching patient data");
+    throw new Error("fetching patient data");
   }
 
   const upcomingAppointments: bookedAppointments =
