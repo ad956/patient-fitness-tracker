@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React, { useState } from "react";
 import { BrandLogo } from "../brandlogo";
@@ -34,15 +34,12 @@ export default function NavBar() {
       </NavbarBrand>
       <NavbarContent className="hidden sm:flex gap-4" justify="center">
         {navLinks.map((navLink) => (
-          <NavbarItem
-            key={navLink.key}
-            isActive={activeLink === navLink.key}
-          >
+          <NavbarItem key={navLink.key} isActive={activeLink === navLink.key}>
             <Link
               aria-current={activeLink === navLink.key ? "page" : undefined}
               data-active={activeLink === navLink.key ? "page" : undefined}
               color={activeLink === navLink.key ? "primary" : "foreground"}
-              href={`#${navLink.key}`}
+              href={`/#${navLink.key}`}
               onClick={() => handleLinkClick(navLink.key)}
             >
               {navLink.title}
@@ -63,4 +60,3 @@ export default function NavBar() {
     </Navbar>
   );
 }
-
