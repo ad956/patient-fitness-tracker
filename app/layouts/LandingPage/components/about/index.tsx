@@ -4,7 +4,12 @@ export default function About() {
   return (
     <section id="about" className="h-full flex justify-around items-center">
       <Card isBlurred shadow="lg" className=" h-4/5 w-2/5">
-        <Image src="images/about-us.jpg" height="auto" width="100%" />
+        <Image
+          alt="about-us"
+          src="images/about-us.jpg"
+          height="auto"
+          width="100%"
+        />
       </Card>
 
       <div className=" p-5 flex flex-col justify-center gap-5 h-4/5 w-2/5">

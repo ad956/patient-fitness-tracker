@@ -63,6 +63,7 @@ export default function Testimonial() {
               <div className="flex gap-1">
                 {Array.from({ length: item.stars }).map((_, index) => (
                   <Image
+                    alt="rating-star-icon"
                     key={index}
                     src="icons/star-icon.svg"
                     height={20}

@@ -26,7 +26,7 @@ export default function TrustedBy() {
 
   React.useEffect(() => {
     duplicateLogos();
-  }, []);
+  }, [duplicateLogos]);
 
   return (
     <div className="w-3/4 flex flex-col gap-5">
