@@ -5,7 +5,6 @@ import { logoutAction } from "@/lib/actions";
 import Notifications from "@receptionist/components/Notifications";
 import { Receptionist, bookedAppointments } from "@/types";
 import getUpcomingAppointments from "@/lib/patient/getUpcomingAppointments";
-import ErrorPage from "@components/errorpage";
 import { getReceptionistData } from "@/lib/receptionist/getReceptionistData";
 
 export default async function Headbar() {
@@ -13,7 +12,7 @@ export default async function Headbar() {
     await getReceptionistData();
 
   if (!receptionist) {
-    return ErrorPage("fetching receptionist data");
+    throw new Error("fetching receptionist data");
   }
 
   const upcomingAppointments: bookedAppointments =
