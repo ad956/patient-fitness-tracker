@@ -8,7 +8,7 @@ export default async function MedicalHistory() {
   }
 
   return (
-    <section className="h-full w-full flex flex-col items-center overflow-y-scroll">
+    <section className="h-full w-full flex flex-col items-center scrollbar overflow-y-scroll">
       <MedicalDetails medicalDetails={response} />
     </section>
   );
