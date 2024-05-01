@@ -29,9 +29,8 @@ export default function OtpSection({ userData }: userDataType) {
   const [showError, setShowError] = useState("");
 
   const router = useRouter();
-
-  const inputsRefs = Array.from({ length: 5 }, () =>
-    useRef<HTMLInputElement>(null)
+  const inputsRefs = useRef<Array<HTMLInputElement | null>>(
+    Array.from({ length: 5 }, () => null)
   );
 
   const handleInputChange = (
@@ -41,7 +40,7 @@ export default function OtpSection({ userData }: userDataType) {
     const value = e.target.value;
     setOtp((prevOtp) => prevOtp + value);
     if (value && index < 4) {
-      inputsRefs[index + 1].current?.focus();
+      inputsRefs.current[index + 1]?.focus();
     }
   };
 
@@ -84,6 +83,7 @@ export default function OtpSection({ userData }: userDataType) {
                 Enter your OTP
               </p>
               <Image
+                alt="enter-otp-code"
                 src="https://cdni.iconscout.com/illustration/premium/thumb/otp-code-to-unlock-4718239-3916139.png"
                 height={200}
                 width={200}
@@ -102,7 +102,7 @@ export default function OtpSection({ userData }: userDataType) {
                     color={showError ? "danger" : "default"}
                     maxLength={1}
                     onChange={(e) => handleInputChange(e, index)}
-                    ref={inputsRefs[index]}
+                    ref={(el) => (inputsRefs.current[index] = el)}
                   />
                 ))}
               </div>

@@ -43,7 +43,7 @@ const SpinnerLoader: React.FC = () => {
       );
     };
     animateLoader();
-  }, [animate, scope]);
+  }, [animate, scope, characters]);
 
   const letter = "absolute top-0 left-[50%] text-black";
   return (
