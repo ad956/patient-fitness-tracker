@@ -22,7 +22,11 @@ export default function NotFound() {
       </div>
 
       <div className="h-full">
-        <Image src="/images/404.jpg" className="h-full" />
+        <Image
+          alt="not-found-404-image"
+          src="/images/404.jpg"
+          className="h-full"
+        />
       </div>
     </div>
   );
