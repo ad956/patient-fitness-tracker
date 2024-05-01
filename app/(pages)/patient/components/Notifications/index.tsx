@@ -38,8 +38,8 @@ export default function Notifications({
       <PopoverContent className="max-w-xs">
         <div className="text-md font-bold self-start my-2">Notifications</div>
         <Listbox aria-label="Actions">
-          {upcomingAppointments.map((item) => (
-            <ListboxItem key="">
+          {upcomingAppointments.map((item, index) => (
+            <ListboxItem key={index} textValue={item._id}>
               <div className="flex flex-row justify-center items-center gap-5">
                 <FaRegHospital size={25} />
                 <p className="text-xs text-wrap">
