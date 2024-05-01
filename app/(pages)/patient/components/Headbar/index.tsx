@@ -5,13 +5,12 @@ import { logoutAction } from "@/lib/actions";
 import Notifications from "../Notifications";
 import { getPatientData, getUpcomingAppointments } from "@/lib/patient/index";
 import { Patient, bookedAppointments } from "@/types";
-import ErrorPage from "@components/errorpage";
 
 export default async function Headbar() {
   const { patient }: { patient: Patient } = await getPatientData();
 
   if (!patient) {
-    return ErrorPage("fetching patient data");
+    throw new Error("fetching patient data");
   }
 
   const upcomingAppointments: bookedAppointments =

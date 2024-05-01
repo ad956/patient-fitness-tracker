@@ -1,4 +1,3 @@
-import ErrorPage from "@components/errorpage";
 import { getPatientData } from "@/lib/patient/";
 import { Patient } from "@/types";
 import { Input, Button, Card, Avatar } from "@nextui-org/react";
@@ -8,7 +7,7 @@ export default async function ProfileSettings() {
   const { patient }: { patient: Patient } = await getPatientData();
 
   if (!patient) {
-    return ErrorPage("fetching patient data");
+    throw new Error("fetching patient data");
   }
 
   return (

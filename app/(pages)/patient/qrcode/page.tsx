@@ -2,13 +2,12 @@ import { getPatientData } from "@/lib/patient/";
 import { Patient } from "@/types";
 import { Card, Link, User } from "@nextui-org/react";
 import QRCode from "../components/QR";
-import ErrorPage from "@components/errorpage";
 
 export default async function QRCodePage() {
   const { patient }: { patient: Patient } = await getPatientData();
 
   if (!patient) {
-    return ErrorPage("fetching patient data!");
+    throw new Error("fetching patient data!");
   }
 
   return (

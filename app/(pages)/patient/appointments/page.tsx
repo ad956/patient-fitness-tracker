@@ -2,13 +2,12 @@ import { Card, Image, Button, Textarea } from "@nextui-org/react";
 import BookAppointment from "../components/BookAppointment";
 import { Patient } from "@/types";
 import { getPatientData } from "@/lib/patient/";
-import ErrorPage from "@components/errorpage";
 
 export default async function Appointments() {
   const { patient }: { patient: Patient } = await getPatientData();
 
   if (!patient) {
-    return ErrorPage("fetching patient data!");
+    throw new Error("fetching patient data!");
   }
 
   return (

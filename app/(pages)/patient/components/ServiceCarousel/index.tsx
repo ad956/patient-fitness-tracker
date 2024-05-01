@@ -28,7 +28,7 @@ export default function CarouselService() {
     const id = setInterval(incrementImageIndex, 3000);
 
     return () => clearInterval(id);
-  }, [images]);
+  }, []);
 
   const handleClick = (index: number) => {
     clearInterval(intervalId); // Clear automatic sliding interval

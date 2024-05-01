@@ -1,11 +1,10 @@
 import { getPatientMedicalHistory } from "@/lib/patient";
 import MedicalDetails from "../components/MedicalDetails";
-import ErrorPage from "@components/errorpage";
 
 export default async function MedicalHistory() {
   const response = await getPatientMedicalHistory();
   if (response.error) {
-    ErrorPage("failed to fetch payments");
+    throw new Error("failed to fetch payments");
   }
 
   return (

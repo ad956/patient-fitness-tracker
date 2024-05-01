@@ -16,7 +16,11 @@ export default function MedicineDetails({ details }: MedicineDetailsProp) {
     return (
       <div className="flex justify-center items-center h-full">
         <div className="flex items-center">
-          <Image src="/images/medicines.webp" className="h-44" />
+          <Image
+            src="/images/medicines.webp"
+            alt="medicines-not-available"
+            className="h-44"
+          />
           <div className="font-semibold text-black/60">
             No medicines prescribed
           </div>
@@ -39,6 +43,7 @@ export default function MedicineDetails({ details }: MedicineDetailsProp) {
         >
           <div className="p-2 rounded-xl">
             <Image
+              alt="medicine-icon"
               src={`/icons/${index % 3 === 0 ? "tablets.png" : "tablets2.png"}`}
               className="h-10"
             />

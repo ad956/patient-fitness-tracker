@@ -1,12 +1,11 @@
 import React from "react";
 import Payments from "../components/Payments";
 import { getPayments } from "@/lib/patient";
-import ErrorPage from "@components/errorpage";
 
 export default async function Transactions() {
   const response = await getPayments();
   if (response.error) {
-    ErrorPage("failed to fetch payments");
+    throw new Error("failed to fetch payments");
   }
 
   return (
