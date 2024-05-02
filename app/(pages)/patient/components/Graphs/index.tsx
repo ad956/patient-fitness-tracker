@@ -50,6 +50,7 @@ const HealthConditions = ({ progressData }: HealthProgressProps) => {
         <p className="text-md font-semibold">Your Health Conditions</p>
       </div>
       <ResponsiveLine
+        animate={false}
         fill={[{ match: "*", id: "gradient" }]}
         defs={[]}
         enableCrosshair={false}
