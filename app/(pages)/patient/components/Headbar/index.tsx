@@ -1,5 +1,5 @@
-import { CiLogin, CiSearch } from "react-icons/ci";
-import { Button, Divider, Input, Link, User } from "@nextui-org/react";
+import { CiLogin } from "react-icons/ci";
+import { Button, Divider, Image, Link, User } from "@nextui-org/react";
 import { GoPlus } from "react-icons/go";
 import { logoutAction } from "@/lib/actions";
 import Notifications from "../Notifications";
@@ -18,39 +18,17 @@ export default async function Headbar() {
 
   return (
     <div className="bg-[#f3f6fd] p-4 flex flex-row justify-between">
-      <div className="flex items-center gap-5 w-3/5">
-        <p className="text-lg font-semibold tracking-wider">
+      <div className="flex items-center w-3/5">
+        <Image
+          src="/patient.svg"
+          alt="brand-logo"
+          height={35}
+          width={35}
+          className="flex md:hidden my-1"
+        />
+        <p className="ml-2 md:-ml-2 text-sm md:flex md:text-lg font-semibold tracking-wider">
           Patient Fitness Tracker
         </p>
-        {/* <div className="w-2/5">
-          <Input
-            isClearable
-            radius="lg"
-            classNames={{
-              input: [
-                "bg-transparent",
-                "text-black/90 dark:text-white/90",
-                "placeholder:text-default-700/50 dark:placeholder:text-white/60",
-              ],
-              innerWrapper: "bg-transparent",
-              inputWrapper: [
-                "bg-white",
-                "dark:bg-default/60",
-                "backdrop-blur-xl",
-                "backdrop-saturate-200",
-                "hover:bg-default-200/70",
-                "dark:hover:bg-default/70",
-                "group-data-[focused=true]:bg-default-200/50",
-                "dark:group-data-[focused=true]:bg-default/60",
-                "!cursor-text",
-              ],
-            }}
-            placeholder="Type to search..."
-            startContent={
-              <CiSearch className="text-black/50 mb-0.5 dark:text-white/90 text-slate-400 pointer-events-none flex-shrink-0" />
-            }
-          />
-        </div> */}
       </div>
 
       <div className="flex justify-center items-center gap-2">
@@ -84,7 +62,7 @@ export default async function Headbar() {
           }
         />
 
-        <form action={logoutAction}>
+        <form action={logoutAction} className="hidden md:flex">
           <Button size="sm" type="submit" isIconOnly className="bg-transparent">
             <CiLogin size={25} />
           </Button>
