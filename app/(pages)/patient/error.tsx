@@ -13,7 +13,7 @@ export default function Error({
   const router = useRouter();
 
   return (
-    <div className="flex justify-center gap-5 items-center">
+    <div className="h-screen flex justify-center gap-5 items-center">
       <div className="flex flex-col gap-5">
         <h2 className="text-[#606060] font-bold tracking-wider text-5xl">
           Oops! Sorry <br />

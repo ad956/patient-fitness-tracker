@@ -18,9 +18,9 @@ export default async function PatientPage() {
     await getUpcomingAppointments();
 
   return (
-    <section className="bg-[#f3f6fd] overflow-hidden p-2">
-      <div className="grid grid-cols-5 grid-rows-5 h-full gap-3">
-        <Card className="row-span-3 justify-center items-center">
+    <section className="bg-[#f3f6fd] md:overflow-hidden p-2">
+      <div className="flex flex-col md:grid md:grid-cols-5 md:grid-rows-5 md:h-full gap-3">
+        <Card className="p-5 row-span-3 justify-center items-center">
           <div className="flex flex-col items-center">
             <Avatar size="lg" src={patient.profile} />
             <p className="text-sm font-semibold">
@@ -49,7 +49,7 @@ export default async function PatientPage() {
             </div>
           </div>
         </Card>
-        <Card className="col-span-1 flex justify-center gap-5 items-center p-5">
+        <Card className="col-span-1 flex justify-center gap-5 items-center p-8 md:p-5">
           <Progress
             size="sm"
             radius="sm"
@@ -80,7 +80,7 @@ export default async function PatientPage() {
             showValueLabel={true}
           />
         </Card>
-        <Card className="col-span-1 flex justify-center gap-5 items-center p-5">
+        <Card className="col-span-1 flex justify-center gap-5 items-center p-8 md:p-5">
           <Progress
             size="sm"
             radius="sm"
@@ -122,7 +122,7 @@ export default async function PatientPage() {
             />
           </Tooltip>
         </Card>
-        <Card className=" row-span-5 col-span-2 flex flex-col gap-5 justify-center items-center p-5 w-full">
+        <Card className="h-screen md:h-auto row-span-5 col-span-2 flex flex-col gap-5 justify-center items-center p-5 w-full">
           <Calendar upcomingAppointments={upcomingAppointments} />
           <CarouselService />
         </Card>
@@ -130,7 +130,7 @@ export default async function PatientPage() {
           <p className="text-sm font-semibold self-start m-4 pt-2">Medicines</p>
           <MedicineDetails details={patient.medicines} />
         </Card>
-        <Card className="row-span-2 col-span-3">
+        <Card className="h-56 md:h-auto row-span-2 col-span-3">
           <HealthConditions progressData={patient.healthConditions} />
         </Card>
       </div>
