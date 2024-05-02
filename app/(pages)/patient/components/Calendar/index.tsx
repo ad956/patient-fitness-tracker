@@ -109,7 +109,6 @@ export default function Calendar({
         fromYear={2024}
         selected={appointmentDates}
         onDayClick={handleDayClick}
-        // onSelect={setSelectedDate}
         classNames={{
           day_outside: "text-black/30",
           button: "text-md px-2 py-1",
@@ -120,7 +119,7 @@ export default function Calendar({
         formatters={{ formatCaption }}
       />
 
-      <p className="mx-auto text-black/80 text-md font-bold tracking-wide">
+      <p className="hidden sm:flex md:hidden xl:flex mx-auto text-black/80 text-md font-bold tracking-wide">
         Have a good
         <span className="text-danger ml-1">day</span>
       </p>
