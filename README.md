@@ -2,6 +2,8 @@
 
 [![My Skills](https://skillicons.dev/icons?i=nextjs,tailwindcss,mongodb&theme=dark)](https://skillicons.dev)
 
+[![Build](https://img.shields.io/github/actions/workflow/status/ad956/patient-fitness-tracker/tests.yml?branch=main)](https://img.shields.io)
+
 The Patient Fitness Tracker is a modern healthcare platform designed to streamline patient management and monitoring across multiple hospitals. It empowers patients to take control of their health journey while enabling healthcare providers to deliver personalized care efficiently.
 
 ## Features
