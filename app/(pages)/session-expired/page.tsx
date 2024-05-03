@@ -1,12 +1,10 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { Image } from "@nextui-org/react";
 
 export default function ErrorPage() {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const msg = searchParams.get("msg");
 
   const [secondsRemaining, setSecondsRemaining] = useState(5);
 
@@ -39,11 +37,7 @@ export default function ErrorPage() {
         />
       </div>
       <div className="absolute bottom-0 left-0 right-0 text-center p-8 z-10">
-        {msg ? (
-          <p className="text-lg text-gray-600">{msg}</p>
-        ) : (
-          <p className="text-lg text-gray-600">An unexpected error occurred.</p>
-        )}
+        <p className="text-lg text-gray-600">SESSION_EXPIRED.</p>
         <p className="mt-4 text-lg text-gray-700 font-bold py-2 px-4 rounded">
           You will be redirected to the login page in {secondsRemaining}{" "}
           seconds.{" "}
