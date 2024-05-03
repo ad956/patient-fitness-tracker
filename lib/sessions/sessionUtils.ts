@@ -11,7 +11,6 @@ export async function encrypt(payload: any) {
     .setProtectedHeader({ alg: "HS256" })
     .setIssuedAt()
     .setExpirationTime("60 minutes from now")
-    // .setExpirationTime("30 minutes from now")
     .sign(key);
 }
 
@@ -36,13 +35,6 @@ export async function decrypt(input: string): Promise<any> {
     return null;
   }
 }
-
-// export async function decrypt(input: string): Promise<any> {
-//   const { payload } = await jwtVerify(input, key, {
-//     algorithms: ["HS256"],
-//   });
-//   return payload;
-// }
 
 export async function setSession(email: string, role: string) {
   const user = { email, role };
@@ -79,7 +71,7 @@ export async function updateSession(request: NextRequest) {
     name: "session",
     value: await encrypt(parsed),
     httpOnly: true,
-    expires: parsed.expires,
+    expires,
   });
   return res;
 }
@@ -87,10 +79,4 @@ export async function updateSession(request: NextRequest) {
 // Method to get token
 export function getSessionToken() {
   return cookies().get("session")?.value || null;
-}
-
-// Method to decrypt the session token
-export async function decryptSessionToken(token: string): Promise<any> {
-  if (!token) return null;
-  return await decrypt(token);
 }
