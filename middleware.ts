@@ -1,45 +1,63 @@
-import { NextRequest } from "next/server";
-import { logout, updateSession } from "@sessions/sessionUtils";
-import { redirect } from "next/navigation";
+import { NextRequest, NextResponse } from "next/server";
+import { decrypt, updateSession } from "@sessions/sessionUtils";
+
+const PublicRoutes = ["/", "/login", "/signup"];
+const PrivateRoutes = ["/patient", "/receptionist", "/doctor", "/hospital"];
 
 export async function middleware(request: NextRequest) {
-  // console.log("CALLED");
-  // await updateSessionMiddleware(request);
-  // redirectMiddleware(request);
+  if (!PublicRoutes.includes(request.nextUrl.pathname)) {
+    const sessionUpdated = await updateSessionMiddleware(request);
+    if (!sessionUpdated) {
+      return NextResponse.redirect(
+        new URL(`/error?msg=SESSION_EXPIRED`, request.url),
+        {
+          // removing existing session cookie
+          headers: {
+            "Set-Cookie": "session=; Path=/; Expires=",
+          },
+        }
+      );
+    }
+  }
+  return redirectMiddleware(request);
 }
 
 export async function updateSessionMiddleware(request: NextRequest) {
   try {
-    const res = await updateSession(request);
-    console.log("in mid : " + res);
-
-    if (res && res.status === 401) {
-      await logout();
-    }
-    return Response.redirect(new URL("/login", request.url));
+    await updateSession(request);
+    return true;
   } catch (error) {
     console.error("Error updating session:", error);
-    return Response.json({ error: "Internal Server Error" }, { status: 500 });
+    return false;
   }
 }
-// function redirectMiddleware(request: NextRequest) {
-//   const currentUser = request.cookies.get("session")?.value;
-//   // console.log("currentUser : " + currentUser + " __ " + Date.now());
 
-//   if (currentUser && !request.nextUrl.pathname.startsWith("/dashboard")) {
-//     return Response.redirect(new URL("/dashboard", request.url));
-//   }
+export async function redirectMiddleware(request: NextRequest) {
+  const path = request.nextUrl.pathname;
+  const token = request.cookies.get("session")?.value;
 
-//   if (!currentUser && !request.nextUrl.pathname.startsWith("/login")) {
-//     return Response.redirect(new URL("/login", request.url));
-//   }
-// }
+  const isPublicRoute = PublicRoutes.includes(path);
+  const isPrivateRoute = PrivateRoutes.includes(`/${path.split("/")[1]}`); // extracts the user path from url
+
+  if (token) {
+    const decryptedToken = await decrypt(token);
+    const userRole = decryptedToken.user.role;
+
+    if (isPrivateRoute && !token) {
+      return NextResponse.redirect(new URL(`/login`, request.url));
+    }
+
+    if (isPublicRoute && token) {
+      return NextResponse.redirect(new URL(`/${userRole}`, request.url));
+    }
+  }
+
+  return NextResponse.next();
+}
 
 // Optionally, don't invoke Middleware on some paths
 export const config = {
-  matcher: ["/((?!api|_next/static|_next/image|.*\\.png$).*)"],
-  missing: [
-    { type: "header", key: "next-router-prefetch" },
-    { type: "header", key: "purpose", value: "prefetch" },
+  matcher: [
+    "/((?!api|_next/static|_next/image|.*\\.png$|.*\\.svg$|.*\\.gif$|.*\\.ico$|.*\\.jpg$|.*\\.webp$|error).*)",
   ],
 };
