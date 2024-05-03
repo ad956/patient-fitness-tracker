@@ -1,6 +1,6 @@
 import dbConfig from "@/lib/db";
 import { bookingAppointment } from "@/types";
-import { decryptSessionToken } from "@sessions/sessionUtils";
+import { decrypt } from "@sessions/sessionUtils";
 import { ObjectId } from "mongodb";
 
 // getting patients approved appointments
@@ -11,7 +11,7 @@ export async function GET(request: Request) {
   }
   try {
     const token = session.split("Bearer ")[1];
-    const decryptedUser = await decryptSessionToken(token);
+    const decryptedUser = await decrypt(token);
     const email = decryptedUser.user.email;
 
     const db = await dbConfig();
@@ -89,7 +89,7 @@ export async function POST(req: Request) {
     const { date, state, city, hospital, disease, note } = body;
 
     const token = session.split("Bearer ")[1];
-    const decryptedUser = await decryptSessionToken(token);
+    const decryptedUser = await decrypt(token);
     const email = decryptedUser.user.email;
 
     const db = await dbConfig();
