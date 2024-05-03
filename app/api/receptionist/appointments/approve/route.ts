@@ -1,5 +1,5 @@
 import dbConfig from "@/lib/db";
-import { decryptSessionToken } from "@sessions/sessionUtils";
+import { decrypt } from "@sessions/sessionUtils";
 import { ObjectId } from "mongodb";
 
 export async function GET(request: Request) {
@@ -43,7 +43,7 @@ export async function POST(request: Request) {
   try {
     const { patient_id } = await request.json();
     const token = session.split("Bearer ")[1];
-    const decryptedUser = await decryptSessionToken(token);
+    const decryptedUser = await decrypt(token);
 
     // Convert the patient_id string to an ObjectId
     const patientObjectId = new ObjectId(patient_id);

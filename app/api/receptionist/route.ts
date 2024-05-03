@@ -1,5 +1,5 @@
 import dbConfig from "@/lib/db";
-import { decryptSessionToken } from "@sessions/sessionUtils";
+import { decrypt } from "@sessions/sessionUtils";
 
 export async function GET(request: Request) {
   const session = request.headers.get("Authorization");
@@ -10,7 +10,7 @@ export async function GET(request: Request) {
   try {
     const token = session.split("Bearer ")[1];
 
-    const decryptedUser = await decryptSessionToken(token);
+    const decryptedUser = await decrypt(token);
 
     const email = decryptedUser.user.email;
 
