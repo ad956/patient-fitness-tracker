@@ -4,7 +4,8 @@ export default async function verifyOtp(
   otp: string
 ) {
   try {
-    const response = await fetch(`http://localhost:3000/api/auth/verifyotp`, {
+    const serverUrl = process.env.BASE_URL || "http://localhost:3000";
+    const response = await fetch(`${serverUrl}/api/auth/verifyotp`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

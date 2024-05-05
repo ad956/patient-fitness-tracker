@@ -9,7 +9,8 @@ export async function loginAction(formData: FormData) {
   const role = formData.get("role");
 
   try {
-    const response = await fetch("http://localhost:3000/api/auth/login", {
+    const serverUrl = process.env.BASE_URL || "http://localhost:3000";
+    const response = await fetch(`${serverUrl}/api/auth/login`, {
       method: "POST",
       body: JSON.stringify({ email, password, role }),
     });
@@ -39,7 +40,8 @@ export async function signupAction(formData: FormData) {
   console.log(user);
 
   try {
-    const response = await fetch("http://localhost:3000/api/auth/signup", {
+    const serverUrl = process.env.BASE_URL || "http://localhost:3000";
+    const response = await fetch(`${serverUrl}/api/auth/signup`, {
       method: "POST",
       body: JSON.stringify(user),
     });
