@@ -232,6 +232,7 @@ export default function Login() {
                       {Error}
                     </p>
                     <Image
+                      alt="for-wrong-password-use"
                       src="https://media.istockphoto.com/id/1412330792/vector/wrong-password-concept.jpg?s=612x612&w=0&k=20&c=N4BoF3wbVqB9Vwyu0K8d-RyhJIiRc-CZdmxkWsidg18="
                       height={200}
                       width={200}
