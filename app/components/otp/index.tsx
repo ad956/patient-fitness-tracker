@@ -23,7 +23,7 @@ type userDataType = {
 };
 
 export default function OtpSection({ userData }: userDataType) {
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const { onOpenChange } = useDisclosure();
 
   const [otp, setOtp] = useState("");
   const [showError, setShowError] = useState("");
@@ -38,10 +38,20 @@ export default function OtpSection({ userData }: userDataType) {
     index: number
   ) => {
     const value = e.target.value;
+    setShowError("");
     setOtp((prevOtp) => prevOtp + value);
     if (value && index < 4) {
       inputsRefs.current[index + 1]?.focus();
     }
+  };
+
+  const resetOtpInputs = () => {
+    inputsRefs.current.forEach((input) => {
+      if (input) {
+        input.value = "";
+      }
+    });
+    setOtp("");
   };
 
   const handleSubmit = async () => {
@@ -49,6 +59,7 @@ export default function OtpSection({ userData }: userDataType) {
 
     if (data.error) {
       setShowError(data.error);
+      resetOtpInputs();
     } else {
       setShowError("");
 
@@ -58,7 +69,7 @@ export default function OtpSection({ userData }: userDataType) {
           // as the setSession method uses next/headers it can't be called from a client componnet
           await setSessionReq(userData.email, userData.role);
           router.push(`/${userData.role}`);
-        }, 2000);
+        }, 1000);
       });
 
       toast.promise(
@@ -88,7 +99,6 @@ export default function OtpSection({ userData }: userDataType) {
                 height={200}
                 width={200}
               />
-
               <div className="flex justify-center gap-2 w-full">
                 {[...Array(5)].map((_, index) => (
                   <Input
@@ -103,6 +113,7 @@ export default function OtpSection({ userData }: userDataType) {
                     maxLength={1}
                     onChange={(e) => handleInputChange(e, index)}
                     ref={(el) => (inputsRefs.current[index] = el)}
+                    value={otp[index] || ""}
                   />
                 ))}
               </div>
