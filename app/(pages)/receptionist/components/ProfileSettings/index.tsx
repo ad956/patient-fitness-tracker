@@ -1,13 +1,10 @@
 import { Receptionist } from "@/types";
 import { Input, Button, Card, Avatar } from "@nextui-org/react";
-import React from "react";
-import { getReceptionistData } from "@/lib/receptionist/getReceptionistData";
+import { getReceptionistData } from "@lib/receptionist";
 
 export default async function ProfileSettings() {
   const { receptionist }: { receptionist: Receptionist } =
     await getReceptionistData();
-
-  if (!receptionist) throw new Error("fetching receptionist data");
 
   return (
     <Card

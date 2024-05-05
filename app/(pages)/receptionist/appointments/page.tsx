@@ -1,5 +1,4 @@
-import SpinnerLoader from "@/app/components/SpinnerLoader";
-import React from "react";
+import SpinnerLoader from "@components/SpinnerLoader";
 
 export default function Appointmentpage() {
   return <SpinnerLoader />;

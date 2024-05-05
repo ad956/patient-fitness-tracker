@@ -6,23 +6,15 @@ import {
   BsPersonCheckFill,
   BsPersonLinesFill,
 } from "react-icons/bs";
-import { PatientDetails, Receptionist } from "@/types";
-import { getReceptionistData } from "@/lib/receptionist/getReceptionistData";
-import { MonthlyVisitors } from "./components/Graphs";
-import PatientTabs from "./components/PatientTabs";
-import { getPendingAppointments } from "@/lib/receptionist/getPendingAppointments";
+import { Receptionist } from "@/types";
+import { getReceptionistData, getPendingAppointments } from "@lib/receptionist";
+import { MonthlyVisitors, PatientTabs } from "./components";
 
 export default async function ReceptionistPage() {
   const { receptionist }: { receptionist: Receptionist } =
     await getReceptionistData();
 
-  if (!receptionist) throw new Error("fetching receptionist data");
-
   const pendingPatients = await getPendingAppointments();
-
-  if (!pendingPatients) {
-    throw new Error("fetching patient appointments");
-  }
 
   const pendingAppointments = pendingPatients.patientDetails.length;
   const approvedAppointments = receptionist.dailyCount.approved;

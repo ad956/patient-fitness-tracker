@@ -4,7 +4,7 @@ import React, { useRef } from "react";
 import QrScanner from "qr-scanner";
 import { Button, Card, CardBody, CardHeader } from "@nextui-org/react";
 import toast, { Toaster } from "react-hot-toast";
-import scanQRCode from "@/lib/receptionist/scanQrCode";
+import { scanQRCode } from "@lib/receptionist";
 
 const QRScanner = () => {
   const [scanResult, setScanResult] = React.useState("");

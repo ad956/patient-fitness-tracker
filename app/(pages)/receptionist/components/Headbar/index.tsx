@@ -1,11 +1,11 @@
 import { CiLogin, CiSearch } from "react-icons/ci";
 import { Button, Divider, Input, Link, User } from "@nextui-org/react";
 import { GoPlus } from "react-icons/go";
-import { logoutAction } from "@/lib/actions";
-import Notifications from "@receptionist/components/Notifications";
+import { logoutAction } from "@lib/actions";
+import Notifications from "../Notifications";
 import { Receptionist, bookedAppointments } from "@/types";
-import getUpcomingAppointments from "@/lib/patient/getUpcomingAppointments";
-import { getReceptionistData } from "@/lib/receptionist/getReceptionistData";
+import { getUpcomingAppointments } from "@lib/patient";
+import { getReceptionistData } from "@lib/receptionist";
 
 export default async function Headbar() {
   const { receptionist }: { receptionist: Receptionist } =

@@ -1,5 +1,4 @@
-import Headbar from "@receptionist/components/Headbar";
-import Sidebar from "@receptionist/components/Sidebar";
+import { Headbar, Sidebar } from "./components";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
