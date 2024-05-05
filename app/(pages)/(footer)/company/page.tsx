@@ -1,4 +1,5 @@
 "use client";
+
 import { Accordion, AccordionItem, Image } from "@nextui-org/react";
 import { FcAbout, FcServices, FcVoicePresentation } from "react-icons/fc";
 

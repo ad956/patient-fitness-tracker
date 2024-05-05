@@ -1,4 +1,5 @@
 "use client";
+
 import { Accordion, AccordionItem, Image } from "@nextui-org/react";
 import { FaAngleDown } from "react-icons/fa6";
 import { FcBusinessContact, FcDocument, FcFaq } from "react-icons/fc";
