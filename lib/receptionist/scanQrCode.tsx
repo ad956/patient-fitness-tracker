@@ -1,6 +1,9 @@
-const scanQRCode = async (email: string) => {
+"use server";
+
+export default async function scanQRCode(email: string) {
   try {
-    const res = await fetch("http://localhost:3000/api/receptionist/scan", {
+    const serverUrl = process.env.BASE_URL || "http://localhost:3000";
+    const res = await fetch(`${serverUrl}/api/receptionist/scan`, {
       method: "POST",
       body: JSON.stringify({ email }),
       headers: {
@@ -13,6 +16,4 @@ const scanQRCode = async (email: string) => {
   } catch (error) {
     console.error("Error fetching data:", error);
   }
-};
-
-export default scanQRCode;
+}

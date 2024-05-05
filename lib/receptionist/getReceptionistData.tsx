@@ -1,23 +1,31 @@
-import { getSessionToken } from "@sessions/sessionUtils";
+"use server";
 
-export async function getReceptionistData() {
-  const session = await getSessionToken();
+import { getSessionToken } from "../sessions/sessionUtils";
 
-  const headers = {
-    Authorization: `Bearer ${session}`,
-  };
+export default async function getReceptionistData() {
+  try {
+    const session = await getSessionToken();
+    const serverUrl = process.env.BASE_URL || "http://localhost:3000";
 
-  const res = await fetch(`http://localhost:3000/api/receptionist`, {
-    headers,
-    next: { revalidate: 10 },
-  });
+    const headers = {
+      Authorization: `Bearer ${session}`,
+    };
 
-  if (!res.ok) {
-    console.error(`Error fetching receptionist data: ${res.status}`);
-    throw new Error("Failed to fetch receptionist data");
+    const res = await fetch(`${serverUrl}/api/receptionist`, {
+      headers,
+    });
+
+    if (!res.ok) {
+      throw new Error(
+        `Failed to fetch receptionist data: ${res.status} - ${res.statusText}`
+      );
+    }
+
+    const receptionistData = await res.json();
+
+    return receptionistData;
+  } catch (error) {
+    console.error("Error fetching receptionist data:", error);
+    throw error;
   }
-
-  const receptionistData = await res.json();
-
-  return receptionistData;
 }

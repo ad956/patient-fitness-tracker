@@ -1,26 +1,34 @@
-import { getSessionToken } from "@sessions/sessionUtils";
+"use server";
 
-export async function getPendingAppointments() {
-  const session = await getSessionToken();
+import { getSessionToken } from "../sessions/sessionUtils";
 
-  const headers = {
-    Authorization: `Bearer ${session}`,
-  };
+export default async function getPendingAppointments() {
+  try {
+    const session = await getSessionToken();
+    const serverUrl = process.env.BASE_URL || "http://localhost:3000";
 
-  const res = await fetch(
-    `http://localhost:3000/api/receptionist/appointments/pending`,
-    {
-      headers,
-      //   next: { revalidate: 10 },
+    const headers = {
+      Authorization: `Bearer ${session}`,
+    };
+
+    const res = await fetch(
+      `${serverUrl}/api/receptionist/appointments/pending`,
+      {
+        headers,
+      }
+    );
+
+    if (!res.ok) {
+      throw new Error(
+        `Failed to fetch pending appointments: ${res.status} - ${res.statusText}`
+      );
     }
-  );
 
-  if (!res.ok) {
-    console.error(`Error fetching receptionist data: ${res.status}`);
-    throw new Error("Failed to fetch receptionist data");
+    const receptionistData = await res.json();
+
+    return receptionistData;
+  } catch (error) {
+    console.error("Error fetching pending appointments:", error);
+    throw error;
   }
-
-  const receptionistData = await res.json();
-
-  return receptionistData;
 }
