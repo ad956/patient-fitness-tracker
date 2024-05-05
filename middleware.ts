@@ -8,15 +8,12 @@ export async function middleware(request: NextRequest) {
   if (!PublicRoutes.includes(request.nextUrl.pathname)) {
     const sessionUpdated = await updateSessionMiddleware(request);
     if (!sessionUpdated) {
-      return NextResponse.redirect(
-        new URL(`/error?msg=SESSION_EXPIRED`, request.url),
-        {
-          // removing existing session cookie
-          headers: {
-            "Set-Cookie": "session=; Path=/; Expires=",
-          },
-        }
-      );
+      return NextResponse.redirect(new URL(`/session-expired`, request.url), {
+        // removing existing session cookie
+        headers: {
+          "Set-Cookie": "session=; Path=/; Expires=",
+        },
+      });
     }
   }
   return redirectMiddleware(request);
@@ -43,13 +40,12 @@ export async function redirectMiddleware(request: NextRequest) {
     const decryptedToken = await decrypt(token);
     const userRole = decryptedToken.user.role;
 
-    if (isPrivateRoute && !token) {
-      return NextResponse.redirect(new URL(`/login`, request.url));
-    }
-
     if (isPublicRoute && token) {
       return NextResponse.redirect(new URL(`/${userRole}`, request.url));
     }
+  }
+  if (isPrivateRoute && !token) {
+    return NextResponse.redirect(new URL(`/login`, request.url));
   }
 
   return NextResponse.next();
