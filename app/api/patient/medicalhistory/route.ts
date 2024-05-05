@@ -1,4 +1,4 @@
-import dbConfig from "@/lib/db";
+import dbConfig from "@lib/db";
 import { decrypt } from "@sessions/sessionUtils";
 
 export async function GET(request: Request) {
@@ -68,7 +68,7 @@ export async function GET(request: Request) {
 
     return Response.json(formattedMedicalHistory);
   } catch (error) {
-    console.error("Error fetching hospital data:", error);
+    console.error("Error fetching medical history of patient : ", error);
     return Response.json({ error: "Internal Server Error" }, { status: 500 });
   }
 }

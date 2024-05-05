@@ -1,4 +1,4 @@
-import dbConfig from "@/lib/db";
+import dbConfig from "@lib/db";
 
 export async function GET(req: Request) {
   try {

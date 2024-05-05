@@ -1,4 +1,4 @@
-import dbConfig from "@/lib/db";
+import dbConfig from "@lib/db";
 
 type bodyType = {
   email: string;
@@ -11,7 +11,7 @@ export async function POST(req: Request) {
     const body = await req.json();
 
     if (!body.otp) {
-      return Response.json({ error: "Invalid OTP" });
+      return Response.json({ error: "OTP Not Provided" });
     }
 
     switch (body.role) {

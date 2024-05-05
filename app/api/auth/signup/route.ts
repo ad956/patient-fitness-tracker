@@ -1,8 +1,8 @@
-import dbConfig from "@/lib/db";
+import dbConfig from "@lib/db";
 import WelcomeTemplate from "@/emails/otpmail";
-import { sendEmail } from "@/lib/email";
+import { sendEmail } from "@lib/email";
 import { render } from "@react-email/render";
-import { generateSecureOTP } from "@/app/utils/generateOtp";
+import { generateSecureOTP } from "@utils/generateOtp";
 import {
   doctoradditionalDetails,
   hospitaladditionalDetails,

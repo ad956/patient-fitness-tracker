@@ -1,4 +1,4 @@
-import dbConfig from "@/lib/db";
+import dbConfig from "@lib/db";
 import { bookingAppointment } from "@/types";
 import { decrypt } from "@sessions/sessionUtils";
 import { ObjectId } from "mongodb";

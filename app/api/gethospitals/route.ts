@@ -1,4 +1,4 @@
-import dbConfig from "@/lib/db";
+import dbConfig from "@lib/db";
 
 export async function GET(req: Request) {
   try {
@@ -36,7 +36,10 @@ export async function GET(req: Request) {
 
     return new Response(JSON.stringify(cityHospitals), { status: 200 });
   } catch (error) {
-    console.error("Error fetching hospital data:", error);
+    console.error(
+      "Error while fetching hospitals for booking appointments : ",
+      error
+    );
     return new Response("Internal Server Error", { status: 500 });
   }
 }

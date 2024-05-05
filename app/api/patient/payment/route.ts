@@ -1,5 +1,5 @@
 import { ObjectId } from "mongodb";
-import dbConfig from "@/lib/db";
+import dbConfig from "@lib/db";
 import { decrypt } from "@sessions/sessionUtils";
 
 interface Transaction {
