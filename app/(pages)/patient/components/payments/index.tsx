@@ -1,6 +1,5 @@
 "use client";
 
-import { getPayments } from "@/lib/patient/";
 import { PaymentsHistory } from "@/types";
 import {
   Chip,

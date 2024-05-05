@@ -11,8 +11,8 @@ import {
   Textarea,
   Spinner,
 } from "@nextui-org/react";
-import bookAppointment from "@/lib/patient/bookAppointment";
-import { SERVER_URL } from "@constants/index";
+import { bookAppointment } from "@lib/patient";
+import { BASE_URL } from "@constants/index";
 import toast, { Toaster } from "react-hot-toast";
 
 type Hospital = {
@@ -83,7 +83,7 @@ export default function BookAppointment() {
 
   const fetchStates = async () => {
     try {
-      const response = await fetch(`${SERVER_URL}states`);
+      const response = await fetch(`${BASE_URL}/api/states`);
       if (!response.ok) {
         throw new Error("Failed to fetch states");
       }
@@ -97,7 +97,9 @@ export default function BookAppointment() {
   };
   const fetchCities = async () => {
     try {
-      const response = await fetch(`${SERVER_URL}city/?state=${selectedState}`);
+      const response = await fetch(
+        `${BASE_URL}/api/city/?state=${selectedState}`
+      );
       if (!response.ok) {
         throw new Error("Failed to fetch cities");
       }
@@ -113,7 +115,7 @@ export default function BookAppointment() {
   const fetchHospitals = async () => {
     try {
       const response = await fetch(
-        `${SERVER_URL}gethospitals/?state=${selectedState}&city=${selectedCity}`
+        `${BASE_URL}/api/gethospitals/?state=${selectedState}&city=${selectedCity}`
       );
       if (!response.ok) {
         throw new Error("Failed to fetch hospitals");
@@ -131,7 +133,7 @@ export default function BookAppointment() {
 
   const fetchDiseases = async () => {
     try {
-      const response = await fetch(`${SERVER_URL}gethospitals/disease/`);
+      const response = await fetch(`${BASE_URL}/api/gethospitals/disease/`);
       if (!response.ok) {
         throw new Error("Failed to fetch diseases");
       }

@@ -1,6 +1,5 @@
 "use client";
 
-import { getPatientMedicalHistory } from "@/lib/patient/";
 import { MedicalHistoryType } from "@/types";
 import {
   Chip,
@@ -13,7 +12,6 @@ import {
   TableRow,
   User,
 } from "@nextui-org/react";
-import { useState, useEffect } from "react";
 
 type MedicalDetailsProps = {
   medicalDetails: MedicalHistoryType[];

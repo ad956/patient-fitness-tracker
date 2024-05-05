@@ -9,8 +9,8 @@ import {
 import { useState } from "react";
 import { AiOutlineSchedule } from "react-icons/ai";
 import { CiHospital1 } from "react-icons/ci";
-import Link from "next/link";
 import { usePathname } from "next/navigation";
+import Link from "next/link";
 
 export default function Sidebar() {
   const pathname = usePathname();
@@ -40,7 +40,7 @@ export default function Sidebar() {
     setSelected(index);
   }
 
-  const BaseURL = process.env.BASE_URL || "http://localhost:3000/";
+  const BaseURL = process.env.BASE_URL || "http://localhost:3000";
 
   return (
     <aside className="hidden h-full md:flex flex-col items-center p-4 bg-[#f3f6fd]">
@@ -55,7 +55,7 @@ export default function Sidebar() {
         {sidebarButtons.map((item, index) => (
           <Button
             key={item.title}
-            href={`${BaseURL}${item.uri}`}
+            href={`${BaseURL}/${item.uri}`}
             isIconOnly
             as={Link}
             radius="full"

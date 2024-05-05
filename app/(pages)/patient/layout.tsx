@@ -1,5 +1,4 @@
-import Headbar from "@patient/components/Headbar";
-import Sidebar from "@patient/components/Sidebar";
+import { Headbar, Sidebar } from "./components";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {

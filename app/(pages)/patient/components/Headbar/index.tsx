@@ -1,17 +1,13 @@
 import { CiLogin } from "react-icons/ci";
 import { Button, Divider, Image, Link, User } from "@nextui-org/react";
 import { GoPlus } from "react-icons/go";
-import { logoutAction } from "@/lib/actions";
+import { logoutAction } from "@lib/actions";
 import Notifications from "../Notifications";
-import { getPatientData, getUpcomingAppointments } from "@/lib/patient/index";
+import { getPatientData, getUpcomingAppointments } from "@lib/patient";
 import { Patient, bookedAppointments } from "@/types";
 
 export default async function Headbar() {
   const { patient }: { patient: Patient } = await getPatientData();
-
-  if (!patient) {
-    throw new Error("fetching patient data");
-  }
 
   const upcomingAppointments: bookedAppointments =
     await getUpcomingAppointments();

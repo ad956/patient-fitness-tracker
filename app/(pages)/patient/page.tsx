@@ -1,18 +1,15 @@
 import { Avatar, Card, Divider, Progress, Tooltip } from "@nextui-org/react";
-import { HealthConditions } from "./components/Graphs";
-import Calendar from "./components/Calendar";
-import CarouselService from "./components/ServiceCarousel";
+import {
+  CarouselService,
+  Calendar,
+  MedicineDetails,
+  HealthConditions,
+} from "./components";
 import { Patient, bookedAppointments } from "@/types";
-import { getPatientData } from "@/lib/patient/";
-import { getUpcomingAppointments } from "@/lib/patient/";
-import MedicineDetails from "./components/MedicineDetails";
+import { getPatientData, getUpcomingAppointments } from "@lib/patient";
 
 export default async function PatientPage() {
   const { patient }: { patient: Patient } = await getPatientData();
-
-  if (!patient) {
-    throw new Error("fetching patient data");
-  }
 
   const upcomingAppointments: bookedAppointments =
     await getUpcomingAppointments();

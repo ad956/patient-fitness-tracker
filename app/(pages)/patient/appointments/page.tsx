@@ -1,14 +1,10 @@
-import { Card, Image, Button, Textarea } from "@nextui-org/react";
-import BookAppointment from "../components/BookAppointment";
+import { Card, Image } from "@nextui-org/react";
+import { BookAppointment } from "../components";
 import { Patient } from "@/types";
-import { getPatientData } from "@/lib/patient/";
+import { getPatientData } from "@lib/patient";
 
 export default async function Appointments() {
   const { patient }: { patient: Patient } = await getPatientData();
-
-  if (!patient) {
-    throw new Error("fetching patient data!");
-  }
 
   return (
     <section className="h-full w-full flex flex-col gap-5  p-5">
