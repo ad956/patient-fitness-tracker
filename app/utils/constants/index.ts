@@ -1,5 +1,4 @@
-const BASE_URL = "http://localhost:3000/";
-const SERVER_URL = "http://localhost:3000/api/";
+const BASE_URL = "http://localhost:3000";
 
 const carouselData = [
   {
@@ -125,7 +124,6 @@ const receptionistadditionalDetails = {
 
 export {
   BASE_URL,
-  SERVER_URL,
   carouselData,
   projectFeatures,
   roles,
