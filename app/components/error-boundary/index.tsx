@@ -55,7 +55,7 @@ class ErrorBoundary extends React.Component<
               Oops! Something went wrong.
             </h2>
             <p className="text-black/55 font-medium text-xl">
-              We're sorry, but there was an error{" "}
+              We&#39;re sorry, but there was an error{" "}
               <span className="">{this.state.errorMessage}.</span> Please try
               again.
             </p>
