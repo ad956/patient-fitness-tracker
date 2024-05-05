@@ -1,19 +1,30 @@
-import { getSessionToken } from "@sessions/sessionUtils";
+"use server";
+
+import { getSessionToken } from "../sessions/sessionUtils";
 
 export default async function getPatientMedicalHistory() {
-  const session = await getSessionToken();
+  try {
+    const session = await getSessionToken();
+    const serverUrl = process.env.BASE_URL || "http://localhost:3000";
 
-  const headers = {
-    Authorization: `Bearer ${session}`,
-  };
+    const headers = {
+      Authorization: `Bearer ${session}`,
+    };
 
-  const response = await fetch(
-    "http://localhost:3000/api/patient/medicalhistory",
-    {
+    const response = await fetch(`${serverUrl}/api/patient/medicalhistory`, {
       headers,
-    }
-  );
+    });
 
-  const res = await response.json();
-  return res;
+    if (!response.ok) {
+      throw new Error(
+        `Failed to fetch patient medical history: ${response.statusText}`
+      );
+    }
+
+    const res = await response.json();
+    return res;
+  } catch (error) {
+    console.error("Error fetching patient medical history:", error);
+    throw error;
+  }
 }
