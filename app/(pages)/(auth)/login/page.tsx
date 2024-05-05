@@ -2,7 +2,7 @@
 import { useState, type ChangeEvent, useRef } from "react";
 import { AiTwotoneEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { carouselData, roles } from "@constants/index";
-import Carousel from "@/app/components/carousel";
+import { Carousel, OtpSection } from "@components/index";
 import {
   Button,
   Input,
@@ -15,8 +15,7 @@ import {
   ModalBody,
 } from "@nextui-org/react";
 import { MdOutlineKey, MdOutlineAlternateEmail } from "react-icons/md";
-import { loginAction } from "@/lib/actions";
-import OtpSection from "@/app/components/otp";
+import { loginAction } from "@lib/actions";
 import toast, { Toaster } from "react-hot-toast";
 
 export default function Login() {
@@ -84,7 +83,11 @@ export default function Login() {
     const formData = new FormData(e.currentTarget as HTMLFormElement);
 
     try {
+      toast.loading("Please wait ...", {
+        position: "bottom-center",
+      });
       const isValidUser = await loginAction(formData);
+      toast.dismiss();
       if (isValidUser?.unauthorized) {
         toast.error("Invalid email or password. Please try again.");
       } else {
@@ -97,22 +100,10 @@ export default function Login() {
             role: userRole?.toString() || "",
           });
 
-          const sendingOtpPromise = new Promise((resolve) => {
-            setTimeout(() => {
-              resolve(true);
-              setShowOtp(true);
-            }, 2000);
+          toast.success("OTP successfully sent !", {
+            position: "bottom-center",
           });
-
-          toast.promise(
-            sendingOtpPromise,
-            {
-              loading: "Please wait...",
-              success: "OTP Sent !",
-              error: "Error while sending OTP",
-            },
-            { position: "bottom-center" }
-          );
+          setShowOtp(true);
         }
       }
     } catch (error) {
@@ -168,6 +159,7 @@ export default function Login() {
             onChange={handleEmailChange}
             ref={emailRef}
             onBlur={() => showToast(emailRef)}
+            autoComplete="username"
           />
           <Input
             name="password"
@@ -194,6 +186,7 @@ export default function Login() {
             type={isVisible ? "text" : "password"}
             ref={passwordRef}
             onBlur={() => showToast(passwordRef)}
+            autoComplete="current-password"
           />
           <Select
             name="role"

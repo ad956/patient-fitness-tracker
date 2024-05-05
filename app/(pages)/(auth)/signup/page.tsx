@@ -2,15 +2,20 @@
 import { useState, useRef, type ChangeEvent } from "react";
 import { AiTwotoneEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { carouselData, roles } from "@constants/index";
-import Carousel from "@/app/components/carousel";
-import Link from "next/link";
-import { Button, Image, Input, Select, SelectItem } from "@nextui-org/react";
+import { Carousel, OtpSection } from "@components/index";
+import {
+  Button,
+  Image,
+  Input,
+  Select,
+  SelectItem,
+  Link,
+} from "@nextui-org/react";
 import toast, { Toaster } from "react-hot-toast";
 import { MdAlternateEmail, MdOutlineKey } from "react-icons/md";
 import { PiUserCircleDuotone } from "react-icons/pi";
 import { IoPersonCircleOutline } from "react-icons/io5";
-import { signupAction } from "@/lib/actions";
-import OtpSection from "@/app/components/otp";
+import { signupAction } from "@lib/actions";
 
 export default function Signup() {
   const [firstName, setFirstName] = useState("");
