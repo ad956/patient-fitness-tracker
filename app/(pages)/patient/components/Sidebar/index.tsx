@@ -88,7 +88,7 @@ const sidebarButtons = [
   },
   {
     title: "Payments",
-    uri: "patient/payments",
+    uri: "patient/paymenthistory",
   },
   {
     title: "Medical History",

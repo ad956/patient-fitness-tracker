@@ -1,4 +1,4 @@
-import { Payments } from "../components";
+import { PaymentDeatils } from "../components";
 import { getPayments } from "@lib/patient";
 
 export default async function Transactions() {
@@ -9,7 +9,7 @@ export default async function Transactions() {
       <p className="self-start font-medium text-lg tracking-wider ml-5">
         Payment History
       </p>
-      <Payments paymentHistory={response} />
+      <PaymentDeatils paymentHistory={response} />
     </section>
   );
 }

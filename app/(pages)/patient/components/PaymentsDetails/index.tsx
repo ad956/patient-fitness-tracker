@@ -18,7 +18,7 @@ type paymentsPropType = {
   paymentHistory: PaymentsHistory[];
 };
 
-export default function Payments({ paymentHistory }: paymentsPropType) {
+export default function PaymentDeatils({ paymentHistory }: paymentsPropType) {
   return (
     <div className="h-full w-full flex flex-col">
       <Table aria-label="Payment history" className="h-5/6">
