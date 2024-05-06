@@ -1,6 +1,7 @@
+import getBaseUrl from "@/app/utils/getBaseUrl";
 import { test, expect } from "@playwright/test";
 
-const BASE_URL = "http://localhost:3000";
+const BASE_URL = getBaseUrl();
 
 test("Displays the landing page correctly", async ({ page }) => {
   // Navigate to the home page
