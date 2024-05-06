@@ -12,8 +12,13 @@ import {
   Spinner,
 } from "@nextui-org/react";
 import { bookAppointment } from "@lib/patient";
-import { BASE_URL } from "@constants/index";
 import toast, { Toaster } from "react-hot-toast";
+import {
+  getCities,
+  getDiseases,
+  getHospitals,
+  getStates,
+} from "@lib/patient/misc";
 
 type Hospital = {
   hospital_id: string;
@@ -83,30 +88,22 @@ export default function BookAppointment() {
 
   const fetchStates = async () => {
     try {
-      const response = await fetch(`${BASE_URL}/api/states`);
-      if (!response.ok) {
-        throw new Error("Failed to fetch states");
-      }
-      const data = await response.json();
-      setStates(data);
-    } catch (error) {
-      console.error("Error fetching cities:", error);
+      const statesData = await getStates();
+      setStates(statesData);
+    } catch (error: any) {
+      console.error("Error fetching states :", error);
+      toast.error(error.message);
     } finally {
       setLoadingStates(false);
     }
   };
   const fetchCities = async () => {
     try {
-      const response = await fetch(
-        `${BASE_URL}/api/city/?state=${selectedState}`
-      );
-      if (!response.ok) {
-        throw new Error("Failed to fetch cities");
-      }
-      const data = await response.json();
-      setCities(data);
-    } catch (error) {
+      const citiesData = await getCities(selectedState);
+      setCities(citiesData);
+    } catch (error: any) {
       console.error("Error fetching cities:", error);
+      toast.error(error.message);
     } finally {
       setLoadingCities(false);
     }
@@ -114,18 +111,12 @@ export default function BookAppointment() {
 
   const fetchHospitals = async () => {
     try {
-      const response = await fetch(
-        `${BASE_URL}/api/gethospitals/?state=${selectedState}&city=${selectedCity}`
-      );
-      if (!response.ok) {
-        throw new Error("Failed to fetch hospitals");
-      }
-      const data = await response.json();
-      console.log("hospitals : " + data);
+      const hospitalsData = await getHospitals(selectedState, selectedCity);
 
-      setHospitals(data);
-    } catch (error) {
+      setHospitals(hospitalsData);
+    } catch (error: any) {
       console.error("Error fetching hospitals:", error);
+      toast.error(error.message);
     } finally {
       setLoadingHospitals(false);
     }
@@ -133,14 +124,11 @@ export default function BookAppointment() {
 
   const fetchDiseases = async () => {
     try {
-      const response = await fetch(`${BASE_URL}/api/gethospitals/disease/`);
-      if (!response.ok) {
-        throw new Error("Failed to fetch diseases");
-      }
-      const data = await response.json();
-      setDiseases(data);
-    } catch (error) {
+      const diseasesData = await getDiseases();
+      setDiseases(diseasesData);
+    } catch (error: any) {
       console.error("Error fetching diseases:", error);
+      toast.error(error.message);
     } finally {
       setLoadingDiseases(false);
     }
@@ -180,24 +168,24 @@ export default function BookAppointment() {
   }
 
   async function handleAppointmentButtonClick(): Promise<void> {
-    try {
-      const bookAppointmentData = {
-        date: new Date(),
-        state: selectedState,
-        city: selectedCity,
-        hospital: selectedHospital,
-        disease: selectedDisease,
-        note: additionalNote,
-      };
+    const bookAppointmentData = {
+      date: new Date(),
+      state: selectedState,
+      city: selectedCity,
+      hospital: selectedHospital,
+      disease: selectedDisease,
+      note: additionalNote,
+    };
 
-      const response = await bookAppointment(bookAppointmentData);
+    const response = await bookAppointment(bookAppointmentData);
 
-      clearSelected();
-      toast.success(response.msg);
-    } catch (error: any) {
-      console.error("Error booking apppointment:", error);
-      toast.error(error.message);
+    if (response.error) {
+      console.error("Error booking apppointment:", response.error);
+      toast.error(response.error);
+      return;
     }
+    clearSelected();
+    toast.success(response.msg);
   }
 
   function clearSelected() {

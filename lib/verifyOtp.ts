@@ -1,9 +1,12 @@
+import getBaseUrl from "@utils/getBaseUrl";
+
 export default async function verifyOtp(
   email: string,
   role: string,
   otp: string
 ) {
-  const serverUrl = process.env.BASE_URL || "http://localhost:3000";
+  const serverUrl = getBaseUrl();
+
   try {
     const response = await fetch(`${serverUrl}/api/auth/verifyotp`, {
       method: "POST",

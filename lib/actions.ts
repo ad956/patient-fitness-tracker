@@ -2,13 +2,15 @@
 
 import { logout } from "@sessions/sessionUtils";
 import { redirect } from "next/navigation";
+import getBaseUrl from "@utils/getBaseUrl";
 
 export async function loginAction(formData: FormData) {
   const email = formData.get("email");
   const password = formData.get("password");
   const role = formData.get("role");
 
-  const serverUrl = process.env.BASE_URL || "http://localhost:3000";
+  const serverUrl = getBaseUrl();
+
   try {
     const response = await fetch(`${serverUrl}/api/auth/login`, {
       method: "POST",
@@ -40,7 +42,7 @@ export async function signupAction(formData: FormData) {
   console.log(user);
 
   try {
-    const serverUrl = process.env.BASE_URL || "http://localhost:3000";
+    const serverUrl = getBaseUrl();
     const response = await fetch(`${serverUrl}/api/auth/signup`, {
       method: "POST",
       body: JSON.stringify(user),

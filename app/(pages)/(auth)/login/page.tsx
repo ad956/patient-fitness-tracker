@@ -86,6 +86,7 @@ export default function Login() {
       toast.loading("Please wait ...", {
         position: "bottom-center",
       });
+
       const isValidUser = await loginAction(formData);
       toast.dismiss();
       if (isValidUser?.unauthorized) {

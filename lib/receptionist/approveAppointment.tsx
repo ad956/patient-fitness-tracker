@@ -1,10 +1,11 @@
 "use server";
 
 import { getSessionToken } from "../sessions/sessionUtils";
+import getBaseUrl from "@utils/getBaseUrl";
 
 export default async function approveAppointment(patientId: string) {
   const session = await getSessionToken();
-  const serverUrl = process.env.BASE_URL || "http://localhost:3000";
+  const serverUrl = getBaseUrl();
 
   const headers = {
     Authorization: `Bearer ${session}`,

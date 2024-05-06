@@ -6,6 +6,7 @@ import Notifications from "../Notifications";
 import { getPatientData, getUpcomingAppointments } from "@lib/patient";
 import { Patient, bookedAppointments } from "@/types";
 import Link from "next/link";
+import getBaseUrl from "@utils/getBaseUrl";
 
 export default async function Headbar() {
   const patient: Patient = await getPatientData();
@@ -13,7 +14,7 @@ export default async function Headbar() {
   const upcomingAppointments: bookedAppointments =
     await getUpcomingAppointments();
 
-  const serverUrl = process.env.BASE_URL || "http://localhost:3000";
+  const serverUrl = getBaseUrl();
 
   return (
     <div className="bg-[#f3f6fd] p-4 flex flex-row justify-between">

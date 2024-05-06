@@ -11,6 +11,7 @@ import { AiOutlineSchedule } from "react-icons/ai";
 import { CiHospital1 } from "react-icons/ci";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
+import getBaseUrl from "@utils/getBaseUrl";
 
 export default function Sidebar() {
   const pathname = usePathname();
@@ -40,7 +41,7 @@ export default function Sidebar() {
     setSelected(index);
   }
 
-  const BaseURL = process.env.BASE_URL || "http://localhost:3000";
+  const BaseURL = getBaseUrl();
 
   return (
     <aside className="h-full flex flex-col items-center p-4 bg-[#f3f6fd]">

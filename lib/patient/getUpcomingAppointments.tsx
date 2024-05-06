@@ -1,10 +1,12 @@
 "use server";
 
 import { getSessionToken } from "../sessions/sessionUtils";
+import getBaseUrl from "@utils/getBaseUrl";
 
 export default async function getUpcomingAppointments() {
   const session = await getSessionToken();
-  const serverUrl = process.env.BASE_URL || "http://localhost:3000";
+  const serverUrl = getBaseUrl();
+
   try {
     const res = await fetch(`${serverUrl}/api/patient/appointment`, {
       method: "GET",

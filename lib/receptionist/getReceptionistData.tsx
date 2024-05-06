@@ -1,10 +1,11 @@
 "use server";
 
+import getBaseUrl from "@utils/getBaseUrl";
 import { getSessionToken } from "../sessions/sessionUtils";
 
 export default async function getReceptionistData() {
   const session = await getSessionToken();
-  const serverUrl = process.env.BASE_URL || "http://localhost:3000";
+  const serverUrl = getBaseUrl();
 
   const headers = {
     Authorization: `Bearer ${session}`,

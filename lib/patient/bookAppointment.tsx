@@ -1,12 +1,13 @@
 "use server";
 import { bookingAppointment } from "@/types";
 import { getSessionToken } from "../sessions/sessionUtils";
+import getBaseUrl from "@utils/getBaseUrl";
 
 export default async function bookAppointment(
   bookAppointmentData: bookingAppointment
 ) {
   const session = await getSessionToken();
-  const serverUrl = process.env.BASE_URL || "http://localhost:3000";
+  const serverUrl = getBaseUrl();
   try {
     const response = await fetch(`${serverUrl}/api/patient/appointment`, {
       method: "POST",
@@ -18,9 +19,9 @@ export default async function bookAppointment(
     });
 
     if (!response.ok) {
-      console.error(`error booking appointments : ${response.statusText}`);
+      console.error(`Error booking appointments: ${response.statusText}`);
       const res = await response.json();
-      throw new Error(`${res.error}`);
+      return { error: res.error };
     }
 
     const res = await response.json();

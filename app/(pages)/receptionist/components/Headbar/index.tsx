@@ -7,6 +7,7 @@ import { Receptionist, bookedAppointments } from "@/types";
 import { getUpcomingAppointments } from "@lib/patient";
 import { getReceptionistData } from "@lib/receptionist";
 import Link from "next/link";
+import getBaseUrl from "@utils/getBaseUrl";
 
 export default async function Headbar() {
   const receptionist: Receptionist = await getReceptionistData();
@@ -14,7 +15,7 @@ export default async function Headbar() {
   const upcomingAppointments: bookedAppointments =
     await getUpcomingAppointments();
 
-  const serverUrl = process.env.BASE_URL || "http://localhost:3000";
+  const serverUrl = getBaseUrl();
 
   return (
     <div className="bg-[#f3f6fd] p-4 flex flex-row justify-between">

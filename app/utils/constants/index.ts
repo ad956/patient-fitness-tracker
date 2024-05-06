@@ -1,5 +1,3 @@
-const BASE_URL = "http://localhost:3000";
-
 const carouselData = [
   {
     image: "/reception.png",
@@ -123,7 +121,6 @@ const receptionistadditionalDetails = {
 };
 
 export {
-  BASE_URL,
   carouselData,
   projectFeatures,
   roles,

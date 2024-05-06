@@ -1,7 +1,10 @@
 "use server";
 
+import getBaseUrl from "@utils/getBaseUrl";
+
 export default async function scanQRCode(email: string) {
-  const serverUrl = process.env.BASE_URL || "http://localhost:3000";
+  const serverUrl = getBaseUrl();
+
   try {
     const res = await fetch(`${serverUrl}/api/receptionist/scan`, {
       method: "POST",

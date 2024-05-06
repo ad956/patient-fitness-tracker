@@ -1,5 +1,9 @@
+import getBaseUrl from "@utils/getBaseUrl";
+
 export default async function setSessionReq(email: string, role: string) {
-  const res = await fetch(`http://localhost:3000/api/auth/session`, {
+  const serverUrl = getBaseUrl();
+
+  const res = await fetch(`${serverUrl}/api/auth/session`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
