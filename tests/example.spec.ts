@@ -1,7 +1,6 @@
-import getBaseUrl from "@/app/utils/getBaseUrl";
 import { test, expect } from "@playwright/test";
 
-const BASE_URL = getBaseUrl();
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 console.log(BASE_URL);
 
