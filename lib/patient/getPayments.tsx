@@ -3,14 +3,13 @@
 import { getSessionToken } from "../sessions/sessionUtils";
 
 export default async function getPayments() {
+  const session = await getSessionToken();
+  const serverUrl = process.env.BASE_URL || "http://localhost:3000";
+
+  const headers = {
+    Authorization: `Bearer ${session}`,
+  };
   try {
-    const session = await getSessionToken();
-    const serverUrl = process.env.BASE_URL || "http://localhost:3000";
-
-    const headers = {
-      Authorization: `Bearer ${session}`,
-    };
-
     const response = await fetch(`${serverUrl}/api/patient/payment`, {
       headers,
     });

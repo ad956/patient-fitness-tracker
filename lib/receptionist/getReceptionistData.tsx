@@ -3,14 +3,13 @@
 import { getSessionToken } from "../sessions/sessionUtils";
 
 export default async function getReceptionistData() {
+  const session = await getSessionToken();
+  const serverUrl = process.env.BASE_URL || "http://localhost:3000";
+
+  const headers = {
+    Authorization: `Bearer ${session}`,
+  };
   try {
-    const session = await getSessionToken();
-    const serverUrl = process.env.BASE_URL || "http://localhost:3000";
-
-    const headers = {
-      Authorization: `Bearer ${session}`,
-    };
-
     const res = await fetch(`${serverUrl}/api/receptionist`, {
       headers,
     });

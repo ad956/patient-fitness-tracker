@@ -3,17 +3,16 @@
 import { getSessionToken } from "../sessions/sessionUtils";
 
 export default async function getUpcomingAppointments() {
+  const session = await getSessionToken();
+  const serverUrl = process.env.BASE_URL || "http://localhost:3000";
   try {
-    const session = await getSessionToken();
-    const serverUrl = process.env.BASE_URL || "http://localhost:3000";
-
     const res = await fetch(`${serverUrl}/api/patient/appointment`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${session}`,
       },
-      next: { revalidate: 10 },
+      // next: { revalidate: 10 },
     });
 
     if (!res.ok) {

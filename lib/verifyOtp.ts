@@ -3,8 +3,8 @@ export default async function verifyOtp(
   role: string,
   otp: string
 ) {
+  const serverUrl = process.env.BASE_URL || "http://localhost:3000";
   try {
-    const serverUrl = process.env.BASE_URL || "http://localhost:3000";
     const response = await fetch(`${serverUrl}/api/auth/verifyotp`, {
       method: "POST",
       headers: {

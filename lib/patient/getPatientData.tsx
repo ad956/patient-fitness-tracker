@@ -2,17 +2,16 @@
 import { getSessionToken } from "../sessions/sessionUtils";
 
 export default async function getPatientData() {
+  const session = await getSessionToken();
+  const serverUrl = process.env.BASE_URL || "http://localhost:3000";
+
+  const headers = {
+    Authorization: `Bearer ${session}`,
+  };
   try {
-    const session = await getSessionToken();
-    const serverUrl = process.env.BASE_URL || "http://localhost:3000";
-
-    const headers = {
-      Authorization: `Bearer ${session}`,
-    };
-
     const res = await fetch(`${serverUrl}/api/patient`, {
       headers,
-      next: { revalidate: 10 },
+      // next: { revalidate: 10 },
       // cache: "no-store",
     });
 
@@ -22,6 +21,7 @@ export default async function getPatientData() {
     }
 
     const patientData = await res.json();
+
     return patientData;
   } catch (error) {
     console.error("An error occurred while fetching patient data:", error);

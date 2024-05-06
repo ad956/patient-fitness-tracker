@@ -8,8 +8,8 @@ export async function loginAction(formData: FormData) {
   const password = formData.get("password");
   const role = formData.get("role");
 
+  const serverUrl = process.env.BASE_URL || "http://localhost:3000";
   try {
-    const serverUrl = process.env.BASE_URL || "http://localhost:3000";
     const response = await fetch(`${serverUrl}/api/auth/login`, {
       method: "POST",
       body: JSON.stringify({ email, password, role }),

@@ -1,8 +1,8 @@
 "use server";
 
 export default async function scanQRCode(email: string) {
+  const serverUrl = process.env.BASE_URL || "http://localhost:3000";
   try {
-    const serverUrl = process.env.BASE_URL || "http://localhost:3000";
     const res = await fetch(`${serverUrl}/api/receptionist/scan`, {
       method: "POST",
       body: JSON.stringify({ email }),
