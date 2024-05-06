@@ -3,6 +3,8 @@ import { test, expect } from "@playwright/test";
 
 const BASE_URL = getBaseUrl();
 
+console.log(BASE_URL);
+
 test("Displays the landing page correctly", async ({ page }) => {
   // Navigate to the home page
   await page.goto(`${BASE_URL}/`);
