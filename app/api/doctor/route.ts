@@ -1,10 +1,9 @@
 import dbConfig from "@lib/db";
 
 export async function GET(req: Request) {
+  const { searchParams } = new URL(req.url);
+  const email = searchParams.get("email");
   try {
-    const { searchParams } = new URL(req.url);
-    const email = searchParams.get("email");
-
     if (!email) {
       return new Response("Email parameter is missing", {
         status: 400,

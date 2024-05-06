@@ -41,7 +41,7 @@ export async function GET(request: Request) {
       );
     }
 
-    return Response.json({ receptionist: receptionistData }, { status: 200 });
+    return Response.json(receptionistData, { status: 200 });
   } catch (error) {
     console.error("Error fetching receptionist data:", error);
     return Response.json({ error: "Internal Server Error" }, { status: 500 });

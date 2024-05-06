@@ -1,11 +1,10 @@
-import { getSession, logout, setSession } from "@sessions/sessionUtils";
+import { getSession, setSession } from "@sessions/sessionUtils";
 
 // get session
 export async function GET() {
+  // from sessionUtils
+  const res = await getSession();
   try {
-    // from sessionUtils
-    const res = await getSession();
-
     if (res) {
       return Response.json(
         { message: "Session is available", res },

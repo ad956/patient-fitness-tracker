@@ -1,11 +1,9 @@
 import dbConfig from "@lib/db";
 
 export async function GET(req: Request) {
+  const { searchParams } = new URL(req.url);
+  const state = searchParams.get("state");
   try {
-    const { searchParams } = new URL(req.url);
-
-    const state = searchParams.get("state");
-
     if (!state) {
       return new Response("State parameter is missing", { status: 400 });
     }

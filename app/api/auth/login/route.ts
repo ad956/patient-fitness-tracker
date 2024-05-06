@@ -13,7 +13,6 @@ type LoginBody = {
 export async function POST(req: Request) {
   try {
     const body: LoginBody = await req.json();
-
     switch (body.role) {
       case "patient":
         return setOTP(body);
