@@ -11,8 +11,7 @@ import { getReceptionistData, getPendingAppointments } from "@lib/receptionist";
 import { MonthlyVisitors, PatientTabs } from "./components";
 
 export default async function ReceptionistPage() {
-  const { receptionist }: { receptionist: Receptionist } =
-    await getReceptionistData();
+  const receptionist: Receptionist = await getReceptionistData();
 
   const pendingPatients = await getPendingAppointments();
 

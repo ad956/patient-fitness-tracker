@@ -1,16 +1,19 @@
 import { CiLogin } from "react-icons/ci";
-import { Button, Divider, Image, Link, User } from "@nextui-org/react";
+import { Button, Divider, Image, User } from "@nextui-org/react";
 import { GoPlus } from "react-icons/go";
 import { logoutAction } from "@lib/actions";
 import Notifications from "../Notifications";
 import { getPatientData, getUpcomingAppointments } from "@lib/patient";
 import { Patient, bookedAppointments } from "@/types";
+import Link from "next/link";
 
 export default async function Headbar() {
-  const { patient }: { patient: Patient } = await getPatientData();
+  const patient: Patient = await getPatientData();
 
   const upcomingAppointments: bookedAppointments =
     await getUpcomingAppointments();
+
+  const serverUrl = process.env.BASE_URL || "http://localhost:3000";
 
   return (
     <div className="bg-[#f3f6fd] p-4 flex flex-row justify-between">
@@ -35,7 +38,7 @@ export default async function Headbar() {
           variant="shadow"
           size="sm"
           className=" font-bold"
-          href={`${process.env.BASE_URL}patient/appointments`}
+          href={`${serverUrl}/patient/appointments`}
         >
           <GoPlus size={20} />
         </Button>
@@ -51,9 +54,8 @@ export default async function Headbar() {
           }}
           description={
             <Link
-              href={`${process.env.BASE_URL}patient/settings`}
-              color="primary"
-              className="text-xs"
+              href={`${serverUrl}/patient/settings`}
+              className="text-xs text-danger"
             >{`@${patient.username}`}</Link>
           }
         />

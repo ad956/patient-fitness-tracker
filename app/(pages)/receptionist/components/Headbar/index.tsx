@@ -1,22 +1,20 @@
-import { CiLogin, CiSearch } from "react-icons/ci";
-import { Button, Divider, Input, Link, User } from "@nextui-org/react";
+import { CiLogin } from "react-icons/ci";
+import { Button, Divider, User } from "@nextui-org/react";
 import { GoPlus } from "react-icons/go";
 import { logoutAction } from "@lib/actions";
 import Notifications from "../Notifications";
 import { Receptionist, bookedAppointments } from "@/types";
 import { getUpcomingAppointments } from "@lib/patient";
 import { getReceptionistData } from "@lib/receptionist";
+import Link from "next/link";
 
 export default async function Headbar() {
-  const { receptionist }: { receptionist: Receptionist } =
-    await getReceptionistData();
-
-  if (!receptionist) {
-    throw new Error("fetching receptionist data");
-  }
+  const receptionist: Receptionist = await getReceptionistData();
 
   const upcomingAppointments: bookedAppointments =
     await getUpcomingAppointments();
+
+  const serverUrl = process.env.BASE_URL || "http://localhost:3000";
 
   return (
     <div className="bg-[#f3f6fd] p-4 flex flex-row justify-between">
@@ -34,7 +32,7 @@ export default async function Headbar() {
           variant="shadow"
           size="sm"
           className=" font-bold"
-          href={`${process.env.BASE_URL}receptionist/appointments`}
+          href={`${serverUrl}/receptionist/appointments`}
         >
           <GoPlus size={20} />
         </Button>
@@ -50,9 +48,8 @@ export default async function Headbar() {
           }}
           description={
             <Link
-              href={`${process.env.BASE_URL}receptionist/settings`}
-              color="primary"
-              className="text-xs"
+              href={`${serverUrl}/receptionist/settings`}
+              className="text-xs text-primary"
             >{`@${receptionist.username}`}</Link>
           }
         />

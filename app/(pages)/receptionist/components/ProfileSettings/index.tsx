@@ -3,8 +3,7 @@ import { Input, Button, Card, Avatar } from "@nextui-org/react";
 import { getReceptionistData } from "@lib/receptionist";
 
 export default async function ProfileSettings() {
-  const { receptionist }: { receptionist: Receptionist } =
-    await getReceptionistData();
+  const receptionist: Receptionist = await getReceptionistData();
 
   return (
     <Card

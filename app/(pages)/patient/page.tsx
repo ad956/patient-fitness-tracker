@@ -9,7 +9,7 @@ import { Patient, bookedAppointments } from "@/types";
 import { getPatientData, getUpcomingAppointments } from "@lib/patient";
 
 export default async function PatientPage() {
-  const { patient }: { patient: Patient } = await getPatientData();
+  const patient: Patient = await getPatientData();
 
   const upcomingAppointments: bookedAppointments =
     await getUpcomingAppointments();

@@ -4,7 +4,7 @@ import { Input, Button, Card, Avatar } from "@nextui-org/react";
 import React from "react";
 
 export default async function ProfileSettings() {
-  const { patient }: { patient: Patient } = await getPatientData();
+  const patient: Patient = await getPatientData();
 
   return (
     <Card

@@ -4,7 +4,7 @@ import { Patient } from "@/types";
 import { getPatientData } from "@lib/patient";
 
 export default async function Appointments() {
-  const { patient }: { patient: Patient } = await getPatientData();
+  const patient: Patient = await getPatientData();
 
   return (
     <section className="h-full w-full flex flex-col gap-5  p-5">

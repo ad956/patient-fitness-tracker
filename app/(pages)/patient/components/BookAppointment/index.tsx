@@ -191,9 +191,7 @@ export default function BookAppointment() {
       };
 
       const response = await bookAppointment(bookAppointmentData);
-      if (response.error) {
-        throw new Error(response.error);
-      }
+
       clearSelected();
       toast.success(response.msg);
     } catch (error: any) {
