@@ -31,8 +31,12 @@ export default function Notifications({
       offset={10}
     >
       <PopoverTrigger>
-        <Button isIconOnly size="sm" className="">
-          <CiBellOn size={25} />
+        <Button
+          isIconOnly
+          size="sm"
+          className="rounded-full bg-transparent md:bg-default"
+        >
+          <CiBellOn size={25} className="" />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="max-w-xs">

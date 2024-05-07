@@ -12,7 +12,7 @@ export default function PatientLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <main className="h-[100vh] flex">
+    <main className="h-screen flex">
       <Sidebar />
       <section className="flex flex-col w-full">
         <Headbar />

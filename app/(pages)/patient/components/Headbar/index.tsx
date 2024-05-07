@@ -7,6 +7,7 @@ import { getPatientData, getUpcomingAppointments } from "@lib/patient";
 import { Patient, bookedAppointments } from "@/types";
 import Link from "next/link";
 import getBaseUrl from "@utils/getBaseUrl";
+import { CgMenuRightAlt } from "react-icons/cg";
 
 export default async function Headbar() {
   const patient: Patient = await getPatientData();
@@ -38,7 +39,7 @@ export default async function Headbar() {
           radius="full"
           variant="shadow"
           size="sm"
-          className=" font-bold"
+          className="hidden md:flex"
           href={`${serverUrl}/patient/appointments`}
         >
           <GoPlus size={20} />
@@ -46,17 +47,21 @@ export default async function Headbar() {
 
         <Notifications upcomingAppointments={upcomingAppointments} />
 
-        <Divider orientation="vertical" className="h-8 bg-gray-500" />
+        <Divider
+          orientation="vertical"
+          className="hidden md:flex h-8 bg-gray-500"
+        />
 
         <User
           name={patient.firstname}
           avatarProps={{
             src: patient.profile,
           }}
+          className="hidden md:flex"
           description={
             <Link
               href={`${serverUrl}/patient/settings`}
-              className="text-xs text-danger"
+              className="hidden md:flex text-xs text-danger"
             >{`@${patient.username}`}</Link>
           }
         />
@@ -66,6 +71,9 @@ export default async function Headbar() {
             <CiLogin size={25} />
           </Button>
         </form>
+        <Button size="sm" type="submit" isIconOnly className="bg-transparent">
+          <CgMenuRightAlt size={23} className="flex md:hidden" />
+        </Button>
       </div>
     </div>
   );
