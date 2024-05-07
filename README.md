@@ -2,7 +2,7 @@
 
 ## [![My Skills](https://skillicons.dev/icons?i=nextjs,tailwindcss,githubactions,mongodb,vercel,ts,docker&theme=dark)](https://skillicons.dev)
 
-[![Build](https://img.shields.io/github/actions/workflow/status/ad956/patient-fitness-tracker/tests.yml?branch=main)](https://img.shields.io)
+[![Build](https://img.shields.io/github/actions/workflow/status/ad956/patient-fitness-tracker/playwright.yml?branch=main)](https://img.shields.io)
 
 The Patient Fitness Tracker is a modern healthcare platform designed to streamline patient management and monitoring across multiple hospitals. It empowers patients to take control of their health journey while enabling healthcare providers to deliver personalized care efficiently.
 
@@ -47,6 +47,7 @@ The Patient Fitness Tracker is a modern healthcare platform designed to streamli
    | SMTP_PASSWORD        | Password for SMTP authentication.                     |
    | SMTP_FROM_EMAIL      | Email address for sending emails.                     |
    | JWT_SECRET           | Secret key for JWT token generation and verification. |
+   | BCRYPT_SALT_ROUNDS   | Number of salt rounds for bcrypt password hashing     |
 
 5. **Start the development server:**
    ```bash

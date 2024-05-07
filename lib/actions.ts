@@ -39,8 +39,6 @@ export async function signupAction(formData: FormData) {
 
   const user = { firstname, lastname, username, email, password, role };
 
-  console.log(user);
-
   try {
     const serverUrl = getBaseUrl();
     const response = await fetch(`${serverUrl}/api/auth/signup`, {

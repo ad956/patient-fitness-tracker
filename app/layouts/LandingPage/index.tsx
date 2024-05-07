@@ -15,7 +15,7 @@ import {
 
 export default function LandingPage() {
   return (
-    <main className="scroll-smooth h-[100vh]">
+    <main className="scroll-smooth h-screen">
       <NavBar />
       <Intro />
       <Lifeline />

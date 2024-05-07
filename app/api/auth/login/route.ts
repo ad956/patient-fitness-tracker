@@ -1,8 +1,9 @@
 import dbConfig from "@lib/db";
-import WelcomeTemplate from "@/emails/otpmail";
+import OtpTemplate from "@lib/emails/templates";
 import { sendEmail } from "@lib/email";
 import { render } from "@react-email/render";
 import { generateSecureOTP } from "@utils/generateOtp";
+import bcrypt from "bcrypt";
 
 type LoginBody = {
   email: string;
@@ -10,22 +11,25 @@ type LoginBody = {
   role: string;
 };
 
+const allowedRoles = ["patient", "hospital", "doctor", "receptionist"];
+
 export async function POST(req: Request) {
   try {
     const body: LoginBody = await req.json();
-    switch (body.role) {
-      case "patient":
-        return setOTP(body);
-      case "hospital":
-        return setOTP(body);
-      case "doctor":
-        return setOTP(body);
-      case "receptionist":
-        return setOTP(body);
 
-      default:
-        return Response.json({ error: "Invalid user" });
+    if (!body || !body.email || !body.password || !body.role) {
+      return Response.json({
+        error:
+          "Invalid request body. Please provide email, password, and role.",
+      });
     }
+
+    if (!allowedRoles.includes(body.role)) {
+      return Response.json({ error: "User role isn't valid." });
+    }
+
+    const result = await setOTP(body);
+    return result;
   } catch (error) {
     console.error("Error during login:", error);
     return Response.json({ error: "Internal Server Error" });
@@ -37,9 +41,21 @@ async function setOTP(loginBody: LoginBody) {
 
   const collection = db.collection(loginBody.role);
   const email = loginBody.email;
-  const user = await collection.findOne({ email });
+  const projection = {
+    _id: 0,
+    email: 1,
+    firstname: 1,
+    lastname: 1,
+    password: 1,
+  };
+  const user = await collection.findOne(
+    { email },
+    {
+      projection,
+    }
+  );
 
-  if (!user || user.password !== loginBody.password) {
+  if (!user || !(await bcrypt.compare(loginBody.password, user.password))) {
     return Response.json(
       { error: "Invalid email or password" },
       { status: 401 }
@@ -59,7 +75,7 @@ async function setOTP(loginBody: LoginBody) {
   const mailsent = await sendEmail({
     to: send.to,
     subject: send.subject,
-    html: render(WelcomeTemplate(send.name, send.otp)),
+    html: render(OtpTemplate(send.name, send.otp)),
     from: {
       name: "Patient Fitness Tracker",
       address: "support@patientfitnesstracker.com",

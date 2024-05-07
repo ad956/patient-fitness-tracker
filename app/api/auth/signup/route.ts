@@ -1,5 +1,5 @@
 import dbConfig from "@lib/db";
-import WelcomeTemplate from "@/emails/otpmail";
+import OtpTemplate from "@/lib/emails/templates";
 import { sendEmail } from "@lib/email";
 import { render } from "@react-email/render";
 import { generateSecureOTP } from "@utils/generateOtp";
@@ -9,6 +9,7 @@ import {
   patientadditionalDetails,
   receptionistadditionalDetails,
 } from "@constants/index";
+import bcrypt from "bcrypt";
 
 type SignupBody = {
   firstname: string;
@@ -18,6 +19,8 @@ type SignupBody = {
   password: string;
   role: string;
 };
+
+const allowedRoles = ["patient", "hospital", "doctor", "receptionist"];
 
 export async function POST(req: Request) {
   try {
@@ -30,21 +33,12 @@ export async function POST(req: Request) {
       );
     }
 
-    switch (body.role) {
-      case "patient":
-        return createAccount(body);
-      case "hospital":
-        return createAccount(body);
-      case "doctor":
-        return createAccount(body);
-      case "receptionist":
-        return createAccount(body);
-
-      default:
-        return Response.json({
-          error: "Error creating account. Invalid user role!",
-        });
+    if (!allowedRoles.includes(body.role)) {
+      return Response.json({ error: "User role isn't valid." });
     }
+
+    const result = await createAccount(body);
+    return result;
   } catch (error) {
     console.error("Error during signup:", error);
     return Response.json({ error: "Internal Server Error" });
@@ -57,6 +51,7 @@ async function createAccount(signupBody: SignupBody) {
   const collection = db.collection(signupBody.role);
   const email = signupBody.email;
   const username = signupBody.username;
+
   const existingUser = await collection.findOne({
     $or: [{ email }, { username }],
   });
@@ -91,7 +86,13 @@ async function createAccount(signupBody: SignupBody) {
       break;
   }
 
-  const user = { ...signupBody, ...additionalDetails };
+  const hashedPassword = await hashPassword(signupBody.password);
+
+  const user = {
+    ...signupBody,
+    ...additionalDetails,
+    password: hashedPassword,
+  };
 
   await collection.insertOne(user);
 
@@ -108,7 +109,7 @@ async function createAccount(signupBody: SignupBody) {
   const mailsent = await sendEmail({
     to: send.to,
     subject: send.subject,
-    html: render(WelcomeTemplate(send.name, send.otp)),
+    html: render(OtpTemplate(send.name, send.otp)),
     from: {
       name: "Patient Fitness Tracker",
       address: "support@patientfitnesstracker.com",
@@ -137,4 +138,10 @@ function checkMissingElements(body: SignupBody) {
     }
   }
   return false;
+}
+
+async function hashPassword(password: string) {
+  const saltRounds = parseInt(process.env.BCRYPT_SALT_ROUNDS || "10"); // Read salt rounds from environment variable or default to "10"
+  const hashedPassword = await bcrypt.hash(password, saltRounds);
+  return hashedPassword;
 }

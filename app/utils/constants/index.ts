@@ -56,7 +56,7 @@ const commonadditionalDetails = {
   gender: "",
   contact: "",
   profile:
-    "https://cdn.pixabay.com/photo/2021/07/02/04/48/user-6380868_1280.png",
+    "https://res.cloudinary.com/dtkfvp2ic/image/upload/v1715082439/110505291-heart-shape-illustration-health-medicine-concept-people-running-for-exercise-awareness-or-sport_eyu2iw.jpg",
   address: {
     address_line_1: "",
     address_line_2: "",

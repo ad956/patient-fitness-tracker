@@ -167,7 +167,13 @@ export default function Signup() {
     const formData = new FormData(e.currentTarget as HTMLFormElement);
 
     try {
+      toast.loading("Please wait ...", {
+        position: "bottom-center",
+      });
+
       const signUpSuccess = await signupAction(formData);
+      toast.dismiss();
+
       if (signUpSuccess.failure) {
         toast.error(signUpSuccess.msg);
       } else {
@@ -179,28 +185,18 @@ export default function Signup() {
             role: userRole?.toString() || "",
           });
 
-          const sendingOtpPromise = new Promise((resolve) => {
-            setTimeout(() => {
-              resolve(true);
-              setShowOtp(true);
-            }, 2000);
-          });
-
-          toast.promise(
-            sendingOtpPromise,
+          toast.success(
+            "Almost done! Please use the OTP you received to complete signup. Thank you!",
             {
-              loading: "Please wait...",
-              success:
-                "Almost done! Please use the OTP you received to complete signup. Thank you!",
-              error: "Error while sending OTP",
-            },
-            { position: "bottom-center", duration: 5000 }
+              position: "bottom-center",
+            }
           );
+          setShowOtp(true);
         }
       }
     } catch (error) {
-      toast.error("Error signing up. Please try again!");
       console.error("Error signing up");
+      toast.error("Error signing up. Please try again!");
     }
   }
 

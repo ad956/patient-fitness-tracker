@@ -1,7 +1,7 @@
 import { Html } from "@react-email/html";
-import { getCurrentDateFormatted } from "@/app/utils/getDate";
+import { getCurrentDateFormatted } from "@utils/getDate";
 
-export default function WelcomeEmail(name: string, otp: string) {
+export default function OtpTemplate(name: string, otp: string) {
   return (
     <Html>
       <div

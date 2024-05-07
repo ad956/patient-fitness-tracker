@@ -2,7 +2,13 @@ import { NextRequest, NextResponse } from "next/server";
 import { decrypt, updateSession } from "@sessions/sessionUtils";
 
 const PublicRoutes = ["/", "/login", "/signup"];
-const PrivateRoutes = ["/patient", "/receptionist", "/doctor", "/hospital"];
+const PrivateRoutes = [
+  "/patient",
+  "/receptionist",
+  "/doctor",
+  "/hospital",
+  "/admin",
+];
 
 export async function middleware(request: NextRequest) {
   if (!PublicRoutes.includes(request.nextUrl.pathname)) {

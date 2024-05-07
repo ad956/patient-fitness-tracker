@@ -1,3 +1,4 @@
+import { setSession } from "@sessions/sessionUtils";
 import dbConfig from "@lib/db";
 
 type bodyType = {
@@ -6,27 +7,24 @@ type bodyType = {
   role: string;
 };
 
+const allowedRoles = ["patient", "hospital", "doctor", "receptionist"];
+
 export async function POST(req: Request) {
   try {
-    const body = await req.json();
+    const body: bodyType = await req.json();
 
-    if (!body.otp) {
-      return Response.json({ error: "OTP Not Provided" });
+    if (!body || !body.email || !body.role || !body.otp) {
+      return Response.json({
+        error: "Email, OTP, and role are required fields in the request body.",
+      });
     }
 
-    switch (body.role) {
-      case "patient":
-        return checkOTP(body);
-      case "hospital":
-        return checkOTP(body);
-      case "doctor":
-        return checkOTP(body);
-      case "receptionist":
-        return checkOTP(body);
-
-      default:
-        return Response.json({ error: "Invalid user" });
+    if (!allowedRoles.includes(body.role)) {
+      return Response.json({ error: "User role isn't valid." });
     }
+
+    const result = await checkOTP(body);
+    return result;
   } catch (error) {
     console.error("Error during otp verification:", error);
     return Response.json({ error: "Internal Server Error" });
@@ -49,6 +47,9 @@ async function checkOTP(body: bodyType) {
     return Response.json({ error: "OTP Verification Failed" });
 
   await collection.updateOne({ email }, { $set: { otp: "" } });
+
+  // setting session for user (stores jwt token in cookies named session)
+  await setSession(email, body.role);
 
   return Response.json({ message: "ok" }, { status: 200 });
 }
