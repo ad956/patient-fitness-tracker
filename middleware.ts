@@ -43,6 +43,10 @@ export async function redirectMiddleware(request: NextRequest) {
     if (isPublicRoute && token) {
       return NextResponse.redirect(new URL(`/${userRole}`, request.url));
     }
+
+    if (isPrivateRoute && path.split("/")[1] !== userRole) {
+      return NextResponse.redirect(new URL(`/${userRole}`, request.url));
+    }
   }
   if (isPrivateRoute && !token) {
     return NextResponse.redirect(new URL(`/login`, request.url));

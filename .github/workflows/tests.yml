@@ -1,32 +1,21 @@
-name: Patient Fitness Tracker Tests
-
+name: Playwright Tests
 on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
-  workflow_dispatch:
-
+  deployment_status:
 jobs:
   test:
+    timeout-minutes: 60
     runs-on: ubuntu-latest
-
+    if: github.event.deployment_status.state == 'success'
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js environment
-        uses: actions/setup-node@v4.0.2
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: "20"
-
+          node-version: 18
       - name: Install dependencies
         run: npm ci
-
-      - name: Install playwright browsers
+      - name: Install Playwright
         run: npx playwright install --with-deps
-
-      - name: Run tests
-        run: npm run test
+      - name: Run Playwright tests
+        run: npx playwright test
+        env:
+          PLAYWRIGHT_TEST_BASE_URL: ${{ github.event.deployment_status.target_url }}

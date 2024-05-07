@@ -1,8 +1,8 @@
 import { test, expect } from "@playwright/test";
 
-test("Displays the landing page correctly", async ({ page }) => {
+test("Displays the landing page correctly", async ({ page, baseURL }) => {
   // Navigate to the home page
-  await page.goto("/");
+  await page.goto(`${baseURL}`);
 
   // Expect the main heading to be visible
   await expect(
