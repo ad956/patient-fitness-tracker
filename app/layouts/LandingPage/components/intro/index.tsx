@@ -1,13 +1,14 @@
 import { Button, Card, Image } from "@nextui-org/react";
+import Link from "next/link";
 import React from "react";
 
 export default function Intro() {
   return (
     <section
       id="#home"
-      className="h-5/6 p-5 flex justify-center gap-10 items-center"
+      className="lg:h-5/6 p-5 flex flex-col lg:flex-row justify-center lg:gap-10 items-center"
     >
-      <div className="h-4/5 w-2/5 p-5 flex flex-col justify-center gap-10 items-center text-bold">
+      <div className="lg:h-4/5 lg:w-2/5 p-2 lg:p-5 flex flex-col justify-center gap-10 items-center text-bold">
         <h3 className="text-4xl font-medium tracking-wide">
           The <span className="text-[#e95b7b]">New Era</span> of Healthcare
           Management
@@ -21,11 +22,13 @@ export default function Intro() {
         </p>
 
         <Button
+          as={Link}
           className="self-start font-bold text-white/90 bg-[#e95b7b]"
           variant="flat"
           color="default"
           radius="lg"
           size="md"
+          href="/signup"
         >
           Get Started
         </Button>
@@ -35,7 +38,7 @@ export default function Intro() {
         shadow="lg"
         isBlurred
         radius="lg"
-        className="h-5/6 w-2/5 p-5 flex justify-center items-center"
+        className="lg:h-5/6 lg:w-2/5 p-5 flex justify-center items-center"
       >
         <Image
           alt="admin-illustration"

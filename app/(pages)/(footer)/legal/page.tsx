@@ -6,7 +6,7 @@ import { FcPrivacy, FcServices } from "react-icons/fc";
 export default function Legal() {
   return (
     <section className="h-full flex	justify-center items-center">
-      <div className="h-4/5 flex flex-col w-3/5">
+      <div className="lg:h-4/5 flex flex-col h-full w-4/5 lg:w-3/5">
         <Tabs color="danger" aria-label="Tabs colors" radius="full">
           {legalDetails.map((item, index) => (
             <Tab
@@ -84,7 +84,7 @@ const TermsOfService = () => {
         and to comply with all applicable laws and regulations.
       </p>
       <p className="mt-4 font-semibold">2. Prohibited Activities</p>
-      <p className="mt-2">
+      <div className="mt-2">
         You agree not to engage in any of the following prohibited activities:
         <ul className="list-disc ml-8 mt-2">
           <li>Violating any laws or regulations;</li>
@@ -110,7 +110,7 @@ const TermsOfService = () => {
             our express written permission;
           </li>
         </ul>
-      </p>
+      </div>
       <p className="mt-4 font-semibold">3. Intellectual Property Rights</p>
       <p className="mt-2">
         All content included on our platform, such as text, graphics, logos,
@@ -241,7 +241,7 @@ const CookiePolicy = () => {
         visits.
       </p>
       <p className="mt-4 font-semibold">2. How We Use Cookies</p>
-      <p className="mt-2">
+      <div className="mt-2">
         We use cookies for various purposes, including:
         <ul className="list-disc ml-8 mt-2">
           <li>Providing personalized content and recommendations;</li>
@@ -251,7 +251,7 @@ const CookiePolicy = () => {
           <li>Enabling social media integration;</li>
           <li>Managing user sessions and authentication.</li>
         </ul>
-      </p>
+      </div>
       <p className="mt-4 font-semibold">3. Types of Cookies We Use</p>
       <p className="mt-2">
         We use both session cookies (which expire when you close your browser)

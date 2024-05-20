@@ -32,25 +32,25 @@ const testimonialData = [
 
 export default function Testimonial() {
   return (
-    <section className="h-3/5 flex flex-col items-center gap-5">
+    <section className="lg:h-3/5 flex flex-col items-center gap-5">
       <p className="text-2xl font-bold text-[#e95b7b]">Testimonial</p>
-      <p className="text-3xl font-semibold tracking-wide">
-        See What Are The Patients Saying About us
+      <p className="lg:text-3xl font-semibold tracking-wide">
+        See What Patients Are Saying About Us
       </p>
 
-      <div className="h-full flex justify-center items-end gap-10 p-5">
+      <div className="lg:h-full flex flex-col lg:flex-row justify-center items-center lg:items-end gap-10 p-5">
         {testimonialData.map((item) => (
           <Card
             key={item.id}
             shadow="lg"
-            className="overflow-visible relative h-4/5 w-[26%] flex flex-col justify-center gap-2 p-2"
+            className="overflow-visible relative lg:h-4/5 lg:w-[26%] flex flex-col justify-center gap-2 py-10 lg:p-2"
           >
             <Avatar
               src={item.avatar}
               size="lg"
-              className=" z-10 absolute -top-5 left-5"
+              className="z-10 absolute -top-5 lg:-top-5 left-5"
             />
-            <p className=" text-md px-2 text-gray-700">{item.description}</p>
+            <p className="text-md px-2 text-gray-700">{item.description}</p>
             <Divider className="w-4/5 bg-gray-200" />
             <div className="flex justify-around items-center">
               <div className="flex flex-col">

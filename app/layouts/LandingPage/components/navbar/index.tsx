@@ -32,7 +32,7 @@ export default function NavBar() {
       <NavbarBrand>
         <BrandLogo />
       </NavbarBrand>
-      <NavbarContent className="hidden sm:flex gap-4" justify="center">
+      <NavbarContent className="hidden lg:flex gap-4" justify="center">
         {navLinks.map((navLink) => (
           <NavbarItem key={navLink.key} isActive={activeLink === navLink.key}>
             <Link
@@ -48,10 +48,10 @@ export default function NavBar() {
         ))}
       </NavbarContent>
       <NavbarContent justify="end">
-        <NavbarItem className="hidden lg:flex">
+        <NavbarItem className="">
           <Link href="/login">Login</Link>
         </NavbarItem>
-        <NavbarItem>
+        <NavbarItem className="hidden lg:flex">
           <Button as={Link} color="primary" href="/signup" variant="flat">
             Sign Up
           </Button>

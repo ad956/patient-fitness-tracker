@@ -36,8 +36,11 @@ const services = [
 
 export default function ServicesOffered() {
   return (
-    <section id="services" className="h-4/6 flex justify-around items-center">
-      <div className="flex flex-col w-2/6 gap-3 p-5">
+    <section
+      id="services"
+      className="lg:h-4/6 flex flex-col lg:flex-row justify-around items-center my-10 lg:my-0"
+    >
+      <div className="flex flex-col lg:w-2/6 gap-3 p-5">
         <p className="text-xl font-bold text-[#e95b7b] tracking-wider">
           Services
         </p>
@@ -54,13 +57,26 @@ export default function ServicesOffered() {
       <Card
         isBlurred
         shadow="lg"
-        className="border-none bg-white/60 flex flex-wrap gap-5 h-3/6 w-3/6 p-5"
+        className="border-none bg-white/60 flex flex-wrap gap-5 lg:h-3/6 lg:w-3/6 w-5/6 lg:p-5"
       >
-        <Tabs color="danger" aria-label="Tabs colors" radius="full">
+        <Tabs
+          color="danger"
+          aria-label="Tabs colors"
+          radius="full"
+          variant="underlined"
+          isVertical={true}
+          classNames={{
+            tabList: "w-32 lg:w-auto",
+          }}
+        >
           {services.map((item) => (
-            <Tab key={item.key} title={item.title}>
-              <div className="mt-5">
-                <p className="text-md">{item.description}</p>
+            <Tab
+              key={item.key}
+              title={item.title}
+              className="text-xs lg:text-sm px-5 py-2 lg:px-2 lg:py-0"
+            >
+              <div className="h-full grid place-items-center border-2 rounded-xl border-dashed border-rose-100">
+                <p className="text-center">{item.description}</p>
               </div>
             </Tab>
           ))}

@@ -7,18 +7,18 @@ import {
 
 export default function WorkingProcess() {
   return (
-    <section className="h-3/5 flex flex-col justify-center items-center gap-5">
+    <section className="lg:h-3/5 flex flex-col justify-center items-center gap-5">
       <div className="flex flex-col justify-center items-center gap-2">
         <p className="text-xl font-bold text-[#e95b7b]">Working Process</p>
         <p className="text-3xl font-bold">How we works?</p>
       </div>
 
-      <div className="h-full w-4/5 flex justify-around items-center gap-5">
+      <div className="lg:h-full lg:w-4/5 flex flex-col lg:flex-row justify-around items-center gap-5 mx-5 lg:mx-0">
         <Card
           radius="md"
           isBlurred
           shadow="lg"
-          className="flex flex-col justify-around p-5 h-5/6 w-2/5"
+          className="flex flex-col justify-around p-5 lg:h-5/6 lg:w-2/5"
         >
           <TbHexagonNumber1 size={50} color="#e95b7b" />
 
@@ -33,7 +33,7 @@ export default function WorkingProcess() {
           radius="md"
           isBlurred
           shadow="lg"
-          className="flex flex-col justify-around p-5 h-5/6 w-2/5"
+          className="flex flex-col justify-around p-5 lg:h-5/6 lg:w-2/5"
         >
           <TbHexagonNumber2 size={50} color="#e95b7b" />
           <div className="">
@@ -48,7 +48,7 @@ export default function WorkingProcess() {
           radius="md"
           isBlurred
           shadow="lg"
-          className="flex flex-col justify-around p-5 h-5/6 w-2/5"
+          className="flex flex-col justify-around p-5 lg:h-5/6 lg:w-2/5"
         >
           <TbHexagonNumber3 size={50} color="#e95b7b" />
           <div className="">

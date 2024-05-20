@@ -2,8 +2,11 @@ import { Card, Image } from "@nextui-org/react";
 
 export default function About() {
   return (
-    <section id="about" className="h-full flex justify-around items-center">
-      <Card isBlurred shadow="lg" className=" h-4/5 w-2/5">
+    <section
+      id="about"
+      className="lg:h-full flex flex-col-reverse lg:flex-row justify-around items-center"
+    >
+      <Card isBlurred shadow="lg" className="lg:h-4/5 lg:w-2/5">
         <Image
           alt="about-us"
           src="images/about-us.jpg"
@@ -12,11 +15,13 @@ export default function About() {
         />
       </Card>
 
-      <div className=" p-5 flex flex-col justify-center gap-5 h-4/5 w-2/5">
+      <div className="p-5 flex flex-col justify-center gap-5 lg:h-4/5 lg:w-2/5">
         <p className="text-[#e95b7b] tracking-wide text-2xl font-bold">
           About Us
         </p>
-        <p className="text-4xl font-bold">Book your appointment with an ease</p>
+        <p className="text-3xl lg:text-4xl font-bold">
+          Book your appointment with an ease
+        </p>
 
         <p className="text-md">
           A cutting-edge medical appointment scheduling platform designed to
@@ -24,7 +29,7 @@ export default function About() {
           ensuring fast and reliable access to healthcare services.
         </p>
 
-        <div className="font-bold text-xs flex justify-center gap-2 items-center">
+        <div className="font-bold text-sm lg:text-xs flex flex-col lg:flex-row justify-center gap-2 lg:items-center">
           <p className="">Rapid Appointment Booking</p>
           <DividerDot />
           <p className="">Emergency Assistance</p>
