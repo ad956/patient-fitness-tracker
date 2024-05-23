@@ -3,6 +3,7 @@ import getPatientData from "./getPatientData";
 import getPatientMedicalHistory from "./getPatientMedicalHistory";
 import getPayments from "./getPayments";
 import getUpcomingAppointments from "./getUpcomingAppointments";
+import pendingAppointmentsRequest from "./pendingAppointmentsReq";
 
 export {
   bookAppointment,
@@ -10,4 +11,5 @@ export {
   getPatientMedicalHistory,
   getPayments,
   getUpcomingAppointments,
+  pendingAppointmentsRequest,
 };
