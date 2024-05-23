@@ -92,32 +92,21 @@ export default async function PatientPage() {
             value={patient.progress.currentTreatment}
             showValueLabel={true}
           />
-          <Tooltip
-            showArrow={true}
-            placement="right-end"
-            content={
-              <div className="px-1 py-2">
-                <div className="text-small font-bold">Tip</div>
-                <div className="text-tiny">Each 10 % equals 1 appointment</div>
-              </div>
-            }
-          >
-            <Progress
-              size="sm"
-              radius="sm"
-              color="warning"
-              classNames={{
-                base: "max-w-md",
-                track: "drop-shadow-md border border-default",
-                label: "tracking-wider font-bold text-xs",
-                value: "text-foreground/60 text-xs",
-              }}
-              label="Pending Appointments"
-              formatOptions={{ style: "decimal" }}
-              value={patient.progress.pendingAppointments}
-              showValueLabel={true}
-            />
-          </Tooltip>
+          <Progress
+            size="sm"
+            radius="sm"
+            color="warning"
+            classNames={{
+              base: "max-w-md",
+              track: "drop-shadow-md border border-default",
+              label: "tracking-wider font-bold text-xs",
+              value: "text-foreground/60 text-xs",
+            }}
+            label="Pending Appointments"
+            formatOptions={{ style: "decimal" }}
+            value={patient.progress.pendingAppointments}
+            showValueLabel={true}
+          />
         </Card>
         <Card className="h-screen md:h-auto row-span-5 col-span-2 flex flex-col gap-5 justify-center items-center p-5 w-full">
           <Calendar upcomingAppointments={upcomingAppointments} />

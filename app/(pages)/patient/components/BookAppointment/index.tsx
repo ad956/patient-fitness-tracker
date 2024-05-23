@@ -1,5 +1,11 @@
 "use client";
 
+declare global {
+  interface Window {
+    Razorpay: any;
+  }
+}
+
 import { ChangeEvent, ChangeEventHandler, useEffect, useState } from "react";
 import {
   Select,
@@ -11,7 +17,7 @@ import {
   Textarea,
   Spinner,
 } from "@nextui-org/react";
-import { bookAppointment } from "@lib/patient";
+import { bookAppointment, pendingAppointmentsRequest } from "@lib/patient";
 import toast, { Toaster } from "react-hot-toast";
 import {
   getCities,
@@ -23,6 +29,7 @@ import {
 type Hospital = {
   hospital_id: string;
   hospital_name: string;
+  appointment_charge: string;
 };
 
 export default function BookAppointment() {
@@ -33,6 +40,7 @@ export default function BookAppointment() {
   const [selectedHospital, setSelectedHospital] = useState<Hospital>({
     hospital_id: "",
     hospital_name: "",
+    appointment_charge: "",
   });
   const [selectedDisease, setSelectedDisease] = useState("");
   const [loadingStates, setLoadingStates] = useState(false);
@@ -43,7 +51,7 @@ export default function BookAppointment() {
   const [isOpenHospitalPopover, setIsOpenHospitalPopover] = useState(false);
   const [isOpenDiseasePopover, setIsOpenDiseasePopover] = useState(false);
   const [hospitals, setHospitals] = useState<
-    { hospital_id: string; hospital_name: string }[]
+    { hospital_id: string; hospital_name: string; appointment_charge: string }[]
   >([]);
   const [diseases, setDiseases] = useState<string[]>([]);
   const [additionalNote, setAdditionalNote] = useState("");
@@ -157,6 +165,7 @@ export default function BookAppointment() {
       setSelectedHospital({
         hospital_id: selectedId,
         hospital_name: selectedHospitalObj.hospital_name,
+        appointment_charge: selectedHospitalObj.appointment_charge,
       });
     }
     setIsOpenHospitalPopover(false);
@@ -168,6 +177,24 @@ export default function BookAppointment() {
   }
 
   async function handleAppointmentButtonClick(): Promise<void> {
+    toast.loading("Please wait");
+
+    // checks for existing pending appointment request
+    const result = await pendingAppointmentsRequest(
+      selectedHospital.hospital_id
+    );
+
+    if (!result.hasPendingAppointment) {
+      toast.dismiss();
+      toast.error("You already have a pending appointment request");
+      return;
+    }
+
+    // razorpay payment processing
+    await processPayment(selectedHospital.appointment_charge);
+    toast.dismiss();
+
+    // booking appointment after payment
     const bookAppointmentData = {
       date: new Date(),
       state: selectedState,
@@ -185,13 +212,17 @@ export default function BookAppointment() {
       return;
     }
     clearSelected();
-    toast.success(response.msg);
+    toast.success("response.msg");
   }
 
   function clearSelected() {
     setSelectedState("");
     setSelectedCity("");
-    setSelectedHospital({ hospital_id: "", hospital_name: "" });
+    setSelectedHospital({
+      hospital_id: "",
+      hospital_name: "",
+      appointment_charge: "",
+    });
     setSelectedDisease("");
     setNoteError("");
     setIsOpenPopover(false);
@@ -393,3 +424,75 @@ export default function BookAppointment() {
     </div>
   );
 }
+
+async function processPayment(amount: string) {
+  try {
+    const orderId: string = await createOrderId(amount);
+    const options = {
+      key: process.env.key_id,
+      amount: parseFloat(amount) * 100,
+      currency: "INR",
+      name: "Anand Suthar",
+      description: "Kata kikn vei",
+      order_id: orderId,
+      handler: async function (response: any) {
+        const data = {
+          orderCreationId: orderId,
+          razorpayPaymentId: response.razorpay_payment_id,
+          razorpayOrderId: response.razorpay_order_id,
+          razorpaySignature: response.razorpay_signature,
+        };
+
+        const result = await fetch("/api/payment/verify", {
+          method: "POST",
+          body: JSON.stringify(data),
+          headers: { "Content-Type": "application/json" },
+        });
+        const res = await result.json();
+        if (res.isOk) alert("payment succeed");
+        else {
+          alert(res.message);
+        }
+      },
+      prefill: {
+        name: "Anand Suthar",
+        email: "anandsuthar956@gmail.com",
+      },
+      theme: {
+        color: "#3399cc",
+      },
+    };
+    const paymentObject = new window.Razorpay(options);
+    paymentObject.on("payment.failed", function (response: any) {
+      alert(response.error.description);
+    });
+    paymentObject.open();
+  } catch (error) {
+    toast.error("Payment Failed");
+  }
+}
+
+const createOrderId = async (amount: string) => {
+  try {
+    const response = await fetch("/api/payment/create-order", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        amount: parseFloat(amount) * 100,
+        currency: "INR",
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+
+    const data = await response.json();
+    return data.orderId;
+  } catch (error) {
+    console.error("There was a problem with your fetch operation:", error);
+    toast.error("Order id creation failed");
+  }
+};

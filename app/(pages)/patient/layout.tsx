@@ -1,3 +1,4 @@
+import Script from "next/script";
 import { Headbar, Sidebar } from "./components";
 import type { Metadata } from "next";
 
@@ -18,6 +19,10 @@ export default function PatientLayout({
         <Headbar />
         {children}
       </section>
+      <Script
+        id="razorpay-checkout-js"
+        src="https://checkout.razorpay.com/v1/checkout.js"
+      />
     </main>
   );
 }
