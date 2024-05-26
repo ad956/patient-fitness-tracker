@@ -11,7 +11,7 @@ export default function Intro() {
       <div className="lg:h-4/5 lg:w-2/5 p-2 lg:p-5 flex flex-col justify-center gap-10 items-center text-bold">
         <h3 className="text-4xl font-medium tracking-wide">
           The <span className="text-[#e95b7b]">New Era</span> of Healthcare
-          MXXXXXXXXXXXXXXanagement
+          MXXXXXXXXXXXXXXXanagement
         </h3>
 
         <p className="text-md font-medium tracking-wider">
