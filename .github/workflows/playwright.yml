@@ -37,6 +37,4 @@ jobs:
           retention-days: 30
       - name: Rollback Deployment on Test Failure
         if: ${{ failure() }}
-        run: |
-          LAST_DEPLOYMENT=$(vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }} | grep -o -E 'https://[^"]+')
-          vercel rollback $LAST_DEPLOYMENT --token=${{ secrets.VERCEL_TOKEN }}
+        run: vercel rollback ${{ steps.deploy.outputs.vercel-deployment-url }} --token=${{ secrets.VERCEL_TOKEN }}
