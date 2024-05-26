@@ -11,7 +11,7 @@ export default async function QRCodePage() {
       shadow="lg"
       className="h-full flex flex-row justify-around items-center"
     >
-      <div className="h-4/5 w-2/6 flex flex-col justify-center gap-5 items-center">
+      <div className="md:h-4/5 md:w-2/6 flex flex-col justify-center gap-5 items-center">
         <User
           name={patient.firstname}
           description={
@@ -24,11 +24,11 @@ export default async function QRCodePage() {
           }}
         />
 
-        <div className="flex flex-col justify-center items-center gap-2">
+        <div className="flex flex-col justify-center items-center gap-2 px-5">
           <p className="text-sm font-semibold">
             Instant Access to Medical Records via QR Codes
           </p>
-          <p className="text-xs px-5">
+          <p className="text-xs">
             Empower patients with personalized QR codes, granting swift access
             to medical records for seamless interactions at hospitals.
           </p>

@@ -10,13 +10,13 @@ export default async function ProfileSettings() {
     <Card
       radius="lg"
       shadow="lg"
-      className="flex flex-col gap-5 items-center p-5 h-full w-full"
+      className="flex flex-col gap-5 items-center p-5 h-full w-full overflow-y-scroll"
     >
       <p className="self-start font-bold text-md tracking-wider">
         Profile Settings
       </p>
 
-      <div className="flex flex-row justify-around gap-5 p-5 items-center h-full w-full ">
+      <div className="flex flex-col justify-center md:flex-row md:justify-around gap-5 p-5 items-center md:h-full md:w-full">
         <div className="relative">
           <Avatar src={patient.profile} className="w-48 h-48 text-large" />
         </div>

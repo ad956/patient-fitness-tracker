@@ -242,7 +242,7 @@ export default function BookAppointment() {
     <div className="flex flex-col justify-center gap-5 mx-5 mt-10">
       <Toaster />
       <p className="text-lg font-bold">Book an appointment</p>
-      <div className="flex flex-row items-center gap-5">
+      <div className="flex flex-col flex-wrap md:flex-row items-center gap-5">
         <Select
           isRequired
           label="Select State"

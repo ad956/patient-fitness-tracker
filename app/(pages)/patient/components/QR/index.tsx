@@ -41,7 +41,7 @@ export default function QRCode({ text }: QRCodeProp) {
         isBlurred
         shadow="lg"
         radius="lg"
-        className="h-2/5 w-3/6 p-5 flex flex-col justify-center items-center"
+        className="md:h-2/5 md:w-3/6 p-5 flex flex-col justify-center items-center"
       >
         <SVG
           text={text}

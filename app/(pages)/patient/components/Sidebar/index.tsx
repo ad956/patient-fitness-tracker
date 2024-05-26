@@ -44,7 +44,7 @@ export default function Sidebar() {
   const BaseURL = getBaseUrl();
 
   return (
-    <aside className="hidden h-full md:flex flex-col items-center p-4 bg-[#f3f6fd]">
+    <aside className="h-full md:flex flex-col items-center p-4 bg-[#f3f6fd]">
       <Image
         src="/patient.svg"
         alt="brand-logo"

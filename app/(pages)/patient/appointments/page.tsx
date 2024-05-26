@@ -7,11 +7,10 @@ export default async function Appointments() {
   const patient: Patient = await getPatientData();
 
   return (
-    <section className="h-full w-full flex flex-col gap-5  p-5">
+    <section className="flex flex-col gap-5 p-5 overflow-y-scroll">
       <Card
-        isBlurred
         radius="lg"
-        className="border-none flex flex-row justify-around items-center mx-5 bg-[#e95b7b"
+        className="border-none flex flex-col justify-center md:flex-row md:justify-around items-center py-52 px-2 md:p-0 md:mx-5"
       >
         <div className="flex flex-col gap-2">
           <div className="">

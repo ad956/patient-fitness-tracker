@@ -15,7 +15,7 @@ export default async function PatientPage() {
     await getUpcomingAppointments();
 
   return (
-    <section className="bg-[#f3f6fd] md:overflow-hidden p-2">
+    <section className="bg-[#f3f6fd] p-2 overflow-y-scroll">
       <div className="flex flex-col md:grid md:grid-cols-5 md:grid-rows-5 md:h-full gap-3">
         <Card className="p-5 row-span-3 justify-center items-center">
           <div className="flex flex-col items-center">
