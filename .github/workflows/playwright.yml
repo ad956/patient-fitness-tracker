@@ -36,5 +36,5 @@ jobs:
           path: playwright-report/
           retention-days: 30
       - name: Rollback Deployment on Test Failure
-        if: failure()
+        if: ${{ failure() }}
         run: vercel rollback --token=${{ secrets.VERCEL_TOKEN }}
