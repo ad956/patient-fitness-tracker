@@ -429,7 +429,7 @@ async function processPayment(amount: string) {
   try {
     const orderId: string = await createOrderId(amount);
     const options = {
-      key: process.env.key_id,
+      key: process.env.RAZORPAY_KEY_ID,
       amount: parseFloat(amount) * 100,
       currency: "INR",
       name: "Anand Suthar",
