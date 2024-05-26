@@ -37,4 +37,6 @@ jobs:
           retention-days: 30
       - name: Rollback Deployment on Test Failure
         if: ${{ failure() }}
-        run: vercel rollback ${{ steps.deploy.outputs.vercel-deployment-url }} --token=${{ secrets.VERCEL_TOKEN }}
+        run: |
+          DEPLOYMENT_ID=$(vercel list --token=${{ secrets.VERCEL_TOKEN }} --json | jq -r '.[0].uid')
+          vercel --token=${{ secrets.VERCEL_TOKEN }} rollback $DEPLOYMENT_ID
