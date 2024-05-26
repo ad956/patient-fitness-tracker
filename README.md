@@ -48,6 +48,8 @@ The Patient Fitness Tracker is a modern healthcare platform designed to streamli
    | SMTP_FROM_EMAIL      | Email address for sending emails.                     |
    | JWT_SECRET           | Secret key for JWT token generation and verification. |
    | BCRYPT_SALT_ROUNDS   | Number of salt rounds for bcrypt password hashing     |
+   | KEY_ID               | Your Razorpay Key ID                                  |
+   | KEY_SECRET           | Your Razorpay Key Secret                              |
 
 5. **Start the development server:**
    ```bash
