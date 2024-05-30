@@ -32,7 +32,12 @@ type Hospital = {
   appointment_charge: string;
 };
 
-export default function BookAppointment() {
+type BookAppointmentProps = {
+  name: string;
+  email: string;
+};
+
+export default function BookAppointment({ name, email }: BookAppointmentProps) {
   const [states, setStates] = useState<string[]>([]);
   const [selectedState, setSelectedState] = useState("");
   const [cities, setCities] = useState<string[]>([]);
@@ -180,18 +185,18 @@ export default function BookAppointment() {
     toast.loading("Please wait");
 
     // checks for existing pending appointment request
-    const result = await pendingAppointmentsRequest(
-      selectedHospital.hospital_id
-    );
+    // const result = await pendingAppointmentsRequest(
+    //   selectedHospital.hospital_id
+    // );
 
-    if (!result.hasPendingAppointment) {
-      toast.dismiss();
-      toast.error("You already have a pending appointment request");
-      return;
-    }
+    // if (!result.hasPendingAppointment) {
+    //   toast.dismiss();
+    //   toast.error("You already have a pending appointment request");
+    //   return;
+    // }
 
     // razorpay payment processing
-    await processPayment(selectedHospital.appointment_charge);
+    await processPayment(selectedHospital.appointment_charge, name, email);
     toast.dismiss();
 
     // booking appointment after payment
@@ -425,7 +430,7 @@ export default function BookAppointment() {
   );
 }
 
-async function processPayment(amount: string) {
+async function processPayment(amount: string, name: string, email: string) {
   try {
     const orderId: string = await createOrderId(amount);
     const options = {
@@ -449,14 +454,14 @@ async function processPayment(amount: string) {
           headers: { "Content-Type": "application/json" },
         });
         const res = await result.json();
-        if (res.isOk) alert("payment succeed");
+        if (res.isOk) toast.success("payment succeed");
         else {
-          alert(res.message);
+          toast.success(res.message);
         }
       },
       prefill: {
-        name: "Anand Suthar",
-        email: "anandsuthar956@gmail.com",
+        name,
+        email,
       },
       theme: {
         color: "#3399cc",
@@ -464,7 +469,7 @@ async function processPayment(amount: string) {
     };
     const paymentObject = new window.Razorpay(options);
     paymentObject.on("payment.failed", function (response: any) {
-      alert(response.error.description);
+      toast.error(response.error.description);
     });
     paymentObject.open();
   } catch (error) {
@@ -486,13 +491,13 @@ const createOrderId = async (amount: string) => {
     });
 
     if (!response.ok) {
-      throw new Error("Network response was not ok");
+      throw new Error("Order id creation response was not ok");
     }
 
     const data = await response.json();
     return data.orderId;
   } catch (error) {
-    console.error("There was a problem with your fetch operation:", error);
+    console.error("There was a problem with creating order id: ", error);
     toast.error("Order id creation failed");
   }
 };
