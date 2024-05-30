@@ -5,7 +5,7 @@ const generatedSignature = (
   razorpayOrderId: string,
   razorpayPaymentId: string
 ) => {
-  const keySecret = process.env.key_secret;
+  const keySecret = process.env.RAZORPAY_KEY_SECRET;
   if (!keySecret) {
     throw new Error(
       "Razorpay key secret is not defined in environment variables."
