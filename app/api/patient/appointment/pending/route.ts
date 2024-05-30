@@ -9,7 +9,7 @@ export async function POST(req: Request) {
   }
 
   try {
-    const hospital_id: string = await req.json();
+    const { hospital_id }: { hospital_id: string } = await req.json();
 
     const token = session.split("Bearer ")[1];
     const decryptedUser = await decrypt(token);
