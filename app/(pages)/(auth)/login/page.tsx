@@ -26,7 +26,7 @@ export default function Login() {
   const [isVisible, setIsVisible] = useState(false);
   const [Error, setError] = useState(null || String);
   const [showOtp, setShowOtp] = useState(false);
-  const [userData, setUserData] = useState({ email: "", role: "" });
+  const [userData, setUserData] = useState({ email: "", role: "", action: "" });
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
 
@@ -99,6 +99,7 @@ export default function Login() {
           setUserData({
             email: userEmail.toString(),
             role: userRole?.toString() || "",
+            action: "Login",
           });
 
           toast.success("OTP successfully sent !", {

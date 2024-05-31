@@ -32,12 +32,6 @@ export async function GET(request: Request) {
 
     const appointments = await appointmentsCursor.toArray(); // convert cursor to array
 
-    if (appointments.length === 0) {
-      return new Response(JSON.stringify({ error: "Appointments not found" }), {
-        status: 404,
-      });
-    }
-
     const projection = {
       _id: 1,
       firstname: 1,

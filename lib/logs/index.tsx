@@ -8,6 +8,7 @@ type userlogType = {
   name: string;
   email: string;
   role: string;
+  action: string;
 };
 
 async function logUserActivity(userlog: userlogType, req: Request) {
@@ -20,7 +21,7 @@ async function logUserActivity(userlog: userlogType, req: Request) {
       username: userlog.username,
       name: userlog.name,
       email: userlog.email,
-      action: "Login",
+      action: userlog.action,
       userType: userlog.role,
       timing: new Date().toISOString(),
       device: req.headers.get("user-agent") || "",
@@ -35,7 +36,7 @@ async function logUserActivity(userlog: userlogType, req: Request) {
 
     await sendEmail({
       to: process.env.LOGGER_EMAIL || "yourmail@example.com",
-      subject: "Alert: User Login Activity Notification",
+      subject: `Alert: User ${userlog.action} Activity Notification`,
       html: render(UserActivityTemplate(user_log)),
       from: {
         name: "Patient Fitness Tracker",

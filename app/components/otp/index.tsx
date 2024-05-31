@@ -18,6 +18,7 @@ type userDataType = {
   userData: {
     email: string;
     role: string;
+    action: string;
   };
 };
 
@@ -54,7 +55,12 @@ export default function OtpSection({ userData }: userDataType) {
   };
 
   const handleSubmit = async () => {
-    const data = await verifyOtp(userData.email, userData.role, otp);
+    const data = await verifyOtp(
+      userData.email,
+      userData.role,
+      userData.action,
+      otp
+    );
 
     if (data.error) {
       setShowError(data.error);

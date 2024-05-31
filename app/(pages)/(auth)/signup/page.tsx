@@ -32,7 +32,7 @@ export default function Signup() {
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
   const [isVisible, setIsVisible] = useState(false);
   const [showOtp, setShowOtp] = useState(false);
-  const [userData, setUserData] = useState({ email: "", role: "" });
+  const [userData, setUserData] = useState({ email: "", role: "", action: "" });
 
   const firstNameRef = useRef<HTMLInputElement>(null);
   const lastNameRef = useRef<HTMLInputElement>(null);
@@ -183,6 +183,7 @@ export default function Signup() {
           setUserData({
             email: userEmail.toString(),
             role: userRole?.toString() || "",
+            action: "Signup",
           });
 
           toast.success(

@@ -6,6 +6,7 @@ type bodyType = {
   email: string;
   otp: string;
   role: string;
+  action: string;
 };
 
 const allowedRoles = ["patient", "hospital", "doctor", "receptionist"];
@@ -14,7 +15,7 @@ export async function POST(req: Request) {
   try {
     const body: bodyType = await req.json();
 
-    if (!body || !body.email || !body.role || !body.otp) {
+    if (!body || !body.email || !body.role || !body.action || !body.otp) {
       return Response.json({
         error: "Email, OTP, and role are required fields in the request body.",
       });
@@ -60,6 +61,7 @@ async function checkOTP(body: bodyType, req: Request) {
     name: `${user.firstname} ${user.lastname}`,
     email,
     role: body.role,
+    action: body.action,
   };
 
   // storing user logs in db

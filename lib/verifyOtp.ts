@@ -3,6 +3,7 @@ import getBaseUrl from "@utils/getBaseUrl";
 export default async function verifyOtp(
   email: string,
   role: string,
+  action: string,
   otp: string
 ) {
   const serverUrl = getBaseUrl();
@@ -17,6 +18,7 @@ export default async function verifyOtp(
         otp,
         email,
         role,
+        action,
       }),
     });
     const data = await response.json();

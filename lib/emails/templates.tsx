@@ -317,7 +317,7 @@ export function UserActivityTemplate(user: UserLog) {
                   color: "#1f1f1f",
                 }}
               >
-                User Login Notification
+                User {user.action} Notification
               </h1>
               <p
                 style={{
@@ -337,7 +337,9 @@ export function UserActivityTemplate(user: UserLog) {
                   letterSpacing: "0.56px",
                 }}
               >
-                A user has logged into the Patient Fitness Tracker application.
+                {user.action === "Login"
+                  ? "A user has logged into the Patient Fitness Tracker application."
+                  : "A user just created an account for Patient Fitness Tracker application."}
                 Here are the details:
               </p>
               <div
