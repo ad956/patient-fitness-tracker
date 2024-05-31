@@ -37,19 +37,21 @@ The Patient Fitness Tracker is a modern healthcare platform designed to streamli
 4. **Set up environment variables:**
    Create a file named `.env.local` in the root directory of your project and add the following environment variables with their corresponding values:
 
-   | Variable             | Description                                           |
-   | -------------------- | ----------------------------------------------------- |
-   | NEXT_PUBLIC_BASE_URL | Base URL of the application.                          |
-   | MONGODB_URI          | MongoDB connection URI.                               |
-   | SMTP_HOST            | Hostname of the SMTP server for sending emails.       |
-   | SMTP_PORT            | Port number of the SMTP server.                       |
-   | SMTP_USER            | Username for SMTP authentication.                     |
-   | SMTP_PASSWORD        | Password for SMTP authentication.                     |
-   | SMTP_FROM_EMAIL      | Email address for sending emails.                     |
-   | JWT_SECRET           | Secret key for JWT token generation and verification. |
-   | BCRYPT_SALT_ROUNDS   | Number of salt rounds for bcrypt password hashing     |
-   | RAZORPAY_KEY_ID      | Your Razorpay Key ID                                  |
-   | RAZORPAY_KEY_SECRET  | Your Razorpay Key Secret                              |
+   | Variable             | Description                                                 |
+   | -------------------- | ----------------------------------------------------------- |
+   | NEXT_PUBLIC_BASE_URL | Base URL of the application.                                |
+   | MONGODB_URI          | MongoDB connection URI.                                     |
+   | SMTP_HOST            | Hostname of the SMTP server for sending emails.             |
+   | SMTP_PORT            | Port number of the SMTP server.                             |
+   | SMTP_USER            | Username for SMTP authentication.                           |
+   | SMTP_PASSWORD        | Password for SMTP authentication.                           |
+   | SMTP_FROM_EMAIL      | Email address for sending emails.                           |
+   | JWT_SECRET           | Secret key for JWT token generation and verification.       |
+   | BCRYPT_SALT_ROUNDS   | Number of salt rounds for bcrypt password hashing           |
+   | RAZORPAY_KEY_ID      | Your Razorpay Key ID                                        |
+   | RAZORPAY_KEY_SECRET  | Your Razorpay Key Secret                                    |
+   | IP_INFO_TOKEN        | IPInfo access token for retrieving IP details               |
+   | LOGGER_EMAIL         | Email to receive user activity(signin/signup) notifications |
 
 5. **Start the development server:**
    ```bash
