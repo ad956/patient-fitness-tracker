@@ -1,5 +1,5 @@
 import dbConfig from "@lib/db";
-import OtpTemplate from "@lib/emails/templates";
+import { OtpTemplate } from "@lib/emails/templates";
 import { sendEmail } from "@lib/email";
 import { render } from "@react-email/render";
 import { generateSecureOTP } from "@utils/generateOtp";

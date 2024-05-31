@@ -1,5 +1,6 @@
 import { setSession } from "@sessions/sessionUtils";
 import dbConfig from "@lib/db";
+import logUserActivity from "@lib/logs";
 
 type bodyType = {
   email: string;
@@ -23,14 +24,14 @@ export async function POST(req: Request) {
       return Response.json({ error: "User role isn't valid." });
     }
 
-    const result = await checkOTP(body);
+    const result = await checkOTP(body, req);
     return result;
   } catch (error) {
     console.error("Error during otp verification:", error);
     return Response.json({ error: "Internal Server Error" });
   }
 }
-async function checkOTP(body: bodyType) {
+async function checkOTP(body: bodyType, req: Request) {
   const db = await dbConfig();
 
   const collection = db.collection(body.role);
@@ -38,18 +39,31 @@ async function checkOTP(body: bodyType) {
 
   const projection = {
     _id: 0,
+    username: 1,
+    firstname: 1,
+    lastname: 1,
     otp: 1,
   };
 
-  const userOTP = await collection.findOne({ email }, { projection });
+  const user = await collection.findOne({ email }, { projection });
 
-  if (!userOTP || userOTP.otp !== body.otp)
+  if (!user || user.otp !== body.otp)
     return Response.json({ error: "OTP Verification Failed" });
 
   await collection.updateOne({ email }, { $set: { otp: "" } });
 
   // setting session for user (stores jwt token in cookies named session)
   await setSession(email, body.role);
+
+  const userlog = {
+    username: user.username,
+    name: `${user.firstname} ${user.lastname}`,
+    email,
+    role: body.role,
+  };
+
+  // storing user logs in db
+  await logUserActivity(userlog, req);
 
   return Response.json({ message: "ok" }, { status: 200 });
 }
