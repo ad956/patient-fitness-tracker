@@ -127,3 +127,15 @@ export interface PatientDetails {
   date: string;
   timing: string;
 }
+
+export interface UserLog {
+  username: usestring;
+  name: string;
+  email: string;
+  action: string;
+  userType: string;
+  timing: string;
+  device: string;
+  ip: string;
+  location: string;
+}
