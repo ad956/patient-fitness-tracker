@@ -79,7 +79,11 @@ export default function OtpSection({ userData }: userDataType) {
         sendingOtpPromise,
         {
           loading: "Please wait...",
-          success: "Login Success!",
+          success: `${
+            userData.action === "Login"
+              ? "You are now logged in."
+              : "Your account has been created."
+          }`,
           error: "Error while verifying OTP",
         },
         { position: "bottom-center" }

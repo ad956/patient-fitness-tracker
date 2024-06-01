@@ -185,39 +185,47 @@ export default function BookAppointment({ name, email }: BookAppointmentProps) {
     toast.loading("Please wait");
 
     // checks for existing pending appointment request
-    // const result = await pendingAppointmentsRequest(
-    //   selectedHospital.hospital_id
-    // );
+    const result = await pendingAppointmentsRequest(
+      selectedHospital.hospital_id
+    );
 
-    // if (!result.hasPendingAppointment) {
-    //   toast.dismiss();
-    //   toast.error("You already have a pending appointment request");
-    //   return;
-    // }
-
-    // razorpay payment processing
-    await processPayment(selectedHospital.appointment_charge, name, email);
-    toast.dismiss();
-
-    // booking appointment after payment
-    const bookAppointmentData = {
-      date: new Date(),
-      state: selectedState,
-      city: selectedCity,
-      hospital: selectedHospital,
-      disease: selectedDisease,
-      note: additionalNote,
-    };
-
-    const response = await bookAppointment(bookAppointmentData);
-
-    if (response.error) {
-      console.error("Error booking apppointment:", response.error);
-      toast.error(response.error);
+    if (result.hasPendingAppointment) {
+      toast.dismiss();
+      toast.error("You already have a pending appointment request");
       return;
     }
-    clearSelected();
-    toast.success("response.msg");
+
+    // razorpay payment processing
+    await processPayment(selectedHospital.appointment_charge, name, email)
+      .then(() => {
+        // booking appointment after payment
+        const bookAppointmentData = {
+          date: new Date(),
+          state: selectedState,
+          city: selectedCity,
+          hospital: selectedHospital,
+          disease: selectedDisease,
+          note: additionalNote,
+        };
+
+        return bookAppointment(bookAppointmentData);
+      })
+      .then((response) => {
+        if (response.error) {
+          console.error("Error booking apppointment:", response.error);
+          toast.error(response.error);
+        } else {
+          clearSelected();
+          toast.success(response.msg);
+        }
+      })
+      .catch((error) => {
+        console.error("Error booking apppointment:", error);
+        toast.error("Error booking appointment");
+      })
+      .finally(() => {
+        toast.dismiss();
+      });
   }
 
   function clearSelected() {
@@ -437,8 +445,8 @@ async function processPayment(amount: string, name: string, email: string) {
       key: process.env.RAZORPAY_KEY_ID,
       amount: parseFloat(amount) * 100,
       currency: "INR",
-      name: "Anand Suthar",
-      description: "Kata kikn vei",
+      name,
+      description: "Payment for appointment booking",
       order_id: orderId,
       handler: async function (response: any) {
         const data = {
@@ -454,9 +462,9 @@ async function processPayment(amount: string, name: string, email: string) {
           headers: { "Content-Type": "application/json" },
         });
         const res = await result.json();
-        if (res.isOk) toast.success("payment succeed");
+        if (res.isOk) toast.success(res.message);
         else {
-          toast.success(res.message);
+          toast.error(res.message);
         }
       },
       prefill: {

@@ -9,7 +9,7 @@ export default async function Appointments() {
   const { firstname, lastname, email } = patient;
 
   return (
-    <section className="flex flex-col gap-5 p-5 overflow-y-scroll">
+    <section className="flex flex-col gap-5 p-5 overflow-y-auto">
       <Card
         radius="lg"
         className="border-none flex flex-col justify-center md:flex-row md:justify-around items-center py-52 px-2 md:p-0 md:mx-5"

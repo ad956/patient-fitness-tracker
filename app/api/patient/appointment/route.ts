@@ -96,28 +96,28 @@ export async function POST(req: Request) {
       return Response.json({ error: "Patient not found" }, { status: 404 });
     }
 
-    // const appointmentData = {
-    //   date,
-    //   state,
-    //   city,
-    //   hospital: {
-    //     id: new ObjectId(hospital.hospital_id),
-    //     name: hospital.hospital_name,
-    //   },
-    //   disease,
-    //   note,
-    //   approved: "pending",
-    //   patient_id: patient._id,
-    //   doctor_id: null,
-    //   receptionist_id: null,
-    // };
+    const appointmentData = {
+      date,
+      state,
+      city,
+      hospital: {
+        id: new ObjectId(hospital.hospital_id),
+        name: hospital.hospital_name,
+      },
+      disease,
+      note,
+      approved: "pending",
+      patient_id: patient._id,
+      doctor_id: null,
+      receptionist_id: null,
+    };
 
-    // const res = await appointment_collection.insertOne(appointmentData);
+    const res = await appointment_collection.insertOne(appointmentData);
 
-    // if (!res)
-    //   return Response.json({
-    //     error: "Error saving appointment info",
-    //   });
+    if (!res)
+      return Response.json({
+        error: "Error saving appointment info",
+      });
 
     return Response.json(
       {

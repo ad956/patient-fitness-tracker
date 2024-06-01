@@ -18,7 +18,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${lato.className} scrollbar overflow-y-scrol`}>
+      <body className={`${lato.className} scrollbar`}>
         <Providers>{children}</Providers>
       </body>
     </html>

@@ -1,5 +1,6 @@
 "use client";
 
+import { Image } from "@nextui-org/react";
 import { ResponsiveLine } from "@nivo/line";
 import { ResponsiveRadialBar } from "@nivo/radial-bar";
 
@@ -28,6 +29,29 @@ type HealthProgressProps = {
 };
 
 const HealthConditions = ({ progressData }: HealthProgressProps) => {
+  if (progressData.every((condition) => condition === 0)) {
+    return (
+      <div className="h-full w-full flex flex-col md:flex-row justify-around items-center">
+        <div className="flex flex-col">
+          <h2 className="text-sm md:text-lg font-semibold text-gray-800">
+            Your Health Conditions
+          </h2>
+          <p className="text-tiny md:text-md text-gray-600">
+            It appears you don't have any health conditions recorded.
+          </p>
+        </div>
+
+        <div className="md:w-full md:max-w-sm">
+          <Image
+            src="https://biteable.com/wp-content/uploads/2022/11/Healthcare01.gif"
+            alt="no-health-conditions-data-available"
+            className="w-full h-32 md:h-auto rounded-lg border"
+          />
+        </div>
+      </div>
+    );
+  }
+
   const updatedHealthData = healthData.map((patient) => ({
     ...patient,
     data: patient.data.map((item, index) => ({
