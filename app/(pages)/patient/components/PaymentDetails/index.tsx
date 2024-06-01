@@ -34,7 +34,7 @@ export default function PaymentDeatils({ paymentHistory }: paymentsPropType) {
           emptyContent={
             paymentHistory.length === 0 ? (
               <div className="h-full w-full font-bold text-black/70 grid place-items-center">
-                No payments history available for this user.
+                No payment history available yet.
               </div>
             ) : (
               <Spinner className="" label="Loading..." color="warning" />

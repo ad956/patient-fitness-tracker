@@ -35,7 +35,7 @@ export default function MedicalDetails({
           emptyContent={
             medicalDetails.length === 0 ? (
               <div className="h-full w-full font-bold text-black/70 grid place-items-center">
-                No medical history available for this user.
+                No medical history records available.
               </div>
             ) : (
               <Spinner className="" label="Loading..." color="warning" />

@@ -5,7 +5,7 @@ import Headbar from "./Headbar";
 import MedicalDetails from "./MedicalDetails";
 import MedicineDetails from "./MedicineDetails";
 import Notifications from "./Notifications";
-import PaymentDeatils from "./PaymentsDetails";
+import PaymentDetails from "./PaymentDetails";
 import ProfileSettings from "./ProfileSettings";
 import QRCode from "./QR";
 import CarouselService from "./ServiceCarousel";
@@ -20,7 +20,7 @@ export {
   MedicalDetails,
   MedicineDetails,
   Notifications,
-  PaymentDeatils,
+  PaymentDetails,
   ProfileSettings,
   QRCode,
   CarouselService,
