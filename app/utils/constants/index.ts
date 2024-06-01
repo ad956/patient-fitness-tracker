@@ -72,19 +72,18 @@ const commonadditionalDetails = {
 const patientadditionalDetails = {
   ...commonadditionalDetails,
   physicalDetails: {
-    age: 0,
-    blood: "",
-    height: 0,
-    weight: 0,
+    age: 20,
+    blood: "O+",
+    height: 5.3,
+    weight: 50,
   },
   progress: {
-    generalHealth: 0,
-    waterBalance: 0,
+    generalHealth: 75,
+    waterBalance: 70,
     currentTreatment: 0,
     pendingAppointments: 0,
   },
-  activity: Array(7).fill(0),
-  healthConditions: Array(12).fill(0),
+  healthConditions: Array(12).fill(50),
   medicines: [],
 };
 
