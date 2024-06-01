@@ -85,6 +85,7 @@ const patientadditionalDetails = {
   },
   activity: Array(7).fill(0),
   healthConditions: Array(12).fill(0),
+  medicines: [],
 };
 
 const hospitaladditionalDetails = {
