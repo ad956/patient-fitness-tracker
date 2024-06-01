@@ -246,17 +246,6 @@ export default function Login() {
           </Button>
         </form>
 
-        {/* COMMENTED FOR NOW --- GOOGLE LOGIN */}
-        {/* <div className="flex justify-center gap-5 items-center">
-          <div className="h-[1px] w-28 bg-gray-500" />
-          <div className="text-sm">or continue</div>
-          <div className="h-[1px] w-28 bg-gray-500" />
-        </div>
-
-        <Button className="flex justify-center items-center gap-2 text-sm text-white bg-[#161313] rounded-lg w-5/6 h-12 mx-10">
-          <Image src="google.svg" height="30" width="30" alt="google-sign-in" />{" "}
-          Log in with Google
-        </Button> */}
         <p className="text-gray-500 text-xs text-center">
           Don&#39;t have an account?
           <Link href="/signup" className="text-black text-xs">

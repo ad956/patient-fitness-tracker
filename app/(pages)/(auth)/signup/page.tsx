@@ -1,5 +1,5 @@
 "use client";
-import { useState, useRef, type ChangeEvent } from "react";
+import { useState, useRef, type ChangeEvent, useEffect } from "react";
 import { AiTwotoneEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { carouselData, roles } from "@constants/index";
 import { Carousel, OtpSection } from "@components/index";
@@ -31,6 +31,7 @@ export default function Signup() {
   const [confirmPassword, setconfirmPassword] = useState("");
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
   const [isVisible, setIsVisible] = useState(false);
+  const [submitDisabled, setSubmitDisabled] = useState(true);
   const [showOtp, setShowOtp] = useState(false);
   const [userData, setUserData] = useState({ email: "", role: "", action: "" });
 
@@ -156,6 +157,13 @@ export default function Signup() {
           )}.`
         : "Password is too short. It must be at least 8 characters long."
     );
+
+    if (e.target.value !== passwordRef.current?.value) {
+      setConfirmPasswordError(
+        "Passwords do not match. Please ensure that your password and confirm password are identical."
+      );
+    }
+
     setconfirmPassword(e.target.value);
   }
 
@@ -246,6 +254,41 @@ export default function Signup() {
       }
     }
   };
+
+  useEffect(() => {
+    setSubmitDisabled(isSubmitDisabled());
+  }, [
+    firstNameError,
+    firstName,
+    lastNameError,
+    lastName,
+    usernameError,
+    username,
+    emailError,
+    email,
+    passwordError,
+    password,
+    confirmPasswordError,
+    confirmPassword,
+  ]);
+
+  function isSubmitDisabled(): boolean {
+    return (
+      !!firstNameError ||
+      !firstName ||
+      !!lastNameError ||
+      !lastName ||
+      !!usernameError ||
+      !username ||
+      !!emailError ||
+      !email ||
+      !!passwordError ||
+      !password ||
+      !!confirmPasswordError ||
+      !confirmPassword
+    );
+  }
+
   return (
     <div
       className={
@@ -402,25 +445,14 @@ export default function Signup() {
             type="submit"
             variant="shadow"
             className="text-white text-lg rounded-lg bg-[#0d0909] h-12 ml-4 my-2"
+            isDisabled={submitDisabled}
           >
             Sign up
           </Button>
         </form>
+
         {/* passing the user data to otp section */}
         {showOtp && <OtpSection userData={userData} />}
-
-        <Toaster />
-
-        {/* <div className="flex justify-center gap-5 items-center">
-          <div className="h-[1px] w-28 bg-gray-500" />
-          <div className="text-sm">or continue</div>
-          <div className="h-[1px] w-28 bg-gray-500" />
-        </div>
-
-        <Button className="flex justify-center items-center gap-2 text-sm font-thin border-2 border-black rounded-lg h-12 mx-10">
-          <Image src="google.svg" height="30" width="30" alt="google-sign-in" />{" "}
-          Sign up with Google
-        </Button> */}
         <p className="text-gray-500 text-sm text-center">
           Have an account?{" "}
           <Link href="/login" className="text-black">
