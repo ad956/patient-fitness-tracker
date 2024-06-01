@@ -37,7 +37,7 @@ const HealthConditions = ({ progressData }: HealthProgressProps) => {
             Your Health Conditions
           </h2>
           <p className="text-tiny md:text-md text-gray-600">
-            It appears you don't have any health conditions recorded.
+            It appears you don&apos;t have any health conditions recorded.
           </p>
         </div>
 
