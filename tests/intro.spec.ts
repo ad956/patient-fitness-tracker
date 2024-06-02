@@ -8,7 +8,7 @@ test("Displays the landing page correctly and triggers rollback on failure", asy
   await page.goto(`${baseURL}`);
 
   // Intentionally fail the test by expecting a non-existent element
-  await expect(page.getByText("NonExistentElement")).toBeVisible(); // This will intentionally fail the test
+  // await expect(page.getByText("NonExistentElement")).toBeVisible(); // This will intentionally fail the test
 
   // If the test reaches this point, the intentional failure did not occur
   // This line should not be reached if the test fails as expected
