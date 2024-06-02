@@ -47,9 +47,9 @@ export default function Calendar({
 
   React.useEffect(() => {
     if (upcomingAppointments && upcomingAppointments.length > 0) {
-      const selectedDates = upcomingAppointments
-        .filter((appointment) => appointment.approved === "approved")
-        .map((approvedAppointment) => new Date(approvedAppointment.date));
+      const selectedDates = upcomingAppointments.map(
+        (approvedAppointment) => new Date(approvedAppointment.date)
+      );
       setAppointmentDates(selectedDates);
     } else {
       setAppointmentDates([]);
