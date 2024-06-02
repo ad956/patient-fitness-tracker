@@ -21,7 +21,7 @@ jobs:
         run: npm install --global vercel@canary
       - name: Get Current Deployment URL
         run: |
-          DEPLOYMENT_URL=$(vercel ls --json | jq -r '.[0].url')
+          DEPLOYMENT_URL=$(vercel ls --token=${{ secrets.VERCEL_TOKEN }} --json | jq -r '.[0].url')
           echo "Deployment URL: $DEPLOYMENT_URL"
       - name: Pull Vercel Environment Information
         run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
