@@ -196,36 +196,27 @@ export default function BookAppointment({ name, email }: BookAppointmentProps) {
     }
 
     // razorpay payment processing
-    await processPayment(selectedHospital.appointment_charge, name, email)
-      .then(() => {
-        // booking appointment after payment
-        const bookAppointmentData = {
-          date: new Date(),
-          state: selectedState,
-          city: selectedCity,
-          hospital: selectedHospital,
-          disease: selectedDisease,
-          note: additionalNote,
-        };
+    processPayment(selectedHospital.appointment_charge, name, email);
+    toast.dismiss();
 
-        return bookAppointment(bookAppointmentData);
-      })
-      .then((response) => {
-        if (response.error) {
-          console.error("Error booking apppointment:", response.error);
-          toast.error(response.error);
-        } else {
-          clearSelected();
-          toast.success(response.msg);
-        }
-      })
-      .catch((error) => {
-        console.error("Error booking apppointment:", error);
-        toast.error("Error booking appointment");
-      })
-      .finally(() => {
-        toast.dismiss();
-      });
+    // booking appointment after payment
+    const bookAppointmentData = {
+      date: new Date(),
+      state: selectedState,
+      city: selectedCity,
+      hospital: selectedHospital,
+      disease: selectedDisease,
+      note: additionalNote,
+    };
+
+    const response = await bookAppointment(bookAppointmentData);
+    if (response.error) {
+      console.error("Error booking apppointment:", response.error);
+      toast.error(response.error);
+      return;
+    }
+    clearSelected();
+    toast.success(response.msg);
   }
 
   function clearSelected() {
@@ -462,7 +453,7 @@ async function processPayment(amount: string, name: string, email: string) {
           headers: { "Content-Type": "application/json" },
         });
         const res = await result.json();
-        if (res.isOk) toast.success(res.message);
+        if (res.isOk) return true;
         else {
           toast.error(res.message);
         }

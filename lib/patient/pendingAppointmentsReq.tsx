@@ -13,7 +13,7 @@ export default async function pendingAppointmentsRequest(hospital_id: string) {
   try {
     const res = await fetch(`${serverUrl}/api/patient/appointment/pending`, {
       method: "POST",
-      body: JSON.stringify(hospital_id),
+      body: JSON.stringify({ hospital_id }),
       headers,
     });
 
