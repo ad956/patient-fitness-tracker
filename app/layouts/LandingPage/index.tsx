@@ -19,7 +19,6 @@ export default function LandingPage() {
       <NavBar />
       <Intro />
       <Lifeline />
-      <h2>NO TO WORK WITH</h2>
 
       <section className="my-10 flex justify-center">
         <Divider className="w-4/5 bg-gray-400" />
