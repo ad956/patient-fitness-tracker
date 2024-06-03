@@ -453,7 +453,7 @@ async function processPayment(amount: string, name: string, email: string) {
           headers: { "Content-Type": "application/json" },
         });
         const res = await result.json();
-        if (res.isOk) return true;
+        if (res.isOk) toast.success(res.message);
         else {
           toast.error(res.message);
         }
