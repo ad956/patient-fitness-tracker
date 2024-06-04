@@ -1,5 +1,5 @@
 "use client";
-import { useState, type ChangeEvent, useRef } from "react";
+import { useState, type ChangeEvent, useRef, useEffect } from "react";
 import { AiTwotoneEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { carouselData, roles } from "@constants/index";
 import { Carousel, OtpSection } from "@components/index";
@@ -27,8 +27,11 @@ export default function Login() {
   const [Error, setError] = useState(null || String);
   const [showOtp, setShowOtp] = useState(false);
   const [userData, setUserData] = useState({ email: "", role: "", action: "" });
+
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
+
+  const [loginDisabled, setLoginDisabled] = useState(true);
 
   function handleEmailChange(e: ChangeEvent<HTMLInputElement>) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -75,6 +78,14 @@ export default function Login() {
   }
 
   const toggleVisibility = () => setIsVisible(!isVisible);
+
+  useEffect(() => {
+    setLoginDisabled(isLoginDisabled());
+  }, [emailError, email, passwordError, password]);
+
+  function isLoginDisabled(): boolean {
+    return !!emailError || !email || !!passwordError || !password;
+  }
 
   async function handleFormSubmit(
     e: React.FormEvent<HTMLFormElement>
@@ -214,33 +225,12 @@ export default function Login() {
           </Link>
           {/* passing the user data to otp section */}
           {showOtp && <OtpSection userData={userData} />}
-          <Modal
-            isOpen={!!Error}
-            onOpenChange={() => setError("")}
-            placement="top-center"
-          >
-            <ModalContent>
-              {(onClose) => (
-                <>
-                  <ModalBody className="flex flex-col justify-center items-center">
-                    <p className="text-red-600 tracking-wide font-bold">
-                      {Error}
-                    </p>
-                    <Image
-                      alt="for-wrong-password-use"
-                      src="https://media.istockphoto.com/id/1412330792/vector/wrong-password-concept.jpg?s=612x612&w=0&k=20&c=N4BoF3wbVqB9Vwyu0K8d-RyhJIiRc-CZdmxkWsidg18="
-                      height={200}
-                      width={200}
-                    />
-                  </ModalBody>
-                </>
-              )}
-            </ModalContent>
-          </Modal>
+
           <Button
             type="submit"
             variant="shadow"
             className="text-white self-center bg-[#161313] text-sm tracking-wide rounded-lg w-5/6 h-12 my-2"
+            isDisabled={loginDisabled}
           >
             Sign in
           </Button>
