@@ -4,9 +4,18 @@ export type User = {
   lastname: string;
   username: string;
   email: string;
+  dob: string;
+  gender: string;
   contact: string;
   profile: string;
-  dob: string;
+  address: {
+    address_line_1: string;
+    address_line_2: string;
+    city: string;
+    state: string;
+    country: string;
+    zip_code: string;
+  };
 };
 
 export type Patient = User & {
@@ -77,7 +86,7 @@ export type bookingAppointment = {
   note: string;
 };
 
-export interface PaymentsHistory {
+export interface PaymentHistory {
   hospital: {
     name: string;
     profile: string;
@@ -88,8 +97,7 @@ export interface PaymentsHistory {
   amount: number;
   status: string;
 }
-
-export interface MedicalHistoryType {
+export interface MedicalHistory {
   hospital: {
     name: string;
     profile: string;
@@ -104,32 +112,16 @@ export interface MedicalHistoryType {
   disease: string;
 }
 
-export interface PatientDetails {
-  patientDetails: any;
-  _id: string;
-  firstname: string;
-  lastname: string;
-  email: string;
-  dob: string;
-  gender: string;
-  contact: string;
-  profile: string;
-  address: {
-    address_line_1: string;
-    address_line_2: string;
-    city: string;
-    state: string;
-    country: string;
-    zip_code: string;
-  };
+// Type for patient details, used by the receptionist to view and manage patient information.
+export type PatientDetails = User & {
   disease: string;
   note: string;
   date: string;
   timing: string;
-}
+};
 
 export interface UserLog {
-  username: usestring;
+  username: string;
   name: string;
   email: string;
   action: string;
