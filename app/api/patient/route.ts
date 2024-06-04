@@ -21,8 +21,6 @@ export async function GET(request: Request) {
       password: 0,
       current_hospital: 0,
       notifications: 0,
-      gender: 0,
-      address: 0,
     };
 
     const patientData = await collection.findOne({ email }, { projection });
