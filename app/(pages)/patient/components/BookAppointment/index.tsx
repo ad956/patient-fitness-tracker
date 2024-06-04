@@ -195,9 +195,21 @@ export default function BookAppointment({ name, email }: BookAppointmentProps) {
       return;
     }
 
-    // razorpay payment processing
-    processPayment(selectedHospital.appointment_charge, name, email);
     toast.dismiss();
+    // razorpay payment processing
+    const paymentResult = await processPayment(
+      selectedHospital.appointment_charge,
+      name,
+      email
+    );
+
+    if (!paymentResult.success) {
+      toast.error(paymentResult.message, {
+        duration: 3000,
+        position: "bottom-center",
+      });
+      return;
+    }
 
     // booking appointment after payment
     const bookAppointmentData = {
@@ -429,50 +441,63 @@ export default function BookAppointment({ name, email }: BookAppointmentProps) {
   );
 }
 
-async function processPayment(amount: string, name: string, email: string) {
+async function processPayment(
+  amount: string,
+  name: string,
+  email: string
+): Promise<{ success: boolean; message: string }> {
   try {
     const orderId: string = await createOrderId(amount);
-    const options = {
-      key: process.env.RAZORPAY_KEY_ID,
-      amount: parseFloat(amount) * 100,
-      currency: "INR",
-      name,
-      description: "Payment for appointment booking",
-      order_id: orderId,
-      handler: async function (response: any) {
-        const data = {
-          orderCreationId: orderId,
-          razorpayPaymentId: response.razorpay_payment_id,
-          razorpayOrderId: response.razorpay_order_id,
-          razorpaySignature: response.razorpay_signature,
-        };
-
-        const result = await fetch("/api/payment/verify", {
-          method: "POST",
-          body: JSON.stringify(data),
-          headers: { "Content-Type": "application/json" },
-        });
-        const res = await result.json();
-        if (res.isOk) toast.success(res.message);
-        else {
-          toast.error(res.message);
-        }
-      },
-      prefill: {
+    return new Promise((resolve, reject) => {
+      const options = {
+        key: process.env.RAZORPAY_KEY_ID,
+        amount: parseFloat(amount) * 100,
+        currency: "INR",
         name,
-        email,
-      },
-      theme: {
-        color: "#3399cc",
-      },
-    };
-    const paymentObject = new window.Razorpay(options);
-    paymentObject.on("payment.failed", function (response: any) {
-      toast.error(response.error.description);
+        description: "Payment for appointment booking",
+        order_id: orderId,
+        handler: async function (response: any) {
+          const data = {
+            orderCreationId: orderId,
+            razorpayPaymentId: response.razorpay_payment_id,
+            razorpayOrderId: response.razorpay_order_id,
+            razorpaySignature: response.razorpay_signature,
+          };
+
+          try {
+            const result = await fetch("/api/payment/verify", {
+              method: "POST",
+              body: JSON.stringify(data),
+              headers: { "Content-Type": "application/json" },
+            });
+            const res = await result.json();
+            if (res.isOk) {
+              resolve({ success: true, message: res.message });
+            } else {
+              reject({ success: false, message: res.message });
+            }
+          } catch (error) {
+            reject({ success: false, message: "Payment verification failed" });
+          }
+        },
+        prefill: {
+          name,
+          email,
+        },
+        theme: {
+          color: "#3399cc",
+        },
+      };
+      const paymentObject = new window.Razorpay(options);
+      paymentObject.on("payment.failed", function (response: any) {
+        paymentObject.close();
+        console.log("is it failing");
+        reject({ success: false, message: response.error.description });
+      });
+      paymentObject.open();
     });
-    paymentObject.open();
   } catch (error) {
-    toast.error("Payment Failed");
+    return { success: false, message: "Payment Failed" };
   }
 }
 
