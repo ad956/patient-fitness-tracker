@@ -1,6 +1,6 @@
 "use client";
 
-import { PaymentsHistory } from "@/types";
+import { PaymentHistory } from "@/types";
 import {
   Chip,
   Spinner,
@@ -15,7 +15,7 @@ import {
 import React from "react";
 
 type paymentsPropType = {
-  paymentHistory: PaymentsHistory[];
+  paymentHistory: PaymentHistory[];
 };
 
 export default function PaymentDeatils({ paymentHistory }: paymentsPropType) {

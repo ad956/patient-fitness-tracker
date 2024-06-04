@@ -1,6 +1,6 @@
 "use client";
 
-import { MedicalHistoryType } from "@/types";
+import { MedicalHistory } from "@/types";
 import {
   Chip,
   Spinner,
@@ -14,7 +14,7 @@ import {
 } from "@nextui-org/react";
 
 type MedicalDetailsProps = {
-  medicalDetails: MedicalHistoryType[];
+  medicalDetails: MedicalHistory[];
 };
 
 export default function MedicalDetails({
