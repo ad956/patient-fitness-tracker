@@ -131,3 +131,14 @@ export interface UserLog {
   ip: string;
   location: string;
 }
+
+export interface Transaction {
+  transaction_id: string | null;
+  timestamp: Date;
+  patient_id: string;
+  hospital_id: string;
+  disease: string;
+  description: string;
+  amount: string;
+  status: string;
+}
