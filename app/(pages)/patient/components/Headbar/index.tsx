@@ -38,7 +38,7 @@ export default async function Headbar() {
           <GoPlus size={20} />
         </Button>
 
-        <Notifications upcomingAppointments={upcomingAppointments} />
+        <Notifications patientId={patient._id} />
 
         <User
           name={patient.firstname}
