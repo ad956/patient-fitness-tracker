@@ -1,5 +1,6 @@
 "use client";
 
+import { getFormattedDate } from "@utils/getDate";
 import { PaymentHistory } from "@/types";
 import {
   Chip,
@@ -56,13 +57,13 @@ export default function PaymentDeatils({ paymentHistory }: paymentsPropType) {
               </TableCell>
               <TableCell>{payment.disease}</TableCell>
               <TableCell>{payment.description}</TableCell>
-              <TableCell>{payment.date}</TableCell>
+              <TableCell>{getFormattedDate(new Date(payment.date))}</TableCell>
               <TableCell>{payment.amount}</TableCell>
               <TableCell>
                 <Chip
                   className="capitalize"
                   color={`${
-                    payment.status === "Completed" ? "success" : "danger"
+                    payment.status === "Success" ? "success" : "danger"
                   }`}
                   size="sm"
                   variant="flat"
