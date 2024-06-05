@@ -6,7 +6,7 @@ import { getPatientData } from "@lib/patient";
 export default async function Appointments() {
   const patient: Patient = await getPatientData();
 
-  const { firstname, lastname, email } = patient;
+  const { _id, firstname, lastname, email } = patient;
 
   return (
     <section className="flex flex-col gap-5 p-5 overflow-y-auto">
@@ -36,7 +36,11 @@ export default async function Appointments() {
         />
       </Card>
 
-      <BookAppointment name={`${firstname} ${lastname}`} email={email} />
+      <BookAppointment
+        patientId={_id}
+        name={`${firstname} ${lastname}`}
+        email={email}
+      />
     </section>
   );
 }

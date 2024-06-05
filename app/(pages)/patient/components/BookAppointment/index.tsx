@@ -17,7 +17,11 @@ import {
   Textarea,
   Spinner,
 } from "@nextui-org/react";
-import { bookAppointment, pendingAppointmentsRequest } from "@lib/patient";
+import {
+  bookAppointment,
+  pendingAppointmentsRequest,
+  saveAppointmentTransaction,
+} from "@lib/patient";
 import toast, { Toaster } from "react-hot-toast";
 import {
   getCities,
@@ -33,11 +37,16 @@ type Hospital = {
 };
 
 type BookAppointmentProps = {
+  patientId: string;
   name: string;
   email: string;
 };
 
-export default function BookAppointment({ name, email }: BookAppointmentProps) {
+export default function BookAppointment({
+  patientId,
+  name,
+  email,
+}: BookAppointmentProps) {
   const [states, setStates] = useState<string[]>([]);
   const [selectedState, setSelectedState] = useState("");
   const [cities, setCities] = useState<string[]>([]);
@@ -202,6 +211,21 @@ export default function BookAppointment({ name, email }: BookAppointmentProps) {
       name,
       email
     );
+
+    toast.loading("Please wait");
+
+    // request to save transaction details
+    await saveAppointmentTransaction(
+      paymentResult.transaction_id,
+      patientId,
+      selectedHospital.hospital_id,
+      selectedDisease,
+      additionalNote,
+      selectedHospital.appointment_charge,
+      paymentResult.success ? "Success" : "Failed"
+    );
+
+    toast.dismiss();
 
     if (!paymentResult.success) {
       toast.error(paymentResult.message, {
@@ -445,7 +469,11 @@ async function processPayment(
   amount: string,
   name: string,
   email: string
-): Promise<{ success: boolean; message: string }> {
+): Promise<{
+  success: boolean;
+  message: string;
+  transaction_id: string | null;
+}> {
   try {
     const orderId: string = await createOrderId(amount);
     return new Promise((resolve, reject) => {
@@ -472,12 +500,24 @@ async function processPayment(
             });
             const res = await result.json();
             if (res.isOk) {
-              resolve({ success: true, message: res.message });
+              resolve({
+                success: true,
+                message: res.message,
+                transaction_id: response.razorpay_payment_id,
+              });
             } else {
-              reject({ success: false, message: res.message });
+              reject({
+                success: false,
+                message: res.message,
+                transaction_id: response.razorpay_payment_id,
+              });
             }
           } catch (error) {
-            reject({ success: false, message: "Payment verification failed" });
+            reject({
+              success: false,
+              message: "Payment verification failed",
+              transaction_id: response.razorpay_payment_id,
+            });
           }
         },
         prefill: {
@@ -492,12 +532,20 @@ async function processPayment(
       paymentObject.on("payment.failed", function (response: any) {
         paymentObject.close();
         console.log("is it failing");
-        reject({ success: false, message: response.error.description });
+        reject({
+          success: false,
+          message: response.error.description,
+          transaction_id: response.razorpay_payment_id,
+        });
       });
       paymentObject.open();
     });
   } catch (error) {
-    return { success: false, message: "Payment Failed" };
+    return {
+      success: false,
+      message: "Payment Failed",
+      transaction_id: null,
+    };
   }
 }
 
