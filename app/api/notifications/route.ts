@@ -21,6 +21,7 @@ export async function POST(req: Request) {
       to: {
         subscriberId,
       },
+      actor: "https://media.tenor.com/iwXHwlY31ecAAAAM/yuji-itadori-suku.gif",
       payload: {},
     });
 
