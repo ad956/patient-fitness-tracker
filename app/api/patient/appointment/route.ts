@@ -2,6 +2,15 @@ import dbConfig from "@lib/db";
 import { bookingAppointment } from "@/types";
 import { decrypt } from "@sessions/sessionUtils";
 import { ObjectId } from "mongodb";
+import { sendEmail } from "@lib/email";
+import { render } from "@react-email/render";
+import { AppointmentBookedTemplate } from "@lib/emails/templates";
+
+interface BookingAppointmentType {
+  bookingAppointment: bookingAppointment;
+  transaction_id: string | null;
+  appointment_charge: string;
+}
 
 // getting patients approved appointments
 export async function GET(request: Request) {
@@ -78,9 +87,13 @@ export async function POST(req: Request) {
   }
 
   try {
-    const body: bookingAppointment = await req.json();
+    const {
+      bookingAppointment,
+      transaction_id,
+      appointment_charge,
+    }: BookingAppointmentType = await req.json();
 
-    const { date, state, city, hospital, disease, note } = body;
+    const { date, state, city, hospital, disease, note } = bookingAppointment;
 
     const token = session.split("Bearer ")[1];
     const decryptedUser = await decrypt(token);
@@ -118,6 +131,24 @@ export async function POST(req: Request) {
       return Response.json({
         error: "Error saving appointment info",
       });
+
+    await sendEmail({
+      to: email || "yourmail@example.com",
+      subject: `Your Appointment Request Has Been Received`,
+      html: render(
+        AppointmentBookedTemplate({
+          name: `${patient.firstname} ${patient.lastname}`,
+          email,
+          bookingAppointment,
+          transaction_id,
+          appointment_charge,
+        })
+      ),
+      from: {
+        name: "Patient Fitness Tracker",
+        address: "support@patientfitnesstracker.com",
+      },
+    });
 
     return Response.json(
       {
