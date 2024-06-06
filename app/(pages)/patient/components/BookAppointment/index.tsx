@@ -237,7 +237,7 @@ export default function BookAppointment({
 
     // booking appointment after payment
     const bookAppointmentData = {
-      date: new Date(),
+      date: new Date().toISOString(),
       state: selectedState,
       city: selectedCity,
       hospital: selectedHospital,
@@ -245,7 +245,11 @@ export default function BookAppointment({
       note: additionalNote,
     };
 
-    const response = await bookAppointment(bookAppointmentData);
+    const response = await bookAppointment(
+      bookAppointmentData,
+      paymentResult.transaction_id,
+      selectedHospital.appointment_charge
+    );
     if (response.error) {
       console.error("Error booking apppointment:", response.error);
       toast.error(response.error);
