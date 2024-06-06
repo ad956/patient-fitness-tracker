@@ -4,7 +4,9 @@ import { getSessionToken } from "../sessions/sessionUtils";
 import getBaseUrl from "@utils/getBaseUrl";
 
 export default async function bookAppointment(
-  bookAppointmentData: bookingAppointment
+  bookAppointmentData: bookingAppointment,
+  transaction_id: string | null,
+  appointment_charge: string
 ) {
   const session = await getSessionToken();
   const serverUrl = getBaseUrl();
@@ -15,7 +17,11 @@ export default async function bookAppointment(
         "Content-Type": "application/json",
         Authorization: `Bearer ${session}`,
       },
-      body: JSON.stringify(bookAppointmentData),
+      body: JSON.stringify({
+        ...bookAppointmentData,
+        transaction_id,
+        appointment_charge,
+      }),
     });
 
     if (!response.ok) {
