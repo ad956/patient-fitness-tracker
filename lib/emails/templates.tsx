@@ -1,8 +1,9 @@
-import { UserLog } from "@/types";
+import { UserLog, bookingAppointment } from "@/types";
 import { Html } from "@react-email/html";
 import { getCurrentDateFormatted } from "@utils/getDate";
+import React from "react";
 
-export function OtpTemplate(name: string, otp: string) {
+function Layout({ children }: { children: React.ReactNode }) {
   return (
     <Html>
       <div
@@ -66,98 +67,7 @@ export function OtpTemplate(name: string, otp: string) {
             </tbody>
           </table>
         </header>
-
-        <main>
-          <div
-            style={{
-              margin: "0",
-              marginTop: "70px",
-              padding: "92px 30px 115px",
-              background: "#ffffff",
-              borderRadius: "30px",
-              textAlign: "center",
-            }}
-          >
-            <div style={{ width: "100%", maxWidth: "489px", margin: "0 auto" }}>
-              <h1
-                style={{
-                  margin: "0",
-                  fontSize: "24px",
-                  fontWeight: "500",
-                  color: "#1f1f1f",
-                }}
-              >
-                Your OTP
-              </h1>
-              <p
-                style={{
-                  margin: "0",
-                  marginTop: "17px",
-                  fontSize: "16px",
-                  fontWeight: "500",
-                }}
-              >
-                Hey {name},
-              </p>
-              <p
-                style={{
-                  margin: "0",
-                  marginTop: "17px",
-                  fontWeight: "500",
-                  letterSpacing: "0.56px",
-                }}
-              >
-                Thank you for choosing Patient Fitness Tracker . Use the
-                following OTP to complete the verification process. OTP is valid
-                for{" "}
-                <span style={{ fontWeight: "600", color: "#1f1f1f" }}>
-                  5 minutes
-                </span>
-                . Do not share this code with others.
-              </p>
-              <p
-                style={{
-                  margin: "0",
-                  marginTop: "60px",
-                  fontSize: "40px",
-                  fontWeight: "600",
-                  letterSpacing: "25px",
-                  color: "#ba3d4f",
-                }}
-              >
-                {otp}
-              </p>
-            </div>
-          </div>
-
-          <p
-            style={{
-              maxWidth: "400px",
-              margin: "0 auto",
-              marginTop: "90px",
-              textAlign: "center",
-              fontWeight: "500",
-              color: "#8c8c8c",
-            }}
-          >
-            Need help? Ask at{" "}
-            <a
-              href="mailto:support@patientfitnesstracker.com"
-              style={{ color: "#499fb6", textDecoration: "none" }}
-            >
-              support@patientfitnesstracker.com
-            </a>{" "}
-            or visit our{" "}
-            <a
-              href=""
-              target="_blank"
-              style={{ color: "#499fb6", textDecoration: "none" }}
-            >
-              Help Center
-            </a>
-          </p>
-        </main>
-
+        {children}
         <footer
           style={{
             width: "100%",
@@ -232,254 +142,344 @@ export function OtpTemplate(name: string, otp: string) {
   );
 }
 
-export function UserActivityTemplate(user: UserLog) {
+export function OtpTemplate(name: string, otp: string) {
   return (
-    <Html>
-      <div
-        style={{
-          maxWidth: "680px",
-          margin: "0 auto",
-          padding: "45px 30px 60px",
-          background: "#f4f7ff",
-          backgroundImage:
-            "url(https://archisketch-resources.s3.ap-northeast-2.amazonaws.com/vrstyler/1661497957196_595865/email-template-background-banner)",
-          backgroundRepeat: "no-repeat",
-          backgroundSize: "800px 452px",
-          backgroundPosition: "top center",
-          fontSize: "14px",
-          color: "#434343",
-          fontFamily: "Poppins, sans-serif",
-        }}
-      >
-        <header>
-          <table style={{ width: "100%" }}>
-            <tbody>
-              <tr style={{ height: "0" }}>
-                <td
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    gap: 5,
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                >
-                  <img
-                    alt=""
-                    src="https://res.cloudinary.com/dtkfvp2ic/image/upload/v1711037583/patient_yluzvs_bnz9ox.png"
-                    height="30px"
-                    style={{ marginTop: "15px", marginRight: "10px" }}
-                  />
-                  <p
-                    style={{
-                      fontSize: "18px",
-                      lineHeight: "30px",
-                      fontWeight: "400",
-                      color: "#111",
-                    }}
-                  >
-                    Patient Fitness Tracker
-                  </p>
-                </td>
-                <td style={{ textAlign: "right" }}>
-                  <span
-                    style={{
-                      fontSize: "16px",
-                      lineHeight: "30px",
-                      color: "#111",
-                    }}
-                  >
-                    {getCurrentDateFormatted()}
-                  </span>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </header>
-
-        <main>
-          <div
-            style={{
-              margin: "0",
-              marginTop: "70px",
-              padding: "92px 30px 115px",
-              background: "#ffffff",
-              borderRadius: "30px",
-              textAlign: "center",
-            }}
-          >
-            <div style={{ width: "100%", maxWidth: "489px", margin: "0 auto" }}>
-              <h1
-                style={{
-                  margin: "0",
-                  fontSize: "24px",
-                  fontWeight: "500",
-                  color: "#1f1f1f",
-                }}
-              >
-                User {user.action} Notification
-              </h1>
-              <p
-                style={{
-                  margin: "0",
-                  marginTop: "17px",
-                  fontSize: "16px",
-                  fontWeight: "500",
-                }}
-              >
-                Dear Admin,
-              </p>
-              <p
-                style={{
-                  margin: "0",
-                  marginTop: "17px",
-                  fontWeight: "500",
-                  letterSpacing: "0.56px",
-                }}
-              >
-                {user.action === "Login"
-                  ? "A user has logged into the Patient Fitness Tracker application."
-                  : "A user just created an account for Patient Fitness Tracker application."}
-                Here are the details:
-              </p>
-              <div
-                style={{
-                  marginTop: "30px",
-                  textAlign: "left",
-                  fontSize: "16px",
-                  color: "#333",
-                  fontWeight: "500",
-                }}
-              >
-                <p>
-                  <strong>Username:</strong> {user.username}
-                </p>
-                <p>
-                  <strong>Name:</strong> {user.name}
-                </p>
-                <p>
-                  <strong>Email:</strong> {user.email}
-                </p>
-                <p>
-                  <strong>Action:</strong> {user.action}
-                </p>
-                <p>
-                  <strong>User Type:</strong> {user.userType}
-                </p>
-                <p>
-                  <strong>Timing:</strong> {user.timing}
-                </p>
-                <p>
-                  <strong>Device:</strong> {user.device}
-                </p>
-                <p>
-                  <strong>IP Address:</strong> {user.ip}
-                </p>
-                <p>
-                  <strong>Location:</strong> {user.location}
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <p
-            style={{
-              maxWidth: "400px",
-              margin: "0 auto",
-              marginTop: "90px",
-              textAlign: "center",
-              fontWeight: "500",
-              color: "#8c8c8c",
-            }}
-          >
-            Need help? Ask at{" "}
-            <a
-              href="mailto:support@patientfitnesstracker.com"
-              style={{ color: "#499fb6", textDecoration: "none" }}
-            >
-              support@patientfitnesstracker.com
-            </a>{" "}
-            or visit our{" "}
-            <a
-              href=""
-              target="_blank"
-              style={{ color: "#499fb6", textDecoration: "none" }}
-            >
-              Help Center
-            </a>
-          </p>
-        </main>
-
-        <footer
+    <Layout>
+      <main>
+        <div
           style={{
-            width: "100%",
-            maxWidth: "490px",
-            margin: "20px auto 0",
+            margin: "0",
+            marginTop: "70px",
+            padding: "92px 30px 115px",
+            background: "#ffffff",
+            borderRadius: "30px",
             textAlign: "center",
-            borderTop: "1px solid #e6ebf1",
           }}
         >
-          <p
-            style={{
-              margin: "0",
-              marginTop: "40px",
-              fontSize: "16px",
-              fontWeight: "600",
-              color: "#434343",
-            }}
-          >
-            Patient Fitness Tracker
-          </p>
-          <p style={{ margin: "0", marginTop: "8px", color: "#434343" }}>
-            Address 540, Vadodara, Gujarat.
-          </p>
-          <div style={{ margin: "0", marginTop: "16px" }}>
-            <a href="" target="_blank" style={{ display: "inline-block" }}>
-              <img
-                width="36px"
-                alt="Facebook"
-                src="https://archisketch-resources.s3.ap-northeast-2.amazonaws.com/vrstyler/1661502815169_682499/email-template-icon-facebook"
-              />
-            </a>
-            <a
-              href=""
-              target="_blank"
-              style={{ display: "inline-block", marginLeft: "8px" }}
+          <div style={{ width: "100%", maxWidth: "489px", margin: "0 auto" }}>
+            <h1
+              style={{
+                margin: "0",
+                fontSize: "24px",
+                fontWeight: "500",
+                color: "#1f1f1f",
+              }}
             >
-              <img
-                width="36px"
-                alt="Instagram"
-                src="https://archisketch-resources.s3.ap-northeast-2.amazonaws.com/vrstyler/1661504218208_684135/email-template-icon-instagram"
-              />
-            </a>
-            <a
-              href=""
-              target="_blank"
-              style={{ display: "inline-block", marginLeft: "8px" }}
+              Your OTP
+            </h1>
+            <p
+              style={{
+                margin: "0",
+                marginTop: "17px",
+                fontSize: "16px",
+                fontWeight: "500",
+              }}
             >
-              <img
-                width="36px"
-                alt="Twitter"
-                src="https://archisketch-resources.s3.ap-northeast-2.amazonaws.com/vrstyler/1661503043040_372004/email-template-icon-twitter"
-              />
-            </a>
-            <a
-              href=""
-              target="_blank"
-              style={{ display: "inline-block", marginLeft: "8px" }}
+              Hey {name},
+            </p>
+            <p
+              style={{
+                margin: "0",
+                marginTop: "17px",
+                fontWeight: "500",
+                letterSpacing: "0.56px",
+              }}
             >
-              <img
-                width="36px"
-                alt="Youtube"
-                src="https://archisketch-resources.s3.ap-northeast-2.amazonaws.com/vrstyler/1661503195931_210869/email-template-icon-youtube"
-              />
-            </a>
+              Thank you for choosing Patient Fitness Tracker . Use the following
+              OTP to complete the verification process. OTP is valid for{" "}
+              <span style={{ fontWeight: "600", color: "#1f1f1f" }}>
+                5 minutes
+              </span>
+              . Do not share this code with others.
+            </p>
+            <p
+              style={{
+                margin: "0",
+                marginTop: "60px",
+                fontSize: "40px",
+                fontWeight: "600",
+                letterSpacing: "25px",
+                color: "#ba3d4f",
+              }}
+            >
+              {otp}
+            </p>
           </div>
-          <p style={{ margin: "0", marginTop: "16px", color: "#434343" }}>
-            Copyright © 2024 Company. All rights reserved.
-          </p>
-        </footer>
-      </div>
-    </Html>
+        </div>
+
+        <p
+          style={{
+            maxWidth: "400px",
+            margin: "0 auto",
+            marginTop: "90px",
+            textAlign: "center",
+            fontWeight: "500",
+            color: "#8c8c8c",
+          }}
+        >
+          Need help? Ask at{" "}
+          <a
+            href="mailto:support@patientfitnesstracker.com"
+            style={{ color: "#499fb6", textDecoration: "none" }}
+          >
+            support@patientfitnesstracker.com
+          </a>{" "}
+          or visit our{" "}
+          <a
+            href=""
+            target="_blank"
+            style={{ color: "#499fb6", textDecoration: "none" }}
+          >
+            Help Center
+          </a>
+        </p>
+      </main>
+    </Layout>
+  );
+}
+
+export function UserActivityTemplate(user: UserLog) {
+  return (
+    <Layout>
+      <main>
+        <div
+          style={{
+            margin: "0",
+            marginTop: "70px",
+            padding: "92px 30px 115px",
+            background: "#ffffff",
+            borderRadius: "30px",
+            textAlign: "center",
+          }}
+        >
+          <div style={{ width: "100%", maxWidth: "489px", margin: "0 auto" }}>
+            <h1
+              style={{
+                margin: "0",
+                fontSize: "24px",
+                fontWeight: "500",
+                color: "#1f1f1f",
+              }}
+            >
+              User {user.action} Notification
+            </h1>
+            <p
+              style={{
+                margin: "0",
+                marginTop: "17px",
+                fontSize: "16px",
+                fontWeight: "500",
+              }}
+            >
+              Dear Admin,
+            </p>
+            <p
+              style={{
+                margin: "0",
+                marginTop: "17px",
+                fontWeight: "500",
+                letterSpacing: "0.56px",
+              }}
+            >
+              {user.action === "Login"
+                ? "A user has logged into the Patient Fitness Tracker application."
+                : "A user just created an account for Patient Fitness Tracker application."}
+              Here are the details:
+            </p>
+            <div
+              style={{
+                marginTop: "30px",
+                textAlign: "left",
+                fontSize: "16px",
+                color: "#333",
+                fontWeight: "500",
+              }}
+            >
+              <p>
+                <strong>Username:</strong> {user.username}
+              </p>
+              <p>
+                <strong>Name:</strong> {user.name}
+              </p>
+              <p>
+                <strong>Email:</strong> {user.email}
+              </p>
+              <p>
+                <strong>Action:</strong> {user.action}
+              </p>
+              <p>
+                <strong>User Type:</strong> {user.userType}
+              </p>
+              <p>
+                <strong>Timing:</strong> {user.timing}
+              </p>
+              <p>
+                <strong>Device:</strong> {user.device}
+              </p>
+              <p>
+                <strong>IP Address:</strong> {user.ip}
+              </p>
+              <p>
+                <strong>Location:</strong> {user.location}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <p
+          style={{
+            maxWidth: "400px",
+            margin: "0 auto",
+            marginTop: "90px",
+            textAlign: "center",
+            fontWeight: "500",
+            color: "#8c8c8c",
+          }}
+        >
+          Need help? Ask at{" "}
+          <a
+            href="mailto:support@patientfitnesstracker.com"
+            style={{ color: "#499fb6", textDecoration: "none" }}
+          >
+            support@patientfitnesstracker.com
+          </a>{" "}
+          or visit our{" "}
+          <a
+            href=""
+            target="_blank"
+            style={{ color: "#499fb6", textDecoration: "none" }}
+          >
+            Help Center
+          </a>
+        </p>
+      </main>
+    </Layout>
+  );
+}
+
+export function AppointmentBookedTemplate({
+  name,
+  email,
+  bookingAppointment,
+  transaction_id,
+  appointment_charge,
+}: {
+  name: string;
+  email: string;
+  bookingAppointment: bookingAppointment;
+  transaction_id: string | null;
+  appointment_charge: string;
+}) {
+  return (
+    <Layout>
+      <main>
+        <div
+          style={{
+            margin: "0",
+            marginTop: "70px",
+            padding: "92px 30px 115px",
+            background: "#ffffff",
+            borderRadius: "30px",
+            textAlign: "center",
+          }}
+        >
+          <div style={{ width: "100%", maxWidth: "489px", margin: "0 auto" }}>
+            <h1
+              style={{
+                margin: "0",
+                fontSize: "24px",
+                fontWeight: "500",
+                color: "#1f1f1f",
+              }}
+            >
+              Appointment Booked Notification
+            </h1>
+            <p
+              style={{
+                margin: "0",
+                marginTop: "17px",
+                fontSize: "16px",
+                fontWeight: "500",
+              }}
+            >
+              Dear {name},
+            </p>
+            <p
+              style={{
+                margin: "0",
+                marginTop: "17px",
+                fontWeight: "500",
+                letterSpacing: "0.56px",
+              }}
+            >
+              Your appointment at {bookingAppointment.hospital.hospital_name}{" "}
+              for {bookingAppointment.disease} has been booked successfully.
+            </p>
+            <div
+              style={{
+                marginTop: "30px",
+                textAlign: "left",
+                fontSize: "16px",
+                color: "#333",
+                fontWeight: "500",
+              }}
+            >
+              <p>
+                <strong>Patient Name:</strong> {name}
+              </p>
+              <p>
+                <strong>Email:</strong> {email}
+              </p>
+              <p>
+                <strong>Transaction ID:</strong> {transaction_id}
+              </p>
+              <p>
+                <strong>Transaction Date:</strong> {bookingAppointment.date}
+              </p>
+              <p>
+                <strong>Amount Paid:</strong> {appointment_charge}
+              </p>
+              <p>
+                <strong>Hospital Name:</strong>{" "}
+                {bookingAppointment.hospital.hospital_name}
+              </p>
+              <p>
+                <strong>Disease:</strong> {bookingAppointment.disease}
+              </p>
+              <p>
+                <strong>Description:</strong> {bookingAppointment.note}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <p
+          style={{
+            maxWidth: "400px",
+            margin: "0 auto",
+            marginTop: "90px",
+            textAlign: "center",
+            fontWeight: "500",
+            color: "#8c8c8c",
+          }}
+        >
+          Need help? Ask at{" "}
+          <a
+            href="mailto:support@patientfitnesstracker.com"
+            style={{ color: "#499fb6", textDecoration: "none" }}
+          >
+            support@patientfitnesstracker.com
+          </a>{" "}
+          or visit our{" "}
+          <a
+            href=""
+            target="_blank"
+            style={{ color: "#499fb6", textDecoration: "none" }}
+          >
+            Help Center
+          </a>
+        </p>
+      </main>
+    </Layout>
   );
 }
