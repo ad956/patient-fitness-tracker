@@ -75,7 +75,7 @@ export type bookedAppointments = [
 ];
 
 export type bookingAppointment = {
-  date: Date;
+  date: string;
   state: string;
   city: string;
   hospital: {
