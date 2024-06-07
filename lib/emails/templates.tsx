@@ -360,13 +360,13 @@ export function UserActivityTemplate(user: UserLog) {
 export function AppointmentBookedTemplate({
   name,
   email,
-  bookingAppointment,
+  bookedAppointmentData,
   transaction_id,
   appointment_charge,
 }: {
   name: string;
   email: string;
-  bookingAppointment: bookingAppointment;
+  bookedAppointmentData: bookingAppointment;
   transaction_id: string | null;
   appointment_charge: string;
 }) {
@@ -378,7 +378,7 @@ export function AppointmentBookedTemplate({
             margin: "0",
             marginTop: "70px",
             padding: "92px 30px 115px",
-            background: "#ffffff",
+            background: "#f7f7f7",
             borderRadius: "30px",
             textAlign: "center",
           }}
@@ -392,7 +392,7 @@ export function AppointmentBookedTemplate({
                 color: "#1f1f1f",
               }}
             >
-              Appointment Booked Notification
+              Appointment Request Notification
             </h1>
             <p
               style={{
@@ -400,6 +400,7 @@ export function AppointmentBookedTemplate({
                 marginTop: "17px",
                 fontSize: "16px",
                 fontWeight: "500",
+                color: "#333",
               }}
             >
               Dear {name},
@@ -410,10 +411,11 @@ export function AppointmentBookedTemplate({
                 marginTop: "17px",
                 fontWeight: "500",
                 letterSpacing: "0.56px",
+                color: "#333",
               }}
             >
-              Your appointment at {bookingAppointment.hospital.hospital_name}{" "}
-              for {bookingAppointment.disease} has been booked successfully.
+              Your appointment request for {bookedAppointmentData.disease} at{" "}
+              {bookedAppointmentData.hospital.hospital_name} has been received.
             </p>
             <div
               style={{
@@ -434,20 +436,34 @@ export function AppointmentBookedTemplate({
                 <strong>Transaction ID:</strong> {transaction_id}
               </p>
               <p>
-                <strong>Transaction Date:</strong> {bookingAppointment.date}
+                <strong>Transaction Date:</strong> {bookedAppointmentData.date}
               </p>
               <p>
                 <strong>Amount Paid:</strong> {appointment_charge}
               </p>
               <p>
                 <strong>Hospital Name:</strong>{" "}
-                {bookingAppointment.hospital.hospital_name}
+                {bookedAppointmentData.hospital.hospital_name}
               </p>
               <p>
-                <strong>Disease:</strong> {bookingAppointment.disease}
+                <strong>Disease:</strong> {bookedAppointmentData.disease}
               </p>
               <p>
-                <strong>Description:</strong> {bookingAppointment.note}
+                <strong>Description:</strong> {bookedAppointmentData.note}
+              </p>
+            </div>
+            <div
+              style={{
+                marginTop: "30px",
+                textAlign: "center",
+                fontSize: "16px",
+                color: "#333",
+                fontWeight: "500",
+              }}
+            >
+              <p>
+                Your appointment request has been successfully received. Your
+                hospital will review and confirm your appointment shortly.
               </p>
             </div>
           </div>
