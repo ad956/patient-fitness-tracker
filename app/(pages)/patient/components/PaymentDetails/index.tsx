@@ -21,8 +21,8 @@ type paymentsPropType = {
 
 export default function PaymentDeatils({ paymentHistory }: paymentsPropType) {
   return (
-    <div className="h-full w-full flex flex-col">
-      <Table aria-label="Payment history" className="h-5/6">
+    <div className="h-full w-full">
+      <Table aria-label="Payment history" isHeaderSticky={true} layout="fixed">
         <TableHeader>
           <TableColumn>Hospital</TableColumn>
           <TableColumn>Disease</TableColumn>
@@ -57,7 +57,9 @@ export default function PaymentDeatils({ paymentHistory }: paymentsPropType) {
               </TableCell>
               <TableCell>{payment.disease}</TableCell>
               <TableCell>{payment.description}</TableCell>
-              <TableCell>{getFormattedDate(new Date(payment.date))}</TableCell>
+              <TableCell>
+                {getFormattedDate(new Date(payment.timestamp))}
+              </TableCell>
               <TableCell>{payment.amount}</TableCell>
               <TableCell>
                 <Chip
