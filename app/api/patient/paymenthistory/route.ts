@@ -32,16 +32,18 @@ export async function GET(request: Request) {
       return Response.json({ error: "Patient not found" }, { status: 404 });
     }
 
-    const transactionsCollection = db.collection<Transaction>("transactions"); // Specify Transaction type
-    const transactionProjection = { _id: 0, transaction_id: 0, patient: 0 };
+    // get all transactions where patient id matches
+    const transactionsCollection = db.collection<Transaction>("transactions");
     const transactions = await transactionsCollection
       .find({ patient: patient._id })
       .toArray();
 
+    // get hospital id's from transactions
     const hospitalIds = transactions.map((transaction) => transaction.hospital);
 
-    const hospitalCollection = db.collection<Hospital>("hospital"); // Specify Hospital type
+    const hospitalCollection = db.collection<Hospital>("hospital");
 
+    // hospitals whos id is in transactions
     const hospitals = await hospitalCollection
       .find({ _id: { $in: hospitalIds } })
       .toArray();

@@ -167,7 +167,11 @@ export async function POST(req: Request) {
     });
 
     // notifying patient
-    await sendNotification(patient._id.toString());
+    await sendNotification(
+      patient._id.toString(),
+      "Your appointment request has been successfully received.",
+      "appointment-request"
+    );
 
     return Response.json(
       {
