@@ -3,7 +3,7 @@
 import { getSessionToken } from "../sessions/sessionUtils";
 import getBaseUrl from "@utils/getBaseUrl";
 
-export default async function getPayments() {
+export default async function getPaymentsHistory() {
   const session = await getSessionToken();
   const serverUrl = getBaseUrl();
 
@@ -11,7 +11,7 @@ export default async function getPayments() {
     Authorization: `Bearer ${session}`,
   };
   try {
-    const response = await fetch(`${serverUrl}/api/patient/payment`, {
+    const response = await fetch(`${serverUrl}/api/patient/paymenthistory`, {
       headers,
     });
 
