@@ -1,6 +1,10 @@
 import { Novu } from "@novu/node";
 
-export default async function sendNotification(subscriberId: string) {
+export default async function sendNotification(
+  subscriberId: string,
+  msg: string,
+  type: string
+) {
   try {
     const novu = new Novu(process.env.NOVU_API_KEY || "");
 
@@ -10,8 +14,10 @@ export default async function sendNotification(subscriberId: string) {
       to: {
         subscriberId,
       },
-      actor: "https://media.tenor.com/iwXHwlY31ecAAAAM/yuji-itadori-suku.gif",
-      payload: {},
+      payload: {
+        msg,
+        type,
+      },
     });
 
     return subscriberId;
