@@ -93,7 +93,7 @@ export interface PaymentHistory {
   };
   disease: string;
   description: string;
-  date: string;
+  timestamp: string;
   amount: number;
   status: string;
 }
