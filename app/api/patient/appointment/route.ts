@@ -5,12 +5,13 @@ import { ObjectId } from "mongodb";
 import { sendEmail } from "@lib/email";
 import { render } from "@react-email/render";
 import { AppointmentBookedTemplate } from "@lib/emails/templates";
+import { getFormattedDate } from "@/app/utils/getDate";
+import sendNotification from "@lib/novu";
 
-interface BookingAppointmentType {
-  bookingAppointment: bookingAppointment;
+type BookingAppointmentType = bookingAppointment & {
   transaction_id: string | null;
   appointment_charge: string;
-}
+};
 
 // getting patients approved appointments
 export async function GET(request: Request) {
@@ -88,12 +89,15 @@ export async function POST(req: Request) {
 
   try {
     const {
-      bookingAppointment,
+      date,
+      state,
+      city,
+      hospital,
+      disease,
+      note,
       transaction_id,
       appointment_charge,
     }: BookingAppointmentType = await req.json();
-
-    const { date, state, city, hospital, disease, note } = bookingAppointment;
 
     const token = session.split("Bearer ")[1];
     const decryptedUser = await decrypt(token);
@@ -132,6 +136,18 @@ export async function POST(req: Request) {
         error: "Error saving appointment info",
       });
 
+    const bookedAppointmentData = {
+      date: getFormattedDate(new Date(date)),
+      state,
+      city,
+      hospital,
+      disease,
+      note,
+      transaction_id,
+      appointment_charge,
+    };
+
+    // sending email to patient confirming request
     await sendEmail({
       to: email || "yourmail@example.com",
       subject: `Your Appointment Request Has Been Received`,
@@ -139,7 +155,7 @@ export async function POST(req: Request) {
         AppointmentBookedTemplate({
           name: `${patient.firstname} ${patient.lastname}`,
           email,
-          bookingAppointment,
+          bookedAppointmentData,
           transaction_id,
           appointment_charge,
         })
@@ -149,6 +165,9 @@ export async function POST(req: Request) {
         address: "support@patientfitnesstracker.com",
       },
     });
+
+    // notifying patient
+    await sendNotification(patient._id.toString());
 
     return Response.json(
       {
