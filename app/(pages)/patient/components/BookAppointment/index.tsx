@@ -161,8 +161,8 @@ export default function BookAppointment({
   ) => {
     const value = e.target.value;
     setAdditionalNote(value);
-    if (value.length < 10 || value.length > 50) {
-      setNoteError("The description should be 10-50 characters long.");
+    if (value.length < 10 || value.length > 100) {
+      setNoteError("The description should be 10-100 characters long.");
     } else {
       setNoteError("");
     }
