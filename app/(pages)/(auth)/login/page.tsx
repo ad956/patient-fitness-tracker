@@ -10,9 +10,6 @@ import {
   Select,
   SelectItem,
   Image,
-  Modal,
-  ModalContent,
-  ModalBody,
 } from "@nextui-org/react";
 import { MdOutlineKey, MdOutlineAlternateEmail } from "react-icons/md";
 import { loginAction } from "@lib/actions";
