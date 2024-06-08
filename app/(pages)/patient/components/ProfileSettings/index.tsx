@@ -14,6 +14,11 @@ export default async function ProfileSettings({
 
   const toggleVisibility = () => setIsVisible(!isVisible);
 
+  function handleFormSubmit(e: React.FormEvent<HTMLFormElement>) {
+    // : Promise<void>
+    e.preventDefault();
+  }
+
   return (
     <Card
       radius="lg"
@@ -24,7 +29,10 @@ export default async function ProfileSettings({
         Profile Settings
       </p>
 
-      <div className="flex flex-col justify-center md:flex-row md:justify-around gap-5 p-5 items-center md:h-full md:w-full">
+      <form
+        className="flex flex-col justify-center md:flex-row md:justify-around gap-5 p-5 items-center md:h-full md:w-full"
+        onSubmit={handleFormSubmit}
+      >
         <div className="relative">
           <Avatar src={patient.profile} className="w-48 h-48 text-large" />
         </div>
@@ -152,7 +160,7 @@ export default async function ProfileSettings({
             Update Profile
           </Button>
         </div>
-      </div>
+      </form>
     </Card>
   );
 }
