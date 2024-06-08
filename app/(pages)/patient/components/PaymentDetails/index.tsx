@@ -21,8 +21,8 @@ type paymentsPropType = {
 
 export default function PaymentDeatils({ paymentHistory }: paymentsPropType) {
   return (
-    <div className="h-full w-full">
-      <Table aria-label="Payment history" isHeaderSticky={true} layout="fixed">
+    <div className="md:h-full md:w-full">
+      <Table aria-label="Payment history" isHeaderSticky={true}>
         <TableHeader>
           <TableColumn>Hospital</TableColumn>
           <TableColumn>Disease</TableColumn>
