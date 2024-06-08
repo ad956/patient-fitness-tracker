@@ -30,7 +30,7 @@ export default async function PatientPage() {
             <p className="self-center">Details</p>
 
             <Divider className="mx-2 w-full bg-black/10" />
-            <div className="flex flex-row justify-between">
+            <div className="mt-5 flex flex-row justify-between ">
               <div className="flex flex-col gap-2">
                 <p className="">Age :</p>
                 <p className="">Blood Group :</p>
