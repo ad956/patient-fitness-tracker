@@ -1,10 +1,18 @@
-import { getPatientData } from "@lib/patient";
+"use client";
+
 import { Patient } from "@/types";
 import { Input, Button, Card, Avatar } from "@nextui-org/react";
-import React from "react";
+import React, { useState } from "react";
+import { AiTwotoneEye, AiOutlineEyeInvisible } from "react-icons/ai";
 
-export default async function ProfileSettings() {
-  const patient: Patient = await getPatientData();
+export default async function ProfileSettings({
+  patient,
+}: {
+  patient: Patient;
+}) {
+  const [isVisible, setIsVisible] = useState(false);
+
+  const toggleVisibility = () => setIsVisible(!isVisible);
 
   return (
     <Card
@@ -59,11 +67,24 @@ export default async function ProfileSettings() {
             className="max-w-xs"
           />
           <Input
-            type="password"
+            type={isVisible ? "text" : "password"}
             variant="underlined"
             label="Password"
             value={"your_password"}
             className="max-w-xs"
+            endContent={
+              <button
+                className="focus:outline-none"
+                type="button"
+                onClick={toggleVisibility}
+              >
+                {isVisible ? (
+                  <AiOutlineEyeInvisible className="text-2xl text-default-400 pointer-events-none" />
+                ) : (
+                  <AiTwotoneEye className="text-2xl text-default-400 pointer-events-none" />
+                )}
+              </button>
+            }
           />
           <Input
             type="text"
