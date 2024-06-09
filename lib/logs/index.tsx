@@ -17,6 +17,10 @@ async function logUserActivity(userlog: userlogType, req: Request) {
   try {
     const logs_collection = db.collection("user_logs");
 
+    const ip_address = (req.headers.get("x-forwarded-for") ?? "127.0.0.1")
+      .split(",")[0]
+      .trim();
+
     const user_log = {
       username: userlog.username,
       name: userlog.name,
@@ -25,10 +29,8 @@ async function logUserActivity(userlog: userlogType, req: Request) {
       userType: userlog.role,
       timing: new Date().toISOString(),
       device: req.headers.get("user-agent") || "",
-      ip: (req.headers.get("x-forwarded-for") ?? "127.0.0.1")
-        .split(",")[0]
-        .trim(),
-      location: await fetchLocationByIP(),
+      ip: ip_address,
+      location: await fetchLocationByIP(ip_address),
     };
 
     //stores in user_logs
@@ -48,9 +50,9 @@ async function logUserActivity(userlog: userlogType, req: Request) {
   }
 }
 
-async function fetchLocationByIP() {
+async function fetchLocationByIP(ip: string) {
   const request = await fetch(
-    `https://ipinfo.io/json?token=${process.env.IP_INFO_TOKEN}`
+    `https://ipinfo.io/${ip}/json?token=${process.env.IP_INFO_TOKEN}`
   );
   const jsonResponse = await request.json();
   const location = `${jsonResponse.city}, ${jsonResponse.region}, ${jsonResponse.country}`;
