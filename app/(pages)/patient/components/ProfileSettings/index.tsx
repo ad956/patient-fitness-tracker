@@ -104,7 +104,7 @@ export default async function ProfileSettings({
             type="text"
             variant="underlined"
             label="Gender"
-            value={"Male"}
+            value={patient.gender}
             className="max-w-xs"
           />
         </div>
@@ -113,28 +113,28 @@ export default async function ProfileSettings({
             type="text"
             variant="underlined"
             label="Address Line 1"
-            value={"A 106 Phoenix Heights"}
+            value={patient.address.address_line_1}
             className="max-w-xs"
           />
           <Input
             type="text"
             variant="underlined"
             label="Address Line 2"
-            value={"Waghodia Daboi Ring Road"}
+            value={patient.address.address_line_2}
             className="max-w-xs"
           />
           <Input
             type="text"
             variant="underlined"
             label="City"
-            value={"Vadodara"}
+            value={patient.address.city}
             className="max-w-xs"
           />
           <Input
             type="text"
             variant="underlined"
             label="State"
-            value={"Gujarat"}
+            value={patient.address.state}
             className="max-w-xs"
           />
         </div>
@@ -143,14 +143,14 @@ export default async function ProfileSettings({
             type="text"
             variant="underlined"
             label="Zip Code"
-            value={"390025"}
+            value={patient.address.zip_code}
             className="max-w-xs"
           />
           <Input
             type="text"
             variant="underlined"
             label="Country"
-            value={"390025"}
+            value={patient.address.country}
             className="max-w-xs"
           />
         </div>
