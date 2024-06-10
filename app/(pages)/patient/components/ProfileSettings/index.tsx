@@ -15,7 +15,6 @@ export default async function ProfileSettings({
   const toggleVisibility = () => setIsVisible(!isVisible);
 
   function handleFormSubmit(e: React.FormEvent<HTMLFormElement>) {
-    // : Promise<void>
     e.preventDefault();
   }
 
