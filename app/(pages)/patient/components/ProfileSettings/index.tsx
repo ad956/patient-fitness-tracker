@@ -1,18 +1,75 @@
 "use client";
 
 import { Patient } from "@/types";
-import { Input, Button, Card, Avatar } from "@nextui-org/react";
+import { Input, Button, Card, Avatar, Tooltip } from "@nextui-org/react";
 import { CldUploadButton, CldUploadWidget } from "next-cloudinary";
 import React, { useState } from "react";
 import { AiTwotoneEye, AiOutlineEyeInvisible } from "react-icons/ai";
 
 export default function ProfileSettings({ patient }: { patient: Patient }) {
   const [isVisible, setIsVisible] = useState(false);
+  const [profilePicture, setProfilePicture] = useState(patient.profile);
+  const [firstname, setFirstname] = useState(patient.firstname);
+  const [username, setUsername] = useState(patient.username);
+  const [email, setEmail] = useState(patient.email);
+  const [dob, setDob] = useState(patient.dob);
+  const [lastname, setLastname] = useState(patient.lastname);
+  const [password, setPassword] = useState("");
+  const [contact, setContact] = useState(patient.contact);
+  const [gender, setGender] = useState(patient.gender);
+  const [address, setAddress] = useState({
+    address_line_1: patient.address.address_line_1,
+    address_line_2: patient.address.address_line_2,
+    city: patient.address.city,
+    state: patient.address.state,
+    zip_code: patient.address.zip_code,
+    country: patient.address.country,
+  });
 
   const toggleVisibility = () => setIsVisible(!isVisible);
 
-  function handleFormSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleFormSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+
+    const updatedFields = {
+      profile: profilePicture !== patient.profile ? profilePicture : undefined,
+      firstname: firstname !== patient.firstname ? firstname : undefined,
+      username: username !== patient.username ? username : undefined,
+      email: email !== patient.email ? email : undefined,
+      dob: dob !== patient.dob ? dob : undefined,
+      lastname: lastname !== patient.lastname ? lastname : undefined,
+      password: password !== "" ? password : undefined,
+      contact: contact !== patient.contact ? contact : undefined,
+      gender: gender !== patient.gender ? gender : undefined,
+      address: {
+        address_line_1:
+          address.address_line_1 !== patient.address.address_line_1
+            ? address.address_line_1
+            : undefined,
+        address_line_2:
+          address.address_line_2 !== patient.address.address_line_2
+            ? address.address_line_2
+            : undefined,
+        city: address.city !== patient.address.city ? address.city : undefined,
+        state:
+          address.state !== patient.address.state ? address.state : undefined,
+        zip_code:
+          address.zip_code !== patient.address.zip_code
+            ? address.zip_code
+            : undefined,
+        country:
+          address.country !== patient.address.country
+            ? address.country
+            : undefined,
+      },
+    };
+
+    try {
+      // await axios.put(`/api/patients/${patient.id}`, updatedFields);
+      console.log("Profile updated successfully");
+    } catch (error) {
+      console.error("Error updating profile:", error);
+    }
   }
 
   return (
@@ -30,7 +87,28 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
         onSubmit={handleFormSubmit}
       >
         <div className="relative">
-          <Avatar src={patient.profile} className="w-48 h-48 text-large" />
+          <CldUploadWidget
+            signatureEndpoint="/api/cloudinary/sign-image"
+            onSuccess={(result) => {
+              console.log("yeahh");
+              // setResult(result?.info as UploadedAssetData);
+            }}
+          >
+            {({ open }) => (
+              <Tooltip
+                color="foreground"
+                showArrow={true}
+                content="Click to Update Your Profile Picture"
+              >
+                <Avatar
+                  src={patient.profile}
+                  className="w-48 h-48 text-large"
+                  onClick={() => open()}
+                  // onDoubleClick={}
+                />
+              </Tooltip>
+            )}
+          </CldUploadWidget>
         </div>
         <div className="flex flex-col w-full gap-5">
           <Input
@@ -156,23 +234,6 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
             Update Profile
           </Button>
         </div>
-
-        <CldUploadWidget
-          signatureEndpoint="/api/cloudinary/sign-image"
-          onSuccess={(result) => {
-            console.log("yeahh");
-            // setResult(result?.info as UploadedAssetData);
-          }}
-        >
-          {({ open }) => (
-            <button
-              className="bg-indigo-500 rounded py-2 px-4 mb-4 text-white"
-              onClick={() => open()}
-            >
-              Upload an Image
-            </button>
-          )}
-        </CldUploadWidget>
       </form>
     </Card>
   );
