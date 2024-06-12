@@ -2,14 +2,11 @@
 
 import { Patient } from "@/types";
 import { Input, Button, Card, Avatar } from "@nextui-org/react";
+import { CldUploadButton, CldUploadWidget } from "next-cloudinary";
 import React, { useState } from "react";
 import { AiTwotoneEye, AiOutlineEyeInvisible } from "react-icons/ai";
 
-export default async function ProfileSettings({
-  patient,
-}: {
-  patient: Patient;
-}) {
+export default function ProfileSettings({ patient }: { patient: Patient }) {
   const [isVisible, setIsVisible] = useState(false);
 
   const toggleVisibility = () => setIsVisible(!isVisible);
@@ -159,6 +156,23 @@ export default async function ProfileSettings({
             Update Profile
           </Button>
         </div>
+
+        <CldUploadWidget
+          signatureEndpoint="/api/cloudinary/sign-image"
+          onSuccess={(result) => {
+            console.log("yeahh");
+            // setResult(result?.info as UploadedAssetData);
+          }}
+        >
+          {({ open }) => (
+            <button
+              className="bg-indigo-500 rounded py-2 px-4 mb-4 text-white"
+              onClick={() => open()}
+            >
+              Upload an Image
+            </button>
+          )}
+        </CldUploadWidget>
       </form>
     </Card>
   );
