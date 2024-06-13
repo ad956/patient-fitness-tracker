@@ -2,12 +2,13 @@
 
 import { Patient } from "@/types";
 import { Input, Button, Card, Avatar, Tooltip } from "@nextui-org/react";
-import { CldUploadButton, CldUploadWidget } from "next-cloudinary";
+import { CldUploadWidget } from "next-cloudinary";
+import Image from "next/image";
 import React, { useState } from "react";
 import { AiTwotoneEye, AiOutlineEyeInvisible } from "react-icons/ai";
 
 export default function ProfileSettings({ patient }: { patient: Patient }) {
-  const [isVisible, setIsVisible] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
   const [profilePicture, setProfilePicture] = useState(patient.profile);
   const [firstname, setFirstname] = useState(patient.firstname);
   const [username, setUsername] = useState(patient.username);
@@ -76,11 +77,33 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
     <Card
       radius="lg"
       shadow="lg"
-      className="flex flex-col gap-5 items-center p-5 h-full w-full overflow-y-scroll"
+      className="flex flex-col gap-5 items-center p-5 h-full w-full overflow-y-auto"
     >
-      <p className="self-start font-bold text-md tracking-wider">
-        Profile Settings
-      </p>
+      <Card
+        radius="lg"
+        className="border-none flex flex-col justify-center md:flex-row md:justify-around items-center py-52 px-2 md:p-5 w-full"
+      >
+        <div className="flex flex-col gap-2">
+          <div className="">
+            <p className="text-2xl font-bold">
+              Welcome to your profile settings,
+            </p>
+            <p className="text-2xl font-semibold">{patient.firstname} !</p>
+          </div>
+          <p className="text-tiny text-black/80 my-2">
+            To book an appointment, first, select your city. Then, choose a
+            hospital within that city. Finally, provide your details to confirm
+            the appointment.
+          </p>
+        </div>
+        <Image
+          alt="Appointment Booking Instuc"
+          className="object-cover"
+          height={200}
+          src="/images/appointment1.png"
+          width={200}
+        />
+      </Card>
 
       <form
         className="flex flex-col justify-center md:flex-row md:justify-around gap-5 p-5 items-center md:h-full md:w-full"
@@ -152,7 +175,7 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
             type={isVisible ? "text" : "password"}
             variant="underlined"
             label="Password"
-            value={"your_password"}
+            value={"new password"}
             className="max-w-xs"
             endContent={
               <button
