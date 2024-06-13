@@ -4,18 +4,25 @@ import { Patient } from "@/types";
 import { Input, Button, Card, Avatar, Tooltip } from "@nextui-org/react";
 import { CldUploadWidget } from "next-cloudinary";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { type ChangeEvent, useRef, useState, useEffect } from "react";
 import { AiTwotoneEye, AiOutlineEyeInvisible } from "react-icons/ai";
+import toast, { Toaster } from "react-hot-toast";
 
 export default function ProfileSettings({ patient }: { patient: Patient }) {
   const [isVisible, setIsVisible] = useState(true);
-  const [profilePicture, setProfilePicture] = useState(patient.profile);
-  const [firstname, setFirstname] = useState(patient.firstname);
+
+  const [firstname, setFirstName] = useState(patient.firstname);
+  const [firstNameError, setFirstNameError] = useState(null || String);
+  const [lastname, setLastName] = useState(patient.lastname);
+  const [lastNameError, setLastNameError] = useState(null || String);
   const [username, setUsername] = useState(patient.username);
+  const [usernameError, setUsernameError] = useState(null || String);
   const [email, setEmail] = useState(patient.email);
-  const [dob, setDob] = useState(patient.dob);
-  const [lastname, setLastname] = useState(patient.lastname);
+  const [emailError, setEmailError] = useState(null || String);
   const [password, setPassword] = useState("");
+  const [passwordError, setPasswordError] = useState(null || String);
+  const [profilePicture, setProfilePicture] = useState(patient.profile);
+  const [dob, setDob] = useState(patient.dob);
   const [contact, setContact] = useState(patient.contact);
   const [gender, setGender] = useState(patient.gender);
   const [address, setAddress] = useState({
@@ -26,8 +33,166 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
     zip_code: patient.address.zip_code,
     country: patient.address.country,
   });
+  const [updateDisabled, setUpdateDisabled] = useState(true);
 
   const toggleVisibility = () => setIsVisible(!isVisible);
+
+  const firstNameRef = useRef<HTMLInputElement>(null);
+  const lastNameRef = useRef<HTMLInputElement>(null);
+  const usernameRef = useRef<HTMLInputElement>(null);
+  const emailRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
+
+  function handleFirstNameChange(e: ChangeEvent<HTMLInputElement>) {
+    const firstNameRegex = /^[a-zA-Z'-]+$/;
+    const isValidFirstName = firstNameRegex.test(e.target.value);
+
+    setFirstNameError(
+      isValidFirstName
+        ? ""
+        : "First name must only contain letters, hyphens, and apostrophes"
+    );
+    setFirstName(e.target.value);
+  }
+
+  function handleLastNameChange(e: ChangeEvent<HTMLInputElement>) {
+    const lastNameRegex = /^[a-zA-Z'-]+(?: [a-zA-Z'-]+)*$/;
+    const isValidLastName = lastNameRegex.test(e.target.value);
+
+    setLastNameError(
+      isValidLastName
+        ? ""
+        : "Last name must only contain letters, hyphens, and apostrophes, with optional spaces between parts"
+    );
+    setLastName(e.target.value);
+  }
+
+  function handleUserNameChange(e: ChangeEvent<HTMLInputElement>) {
+    const usernameRegex = /^[a-zA-Z0-9]{5,10}$/;
+    const isValidUsername = usernameRegex.test(e.target.value);
+
+    setUsernameError(
+      isValidUsername
+        ? ""
+        : "Username must be between 5 and 10 characters long and contain only letters and numbers"
+    );
+    setUsername(e.target.value);
+  }
+
+  function handleEmailChange(e: ChangeEvent<HTMLInputElement>) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const isValidEmail = emailRegex.test(e.target.value);
+
+    setEmailError(isValidEmail ? "" : "Please enter a valid email address");
+    setEmail(e.target.value);
+  }
+
+  function handlePasswordChange(e: ChangeEvent<HTMLInputElement>) {
+    const passwordRegex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    const isValidPassword = passwordRegex.test(e.target.value);
+    const missingComponents = [];
+
+    if (!/[a-z]/.test(e.target.value)) {
+      missingComponents.push("at least one lowercase letter");
+    }
+
+    if (!/[A-Z]/.test(e.target.value)) {
+      missingComponents.push("at least one uppercase letter");
+    }
+
+    if (!/[0-9]/.test(e.target.value)) {
+      missingComponents.push("at least one number");
+    }
+
+    if (!/[@$!%*?&]/.test(e.target.value)) {
+      missingComponents.push(
+        "at least one special character (@, $, !, %, *, ?, &)"
+      );
+    }
+
+    setPasswordError(
+      isValidPassword
+        ? ""
+        : missingComponents.length > 0
+        ? `Password must contain at least 8 characters, and ${missingComponents.join(
+            " and "
+          )}.`
+        : "Password is too short. It must be at least 8 characters long."
+    );
+    setPassword(e.target.value);
+  }
+
+  useEffect(() => {
+    setUpdateDisabled(isUpdateDisabled());
+  }, [
+    firstNameError,
+    firstname,
+    lastNameError,
+    lastname,
+    usernameError,
+    username,
+    emailError,
+    email,
+    passwordError,
+    password,
+  ]);
+
+  function isUpdateDisabled(): boolean {
+    return (
+      !!firstNameError ||
+      !firstname ||
+      !!lastNameError ||
+      !lastname ||
+      !!usernameError ||
+      !username ||
+      !!emailError ||
+      !email ||
+      !!passwordError ||
+      !password
+    );
+  }
+
+  const showToast = (inputRef: React.RefObject<HTMLInputElement>) => {
+    if (inputRef.current?.name === "firstname") {
+      if (firstNameError) {
+        toast.error(firstNameError, {
+          position: "bottom-center",
+        });
+      }
+    }
+    if (inputRef.current?.name === "lastname") {
+      if (lastNameError) {
+        toast.error(lastNameError, {
+          position: "bottom-center",
+        });
+      }
+    }
+    if (inputRef.current?.name === "username") {
+      if (usernameError) {
+        toast.error(usernameError, {
+          position: "bottom-center",
+        });
+      }
+    }
+    if (inputRef.current?.name === "email") {
+      if (emailError) {
+        toast.error(emailError, {
+          position: "bottom-center",
+        });
+      }
+    }
+    if (
+      inputRef.current?.name === "password" ||
+      inputRef.current?.name === "confirmpassword"
+    ) {
+      if (passwordError) {
+        toast.error(passwordError, {
+          position: "bottom-center",
+        });
+      }
+    }
+  };
 
   async function handleFormSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -81,7 +246,7 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
     >
       <Card
         radius="lg"
-        className="border-none flex flex-col justify-center md:flex-row md:justify-around items-center py-52 px-2 md:p-5 w-full"
+        className="border-none flex flex-col justify-center md:flex-row md:justify-around items-center py-52 px-2 md:p-10 w-5/6"
       >
         <div className="flex flex-col gap-2">
           <div className="">
@@ -91,9 +256,9 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
             <p className="text-2xl font-semibold">{patient.firstname} !</p>
           </div>
           <p className="text-tiny text-black/80 my-2">
-            To book an appointment, first, select your city. Then, choose a
-            hospital within that city. Finally, provide your details to confirm
-            the appointment.
+            Here, you can manage your profile information and settings. Update
+            your details, change your password, and customize your account
+            preferences.
           </p>
         </div>
         <Image
@@ -124,7 +289,7 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
                 content="Click to Update Your Profile Picture"
               >
                 <Avatar
-                  src={patient.profile}
+                  src={profilePicture}
                   className="w-48 h-48 text-large"
                   onClick={() => open()}
                   // onDoubleClick={}
@@ -138,28 +303,39 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
             type="text"
             variant="underlined"
             label="First Name"
-            value={patient.firstname}
+            value={firstname}
             className="max-w-xs"
+            onChange={handleFirstNameChange}
+            ref={firstNameRef}
+            onBlur={() => showToast(firstNameRef)}
           />
           <Input
             type="text"
             variant="underlined"
             label="Username"
-            value={patient.username}
+            autoComplete="username"
+            value={username}
             className="max-w-xs"
+            onChange={handleUserNameChange}
+            ref={usernameRef}
+            onBlur={() => showToast(usernameRef)}
           />
           <Input
             type="email"
             variant="underlined"
             label="Email address"
-            value={patient.email}
+            value={email}
             className="max-w-xs"
+            autoComplete="email"
+            onChange={handleEmailChange}
+            ref={emailRef}
+            onBlur={() => showToast(emailRef)}
           />
           <Input
             type="text"
             variant="underlined"
             label="DOB"
-            value={patient.dob}
+            value={dob}
             className="max-w-xs"
           />
         </div>
@@ -168,14 +344,18 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
             type="text"
             variant="underlined"
             label="Last Name"
-            value={patient.lastname}
+            value={lastname}
             className="max-w-xs"
+            onChange={handleLastNameChange}
+            ref={lastNameRef}
+            onBlur={() => showToast(lastNameRef)}
           />
           <Input
             type={isVisible ? "text" : "password"}
             variant="underlined"
             label="Password"
-            value={"new password"}
+            value={password}
+            onChange={handlePasswordChange}
             className="max-w-xs"
             endContent={
               <button
@@ -190,19 +370,21 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
                 )}
               </button>
             }
+            ref={passwordRef}
+            onBlur={() => showToast(passwordRef)}
           />
           <Input
             type="text"
             variant="underlined"
             label="Phone"
-            value={patient.contact}
+            value={contact}
             className="max-w-xs"
           />
           <Input
             type="text"
             variant="underlined"
             label="Gender"
-            value={patient.gender}
+            value={gender}
             className="max-w-xs"
           />
         </div>
@@ -211,28 +393,28 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
             type="text"
             variant="underlined"
             label="Address Line 1"
-            value={patient.address.address_line_1}
+            value={address.address_line_1}
             className="max-w-xs"
           />
           <Input
             type="text"
             variant="underlined"
             label="Address Line 2"
-            value={patient.address.address_line_2}
+            value={address.address_line_2}
             className="max-w-xs"
           />
           <Input
             type="text"
             variant="underlined"
             label="City"
-            value={patient.address.city}
+            value={address.city}
             className="max-w-xs"
           />
           <Input
             type="text"
             variant="underlined"
             label="State"
-            value={patient.address.state}
+            value={address.state}
             className="max-w-xs"
           />
         </div>
@@ -241,23 +423,24 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
             type="text"
             variant="underlined"
             label="Zip Code"
-            value={patient.address.zip_code}
+            value={address.zip_code}
             className="max-w-xs"
           />
           <Input
             type="text"
             variant="underlined"
             label="Country"
-            value={patient.address.country}
+            value={address.country}
             className="max-w-xs"
           />
         </div>
         <div className="flex flex-row hfull w-full mt-10 justify-center items-center">
-          <Button color="danger" variant="shadow">
+          <Button color="danger" variant="shadow" isDisabled={updateDisabled}>
             Update Profile
           </Button>
         </div>
       </form>
+      <Toaster />
     </Card>
   );
 }
