@@ -244,7 +244,7 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
       shadow="lg"
       className="flex flex-col gap-5 items-center p-5 h-full w-full overflow-y-auto"
     >
-      <Card
+      {/* <Card
         radius="lg"
         className="border-none flex flex-col justify-center md:flex-row md:justify-around items-center py-52 px-2 md:p-10 w-5/6"
       >
@@ -268,7 +268,7 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
           src="/images/appointment1.png"
           width={200}
         />
-      </Card>
+      </Card> */}
 
       <form
         className="flex flex-col justify-center md:flex-row md:justify-around gap-5 p-5 items-center md:h-full md:w-full"
@@ -300,6 +300,7 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
         </div>
         <div className="flex flex-col w-full gap-5">
           <Input
+            name="firstname"
             type="text"
             variant="underlined"
             label="First Name"
@@ -310,6 +311,7 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
             onBlur={() => showToast(firstNameRef)}
           />
           <Input
+            name="username"
             type="text"
             variant="underlined"
             label="Username"
@@ -321,6 +323,7 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
             onBlur={() => showToast(usernameRef)}
           />
           <Input
+            name="email"
             type="email"
             variant="underlined"
             label="Email address"
@@ -332,6 +335,7 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
             onBlur={() => showToast(emailRef)}
           />
           <Input
+            name="dob"
             type="text"
             variant="underlined"
             label="DOB"
@@ -341,6 +345,7 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
         </div>
         <div className="flex flex-col w-full gap-5">
           <Input
+            name="lastname"
             type="text"
             variant="underlined"
             label="Last Name"
@@ -351,6 +356,7 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
             onBlur={() => showToast(lastNameRef)}
           />
           <Input
+            name="password"
             type={isVisible ? "text" : "password"}
             variant="underlined"
             label="Password"
@@ -374,6 +380,7 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
             onBlur={() => showToast(passwordRef)}
           />
           <Input
+            name="phone"
             type="text"
             variant="underlined"
             label="Phone"
@@ -381,6 +388,7 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
             className="max-w-xs"
           />
           <Input
+            name="gender"
             type="text"
             variant="underlined"
             label="Gender"
@@ -390,6 +398,7 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
         </div>
         <div className="flex flex-col w-full gap-5">
           <Input
+            name="address_line1"
             type="text"
             variant="underlined"
             label="Address Line 1"
@@ -397,6 +406,7 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
             className="max-w-xs"
           />
           <Input
+            name="address_line2"
             type="text"
             variant="underlined"
             label="Address Line 2"
@@ -404,6 +414,7 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
             className="max-w-xs"
           />
           <Input
+            name="city"
             type="text"
             variant="underlined"
             label="City"
@@ -411,6 +422,7 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
             className="max-w-xs"
           />
           <Input
+            name="state"
             type="text"
             variant="underlined"
             label="State"
@@ -420,6 +432,7 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
         </div>
         <div className="flex flex-col w-full gap-5">
           <Input
+            name="zipcode"
             type="text"
             variant="underlined"
             label="Zip Code"
@@ -427,6 +440,7 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
             className="max-w-xs"
           />
           <Input
+            name="country"
             type="text"
             variant="underlined"
             label="Country"
