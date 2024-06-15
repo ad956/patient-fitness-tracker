@@ -285,9 +285,19 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
         <div className="relative">
           <CldUploadWidget
             signatureEndpoint="/api/cloudinary/sign-image"
-            onSuccess={(result) => {
-              console.log("yeahh");
-              // setResult(result?.info as UploadedAssetData);
+            onSuccess={async (result) => {
+              const res = await fetch("/api/patient/update-profile/profile", {
+                method:"PUT",
+                body: JSON.stringify(result.info),
+              });
+
+              const isProfileUpdated = await res.json();
+
+              if (isProfileUpdated.error) {
+                toast.error(isProfileUpdated.error);
+                return;
+              }
+              toast.success("Profile updated successfully");
             }}
           >
             {({ open }) => (
@@ -351,7 +361,7 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
             value={dob}
             onChange={(val) => console.log(val)}
             showMonthAndYearPickers
-            isInvalid
+            // isInvalid
             errorMessage={(value) => {
               if (value.isInvalid) {
                 return "Please enter a valid date.";
