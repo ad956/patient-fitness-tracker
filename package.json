@@ -11,6 +11,7 @@
     "preview-email": "email dev"
   },
   "dependencies": {
+    "@internationalized/date": "^3.5.4",
     "@nextui-org/react": "^2.3.6",
     "@nivo/core": "^0.85.1",
     "@nivo/line": "^0.85.1",
