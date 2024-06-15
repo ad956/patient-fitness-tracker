@@ -52,7 +52,7 @@ const roles = [
 
 const commonadditionalDetails = {
   otp: "",
-  dob: "",
+  dob: "1970-01-01",
   gender: "",
   contact: "",
   profile:
