@@ -1,12 +1,20 @@
 "use client";
 
 import { Patient } from "@/types";
-import { Input, Button, Card, Avatar, Tooltip } from "@nextui-org/react";
+import {
+  Input,
+  Button,
+  Card,
+  Avatar,
+  Tooltip,
+  DatePicker,
+} from "@nextui-org/react";
 import { CldUploadWidget } from "next-cloudinary";
 import Image from "next/image";
 import React, { type ChangeEvent, useRef, useState, useEffect } from "react";
 import { AiTwotoneEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import toast, { Toaster } from "react-hot-toast";
+import { DateValue, parseDate } from "@internationalized/date";
 
 export default function ProfileSettings({ patient }: { patient: Patient }) {
   const [isVisible, setIsVisible] = useState(true);
@@ -22,7 +30,7 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
   const [password, setPassword] = useState("");
   const [passwordError, setPasswordError] = useState(null || String);
   const [profilePicture, setProfilePicture] = useState(patient.profile);
-  const [dob, setDob] = useState(patient.dob);
+  const [dob, setDob] = useState<DateValue>(parseDate(patient.dob));
   const [contact, setContact] = useState(patient.contact);
   const [gender, setGender] = useState(patient.gender);
   const [address, setAddress] = useState({
@@ -202,7 +210,7 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
       firstname: firstname !== patient.firstname ? firstname : undefined,
       username: username !== patient.username ? username : undefined,
       email: email !== patient.email ? email : undefined,
-      dob: dob !== patient.dob ? dob : undefined,
+      dob: dob.toString() !== patient.dob ? dob : undefined,
       lastname: lastname !== patient.lastname ? lastname : undefined,
       password: password !== "" ? password : undefined,
       contact: contact !== patient.contact ? contact : undefined,
@@ -334,13 +342,21 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
             ref={emailRef}
             onBlur={() => showToast(emailRef)}
           />
-          <Input
+
+          <DatePicker
             name="dob"
-            type="text"
-            variant="underlined"
             label="DOB"
-            value={dob}
+            variant="underlined"
             className="max-w-xs"
+            value={dob}
+            onChange={(val) => console.log(val)}
+            showMonthAndYearPickers
+            isInvalid
+            errorMessage={(value) => {
+              if (value.isInvalid) {
+                return "Please enter a valid date.";
+              }
+            }}
           />
         </div>
         <div className="flex flex-col w-full gap-5">
