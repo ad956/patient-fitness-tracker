@@ -9,7 +9,7 @@ import {
   Tooltip,
   DatePicker,
 } from "@nextui-org/react";
-import { CldUploadWidget } from "next-cloudinary";
+import { CldUploadWidget, CloudinaryUploadWidgetInfo } from "next-cloudinary";
 import Image from "next/image";
 import React, { type ChangeEvent, useRef, useState, useEffect } from "react";
 import { AiTwotoneEye, AiOutlineEyeInvisible } from "react-icons/ai";
@@ -286,9 +286,10 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
           <CldUploadWidget
             signatureEndpoint="/api/cloudinary/sign-image"
             onSuccess={async (result) => {
+              const info = result.info as CloudinaryUploadWidgetInfo;
               const res = await fetch("/api/patient/update-profile/profile", {
-                method:"PUT",
-                body: JSON.stringify(result.info),
+                method: "PUT",
+                body: JSON.stringify(info.secure_url),
               });
 
               const isProfileUpdated = await res.json();
