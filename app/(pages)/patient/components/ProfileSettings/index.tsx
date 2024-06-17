@@ -35,6 +35,7 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
   const [profilePicture, setProfilePicture] = useState(patient.profile);
   const [dob, setDob] = useState<DateValue>(parseDate(patient.dob));
   const [contact, setContact] = useState(patient.contact);
+  const [contactError, setContactError] = useState(null || String);
   const [gender, setGender] = useState(patient.gender);
   const [address, setAddress] = useState({
     address_line_1: patient.address.address_line_1,
@@ -53,6 +54,7 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
   const usernameRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
+  const contactRef = useRef<HTMLInputElement>(null);
 
   function handleFirstNameChange(e: ChangeEvent<HTMLInputElement>) {
     const firstNameRegex = /^[a-zA-Z'-]+$/;
@@ -134,6 +136,30 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
     setPassword(e.target.value);
   }
 
+  const isDateInvalid = (): boolean => {
+    const birthDate = dob;
+    const today = new Date();
+    let age = today.getFullYear() - birthDate.year;
+    const m = today.getMonth() - birthDate.month;
+    if (m < 0 || (m === 0 && today.getDate() < birthDate.day)) {
+      age--;
+    }
+    if (age < 18 || age > 100) return true;
+    return false;
+  };
+
+  const handleGenderChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setGender(e.target.value);
+  };
+
+  const handleContactChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const regex = /^\d{10}$/;
+    const isContactValid = regex.test(e.target.value);
+
+    setContactError(isContactValid ? "" : "Phone must be 10");
+    setContact(e.target.value);
+  };
+
   useEffect(() => {
     setUpdateDisabled(isUpdateDisabled());
   }, [
@@ -203,18 +229,14 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
         });
       }
     }
-  };
 
-  const isDateInvalid = (): boolean => {
-    const birthDate = dob;
-    const today = new Date();
-    let age = today.getFullYear() - birthDate.year;
-    const m = today.getMonth() - birthDate.month;
-    if (m < 0 || (m === 0 && today.getDate() < birthDate.day)) {
-      age--;
+    if (inputRef.current?.name === "contact") {
+      if (contactError) {
+        toast.error(contactError, {
+          position: "bottom-center",
+        });
+      }
     }
-    if (age < 18 || age > 100) return true;
-    return false;
   };
 
   async function handleFormSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -426,12 +448,16 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
             label="Phone"
             value={contact}
             className="max-w-xs"
+            onChange={handleContactChange}
+            ref={contactRef}
+            onBlur={() => showToast(contactRef)}
           />
           <Select
             name="gender"
             variant="underlined"
             label={gender}
             className="max-w-xs"
+            onChange={handleGenderChange}
           >
             {["Male", "Female", "Other"].map((item) => (
               <SelectItem key={item}>{item}</SelectItem>
