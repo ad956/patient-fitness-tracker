@@ -15,7 +15,7 @@ import React, { type ChangeEvent, useRef, useState, useEffect } from "react";
 import { AiTwotoneEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import toast, { Toaster } from "react-hot-toast";
 import { DateValue, parseDate } from "@internationalized/date";
-import updateProfilePicture from "@/lib/patient/updateProfilePicture";
+import { updateProfilePicture } from "@lib/patient";
 
 export default function ProfileSettings({ patient }: { patient: Patient }) {
   const [isVisible, setIsVisible] = useState(true);
@@ -203,6 +203,18 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
     }
   };
 
+  const isDateInvalid = (): boolean => {
+    const birthDate = dob;
+    const today = new Date();
+    let age = today.getFullYear() - birthDate.year;
+    const m = today.getMonth() - birthDate.month;
+    if (m < 0 || (m === 0 && today.getDate() < birthDate.day)) {
+      age--;
+    }
+    if (age < 18 || age > 100) return true;
+    return false;
+  };
+
   async function handleFormSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
@@ -359,9 +371,9 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
             variant="underlined"
             className="max-w-xs"
             value={dob}
-            onChange={(val) => console.log(val)}
+            onChange={(val) => setDob(val)}
             showMonthAndYearPickers
-            // isInvalid
+            isInvalid={isDateInvalid()}
             errorMessage={(value) => {
               if (value.isInvalid) {
                 return "Please enter a valid date.";
