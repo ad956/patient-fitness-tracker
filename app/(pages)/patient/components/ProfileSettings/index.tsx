@@ -15,6 +15,7 @@ import React, { type ChangeEvent, useRef, useState, useEffect } from "react";
 import { AiTwotoneEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import toast, { Toaster } from "react-hot-toast";
 import { DateValue, parseDate } from "@internationalized/date";
+import updateProfilePicture from "@/lib/patient/updateProfilePicture";
 
 export default function ProfileSettings({ patient }: { patient: Patient }) {
   const [isVisible, setIsVisible] = useState(true);
@@ -287,17 +288,16 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
             signatureEndpoint="/api/cloudinary/sign-image"
             onSuccess={async (result) => {
               const info = result.info as CloudinaryUploadWidgetInfo;
-              const res = await fetch("/api/patient/update-profile/profile", {
-                method: "PUT",
-                body: JSON.stringify(info.secure_url),
-              });
 
-              const isProfileUpdated = await res.json();
+              const isProfileUpdated = await updateProfilePicture(
+                info.secure_url
+              );
 
               if (isProfileUpdated.error) {
                 toast.error(isProfileUpdated.error);
                 return;
               }
+              setProfilePicture(info.secure_url);
               toast.success("Profile updated successfully");
             }}
           >
@@ -311,7 +311,6 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
                   src={profilePicture}
                   className="w-48 h-48 text-large"
                   onClick={() => open()}
-                  // onDoubleClick={}
                 />
               </Tooltip>
             )}
