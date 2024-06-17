@@ -8,6 +8,8 @@ import {
   Avatar,
   Tooltip,
   DatePicker,
+  Select,
+  SelectItem,
 } from "@nextui-org/react";
 import { CldUploadWidget, CloudinaryUploadWidgetInfo } from "next-cloudinary";
 import Image from "next/image";
@@ -425,14 +427,16 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
             value={contact}
             className="max-w-xs"
           />
-          <Input
+          <Select
             name="gender"
-            type="text"
             variant="underlined"
-            label="Gender"
-            value={gender}
+            label={gender}
             className="max-w-xs"
-          />
+          >
+            {["Male", "Female", "Other"].map((item) => (
+              <SelectItem key={item}>{item}</SelectItem>
+            ))}
+          </Select>
         </div>
         <div className="flex flex-col w-full gap-5">
           <Input
