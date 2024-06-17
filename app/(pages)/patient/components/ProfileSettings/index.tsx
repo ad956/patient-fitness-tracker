@@ -156,7 +156,9 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
     const regex = /^\d{10}$/;
     const isContactValid = regex.test(e.target.value);
 
-    setContactError(isContactValid ? "" : "Phone must be 10");
+    setContactError(
+      isContactValid ? "" : "Please enter a 10-digit phone number"
+    );
     setContact(e.target.value);
   };
 
@@ -442,7 +444,7 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
             onBlur={() => showToast(passwordRef)}
           />
           <Input
-            name="phone"
+            name="contact"
             type="text"
             variant="underlined"
             label="Phone"
