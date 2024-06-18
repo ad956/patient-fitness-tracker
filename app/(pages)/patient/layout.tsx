@@ -1,5 +1,9 @@
 import Script from "next/script";
-import { Headbar, Sidebar } from "./components";
+import { Sidebar } from "./components";
+import { Headbar } from "@components/index";
+import { Patient } from "@/types";
+import { getPatientData } from "@lib/patient";
+
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -7,16 +11,18 @@ export const metadata: Metadata = {
   description: "The page is for patient related applications.",
 };
 
-export default function PatientLayout({
+export default async function PatientLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const patient: Patient = await getPatientData();
+
   return (
     <main className="h-screen flex">
       <Sidebar />
       <section className="flex flex-col w-full">
-        <Headbar />
+        <Headbar user={patient} role="patient" />
         {children}
       </section>
       <Script
