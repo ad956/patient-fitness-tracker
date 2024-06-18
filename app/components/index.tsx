@@ -1,8 +1,8 @@
 import BrandLogo from "./brandlogo";
 import Carousel from "./carousel";
 import ErrorBoundary from "./error-boundary";
-import Headbar from "./Headbar";
-import Notifications from "./Notifications";
+import Headbar from "./headbar";
+import Notifications from "./notifications";
 import OtpSection from "./otp";
 import SpinnerLoader from "./SpinnerLoader";
 
