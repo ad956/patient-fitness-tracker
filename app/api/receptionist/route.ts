@@ -18,7 +18,7 @@ export async function GET(request: Request) {
     const collection = db.collection("receptionist");
 
     const projection = {
-      _id: 0,
+      _id: 1,
       firstname: 1,
       lastname: 1,
       username: 1,
