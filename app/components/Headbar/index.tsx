@@ -4,7 +4,7 @@ import { CiLogin } from "react-icons/ci";
 import { GoPlus } from "react-icons/go";
 import { User as UserType } from "@/types";
 import { logoutAction } from "@lib/actions";
-import { Notifications } from "@components/index";
+import Notifications from "../notifications";
 
 type HeadbarProps = {
   user: UserType;
