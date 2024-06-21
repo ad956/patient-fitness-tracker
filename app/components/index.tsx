@@ -2,7 +2,7 @@ import BrandLogo from "./brandlogo";
 import Carousel from "./carousel";
 import ErrorBoundary from "./error-boundary";
 import Headbar from "./headbar";
-import Notifications from "./Notifications";
+// import Notifications from "./Notifications";
 import OtpSection from "./otp";
 import SpinnerLoader from "./SpinnerLoader";
 
@@ -11,7 +11,7 @@ export {
   Carousel,
   ErrorBoundary,
   Headbar,
-  Notifications,
+  // Notifications,
   OtpSection,
   SpinnerLoader,
 };
