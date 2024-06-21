@@ -12,5 +12,6 @@ test("Displays the landing page correctly and triggers rollback on failure", asy
 
   // If the test reaches this point, the intentional failure did not occur
   // This line should not be reached if the test fails as expected
+  //
   console.log("This line should not be reached if the test fails as expected");
 });
