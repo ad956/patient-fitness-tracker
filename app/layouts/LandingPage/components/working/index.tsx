@@ -39,8 +39,8 @@ export default function WorkingProcess() {
           <div className="">
             <p className="text-xl font-semibold">Make Appointment</p>
             <p className="text-md my-3">
-              Patient can book an appointment with doctor from landing page or
-              from his login panel.
+              Patients can book an appointment with a doctor through the
+              appointment section.
             </p>
           </div>
         </Card>

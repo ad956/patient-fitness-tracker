@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 import { BrandLogo } from "../brandlogo";
-import { CiMenuFries } from "react-icons/ci";
 import {
   Navbar,
   NavbarBrand,

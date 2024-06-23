@@ -43,7 +43,7 @@ export default function Intro() {
         <Image
           alt="admin-illustration"
           isBlurred
-          src="admin.png"
+          src="/images/admin.png"
           height="auto"
           width="100%"
         />
