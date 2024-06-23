@@ -3,7 +3,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Image } from "@nextui-org/react";
 
-const images = ["/images/about-us.jpg", "/admin.png", "/hospital.png"];
+const images = [
+  "/images/about-us.jpg",
+  "/images/admin.png",
+  "/images/hospital.png",
+];
 
 export default function CarouselService() {
   const [currentImg, setCurrentImg] = useState(0);

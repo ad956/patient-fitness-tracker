@@ -46,7 +46,7 @@ export default function Sidebar() {
   return (
     <aside className="h-full md:flex flex-col items-center p-4 bg-[#f3f6fd]">
       <Image
-        src="/patient.svg"
+        src="/icons/patient.svg"
         alt="brand-logo"
         height={35}
         width={35}
