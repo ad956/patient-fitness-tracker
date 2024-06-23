@@ -146,7 +146,12 @@ export default function Login() {
     >
       <div className="m-4 lg:w-1/4 flex flex-col gap-5 self-center">
         <div className="flex justify-center items-center ">
-          <Image src="patient.svg" height="50" width="50" alt="brand-logo" />
+          <Image
+            src="/icons/patient.svg"
+            height="50"
+            width="50"
+            alt="brand-logo"
+          />
           <h2 className="ml-2 font-bold text-lg">Patient Fitness Tracker</h2>
         </div>
         <div className="">

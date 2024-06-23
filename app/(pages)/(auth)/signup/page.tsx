@@ -303,8 +303,15 @@ export default function Signup() {
       {/* left part */}
       <div className="m-4 lg:w-2/6 flex flex-col gap-8 self-center">
         <div className="flex justify-center items-center ">
-          <Image src="patient.svg" height="50" width="50" alt="brand-logo" />
-          <h2 className="ml-2 font-bold text-lg">Patient Fitness Tracker</h2>
+          <Image
+            src="/icons/patient.svg"
+            height="40"
+            width="40"
+            alt="brand-logo"
+          />
+          <h2 className="ml-2 font-bold text-xl tracking-wide">
+            Patient Fitness Tracker
+          </h2>
         </div>
         <div className="">
           <h3 className="text-3xl font-bold tracking-wider">Welcome</h3>
