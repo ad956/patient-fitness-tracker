@@ -23,10 +23,10 @@ type userDataType = {
 };
 
 export default function OtpSection({ userData }: userDataType) {
-  const { onOpenChange } = useDisclosure();
+  const [isOpen, setIsOpen] = useState(true);
 
-  const [otp, setOtp] = useState("");
-  const [showError, setShowError] = useState("");
+  const [otp, setOtp] = useState<string[]>(Array(5).fill(""));
+  const [showError, setShowError] = useState<string>("");
 
   const router = useRouter();
   const inputsRefs = useRef<Array<HTMLInputElement | null>>(
@@ -38,28 +38,51 @@ export default function OtpSection({ userData }: userDataType) {
     index: number
   ) => {
     const value = e.target.value;
+
+    if (!/^\d*$/.test(value)) {
+      setShowError("Only numbers are allowed");
+      return;
+    }
+
     setShowError("");
-    setOtp((prevOtp) => prevOtp + value);
+    setOtp((prevOtp) => {
+      const newOtp = [...prevOtp];
+      newOtp[index] = value;
+      return newOtp;
+    });
+
     if (value && index < 4) {
       inputsRefs.current[index + 1]?.focus();
     }
   };
 
+  // changes focus when using backspace to remove otp value
+  const handleKeyDown = (
+    e: React.KeyboardEvent<HTMLInputElement>,
+    index: number
+  ) => {
+    if (e.key === "Backspace" && !otp[index] && index > 0) {
+      inputsRefs.current[index - 1]?.focus();
+    }
+  };
+
+  // resets otp fields if otp verification fails
   const resetOtpInputs = () => {
+    setOtp(Array(5).fill(""));
     inputsRefs.current.forEach((input) => {
       if (input) {
         input.value = "";
       }
     });
-    setOtp("");
   };
 
   const handleSubmit = async () => {
+    const otpString = otp.join("");
     const data = await verifyOtp(
       userData.email,
       userData.role,
       userData.action,
-      otp
+      otpString
     );
 
     if (data.error) {
@@ -92,7 +115,15 @@ export default function OtpSection({ userData }: userDataType) {
   };
 
   return (
-    <Modal isOpen={true} onOpenChange={onOpenChange} placement="top-center">
+    <Modal
+      isOpen={isOpen}
+      onOpenChange={() => {
+        setIsOpen(false);
+        toast.error(`Cancelled ${userData.action} Request`);
+        window.location.reload();
+      }}
+      placement="top-center"
+    >
       <ModalContent className="p-2">
         {(onClose) => (
           <>
@@ -102,12 +133,12 @@ export default function OtpSection({ userData }: userDataType) {
               </p>
               <Image
                 alt="enter-otp-code"
-                src="https://cdni.iconscout.com/illustration/premium/thumb/otp-code-to-unlock-4718239-3916139.png"
+                src="/images/verify-otp.png"
                 height={200}
                 width={200}
               />
               <div className="flex justify-center gap-2 w-full">
-                {[...Array(5)].map((_, index) => (
+                {otp.map((value, index) => (
                   <Input
                     key={index}
                     type="text"
@@ -119,16 +150,15 @@ export default function OtpSection({ userData }: userDataType) {
                     color={showError ? "danger" : "default"}
                     maxLength={1}
                     onChange={(e) => handleInputChange(e, index)}
+                    onKeyDown={(e) => handleKeyDown(e, index)}
                     ref={(el) => (inputsRefs.current[index] = el)}
-                    value={otp[index] || ""}
+                    value={value}
                   />
                 ))}
               </div>
 
               {showError && (
-                <p className="text-md font-semibold text-danger">
-                  OTP is not valid
-                </p>
+                <p className="text-md font-semibold text-danger">{showError}</p>
               )}
 
               <Button
