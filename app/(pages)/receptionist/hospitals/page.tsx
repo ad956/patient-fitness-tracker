@@ -1,4 +1,4 @@
-import SpinnerLoader from "@/app/components/spinnerloader";
+import SpinnerLoader from "@components/spinnerloader";
 import React from "react";
 
 export default function Hospitalspage() {
