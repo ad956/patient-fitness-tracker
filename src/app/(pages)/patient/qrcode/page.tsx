@@ -1,5 +1,5 @@
 import { getPatientData } from "@lib/patient";
-import { Patient } from "@/src/types";
+import { Patient } from "@/types";
 import { Card, Link, User } from "@nextui-org/react";
 import { QRCode } from "../components";
 

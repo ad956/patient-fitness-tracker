@@ -1,6 +1,6 @@
 "use client";
 
-import { MedicalHistory } from "@/src/types";
+import { MedicalHistory } from "@/types";
 import {
   Chip,
   Spinner,

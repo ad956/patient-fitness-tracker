@@ -17,7 +17,7 @@ import {
   ModalBody,
   ModalFooter,
 } from "@nextui-org/react";
-import { PatientDetails } from "@/src/types";
+import { PatientDetails } from "@/types";
 import { getFormattedDate } from "@utils/getDate";
 import { approveAppointment } from "@lib/receptionist";
 import toast, { Toaster } from "react-hot-toast";

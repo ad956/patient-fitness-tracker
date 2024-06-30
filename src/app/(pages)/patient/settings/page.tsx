@@ -1,4 +1,4 @@
-import { Patient } from "@/src/types";
+import { Patient } from "@/types";
 import { getPatientData } from "@lib/patient";
 import { ProfileSettings } from "../components";
 

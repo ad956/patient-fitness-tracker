@@ -1,5 +1,5 @@
 "use server";
-import { bookingAppointment } from "@/src/types";
+import { bookingAppointment } from "@/types";
 import { getSessionToken } from "../sessions/sessionUtils";
 import getBaseUrl from "@utils/getBaseUrl";
 

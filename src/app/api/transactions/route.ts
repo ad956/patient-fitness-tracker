@@ -1,5 +1,5 @@
 import dbConfig from "@lib/db";
-import { Transaction } from "@/src/types";
+import { Transaction } from "@/types";
 import { ObjectId } from "mongodb";
 
 // saving transaction details in db

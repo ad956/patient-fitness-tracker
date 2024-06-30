@@ -1,7 +1,7 @@
 "use client";
 
 import { getFormattedDate } from "@utils/getDate";
-import { PaymentHistory } from "@/src/types";
+import { PaymentHistory } from "@/types";
 import {
   Chip,
   Spinner,

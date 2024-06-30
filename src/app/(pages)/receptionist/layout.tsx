@@ -1,4 +1,4 @@
-import { Receptionist } from "@/src/types";
+import { Receptionist } from "@/types";
 import { Sidebar } from "./components";
 import { Headbar } from "@components/index";
 

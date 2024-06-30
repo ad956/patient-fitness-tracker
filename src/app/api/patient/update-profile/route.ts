@@ -1,4 +1,4 @@
-import { User } from "@/src/types";
+import { User } from "@/types";
 import dbConfig from "@lib/db";
 import { decrypt } from "@sessions/sessionUtils";
 

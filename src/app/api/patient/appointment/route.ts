@@ -1,5 +1,5 @@
 import dbConfig from "@lib/db";
-import { bookingAppointment } from "@/src/types";
+import { bookingAppointment } from "@/types";
 import { decrypt } from "@sessions/sessionUtils";
 import { ObjectId } from "mongodb";
 import { sendEmail } from "@lib/email";

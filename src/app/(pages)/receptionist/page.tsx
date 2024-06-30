@@ -6,7 +6,7 @@ import {
   BsPersonCheckFill,
   BsPersonLinesFill,
 } from "react-icons/bs";
-import { Receptionist } from "@/src/types";
+import { Receptionist } from "@/types";
 import { getReceptionistData, getPendingAppointments } from "@lib/receptionist";
 import { MonthlyVisitors, PatientTabs } from "./components";
 

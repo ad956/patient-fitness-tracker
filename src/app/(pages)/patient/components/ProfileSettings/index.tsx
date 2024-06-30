@@ -1,6 +1,6 @@
 "use client";
 
-import { Patient } from "@/src/types";
+import { Patient } from "@/types";
 import {
   Input,
   Button,

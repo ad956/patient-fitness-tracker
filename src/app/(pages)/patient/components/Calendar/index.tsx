@@ -13,7 +13,7 @@ import {
 } from "@nextui-org/react";
 import { getFormattedDate } from "@utils/getDate";
 import { LuCalendarClock } from "react-icons/lu";
-import { bookedAppointments } from "@/src/types";
+import { bookedAppointments } from "@/types";
 
 type upcomingAppointmentsType = {
   upcomingAppointments: bookedAppointments;

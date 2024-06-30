@@ -1,4 +1,4 @@
-import { Receptionist } from "@/src/types";
+import { Receptionist } from "@/types";
 import { Input, Button, Card, Avatar } from "@nextui-org/react";
 import { getReceptionistData } from "@lib/receptionist";
 

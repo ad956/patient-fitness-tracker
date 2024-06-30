@@ -5,7 +5,7 @@ import {
   MedicineDetails,
   HealthConditions,
 } from "./components";
-import { Patient, bookedAppointments } from "@/src/types";
+import { Patient, bookedAppointments } from "@/types";
 import { getPatientData, getUpcomingAppointments } from "@lib/patient";
 
 export default async function PatientPage() {
