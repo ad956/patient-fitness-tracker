@@ -25,6 +25,7 @@
       "@constants/*": ["./src/app/utils/constants/*"],
       "@patient/*": ["./src/app/(pages)/patient/*"],
       "@receptionist/*": ["./src/app/(pages)/receptionist/*"],
+      "@models/*": ["./src/app/models/*"],
       "@lib/*": ["./src/app/lib/*"],
       "@sessions/*": ["./src/app/lib/sessions/*"]
     }
