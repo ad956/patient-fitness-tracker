@@ -1,23 +1,23 @@
-import BookedAppointment from "./BookedAppointment";
-import CommonDiseases from "./CommonDisease";
-// import Doctor from "./Doctor";
-// import Hospital from "./Hospital";
+import BookedAppointment from "./bookedAppointment";
+import CommonDiseases from "./commonDisease";
+import Doctor from "./doctor";
+import Hospital from "./hospital";
 // import HospitalsData from "./HospitalsData";
 // import MedicalHistory from "./MedicalHistory";
 import Patient from "./patient";
-// import Receptionist from "./Receptionist";
+import Receptionist from "./receptionist";
 // import Transaction from "./Transaction";
-// import UserLog from "./UserLog";
+import UserLog from "./userLog";
 
 export {
   BookedAppointment,
   CommonDiseases,
-  // Doctor,
-  // Hospital,
+  Doctor,
+  Hospital,
   // HospitalsData,
   // MedicalHistory,
   Patient,
-  // Receptionist,
+  Receptionist,
   // Transaction,
-  // UserLog,
+  UserLog,
 };
