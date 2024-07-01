@@ -1,6 +1,6 @@
-import dbConfig from "@lib/db";
-import { OtpTemplate } from "@/lib/emails/templates";
-import { sendEmail } from "@lib/email";
+import dbConfig from "@/app/lib/db";
+import { OtpTemplate } from "@/app/lib/emails/templates";
+import { sendEmail } from "@/app/lib/email";
 import { render } from "@react-email/render";
 import { generateSecureOTP } from "@utils/generateOtp";
 import {
@@ -10,6 +10,7 @@ import {
   receptionistadditionalDetails,
 } from "@constants/index";
 import bcrypt from "bcrypt";
+import { Patient } from "@/app/models/Patient";
 
 type SignupBody = {
   firstname: string;
@@ -144,4 +145,24 @@ async function hashPassword(password: string) {
   const saltRounds = parseInt(process.env.BCRYPT_SALT_ROUNDS || "10"); // Read salt rounds from environment variable or default to "10"
   const hashedPassword = await bcrypt.hash(password, saltRounds);
   return hashedPassword;
+}
+
+export async function getUserModel(email: string, role: string) {
+  const projection = {
+    _id: 0,
+    email: 1,
+    firstname: 1,
+    lastname: 1,
+    password: 1,
+  };
+  switch (role) {
+    case "patient":
+      return await Patient.findOne({ email }, projection);
+    case "hospital":
+      return await Hospital.findOne({ email }, projection);
+    case "receptionist":
+      return await Receptionist.findOne({ email }, projection);
+    default:
+      return null;
+  }
 }

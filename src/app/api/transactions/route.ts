@@ -1,4 +1,4 @@
-import dbConfig from "@lib/db";
+import dbConfig from "@/app/lib/db";
 import { Transaction } from "@/types";
 import { ObjectId } from "mongodb";
 

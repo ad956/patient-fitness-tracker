@@ -1,12 +1,12 @@
-import dbConfig from "@lib/db";
+import dbConfig from "@/app/lib/db";
 import { bookingAppointment } from "@/types";
-import { decrypt } from "@sessions/sessionUtils";
+import { decrypt } from "@/app/lib/sessions/sessionUtils";
 import { ObjectId } from "mongodb";
-import { sendEmail } from "@lib/email";
+import { sendEmail } from "@/app/lib/email";
 import { render } from "@react-email/render";
-import { AppointmentBookedTemplate } from "@lib/emails/templates";
+import { AppointmentBookedTemplate } from "@/app/lib/emails/templates";
 import { getFormattedDate } from "@/app/utils/getDate";
-import sendNotification from "@lib/novu";
+import sendNotification from "@/app/lib/novu";
 
 type BookingAppointmentType = bookingAppointment & {
   transaction_id: string | null;

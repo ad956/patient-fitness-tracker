@@ -3,7 +3,7 @@ import { Button, Divider, User } from "@nextui-org/react";
 import { CiLogin } from "react-icons/ci";
 import { GoPlus } from "react-icons/go";
 import { User as UserType } from "@/types";
-import { logoutAction } from "@lib/actions";
+import { logoutAction } from "@/app/lib/actions";
 import Notifications from "../notifications";
 
 type HeadbarProps = {

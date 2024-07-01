@@ -4,6 +4,7 @@ import { sendEmail } from "@lib/email";
 import { render } from "@react-email/render";
 import { generateSecureOTP } from "@utils/generateOtp";
 import bcrypt from "bcrypt";
+import { Patient } from "@/app/models/";
 
 type LoginBody = {
   email: string;
@@ -37,23 +38,9 @@ export async function POST(req: Request) {
 }
 
 async function setOTP(loginBody: LoginBody) {
-  const db = await dbConfig();
+  await dbConfig();
 
-  const collection = db.collection(loginBody.role);
-  const email = loginBody.email;
-  const projection = {
-    _id: 0,
-    email: 1,
-    firstname: 1,
-    lastname: 1,
-    password: 1,
-  };
-  const user = await collection.findOne(
-    { email },
-    {
-      projection,
-    }
-  );
+  const user = await getUserModel(loginBody.email, loginBody.role);
 
   if (!user || !(await bcrypt.compare(loginBody.password, user.password))) {
     return Response.json(
@@ -63,7 +50,10 @@ async function setOTP(loginBody: LoginBody) {
   }
 
   const generatedOTP = generateSecureOTP();
-  await collection.updateOne({ email }, { $set: { otp: generatedOTP } });
+  await user.updateOne(
+    { email: loginBody.email },
+    { $set: { otp: generatedOTP } }
+  );
 
   const send = {
     to: user.email,
@@ -84,4 +74,24 @@ async function setOTP(loginBody: LoginBody) {
 
   if (!mailsent) return Response.json({ error: "Email Sending Failed" });
   return Response.json({ message: "ok" }, { status: 201 });
+}
+
+export async function getUserModel(email: string, role: string) {
+  const projection = {
+    _id: 0,
+    email: 1,
+    firstname: 1,
+    lastname: 1,
+    password: 1,
+  };
+  switch (role) {
+    case "patient":
+      return await Patient.findOne({ email }, projection);
+    // case "hospital":
+    //   return await Hospital.findOne({ email }, projection);
+    case "receptionist":
+      return await Receptionist.findOne({ email }, projection);
+    default:
+      return null;
+  }
 }

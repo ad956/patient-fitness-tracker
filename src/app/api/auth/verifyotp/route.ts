@@ -1,6 +1,6 @@
-import { setSession } from "@sessions/sessionUtils";
-import dbConfig from "@lib/db";
-import logUserActivity from "@lib/logs";
+import { setSession } from "@/app/lib/sessions/sessionUtils";
+import dbConfig from "@/app/lib/db";
+import logUserActivity from "@/app/lib/logs";
 
 type bodyType = {
   email: string;

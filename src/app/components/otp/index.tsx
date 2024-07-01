@@ -12,7 +12,7 @@ import {
 import { useRouter } from "next/navigation";
 import React, { useRef, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
-import verifyOtp from "@lib/verifyOtp";
+import verifyOtp from "@/app/lib/verifyOtp";
 
 type userDataType = {
   userData: {

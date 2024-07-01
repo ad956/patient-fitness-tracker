@@ -1,5 +1,5 @@
 "use client";
-import { logoutAction } from "@/lib/actions";
+import { logoutAction } from "@/app/lib/actions";
 import { Button, Image } from "@nextui-org/react";
 import React, { ErrorInfo, ReactNode } from "react";
 
