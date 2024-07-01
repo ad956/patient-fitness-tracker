@@ -1,7 +1,8 @@
-import dbConfig from "../db";
+import dbConfig from "@utils/db";
 import { sendEmail } from "../email";
 import { render } from "@react-email/render";
 import { UserActivityTemplate } from "../emails/templates";
+import { UserLog } from "@models/index";
 
 type userlogType = {
   username: string;
@@ -12,11 +13,9 @@ type userlogType = {
 };
 
 async function logUserActivity(userlog: userlogType, req: Request) {
-  const db = await dbConfig();
+  await dbConfig();
 
   try {
-    const logs_collection = db.collection("user_logs");
-
     const user_log = {
       username: userlog.username,
       name: userlog.name,
@@ -32,7 +31,9 @@ async function logUserActivity(userlog: userlogType, req: Request) {
     };
 
     //stores in user_logs
-    await logs_collection.insertOne(user_log);
+    const logs = new UserLog(user_log);
+
+    await logs.save();
 
     await sendEmail({
       to: process.env.LOGGER_EMAIL || "yourmail@example.com",
