@@ -1,4 +1,4 @@
-import dbConfig from "@/app/lib/db";
+import dbConfig from "@utils/db";
 import { OtpTemplate } from "@/app/lib/emails/templates";
 import { sendEmail } from "@/app/lib/email";
 import { render } from "@react-email/render";
@@ -10,18 +10,18 @@ import {
   receptionistadditionalDetails,
 } from "@constants/index";
 import bcrypt from "bcrypt";
-import { Patient } from "@/app/models/Patient";
+import { Patient, Receptionist, Doctor, Hospital } from "@models/index";
 
 type SignupBody = {
   firstname: string;
   lastname: string;
   username: string;
   email: string;
-  password: string;
   role: string;
+  password: string;
 };
 
-const allowedRoles = ["patient", "hospital", "doctor", "receptionist"];
+const allowedRoles = ["patient", "receptionist", "doctor", "hospital"];
 
 export async function POST(req: Request) {
   try {
@@ -47,15 +47,14 @@ export async function POST(req: Request) {
 }
 
 async function createAccount(signupBody: SignupBody) {
-  const db = await dbConfig();
+  await dbConfig();
 
-  const collection = db.collection(signupBody.role);
-  const email = signupBody.email;
-  const username = signupBody.username;
-
-  const existingUser = await collection.findOne({
-    $or: [{ email }, { username }],
-  });
+  // retrieves the existing user
+  const existingUser = await getExistingUser(
+    signupBody.email,
+    signupBody.username,
+    signupBody.role
+  );
 
   if (existingUser) {
     if (existingUser.email === signupBody.email) {
@@ -70,47 +69,30 @@ async function createAccount(signupBody: SignupBody) {
     }
   }
 
-  let additionalDetails;
-
-  switch (signupBody.role) {
-    case "patient":
-      additionalDetails = patientadditionalDetails;
-      break;
-    case "hospital":
-      additionalDetails = hospitaladditionalDetails;
-      break;
-    case "doctor":
-      additionalDetails = doctoradditionalDetails;
-      break;
-    case "receptionist":
-      additionalDetails = receptionistadditionalDetails;
-      break;
-  }
+  // gets the additional details based on the user's role
+  let additionalDetails = getAdditionalDetails(signupBody.role);
 
   const hashedPassword = await hashPassword(signupBody.password);
 
-  const user = {
+  const newUser = {
     ...signupBody,
-    ...additionalDetails,
     password: hashedPassword,
+    ...additionalDetails,
   };
 
-  await collection.insertOne(user);
+  const savedUser = await saveUserModel(newUser, signupBody.role);
 
   const generatedOTP = generateSecureOTP();
-  await collection.updateOne({ email }, { $set: { otp: generatedOTP } });
 
-  const send = {
-    to: user.email,
-    subject: "Verification of OTP for Account Creation",
-    otp: generatedOTP,
-    name: user.firstname,
-  };
+  await savedUser.updateOne(
+    { email: savedUser.email },
+    { $set: { otp: generatedOTP } }
+  );
 
   const mailsent = await sendEmail({
-    to: send.to,
-    subject: send.subject,
-    html: render(OtpTemplate(send.name, send.otp)),
+    to: savedUser.email,
+    subject: "Verification of OTP for Account Creation",
+    html: render(OtpTemplate(savedUser.firstname, generatedOTP)),
     from: {
       name: "Patient Fitness Tracker",
       address: "support@patientfitnesstracker.com",
@@ -124,6 +106,7 @@ async function createAccount(signupBody: SignupBody) {
   );
 }
 
+// checks for missing elements in body
 function checkMissingElements(body: SignupBody) {
   const requiredFields = [
     "firstname",
@@ -141,13 +124,64 @@ function checkMissingElements(body: SignupBody) {
   return false;
 }
 
+// returns additional details based on the user's role
+export async function getAdditionalDetails(role: string) {
+  let additionalDetails;
+
+  switch (role) {
+    case "patient":
+      additionalDetails = patientadditionalDetails;
+      break;
+    case "receptionist":
+      additionalDetails = receptionistadditionalDetails;
+      break;
+    case "doctor":
+      additionalDetails = doctoradditionalDetails;
+      break;
+    case "hospital":
+      additionalDetails = hospitaladditionalDetails;
+      break;
+    default:
+      additionalDetails = null;
+  }
+
+  return additionalDetails;
+}
+
+// hashing the password
 async function hashPassword(password: string) {
-  const saltRounds = parseInt(process.env.BCRYPT_SALT_ROUNDS || "10"); // Read salt rounds from environment variable or default to "10"
+  const saltRounds = parseInt(process.env.BCRYPT_SALT_ROUNDS || "10");
   const hashedPassword = await bcrypt.hash(password, saltRounds);
   return hashedPassword;
 }
 
-export async function getUserModel(email: string, role: string) {
+// saves a new user to the database based on their role
+export async function saveUserModel(newUser: any, role: string) {
+  let savedUser;
+  switch (role) {
+    case "patient":
+      savedUser = await new Patient(newUser).save();
+      return savedUser;
+    case "receptionist":
+      savedUser = await new Receptionist(newUser).save();
+      return savedUser;
+    case "doctor":
+      savedUser = await new Doctor(newUser).save();
+      return savedUser;
+    case "hospital":
+      savedUser = await new Hospital(newUser).save();
+      return savedUser;
+    default:
+      return null;
+  }
+}
+
+// retrieves existing user based on the provided email and role
+export async function getExistingUser(
+  email: string,
+  username: string,
+  role: string
+) {
   const projection = {
     _id: 0,
     email: 1,
@@ -155,13 +189,41 @@ export async function getUserModel(email: string, role: string) {
     lastname: 1,
     password: 1,
   };
+
+  let existingUser;
   switch (role) {
     case "patient":
-      return await Patient.findOne({ email }, projection);
-    case "hospital":
-      return await Hospital.findOne({ email }, projection);
+      existingUser = await Patient.findOne(
+        {
+          $or: [{ email }, { username }],
+        },
+        projection
+      );
+      return existingUser;
     case "receptionist":
-      return await Receptionist.findOne({ email }, projection);
+      existingUser = await Receptionist.findOne(
+        {
+          $or: [{ email }, { username }],
+        },
+        projection
+      );
+      return existingUser;
+    case "doctor":
+      existingUser = await Doctor.findOne(
+        {
+          $or: [{ email }, { username }],
+        },
+        projection
+      );
+      return existingUser;
+    case "hospital":
+      existingUser = await Hospital.findOne(
+        {
+          $or: [{ email }, { username }],
+        },
+        projection
+      );
+      return existingUser;
     default:
       return null;
   }

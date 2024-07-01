@@ -1,6 +1,7 @@
-import { setSession } from "@/app/lib/sessions/sessionUtils";
-import dbConfig from "@/app/lib/db";
-import logUserActivity from "@/app/lib/logs";
+import { setSession } from "@sessions/sessionUtils";
+import dbConfig from "@utils/db";
+import logUserActivity from "@lib/logs";
+import { Doctor, Hospital, Patient, Receptionist } from "@models/index";
 
 type bodyType = {
   email: string;
@@ -9,7 +10,7 @@ type bodyType = {
   action: string;
 };
 
-const allowedRoles = ["patient", "hospital", "doctor", "receptionist"];
+const allowedRoles = ["patient", "receptionist", "doctor", "hospital"];
 
 export async function POST(req: Request) {
   try {
@@ -33,33 +34,22 @@ export async function POST(req: Request) {
   }
 }
 async function checkOTP(body: bodyType, req: Request) {
-  const db = await dbConfig();
+  await dbConfig();
 
-  const collection = db.collection(body.role);
-  const email = body.email;
-
-  const projection = {
-    _id: 0,
-    username: 1,
-    firstname: 1,
-    lastname: 1,
-    otp: 1,
-  };
-
-  const user = await collection.findOne({ email }, { projection });
+  const user = await getUserModel(body.email, body.role);
 
   if (!user || user.otp !== body.otp)
     return Response.json({ error: "OTP Verification Failed" });
 
-  await collection.updateOne({ email }, { $set: { otp: "" } });
+  await user.updateOne({ email: body.email }, { $set: { otp: "" } });
 
-  // setting session for user (stores jwt token in cookies named session)
-  await setSession(email, body.role);
+  // setting session for user (stores jwt token in cookie named session)
+  await setSession(body.email, body.role);
 
   const userlog = {
     username: user.username,
     name: `${user.firstname} ${user.lastname}`,
-    email,
+    email: body.email,
     role: body.role,
     action: body.action,
   };
@@ -68,4 +58,27 @@ async function checkOTP(body: bodyType, req: Request) {
   await logUserActivity(userlog, req);
 
   return Response.json({ message: "ok" }, { status: 200 });
+}
+
+// retrieves a user from the database based on email and role
+export async function getUserModel(email: string, role: string) {
+  const projection = {
+    _id: 0,
+    username: 1,
+    firstname: 1,
+    lastname: 1,
+    otp: 1,
+  };
+  switch (role) {
+    case "patient":
+      return await Patient.findOne({ email }, projection);
+    case "receptionist":
+      return await Receptionist.findOne({ email }, projection);
+    case "doctor":
+      return await Doctor.findOne({ email }, projection);
+    case "hospital":
+      return await Hospital.findOne({ email }, projection);
+    default:
+      return null;
+  }
 }
