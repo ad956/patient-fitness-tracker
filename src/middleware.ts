@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { decrypt, updateSession } from "@sessions/sessionUtils";
+import { decrypt, updateSession } from "@/app/lib/sessions/sessionUtils";
 
 const PublicRoutes = ["/", "/login", "/signup"];
 const PrivateRoutes = [
