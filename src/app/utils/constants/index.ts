@@ -66,7 +66,6 @@ const commonadditionalDetails = {
     zip_code: "",
   },
   current_hospital: "",
-  notifications: [],
 };
 
 const patientadditionalDetails = {
@@ -88,8 +87,8 @@ const patientadditionalDetails = {
 };
 
 const hospitaladditionalDetails = {
-  contact: "",
   otp: "",
+  contact: "",
   profile: "",
   address: {
     address_line_1: "",
@@ -102,7 +101,6 @@ const hospitaladditionalDetails = {
   patients: [],
   doctors: [],
   receptionists: [],
-  notifications: [],
 };
 
 const doctoradditionalDetails = {
