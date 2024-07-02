@@ -5,14 +5,13 @@ import {
   ModalBody,
   ModalContent,
   Image,
-  useDisclosure,
   Input,
   Button,
 } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 import React, { useRef, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
-import verifyOtp from "@/app/lib/verifyOtp";
+import verifyOtp from "@lib/verifyOtp";
 
 type userDataType = {
   userData: {
