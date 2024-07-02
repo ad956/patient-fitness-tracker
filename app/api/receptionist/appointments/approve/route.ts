@@ -1,5 +1,5 @@
-import dbConfig from "@/app/utils/db";
-import { decrypt } from "@/app/lib/sessions/sessionUtils";
+import dbConfig from "@utils/db";
+import { decrypt } from "@sessions/sessionUtils";
 import { ObjectId } from "mongodb";
 
 export async function GET(request: Request) {

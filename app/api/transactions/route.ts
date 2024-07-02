@@ -1,5 +1,5 @@
-import dbConfig from "@/app/utils/db";
-import { Transaction } from "@/types";
+import dbConfig from "@utils/db";
+import { Transaction } from "@types";
 import { ObjectId } from "mongodb";
 
 // saving transaction details in db

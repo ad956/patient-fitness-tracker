@@ -1,5 +1,5 @@
-import dbConfig from "@/app/utils/db";
-import { decrypt } from "@/app/lib/sessions/sessionUtils";
+import dbConfig from "@utils/db";
+import { decrypt } from "@sessions/sessionUtils";
 
 export async function PUT(request: Request) {
   //   const session = request.headers.get("Authorization");

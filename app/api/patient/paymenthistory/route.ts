@@ -1,6 +1,6 @@
 import { ObjectId } from "mongodb";
-import dbConfig from "@/app/utils/db";
-import { decrypt } from "@/app/lib/sessions/sessionUtils";
+import dbConfig from "@utils/db";
+import { decrypt } from "@sessions/sessionUtils";
 
 interface Transaction {
   _id: ObjectId;

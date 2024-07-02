@@ -1,6 +1,6 @@
-import dbConfig from "@/app/utils/db";
+import dbConfig from "@utils/db";
 import { ObjectId } from "mongodb";
-import { decrypt } from "@/app/lib/sessions/sessionUtils";
+import { decrypt } from "@sessions/sessionUtils";
 
 export async function POST(req: Request) {
   const session = req.headers.get("Authorization");

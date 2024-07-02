@@ -1,6 +1,6 @@
-import { User } from "@/types";
-import dbConfig from "@/app/utils/db";
-import { decrypt } from "@/app/lib/sessions/sessionUtils";
+import { User } from "@types";
+import dbConfig from "@utils/db";
+import { decrypt } from "@sessions/sessionUtils";
 
 type UpdatedUserType = Omit<User, "_id">;
 

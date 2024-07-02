@@ -1,4 +1,4 @@
-import dbConfig from "@/app/utils/db";
+import dbConfig from "@utils/db";
 
 export async function GET() {
   try {

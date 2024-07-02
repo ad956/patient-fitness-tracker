@@ -1,4 +1,4 @@
-import dbConfig from "@/app/utils/db";
+import dbConfig from "@utils/db";
 import { ObjectId } from "mongodb";
 
 export async function POST(req: Request) {
