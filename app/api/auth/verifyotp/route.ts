@@ -59,9 +59,8 @@ async function checkOTP(body: bodyType, req: Request) {
 
   return Response.json({ message: "ok" }, { status: 200 });
 }
-
 // retrieves a user from the database based on email and role
-export async function getUserModel(email: string, role: string) {
+async function getUserModel(email: string, role: string) {
   const projection = {
     _id: 0,
     username: 1,
