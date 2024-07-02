@@ -7,6 +7,7 @@ import { render } from "@react-email/render";
 import { AppointmentBookedTemplate } from "@lib/emails/templates";
 import { getFormattedDate } from "@utils/getDate";
 import sendNotification from "@lib/novu";
+import { Patient, BookedAppointment, Doctor } from "@models/index";
 
 type BookingAppointmentType = bookingAppointment & {
   transaction_id: string | null;
@@ -24,9 +25,8 @@ export async function GET(request: Request) {
     const decryptedUser = await decrypt(token);
     const email = decryptedUser.user.email;
 
-    const db = await dbConfig();
-    const patient_collection = db.collection("patient");
-    const patient = await patient_collection.findOne({ email });
+    await dbConfig();
+    const patient = await Patient.findOne({ email });
 
     if (!patient) {
       return new Response(JSON.stringify({ error: "Patient not found" }), {
@@ -34,42 +34,35 @@ export async function GET(request: Request) {
       });
     }
 
-    const bookedAppointments_collection = db.collection("bookedAppointments");
-    const appointmentsCursor = bookedAppointments_collection.find({
+    let appointments = await BookedAppointment.find({
       patient_id: patient._id,
       approved: "approved",
     });
 
-    const appointments = await appointmentsCursor.toArray(); // convert cursor to array
-
-    const projection = {
-      _id: 1,
-      firstname: 1,
-      lastname: 1,
-      specialty: 1,
-      profile: 1,
-    };
     const doctorIds = appointments.map((appointment) => appointment.doctor_id);
-    const doctor_collection = db.collection("doctor");
-    const doctors = await doctor_collection
-      .find({ _id: { $in: doctorIds } }, { projection })
-      .toArray();
 
-    appointments.forEach((appointment) => {
+    const doctors = await Doctor.find(
+      { _id: { $in: doctorIds } },
+      { firstname: 1, lastname: 1, specialty: 1, profile: 1 }
+    );
+
+    const updatedAppointments = appointments.map((appointment) => {
+      const appointmentObj = appointment.toObject();
       const doctor = doctors.find(
-        (doc) => doc._id.toString() === appointment.doctor_id.toString()
+        (doc) => doc._id.toString() === appointmentObj.doctor_id.toString()
       );
 
       if (doctor) {
-        appointment.doctor = {
+        appointmentObj.doctor = {
           name: `${doctor.firstname} ${doctor.lastname}`,
           profile: doctor.profile,
           specialty: doctor.specialty,
         };
       }
+      return appointmentObj;
     });
 
-    return new Response(JSON.stringify(appointments), {
+    return new Response(JSON.stringify(updatedAppointments), {
       status: 200,
     });
   } catch (error) {
@@ -103,15 +96,14 @@ export async function POST(req: Request) {
     const decryptedUser = await decrypt(token);
     const email = decryptedUser.user.email;
 
-    const db = await dbConfig();
-    const patient_collection = db.collection("patient");
-    const appointment_collection = db.collection("bookedAppointments");
+    await dbConfig();
 
-    const patient = await patient_collection.findOne({ email });
+    const patient = await Patient.findOne({ email });
 
     if (!patient) {
       return Response.json({ error: "Patient not found" }, { status: 404 });
     }
+    console.log("=> " + hospital.hospital_id);
 
     const appointmentData = {
       date,
@@ -129,7 +121,7 @@ export async function POST(req: Request) {
       receptionist_id: null,
     };
 
-    const res = await appointment_collection.insertOne(appointmentData);
+    const res = await BookedAppointment.create(appointmentData);
 
     if (!res)
       return Response.json({

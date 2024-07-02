@@ -1,5 +1,6 @@
 import dbConfig from "@utils/db";
 import { decrypt } from "@sessions/sessionUtils";
+import Patient from "@models/patient";
 
 export async function GET(request: Request) {
   const session = request.headers.get("Authorization");
@@ -12,18 +13,16 @@ export async function GET(request: Request) {
     const decryptedUser = await decrypt(token);
     const email = decryptedUser.user.email;
 
-    const db = await dbConfig();
-    const collection = db.collection("patient");
+    await dbConfig();
 
     const projection = {
       role: 0,
       otp: 0,
       password: 0,
       current_hospital: 0,
-      notifications: 0,
     };
 
-    const patientData = await collection.findOne({ email }, { projection });
+    const patientData = await Patient.findOne({ email }, { projection });
 
     if (!patientData) {
       return Response.json({ error: "Patient not found" }, { status: 404 });

@@ -18,7 +18,8 @@ export async function POST(req: Request) {
 
     if (!body || !body.email || !body.role || !body.action || !body.otp) {
       return Response.json({
-        error: "Email, OTP, and role are required fields in the request body.",
+        error:
+          "Email, OTP, action and role are required fields in the request body.",
       });
     }
 

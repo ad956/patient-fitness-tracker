@@ -1,6 +1,7 @@
 import dbConfig from "@utils/db";
 import { ObjectId } from "mongodb";
 import { decrypt } from "@sessions/sessionUtils";
+import { Patient, BookedAppointment } from "@models/index";
 
 export async function POST(req: Request) {
   const session = req.headers.get("Authorization");
@@ -15,18 +16,16 @@ export async function POST(req: Request) {
     const decryptedUser = await decrypt(token);
     const email = decryptedUser.user.email;
 
-    const db = await dbConfig();
-    const patient_collection = db.collection("patient");
-    const appointment_collection = db.collection("bookedAppointments");
+    await dbConfig();
 
-    const patient = await patient_collection.findOne({ email });
+    const patient = await Patient.findOne({ email });
 
     if (!patient) {
       return Response.json({ error: "Patient not found" }, { status: 404 });
     }
 
     // Checking if a pending appointment request exists with the hospital
-    const alreadyBookedAppointment = await appointment_collection.findOne({
+    const alreadyBookedAppointment = await BookedAppointment.findOne({
       patient_id: patient._id,
       "hospital.id": new ObjectId(hospital_id),
       approved: "pending",

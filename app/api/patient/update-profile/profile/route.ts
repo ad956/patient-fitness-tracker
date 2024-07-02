@@ -1,5 +1,6 @@
 import dbConfig from "@utils/db";
 import { decrypt } from "@sessions/sessionUtils";
+import Patient from "@models/patient";
 
 export async function PUT(request: Request) {
   //   const session = request.headers.get("Authorization");
@@ -14,10 +15,9 @@ export async function PUT(request: Request) {
     // const decryptedUser = await decrypt(token);
     const patient_email = "anandsuthar956@gmail.com"; //decryptedUser.user.email;
 
-    const db = await dbConfig();
-    const collection = db.collection("patient");
+    await dbConfig();
 
-    const result = await collection.updateOne(
+    const result = await Patient.updateOne(
       { email: patient_email },
       { $set: { profile: profile_pic } }
     );

@@ -1,6 +1,7 @@
 import { User } from "@types";
 import dbConfig from "@utils/db";
 import { decrypt } from "@sessions/sessionUtils";
+import Patient from "@models/patient";
 
 type UpdatedUserType = Omit<User, "_id">;
 
@@ -27,8 +28,7 @@ export async function PUT(request: Request) {
     const decryptedUser = await decrypt(token);
     const patient_email = decryptedUser.user.email;
 
-    const db = await dbConfig();
-    const collection = db.collection("patient");
+    await dbConfig();
 
     const updatedFields: UpdatedUserType = {
       firstname: "",
@@ -54,7 +54,7 @@ export async function PUT(request: Request) {
     // if (password) updatedFields.password = password;
     if (profile) updatedFields.profile = profile;
 
-    const result = await collection.updateOne(
+    const result = await Patient.updateOne(
       { email: patient_email },
       { $set: updatedFields }
     );
