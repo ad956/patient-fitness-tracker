@@ -1,4 +1,4 @@
-import dbConfig from "@utils/db";
+import { Patient, Doctor, MedicalHistory, Hospital } from "@models/index";
 import { decrypt } from "@sessions/sessionUtils";
 
 export async function GET(request: Request) {
@@ -11,54 +11,34 @@ export async function GET(request: Request) {
     const decryptedUser = await decrypt(token);
     const email = decryptedUser.user.email;
 
-    const db = await dbConfig();
-    const collection = db.collection("patient");
-
-    const projection = { _id: 1 };
-    const patient = await collection.findOne({ email }, { projection });
-
+    const patient = await Patient.findOne({ email }, { _id: 1 }).exec();
     if (!patient) {
       return Response.json({ error: "Patient not found" }, { status: 404 });
     }
 
-    const medicalHistoryCollection = db.collection("medicalhistory");
+    const medicalHistory = await MedicalHistory.find(
+      { patient: patient._id },
+      {
+        hospital: 1,
+        doctor: 1,
+        start_date: 1,
+        end_date: 1,
+        TreatmentStatus: 1,
+        disease: 1,
+      }
+    )
+      .populate("hospital", ["firstname", "lastname", "profile"])
+      .populate("doctor", ["firstname", "lastname", "profile"])
+      .exec();
 
-    const medicalHistory = await medicalHistoryCollection
-      .find({ patient: patient._id })
-      .toArray();
-
-    const _projection = { _id: 0, firstname: 1, lastname: 1, profile: 1 };
-    const hospitalCollection = db.collection("hospital");
-    const doctorCollection = db.collection("doctor");
-
-    const hospitalsPromise = medicalHistory.map(async (history) => {
-      const hospital = await hospitalCollection.findOne(
-        { _id: history.hospital },
-        { projection: history._projection }
-      );
-      return hospital;
-    });
-
-    const doctorsPromise = medicalHistory.map(async (history) => {
-      const doctor = await doctorCollection.findOne(
-        { _id: history.doctor },
-        { projection: history._projection }
-      );
-      return doctor;
-    });
-
-    const hospitals = await Promise.all(hospitalsPromise);
-    const doctors = await Promise.all(doctorsPromise);
-
-    // Format medical history data according to MedicalHistoryType interface
-    const formattedMedicalHistory = medicalHistory.map((history, index) => ({
+    const formattedMedicalHistory = medicalHistory.map((history) => ({
       hospital: {
-        name: hospitals[index]?.firstname + " " + hospitals[index]?.lastname,
-        profile: hospitals[index]?.profile,
+        name: `${history.hospital.firstname} ${history.hospital.lastname}`,
+        profile: history.hospital.profile,
       },
       doctor: {
-        name: doctors[index]?.firstname + " " + doctors[index]?.lastname,
-        profile: doctors[index]?.profile,
+        name: `${history.doctor.firstname} ${history.doctor.lastname}`,
+        profile: history.doctor.profile,
       },
       start_date: history.start_date,
       end_date: history.end_date,
@@ -69,6 +49,9 @@ export async function GET(request: Request) {
     return Response.json(formattedMedicalHistory);
   } catch (error) {
     console.error("Error fetching medical history of patient : ", error);
-    return Response.json({ error: "Internal Server Error" }, { status: 500 });
+    return Response.json(
+      { error: "Failed to fetch medical history" },
+      { status: 500 }
+    );
   }
 }
