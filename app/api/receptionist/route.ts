@@ -1,5 +1,6 @@
 import dbConfig from "@utils/db";
 import { decrypt } from "@sessions/sessionUtils";
+import Receptionist from "@models/receptionist";
 
 export async function GET(request: Request) {
   const session = request.headers.get("Authorization");
@@ -9,13 +10,10 @@ export async function GET(request: Request) {
 
   try {
     const token = session.split("Bearer ")[1];
-
     const decryptedUser = await decrypt(token);
-
     const email = decryptedUser.user.email;
 
-    const db = await dbConfig();
-    const collection = db.collection("receptionist");
+    await dbConfig();
 
     const projection = {
       _id: 1,
@@ -29,7 +27,7 @@ export async function GET(request: Request) {
       dailyCount: 1,
     };
 
-    const receptionistData = await collection.findOne(
+    const receptionistData = await Receptionist.findOne(
       { email },
       { projection }
     );

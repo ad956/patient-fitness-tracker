@@ -1,5 +1,6 @@
 import dbConfig from "@utils/db";
 import { ObjectId } from "mongodb";
+import { BookedAppointment, Patient, Receptionist } from "@models/index";
 
 export async function POST(req: Request) {
   try {
@@ -7,12 +8,11 @@ export async function POST(req: Request) {
 
     console.log(email);
 
-    const db = await dbConfig();
-    const patientCollection = db.collection("patient");
-    const bookedAppointmentCollection = db.collection("bookedAppointments");
+    await dbConfig();
+
     // const waitingCollection = db.collection("waiting");
 
-    const patient = await patientCollection.findOne({ email });
+    const patient = await Patient.findOne({ email });
 
     if (!patient) {
       return new Response(JSON.stringify({ error: "Patient not found" }), {
@@ -20,13 +20,13 @@ export async function POST(req: Request) {
       });
     }
 
-    const appointment = await bookedAppointmentCollection.findOne({
+    const appointment = await BookedAppointment.findOne({
       patient_id: new ObjectId(patient._id),
       approved: "pending",
     });
 
     if (appointment) {
-      await bookedAppointmentCollection.updateOne(
+      await BookedAppointment.updateOne(
         { _id: appointment._id },
         { $set: { approved: "approved" } }
       );
@@ -42,7 +42,6 @@ export async function POST(req: Request) {
     );
   } catch (error) {
     console.error("Error scanning patient qr code:", error);
-    // Return an error response
     return new Response(JSON.stringify({ error: "Internal Server Error" }), {
       status: 500,
     });

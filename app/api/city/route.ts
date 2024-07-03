@@ -1,5 +1,5 @@
 import dbConfig from "@utils/db";
-import StateDocument from "@models/citystate_hospitals";
+import CityStateHospital from "@models/citystate_hospitals";
 
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
@@ -10,7 +10,7 @@ export async function GET(req: Request) {
     }
 
     await dbConfig();
-    const stateDocument = await StateDocument.findOne({
+    const stateDocument = await CityStateHospital.findOne({
       [state]: { $exists: true },
     });
 

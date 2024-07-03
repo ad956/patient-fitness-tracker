@@ -1,6 +1,7 @@
 import dbConfig from "@utils/db";
-import { Transaction } from "@types";
+import { Transaction as TransactionType } from "@types";
 import { ObjectId } from "mongodb";
+import Transaction from "@models/transaction";
 
 // saving transaction details in db
 export async function POST(req: Request) {
@@ -19,10 +20,9 @@ export async function POST(req: Request) {
       description,
       amount,
       status,
-    }: Transaction = await req.json();
+    }: TransactionType = await req.json();
 
-    const db = await dbConfig();
-    const transaction_collection = db.collection("transactions");
+    await dbConfig();
 
     const transactionData = {
       transaction_id,
@@ -35,7 +35,7 @@ export async function POST(req: Request) {
       status,
     };
 
-    const res = await transaction_collection.insertOne(transactionData);
+    const res = await Transaction.create(transactionData);
 
     if (!res)
       return Response.json({

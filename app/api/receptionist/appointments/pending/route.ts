@@ -1,5 +1,6 @@
 import dbConfig from "@utils/db";
 import { decrypt } from "@sessions/sessionUtils";
+import { Patient, BookedAppointment, Receptionist } from "@models/index";
 
 export async function GET(request: Request) {
   const session = request.headers.get("Authorization");
@@ -14,18 +15,11 @@ export async function GET(request: Request) {
     const decryptedUser = await decrypt(token);
     const email = decryptedUser.user.email;
 
-    const db = await dbConfig();
-    const receptionistCollection = db.collection("receptionist");
-    const bookedAppointmentsCollection = db.collection("bookedAppointments");
-    const patientCollection = db.collection("patient");
+    await dbConfig();
 
-    const projection = {
-      _id: 0,
-      current_hospital: 1,
-    };
-    const currentHospitalResult = await receptionistCollection.findOne(
+    const currentHospitalResult = await Receptionist.findOne(
       { email },
-      { projection }
+      { current_hospital: 1 }
     );
     if (!currentHospitalResult) {
       return new Response(
@@ -35,11 +29,12 @@ export async function GET(request: Request) {
     }
     const currentHospitalId = currentHospitalResult.current_hospital;
 
-    const pendingAppointments = await bookedAppointmentsCollection
-      .find({ approved: "pending", "hospital.id": currentHospitalId })
-      .toArray();
+    const pendingAppointments = await BookedAppointment.find({
+      approved: "pending",
+      "hospital.id": currentHospitalId,
+    });
 
-    //  empty array returned, If appointments are not found
+    // Empty array returned if appointments are not found
     if (pendingAppointments.length === 0) {
       return new Response(JSON.stringify({ patientDetails: [] }), {
         status: 200,
@@ -50,19 +45,19 @@ export async function GET(request: Request) {
       (appointment) => appointment.patient_id
     );
 
-    const projection_patient = {
-      firstname: 1,
-      lastname: 1,
-      email: 1,
-      dob: 1,
-      gender: 1,
-      contact: 1,
-      profile: 1,
-      address: 1,
-    };
-    const patientDetails = await patientCollection
-      .find({ _id: { $in: patientIds } }, { projection: projection_patient })
-      .toArray();
+    const patientDetails = await Patient.find(
+      { _id: { $in: patientIds } },
+      {
+        firstname: 1,
+        lastname: 1,
+        email: 1,
+        dob: 1,
+        gender: 1,
+        contact: 1,
+        profile: 1,
+        address: 1,
+      }
+    );
 
     // Adding disease, note, date, and timing to each patient detail
     const patientDetailsWithAdditionalInfo = patientDetails.map((patient) => {
@@ -72,14 +67,14 @@ export async function GET(request: Request) {
       );
       if (appointment) {
         return {
-          ...patient,
+          ...patient.toObject(),
           disease: appointment.disease,
           note: appointment.note,
           date: appointment.date,
           timing: appointment.timing,
         };
       }
-      return patient;
+      return patient.toObject();
     });
 
     return new Response(

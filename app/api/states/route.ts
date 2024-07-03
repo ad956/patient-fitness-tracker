@@ -1,20 +1,19 @@
+import CityStateHospital from "@models/citystate_hospitals";
 import dbConfig from "@utils/db";
 
 export async function GET(req: Request) {
   try {
-    const db = await dbConfig();
-    const collection = db.collection("citystate_hospitals");
+    await dbConfig();
 
-    const projection = { _id: 0 };
-    const cursor = await collection.find({}, { projection });
+    const statesArray = await CityStateHospital.find({}, { _id: 0 });
 
-    const states = await cursor.toArray();
-
-    if (!states || states.length === 0) {
+    if (!statesArray || statesArray.length === 0) {
       return new Response("States not found", { status: 404 });
     }
 
-    const stateNames = states.map((state) => Object.keys(state)[0]);
+    const stateNames = statesArray
+      .flatMap((state) => Object.keys(state.toObject()))
+      .filter((key) => key !== "cities");
 
     return new Response(JSON.stringify(stateNames), { status: 200 });
   } catch (error) {
