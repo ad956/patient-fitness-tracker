@@ -10,8 +10,8 @@ interface CityDocument extends mongoose.Document {
   name: string;
   hospitals: HospitalDocument[];
 }
-
-interface StateDocument extends mongoose.Document {
+// StateDocument
+interface CityStateHospital extends mongoose.Document {
   name: string;
   cities: CityDocument[];
 }
@@ -27,7 +27,7 @@ const citySchema = new mongoose.Schema<CityDocument>({
   hospitals: [hospitalSchema],
 });
 
-const stateSchema = new mongoose.Schema<StateDocument>(
+const stateSchema = new mongoose.Schema<CityStateHospital>(
   {
     name: { type: String, required: true },
     cities: [citySchema],
@@ -37,5 +37,5 @@ const stateSchema = new mongoose.Schema<StateDocument>(
   }
 );
 
-export default mongoose.models.StateDocument ||
-  mongoose.model<StateDocument>("StateDocument", stateSchema);
+export default mongoose.models.CityStateHospital ||
+  mongoose.model<CityStateHospital>("CityStateHospital", stateSchema);

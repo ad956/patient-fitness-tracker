@@ -2,11 +2,11 @@ import BookedAppointment from "./bookedAppointment";
 import CommonDiseases from "./commonDisease";
 import Doctor from "./doctor";
 import Hospital from "./hospital";
-// import MedicalHistory from "./MedicalHistory";
+import MedicalHistory from "./medicalHistory";
 import CityStateHospital from "./citystate_hospitals";
 import Patient from "./patient";
 import Receptionist from "./receptionist";
-// import Transaction from "./Transaction";
+import Transaction from "./transaction";
 import UserLog from "./userLog";
 
 export {
@@ -15,9 +15,9 @@ export {
   Doctor,
   Hospital,
   CityStateHospital,
-  // MedicalHistory,
+  MedicalHistory,
   Patient,
   Receptionist,
-  // Transaction,
+  Transaction,
   UserLog,
 };
