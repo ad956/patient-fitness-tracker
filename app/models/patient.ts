@@ -67,7 +67,7 @@ const patientSchema = new mongoose.Schema(
     password: { type: String, required: true },
     role: { type: String, required: true, default: "patient" },
     otp: String,
-    dob: { type: Date, required: false },
+    dob: { type: String, required: false },
     gender: {
       type: String,
       required: false,
