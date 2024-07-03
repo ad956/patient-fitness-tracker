@@ -1,4 +1,5 @@
 import dbConfig from "@utils/db";
+import StateDocument from "@models/citystate_hospitals";
 
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
@@ -8,20 +9,19 @@ export async function GET(req: Request) {
       return new Response("State parameter is missing", { status: 400 });
     }
 
-    const db = await dbConfig();
-    const collection = db.collection("citystate_hospitals");
-
-    const stateHospitals = await collection.findOne({
+    await dbConfig();
+    const stateDocument = await StateDocument.findOne({
       [state]: { $exists: true },
     });
 
-    if (!stateHospitals) {
+    if (!stateDocument) {
       return new Response("State not found", { status: 404 });
     }
 
-    const cities: string[] = Object.keys(stateHospitals[state]);
+    // Get the cities for the given state
+    const cities = Object.keys(stateDocument.get(state));
 
-    if (!cities) {
+    if (cities.length === 0) {
       return Response.json(cities, { status: 404 });
     }
 
