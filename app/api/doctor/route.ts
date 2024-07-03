@@ -1,4 +1,5 @@
 import dbConfig from "@utils/db";
+import Doctor from "@models/doctor";
 
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
@@ -10,9 +11,9 @@ export async function GET(req: Request) {
       });
     }
 
-    const db = await dbConfig();
-    const doctor_collection = db.collection("doctor");
-    const doctor = await doctor_collection.findOne({ email });
+    await dbConfig();
+
+    const doctor = await Doctor.findOne({ email });
 
     if (!doctor) {
       return new Response(JSON.stringify({ error: "doctor not found" }), {
