@@ -1,7 +1,7 @@
 import dbConfig from "@utils/db";
 import { decrypt } from "@sessions/sessionUtils";
 import { Patient, BookedAppointment } from "@models/index";
-import { Type } from "mongoose";
+import { Types } from "mongoose";
 
 export async function POST(req: Request) {
   const session = req.headers.get("Authorization");
