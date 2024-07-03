@@ -50,10 +50,9 @@ async function setOTP(loginBody: LoginBody) {
   }
 
   const generatedOTP = generateSecureOTP();
-  await user.updateOne(
-    { email: loginBody.email },
-    { $set: { otp: generatedOTP } }
-  );
+
+  user.otp = generatedOTP;
+  await user.save();
 
   const mailsent = await sendEmail({
     to: user.email,
@@ -72,7 +71,7 @@ async function setOTP(loginBody: LoginBody) {
 // retrieves a user from the database based on email and role
 async function getUserModel(email: string, role: string) {
   const projection = {
-    _id: 0,
+    _id: 1,
     email: 1,
     firstname: 1,
     lastname: 1,
