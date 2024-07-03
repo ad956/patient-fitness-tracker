@@ -27,7 +27,9 @@ const CustomBellIcon = ({
   return (
     <CiBellOn
       size={25}
-      color={unseenCount > 0 ? "red" : "black"}
+      className={`cursor-pointer relative ${
+        unseenCount > 0 ? "animate-bounce text-danger-800" : ""
+      }`}
       style={{
         cursor: "pointer",
       }}

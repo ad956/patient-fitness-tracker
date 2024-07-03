@@ -32,8 +32,8 @@ export default async function Headbar({ user, role }: HeadbarProps) {
         >
           <GoPlus size={20} />
         </Button>
-
         <Notifications userId={user._id} />
+        <Divider orientation="vertical" className="h-8" />
 
         <User
           name={user.firstname}
@@ -48,6 +48,7 @@ export default async function Headbar({ user, role }: HeadbarProps) {
             >{`@${user.username}`}</Link>
           }
         />
+        <Divider orientation="vertical" className="h-8" />
 
         <form action={logoutAction} className="">
           <Button size="sm" type="submit" isIconOnly className="bg-transparent">
