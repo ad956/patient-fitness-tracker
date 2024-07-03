@@ -1,7 +1,7 @@
 import dbConfig from "@utils/db";
-import { ObjectId } from "mongodb";
 import { decrypt } from "@sessions/sessionUtils";
 import { Patient, BookedAppointment } from "@models/index";
+import { Type } from "mongoose";
 
 export async function POST(req: Request) {
   const session = req.headers.get("Authorization");
@@ -27,7 +27,7 @@ export async function POST(req: Request) {
     // Checking if a pending appointment request exists with the hospital
     const alreadyBookedAppointment = await BookedAppointment.findOne({
       patient_id: patient._id,
-      "hospital.id": new ObjectId(hospital_id),
+      "hospital.id": new Types.ObjectId(hospital_id),
       approved: "pending",
     });
 

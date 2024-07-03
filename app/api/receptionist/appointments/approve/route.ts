@@ -1,7 +1,7 @@
 import dbConfig from "@utils/db";
 import { decrypt } from "@sessions/sessionUtils";
-import { ObjectId } from "mongodb";
 import { BookedAppointment, Receptionist } from "@models/index";
+import { Types } from "mongoose";
 
 // get approved appointments
 export async function GET(request: Request) {
@@ -36,7 +36,7 @@ export async function GET(request: Request) {
     }
 
     // Convert the patient_id string to an ObjectId
-    const patientObjectId = new ObjectId(patient_id);
+    const patientObjectId = new Types.ObjectId(patient_id);
 
     await dbConfig();
 

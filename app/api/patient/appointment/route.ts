@@ -1,7 +1,7 @@
 import dbConfig from "@utils/db";
 import { bookingAppointment } from "@types";
 import { decrypt } from "@sessions/sessionUtils";
-import { ObjectId } from "mongodb";
+import { Types } from "mongoose";
 import sendEmail from "@lib/sendemail";
 import { render } from "@react-email/render";
 import { AppointmentBookedTemplate } from "@lib/emails/templates";
@@ -110,7 +110,7 @@ export async function POST(req: Request) {
       state,
       city,
       hospital: {
-        id: new ObjectId(hospital.hospital_id),
+        id: new Types.ObjectId(hospital.hospital_id),
         name: hospital.hospital_name,
       },
       disease,

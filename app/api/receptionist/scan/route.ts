@@ -1,6 +1,6 @@
 import dbConfig from "@utils/db";
-import { ObjectId } from "mongodb";
 import { BookedAppointment, Patient, Receptionist } from "@models/index";
+import { Types } from "mongoose";
 
 export async function POST(req: Request) {
   try {
@@ -21,7 +21,7 @@ export async function POST(req: Request) {
     }
 
     const appointment = await BookedAppointment.findOne({
-      patient_id: new ObjectId(patient._id),
+      patient_id: new Types.ObjectId(patient._id),
       approved: "pending",
     });
 

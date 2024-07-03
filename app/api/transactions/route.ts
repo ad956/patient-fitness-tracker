@@ -1,7 +1,7 @@
 import dbConfig from "@utils/db";
 import { Transaction as TransactionType } from "@types";
-import { ObjectId } from "mongodb";
 import Transaction from "@models/transaction";
+import { Types } from "mongoose";
 
 // saving transaction details in db
 export async function POST(req: Request) {
@@ -27,8 +27,8 @@ export async function POST(req: Request) {
     const transactionData = {
       transaction_id,
       timestamp,
-      patient: new ObjectId(patient_id),
-      hospital: new ObjectId(hospital_id),
+      patient: new Types.ObjectId(patient_id),
+      hospital: new Types.ObjectId(hospital_id),
       disease,
       description,
       amount,

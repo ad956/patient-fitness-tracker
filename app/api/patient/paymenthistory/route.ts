@@ -1,4 +1,3 @@
-import { ObjectId } from "mongodb";
 import dbConfig from "@utils/db";
 import { decrypt } from "@sessions/sessionUtils";
 import { Patient, Hospital, Transaction } from "@models/index";
