@@ -6,7 +6,6 @@ export interface CommonDiseases extends mongoose.Document {
 
 const diseaseSchema = new mongoose.Schema(
   {
-    _id: { type: mongoose.Schema.Types.ObjectId, required: true },
     commonDiseases: [String],
   },
   {

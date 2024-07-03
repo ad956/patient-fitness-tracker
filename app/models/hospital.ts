@@ -27,7 +27,6 @@ export interface Hospital extends mongoose.Document {
 
 const hospitalSchema = new mongoose.Schema(
   {
-    _id: { type: mongoose.Schema.Types.ObjectId, required: true },
     firstname: {
       type: String,
       required: true,

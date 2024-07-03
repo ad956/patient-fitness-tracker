@@ -12,7 +12,6 @@ export interface MedicalHistory extends mongoose.Document {
 
 const medicalHistorySchema = new mongoose.Schema(
   {
-    _id: { type: mongoose.Schema.Types.ObjectId, required: true },
     hospital: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Hospital",

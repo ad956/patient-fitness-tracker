@@ -36,7 +36,6 @@ const addressSchema = new mongoose.Schema({
 
 const doctorSchema = new mongoose.Schema(
   {
-    _id: { type: mongoose.Schema.Types.ObjectId, required: true },
     firstname: {
       type: String,
       required: true,

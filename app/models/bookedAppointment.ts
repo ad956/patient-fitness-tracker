@@ -19,7 +19,6 @@ export interface BookedAppointment extends mongoose.Document {
 
 const bookedAppointmentsSchema = new mongoose.Schema(
   {
-    _id: { type: mongoose.Schema.Types.ObjectId, required: true },
     date: { type: Date, required: true },
     timing: { type: String, required: false },
     state: { type: String, required: true },
