@@ -1,5 +1,3 @@
-import React from "react";
-
 export default function Admin() {
-	return <div>Admin</div>;
+  return <section className="bg-[#f3f6fd] p-2 overflow-y-auto">Admin</section>;
 }

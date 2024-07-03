@@ -1,5 +1,5 @@
-import React from "react";
-
 export default function Hospital() {
-	return <div>Hospital</div>;
+  return (
+    <section className="bg-[#f3f6fd] p-2 overflow-y-auto">Hospital</section>
+  );
 }
