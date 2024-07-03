@@ -1,3 +1,4 @@
+import CityStateHospital from "@models/citystate_hospitals";
 import dbConfig from "@utils/db";
 
 export async function GET(req: Request) {
@@ -12,10 +13,9 @@ export async function GET(req: Request) {
       });
     }
 
-    const db = await dbConfig();
-    const collection = db.collection("citystate_hospitals");
+    await dbConfig();
 
-    const stateHospitals = await collection.findOne({
+    const stateHospitals = await CityStateHospital.findOne({
       [state]: { $exists: true },
     });
 
@@ -25,7 +25,7 @@ export async function GET(req: Request) {
       });
     }
 
-    const cityHospitals = stateHospitals[state][city];
+    const cityHospitals = stateHospitals.get(state)[city];
 
     if (!cityHospitals) {
       return new Response("No hospitals found in the specified city", {

@@ -1,11 +1,11 @@
+import CommonDiseases from "@models/commonDisease";
 import dbConfig from "@utils/db";
 
 export async function GET() {
   try {
-    const db = await dbConfig();
-    const collection = db.collection("commonDiseases");
+    await dbConfig();
 
-    const result = await collection.findOne();
+    const result = await CommonDiseases.findOne();
 
     if (!result) {
       return Response.json(
