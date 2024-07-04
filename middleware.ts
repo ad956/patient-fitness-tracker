@@ -7,7 +7,7 @@ const PrivateRoutes = [
   "/receptionist",
   "/doctor",
   "/hospital",
-  "/admin",
+  // "/admin",
 ];
 
 export async function middleware(request: NextRequest) {
