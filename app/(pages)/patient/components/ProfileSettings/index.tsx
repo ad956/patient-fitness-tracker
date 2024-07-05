@@ -336,9 +336,9 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
         <p className="font-semibold text-md">@{username}</p>
       </div>
 
-      <div className="mt-16 w-full flex justify-around">
-        <div className="w-2/5 flex flex-col border2 border-purple-500">
-          <div className="flex justify-between">
+      <div className="mt-16 w-full h-3/5 flex justify-around">
+        <div className="w-2/5 flex flex-col h-full">
+          <div className="flex justify-between mt-5">
             <p className="font-black tracking-wide text-lg">
               Personal Information
             </p>
@@ -349,68 +349,158 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
           <p className="text-gray-600 text-medium">
             Update your information about you and details here
           </p>
-          <div className="flex flex-col w-full gap-5">
-            <Input
-              name="firstname"
-              type="text"
-              variant="underlined"
-              label="First Name"
-              value={firstname}
-              className="max-w-xs"
-              onChange={handleFirstNameChange}
-              ref={firstNameRef}
-              onBlur={() => showToast(firstNameRef)}
-            />
-            <Input
-              name="username"
-              type="text"
-              variant="underlined"
-              label="Username"
-              autoComplete="username"
-              value={username}
-              className="max-w-xs"
-              onChange={handleUserNameChange}
-              ref={usernameRef}
-              onBlur={() => showToast(usernameRef)}
-            />
-            <Input
-              name="email"
-              type="email"
-              variant="underlined"
-              label="Email address"
-              value={email}
-              className="max-w-xs"
-              autoComplete="email"
-              onChange={handleEmailChange}
-              ref={emailRef}
-              onBlur={() => showToast(emailRef)}
-            />
+          <div className="flex flex-col w-full gap-5 mt-5">
+            <div className="flex gap-2">
+              <Input
+                name="firstname"
+                type="text"
+                variant="underlined"
+                label="First Name"
+                value={firstname}
+                className="max-w-xs"
+                onChange={handleFirstNameChange}
+                ref={firstNameRef}
+                onBlur={() => showToast(firstNameRef)}
+              />
+              <Input
+                name="lastname"
+                type="text"
+                variant="underlined"
+                label="Last Name"
+                value={lastname}
+                className="max-w-xs"
+                onChange={handleLastNameChange}
+                ref={lastNameRef}
+                onBlur={() => showToast(lastNameRef)}
+              />
+            </div>
+            <div className="flex gap-2">
+              <Input
+                name="username"
+                type="text"
+                variant="underlined"
+                label="Username"
+                autoComplete="username"
+                value={username}
+                className="max-w-xs"
+                onChange={handleUserNameChange}
+                ref={usernameRef}
+                onBlur={() => showToast(usernameRef)}
+              />
+              <Input
+                name="email"
+                type="email"
+                variant="underlined"
+                label="Email address"
+                value={email}
+                className="max-w-xs"
+                autoComplete="email"
+                onChange={handleEmailChange}
+                ref={emailRef}
+                onBlur={() => showToast(emailRef)}
+              />
+            </div>
 
-            <DatePicker
-              name="dob"
-              label="DOB"
-              variant="underlined"
-              className="max-w-xs"
-              value={dob}
-              onChange={(val) => setDob(val)}
-              showMonthAndYearPickers
-              isInvalid={isDateInvalid()}
-              errorMessage={(value) => {
-                if (value.isInvalid) {
-                  return "Please enter a valid date.";
-                }
-              }}
-            />
+            <div className="flex gap-2">
+              <Select
+                name="gender"
+                variant="underlined"
+                // label={gender}
+                label="Gender"
+                value={gender}
+                // selectedKeys={gender}
+                className="max-w-xs"
+                onChange={handleGenderChange}
+              >
+                {["Male", "Female", "Other"].map((item) => (
+                  <SelectItem key={item}>{item}</SelectItem>
+                ))}
+              </Select>
+              <DatePicker
+                name="dob"
+                label="DOB"
+                variant="underlined"
+                className="max-w-xs"
+                value={dob}
+                onChange={(val) => setDob(val)}
+                showMonthAndYearPickers
+                isInvalid={isDateInvalid()}
+                errorMessage={(value) => {
+                  if (value.isInvalid) {
+                    return "Please enter a valid date.";
+                  }
+                }}
+              />
+            </div>
           </div>
         </div>
-        <div className="w-2/5 flex flex-col border2 border-purple-500">
-          <div className="flex justify-between">
+        <div className="w-2/5 flex flex-col h-full">
+          <div className="flex justify-between mt-5">
             <p className="font-black tracking-wide text-lg">
-              Personal Information
+              Address Information
             </p>
+
             <Button size="sm" className="bg-transparent text-danger">
               Edit
             </Button>
+          </div>
+          <p className="text-gray-600 text-medium">
+            Update your information about you and details here
+          </p>
+
+          <div className="flex flex-col w-full gap-5 mt-5">
+            <div className="flex gap-2">
+              <Input
+                name="address_line1"
+                type="text"
+                variant="underlined"
+                label="Address Line 1"
+                value={address.address_line_1}
+                className="max-w-xs"
+              />
+              <Input
+                name="address_line2"
+                type="text"
+                variant="underlined"
+                label="Address Line 2"
+                value={address.address_line_2}
+                className="max-w-xs"
+              />
+              <Input
+                name="zipcode"
+                type="text"
+                variant="underlined"
+                label="Zip Code"
+                value={address.zip_code}
+                className="max-w-xs"
+              />
+            </div>
+            <div className="flex gap-2">
+              <Input
+                name="city"
+                type="text"
+                variant="underlined"
+                label="City"
+                value={address.city}
+                className="max-w-xs"
+              />
+              <Input
+                name="state"
+                type="text"
+                variant="underlined"
+                label="State"
+                value={address.state}
+                className="max-w-xs"
+              />
+              <Input
+                name="country"
+                type="text"
+                variant="underlined"
+                label="Country"
+                value={address.country}
+                className="max-w-xs"
+              />
+            </div>
           </div>
         </div>
       </div>
