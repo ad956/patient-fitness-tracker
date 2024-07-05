@@ -20,6 +20,8 @@ export default function Login() {
   const [emailError, setEmailError] = useState(null || String);
   const [password, setPassword] = useState("");
   const [passwordError, setPasswordError] = useState(null || String);
+  const [role, setRole] = useState(null || String);
+  const [roleTouched, setRoleTouched] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const [Error, setError] = useState(null || String);
   const [showOtp, setShowOtp] = useState(false);
@@ -27,6 +29,7 @@ export default function Login() {
 
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
+  const roleRef = useRef<HTMLSelectElement>(null);
 
   const [loginDisabled, setLoginDisabled] = useState(true);
 
@@ -121,9 +124,21 @@ export default function Login() {
     }
   }
 
-  async function handleForgetPassword() {}
+  async function handleForgetPassword() {
+    if (!emailRef.current?.value || userData.role === "") {
+      toast.error(
+        "Please enter a valid email address and select a role to continue.",
+        {
+          position: "bottom-center",
+          duration: 2000,
+        }
+      );
+    }
+  }
 
-  const showToast = (inputRef: React.RefObject<HTMLInputElement>) => {
+  const showToast = (
+    inputRef: React.RefObject<HTMLInputElement | HTMLSelectElement>
+  ) => {
     if (inputRef.current?.name === "email") {
       if (emailError) {
         toast.error(emailError, {
@@ -134,6 +149,13 @@ export default function Login() {
     if (inputRef.current?.name === "password") {
       if (passwordError) {
         toast.error(passwordError, {
+          position: "bottom-center",
+        });
+      }
+    }
+    if (inputRef.current?.name === "role") {
+      if (inputRef.current.value === "") {
+        toast.error("Please select a role", {
           position: "bottom-center",
         });
       }
@@ -214,15 +236,20 @@ export default function Login() {
             label="Role"
             placeholder="Select who you are"
             className="mx-2 my-2"
+            ref={roleRef}
+            onClose={() => {
+              if (roleRef.current?.value === "") {
+                showToast(roleRef);
+              }
+            }}
           >
             {(roles) => (
               <SelectItem key={roles.value}>{roles.label}</SelectItem>
             )}
           </Select>
           <Link
-            href="#"
             underline="hover"
-            className="self-right m-2 text-xs text-black/70"
+            className="self-right m-2 text-xs text-black/70 cursor-pointer"
             onClick={handleForgetPassword}
           >
             Forget password?
