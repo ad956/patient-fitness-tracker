@@ -121,6 +121,8 @@ export default function Login() {
     }
   }
 
+  async function handleForgetPassword() {}
+
   const showToast = (inputRef: React.RefObject<HTMLInputElement>) => {
     if (inputRef.current?.name === "email") {
       if (emailError) {
@@ -218,10 +220,10 @@ export default function Login() {
             )}
           </Select>
           <Link
-            // size="sm"
             href="#"
             underline="hover"
             className="self-right m-2 text-xs text-black/70"
+            onClick={handleForgetPassword}
           >
             Forget password?
           </Link>
