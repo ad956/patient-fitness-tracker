@@ -20,8 +20,6 @@ export default function Login() {
   const [emailError, setEmailError] = useState(null || String);
   const [password, setPassword] = useState("");
   const [passwordError, setPasswordError] = useState(null || String);
-  const [role, setRole] = useState(null || String);
-  const [roleTouched, setRoleTouched] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const [Error, setError] = useState(null || String);
   const [showOtp, setShowOtp] = useState(false);
@@ -237,11 +235,7 @@ export default function Login() {
             placeholder="Select who you are"
             className="mx-2 my-2"
             ref={roleRef}
-            onClose={() => {
-              if (roleRef.current?.value === "") {
-                showToast(roleRef);
-              }
-            }}
+            onClose={() => showToast(roleRef)}
           >
             {(roles) => (
               <SelectItem key={roles.value}>{roles.label}</SelectItem>
