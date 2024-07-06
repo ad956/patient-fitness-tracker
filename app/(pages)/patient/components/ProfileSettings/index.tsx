@@ -12,12 +12,13 @@ import {
   SelectItem,
 } from "@nextui-org/react";
 import { CldUploadWidget, CloudinaryUploadWidgetInfo } from "next-cloudinary";
-import Image from "next/image";
 import React, { type ChangeEvent, useRef, useState, useEffect } from "react";
 import { AiTwotoneEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import toast, { Toaster } from "react-hot-toast";
 import { DateValue, parseDate } from "@internationalized/date";
 import { updateProfilePicture } from "@lib/patient";
+import { FaLock, FaUser } from "react-icons/fa6";
+import { FaMapMarkerAlt } from "react-icons/fa";
 
 export default function ProfileSettings({ patient }: { patient: Patient }) {
   const [isVisible, setIsVisible] = useState(true);
@@ -285,400 +286,298 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
     }
   }
 
+  const [activeTab, setActiveTab] = useState("personal");
+
   return (
     <Card
       radius="lg"
       shadow="lg"
-      className="flex flex-col gap-5 items-center p-5 h-full w-full overflow-y-auto"
+      className="flex flex-row gap-5 items-start p-5 h-full w-full overflow-y-auto"
     >
-      <Card
-        radius="lg"
-        className="h-2/6 w-11/12 mx-20 relative"
-        style={{
-          background:
-            "linear-gradient(to right, #fdebd1, #ffcbb3, #ffa8b2, #f98ccf, #b586f7)",
-        }}
-      ></Card>
-      <CldUploadWidget
-        signatureEndpoint="/api/cloudinary/sign-image"
-        onSuccess={async (result) => {
-          const info = result.info as CloudinaryUploadWidgetInfo;
-
-          const isProfileUpdated = await updateProfilePicture(info.secure_url);
-
-          if (isProfileUpdated.error) {
-            toast.error(isProfileUpdated.error);
-            return;
-          }
-          setProfilePicture(info.secure_url);
-          toast.success("Profile updated successfully");
-        }}
-      >
-        {({ open }) => (
-          <Tooltip
-            color="foreground"
-            showArrow={true}
-            content="Click to Update Your Profile Picture"
-          >
-            <Avatar
-              src={profilePicture}
-              className="w-36 h-36 text-large absolute top-36 left-28 border-4 border-white"
-              onClick={() => open()}
-            />
-          </Tooltip>
-        )}
-      </CldUploadWidget>
-
-      <div className="top-52 my-2 left-[18%] absolute flex flex-col">
-        <p className="font-black tracking-wide text-3xl">
-          {firstname} {lastname}
-        </p>
-        <p className="font-semibold text-md">@{username}</p>
-      </div>
-
-      <div className="mt-16 w-full h-3/5 flex justify-around">
-        <div className="w-2/5 flex flex-col h-full">
-          <div className="flex justify-between mt-5">
-            <p className="font-black tracking-wide text-lg">
-              Personal Information
-            </p>
-            <Button size="sm" className="bg-transparent text-danger">
-              Edit
-            </Button>
-          </div>
-          <p className="text-gray-600 text-medium">
-            Update your information about you and details here
-          </p>
-          <div className="flex flex-col w-full gap-5 mt-5">
-            <div className="flex gap-2">
-              <Input
-                name="firstname"
-                type="text"
-                variant="underlined"
-                label="First Name"
-                value={firstname}
-                className="max-w-xs"
-                onChange={handleFirstNameChange}
-                ref={firstNameRef}
-                onBlur={() => showToast(firstNameRef)}
-              />
-              <Input
-                name="lastname"
-                type="text"
-                variant="underlined"
-                label="Last Name"
-                value={lastname}
-                className="max-w-xs"
-                onChange={handleLastNameChange}
-                ref={lastNameRef}
-                onBlur={() => showToast(lastNameRef)}
-              />
-            </div>
-            <div className="flex gap-2">
-              <Input
-                name="username"
-                type="text"
-                variant="underlined"
-                label="Username"
-                autoComplete="username"
-                value={username}
-                className="max-w-xs"
-                onChange={handleUserNameChange}
-                ref={usernameRef}
-                onBlur={() => showToast(usernameRef)}
-              />
-              <Input
-                name="email"
-                type="email"
-                variant="underlined"
-                label="Email address"
-                value={email}
-                className="max-w-xs"
-                autoComplete="email"
-                onChange={handleEmailChange}
-                ref={emailRef}
-                onBlur={() => showToast(emailRef)}
-              />
-            </div>
-
-            <div className="flex gap-2">
-              <Select
-                name="gender"
-                variant="underlined"
-                // label={gender}
-                label="Gender"
-                value={gender}
-                // selectedKeys={gender}
-                className="max-w-xs"
-                onChange={handleGenderChange}
-              >
-                {["Male", "Female", "Other"].map((item) => (
-                  <SelectItem key={item}>{item}</SelectItem>
-                ))}
-              </Select>
-              <DatePicker
-                name="dob"
-                label="DOB"
-                variant="underlined"
-                className="max-w-xs"
-                value={dob}
-                onChange={(val) => setDob(val)}
-                showMonthAndYearPickers
-                isInvalid={isDateInvalid()}
-                errorMessage={(value) => {
-                  if (value.isInvalid) {
-                    return "Please enter a valid date.";
-                  }
-                }}
-              />
-            </div>
-          </div>
-        </div>
-        <div className="w-2/5 flex flex-col h-full">
-          <div className="flex justify-between mt-5">
-            <p className="font-black tracking-wide text-lg">
-              Address Information
-            </p>
-
-            <Button size="sm" className="bg-transparent text-danger">
-              Edit
-            </Button>
-          </div>
-          <p className="text-gray-600 text-medium">
-            Update your information about you and details here
-          </p>
-
-          <div className="flex flex-col w-full gap-5 mt-5">
-            <div className="flex gap-2">
-              <Input
-                name="address_line1"
-                type="text"
-                variant="underlined"
-                label="Address Line 1"
-                value={address.address_line_1}
-                className="max-w-xs"
-              />
-              <Input
-                name="address_line2"
-                type="text"
-                variant="underlined"
-                label="Address Line 2"
-                value={address.address_line_2}
-                className="max-w-xs"
-              />
-              <Input
-                name="zipcode"
-                type="text"
-                variant="underlined"
-                label="Zip Code"
-                value={address.zip_code}
-                className="max-w-xs"
-              />
-            </div>
-            <div className="flex gap-2">
-              <Input
-                name="city"
-                type="text"
-                variant="underlined"
-                label="City"
-                value={address.city}
-                className="max-w-xs"
-              />
-              <Input
-                name="state"
-                type="text"
-                variant="underlined"
-                label="State"
-                value={address.state}
-                className="max-w-xs"
-              />
-              <Input
-                name="country"
-                type="text"
-                variant="underlined"
-                label="Country"
-                value={address.country}
-                className="max-w-xs"
-              />
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* <form
-        className="flex flex-col justify-center md:flex-row md:justify-around gap-5 p-5 items-center md:h-full md:w-full"
-        onSubmit={handleFormSubmit}
-      >
-        <div className="flex flex-col w-full gap-5">
-          <Input
-            name="firstname"
-            type="text"
-            variant="underlined"
-            label="First Name"
-            value={firstname}
-            className="max-w-xs"
-            onChange={handleFirstNameChange}
-            ref={firstNameRef}
-            onBlur={() => showToast(firstNameRef)}
-          />
-          <Input
-            name="username"
-            type="text"
-            variant="underlined"
-            label="Username"
-            autoComplete="username"
-            value={username}
-            className="max-w-xs"
-            onChange={handleUserNameChange}
-            ref={usernameRef}
-            onBlur={() => showToast(usernameRef)}
-          />
-          <Input
-            name="email"
-            type="email"
-            variant="underlined"
-            label="Email address"
-            value={email}
-            className="max-w-xs"
-            autoComplete="email"
-            onChange={handleEmailChange}
-            ref={emailRef}
-            onBlur={() => showToast(emailRef)}
-          />
-
-          <DatePicker
-            name="dob"
-            label="DOB"
-            variant="underlined"
-            className="max-w-xs"
-            value={dob}
-            onChange={(val) => setDob(val)}
-            showMonthAndYearPickers
-            isInvalid={isDateInvalid()}
-            errorMessage={(value) => {
-              if (value.isInvalid) {
-                return "Please enter a valid date.";
+      {/* Sidebar */}
+      <div className="w-1/4 bg-white p-6 border-r border-gray-200">
+        <div className="flex flex-col items-center mb-8">
+          <CldUploadWidget
+            signatureEndpoint="/api/cloudinary/sign-image"
+            onSuccess={async (result) => {
+              const info = result.info as CloudinaryUploadWidgetInfo;
+              const isProfileUpdated = await updateProfilePicture(
+                info.secure_url
+              );
+              if (isProfileUpdated.error) {
+                toast.error(isProfileUpdated.error);
+                return;
               }
+              setProfilePicture(info.secure_url);
+              toast.success("Profile picture updated successfully");
             }}
-          />
-        </div>
-        <div className="flex flex-col w-full gap-5">
-          <Input
-            name="lastname"
-            type="text"
-            variant="underlined"
-            label="Last Name"
-            value={lastname}
-            className="max-w-xs"
-            onChange={handleLastNameChange}
-            ref={lastNameRef}
-            onBlur={() => showToast(lastNameRef)}
-          />
-          <Input
-            name="password"
-            type={isVisible ? "text" : "password"}
-            variant="underlined"
-            label="Password"
-            value={password}
-            onChange={handlePasswordChange}
-            className="max-w-xs"
-            endContent={
-              <button
-                className="focus:outline-none"
-                type="button"
-                onClick={toggleVisibility}
-              >
-                {isVisible ? (
-                  <AiOutlineEyeInvisible className="text-2xl text-default-400 pointer-events-none" />
-                ) : (
-                  <AiTwotoneEye className="text-2xl text-default-400 pointer-events-none" />
-                )}
-              </button>
-            }
-            ref={passwordRef}
-            onBlur={() => showToast(passwordRef)}
-          />
-          <Input
-            name="contact"
-            type="text"
-            variant="underlined"
-            label="Phone"
-            value={contact}
-            className="max-w-xs"
-            onChange={handleContactChange}
-            ref={contactRef}
-            onBlur={() => showToast(contactRef)}
-          />
-          <Select
-            name="gender"
-            variant="underlined"
-            label={gender}
-            className="max-w-xs"
-            onChange={handleGenderChange}
           >
-            {["Male", "Female", "Other"].map((item) => (
-              <SelectItem key={item}>{item}</SelectItem>
-            ))}
-          </Select>
+            {({ open }) => (
+              <Tooltip content="Click to Update Your Profile Picture">
+                <Avatar
+                  src={profilePicture}
+                  className="w-32 h-32 text-large cursor-pointer mb-4"
+                  onClick={() => open()}
+                />
+              </Tooltip>
+            )}
+          </CldUploadWidget>
+          <h2 className="text-xl font-semibold">{`${firstname} ${lastname}`}</h2>
+          <p className="text-gray-500">@{username}</p>
         </div>
-        <div className="flex flex-col w-full gap-5">
-          <Input
-            name="address_line1"
-            type="text"
-            variant="underlined"
-            label="Address Line 1"
-            value={address.address_line_1}
-            className="max-w-xs"
-          />
-          <Input
-            name="address_line2"
-            type="text"
-            variant="underlined"
-            label="Address Line 2"
-            value={address.address_line_2}
-            className="max-w-xs"
-          />
-          <Input
-            name="city"
-            type="text"
-            variant="underlined"
-            label="City"
-            value={address.city}
-            className="max-w-xs"
-          />
-          <Input
-            name="state"
-            type="text"
-            variant="underlined"
-            label="State"
-            value={address.state}
-            className="max-w-xs"
-          />
+        <nav>
+          {["personal", "address", "security"].map((tab) => (
+            <button
+              key={tab}
+              className={`flex items-center w-full p-3 mb-2 rounded-lg transition-colors duration-200 ${
+                activeTab === tab
+                  ? "bg-blue-100 text-blue-600"
+                  : "hover:bg-gray-100"
+              }`}
+              onClick={() => setActiveTab(tab)}
+            >
+              {tab === "personal" && <FaUser className="mr-3" />}
+              {tab === "address" && <FaMapMarkerAlt className="mr-3" />}
+              {tab === "security" && <FaLock className="mr-3" />}
+              {tab.charAt(0).toUpperCase() + tab.slice(1)} Info
+            </button>
+          ))}
+        </nav>
+      </div>
+
+      {/* Main Content */}
+      <div className="w-3/4 p-8">
+        <h1 className="text-2xl font-bold mb-6">Profile Settings</h1>
+
+        <div className="relative">
+          {/* Personal Information */}
+          <div
+            className={`absolute w-full transition-all duration-300 ease-in-out ${
+              activeTab === "personal" ? "opacity-100 z-10" : "opacity-0 z-0"
+            }`}
+          >
+            <Card className="p-6">
+              <h3 className="text-xl font-semibold mb-4">
+                Personal Information
+              </h3>
+              <div className="grid grid-cols-2 gap-4">
+                <Input
+                  name="firstname"
+                  type="text"
+                  variant="underlined"
+                  label="First Name"
+                  value={firstname}
+                  className="max-w-xs"
+                  onChange={handleFirstNameChange}
+                  ref={firstNameRef}
+                  onBlur={() => showToast(firstNameRef)}
+                />
+                <Input
+                  name="lastname"
+                  type="text"
+                  variant="underlined"
+                  label="Last Name"
+                  value={lastname}
+                  className="max-w-xs"
+                  onChange={handleLastNameChange}
+                  ref={lastNameRef}
+                  onBlur={() => showToast(lastNameRef)}
+                />
+                <Input
+                  name="username"
+                  type="text"
+                  variant="underlined"
+                  label="Username"
+                  autoComplete="username"
+                  value={username}
+                  className="max-w-xs"
+                  onChange={handleUserNameChange}
+                  ref={usernameRef}
+                  onBlur={() => showToast(usernameRef)}
+                />
+                <Input
+                  name="email"
+                  type="email"
+                  variant="underlined"
+                  label="Email address"
+                  value={email}
+                  className="max-w-xs"
+                  autoComplete="email"
+                  onChange={handleEmailChange}
+                  ref={emailRef}
+                  onBlur={() => showToast(emailRef)}
+                />
+                <Select
+                  name="gender"
+                  variant="underlined"
+                  label="Gender"
+                  value={gender}
+                  defaultSelectedKeys={[gender]}
+                  className="max-w-xs"
+                  onChange={handleGenderChange}
+                >
+                  {["Male", "Female", "Other"].map((item) => (
+                    <SelectItem key={item}>{item}</SelectItem>
+                  ))}
+                </Select>
+                <DatePicker
+                  name="dob"
+                  label="DOB"
+                  variant="underlined"
+                  className="max-w-xs"
+                  value={dob}
+                  onChange={(val) => setDob(val)}
+                  showMonthAndYearPickers
+                  isInvalid={isDateInvalid()}
+                  errorMessage={(value) => {
+                    if (value.isInvalid) {
+                      return "Please enter a valid date.";
+                    }
+                  }}
+                />
+                <Input
+                  name="contact"
+                  type="text"
+                  variant="underlined"
+                  label="Phone"
+                  value={contact}
+                  className="max-w-xs"
+                  onChange={handleContactChange}
+                  ref={contactRef}
+                  onBlur={() => showToast(contactRef)}
+                />
+              </div>
+            </Card>
+          </div>
+
+          {/* Address Information */}
+          <div
+            className={`absolute w-full transition-all duration-300 ease-in-out ${
+              activeTab === "address" ? "opacity-100 z-10" : "opacity-0 z-0"
+            }`}
+          >
+            <Card className="p-6">
+              <h3 className="text-xl font-semibold mb-4">
+                Address Information
+              </h3>
+              <div className="grid grid-cols-2 gap-4">
+                <Input
+                  name="address_line1"
+                  type="text"
+                  variant="underlined"
+                  label="Address Line 1"
+                  value={address.address_line_1}
+                  className="max-w-xs"
+                />
+                <Input
+                  name="address_line2"
+                  type="text"
+                  variant="underlined"
+                  label="Address Line 2"
+                  value={address.address_line_2}
+                  className="max-w-xs"
+                />
+                <Input
+                  name="city"
+                  type="text"
+                  variant="underlined"
+                  label="City"
+                  value={address.city}
+                  className="max-w-xs"
+                />
+                <Input
+                  name="state"
+                  type="text"
+                  variant="underlined"
+                  label="State"
+                  value={address.state}
+                  className="max-w-xs"
+                />
+                <Input
+                  name="zipcode"
+                  type="text"
+                  variant="underlined"
+                  label="Zip Code"
+                  value={address.zip_code}
+                  className="max-w-xs"
+                />
+                <Input
+                  name="country"
+                  type="text"
+                  variant="underlined"
+                  label="Country"
+                  value={address.country}
+                  className="max-w-xs"
+                />
+              </div>
+            </Card>
+          </div>
+
+          {/* Security Settings */}
+          <div
+            className={`absolute w-full transition-all duration-300 ease-in-out ${
+              activeTab === "security" ? "opacity-100 z-10" : "opacity-0 z-0"
+            }`}
+          >
+            <Card className="p-6">
+              <h3 className="text-xl font-semibold mb-4">Security Settings</h3>
+              <div className="grid grid-cols-2 gap-4">
+                <Input
+                  name="password"
+                  type={isVisible ? "text" : "password"}
+                  variant="underlined"
+                  label="Password"
+                  value={password}
+                  onChange={handlePasswordChange}
+                  className="max-w-xs"
+                  endContent={
+                    <button
+                      className="focus:outline-none"
+                      type="button"
+                      onClick={toggleVisibility}
+                    >
+                      {isVisible ? (
+                        <AiOutlineEyeInvisible className="text-2xl text-default-400 pointer-events-none" />
+                      ) : (
+                        <AiTwotoneEye className="text-2xl text-default-400 pointer-events-none" />
+                      )}
+                    </button>
+                  }
+                  ref={passwordRef}
+                  onBlur={() => showToast(passwordRef)}
+                />
+                <Input
+                  name="confirmpassword"
+                  type={isVisible ? "text" : "password"}
+                  variant="underlined"
+                  label="Confirm New Password"
+                  value={password}
+                  onChange={handlePasswordChange}
+                  className="max-w-xs"
+                  endContent={
+                    <button
+                      className="focus:outline-none"
+                      type="button"
+                      onClick={toggleVisibility}
+                    >
+                      {isVisible ? (
+                        <AiOutlineEyeInvisible className="text-2xl text-default-400 pointer-events-none" />
+                      ) : (
+                        <AiTwotoneEye className="text-2xl text-default-400 pointer-events-none" />
+                      )}
+                    </button>
+                  }
+                  ref={passwordRef}
+                  onBlur={() => showToast(passwordRef)}
+                />
+              </div>
+            </Card>
+          </div>
         </div>
-        <div className="flex flex-col w-full gap-5">
-          <Input
-            name="zipcode"
-            type="text"
-            variant="underlined"
-            label="Zip Code"
-            value={address.zip_code}
-            className="max-w-xs"
-          />
-          <Input
-            name="country"
-            type="text"
-            variant="underlined"
-            label="Country"
-            value={address.country}
-            className="max-w-xs"
-          />
-        </div>
-        <div className="flex flex-row hfull w-full mt-10 justify-center items-center">
-          <Button color="danger" variant="shadow" isDisabled={updateDisabled}>
-            Update Profile
-          </Button>
-        </div>
-      </form> */}
+        <Button color="danger" variant="shadow" className="mt-6">
+          Update
+        </Button>
+      </div>
       <Toaster />
     </Card>
   );
