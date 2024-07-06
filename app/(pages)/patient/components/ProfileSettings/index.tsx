@@ -286,6 +286,139 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
     }
   }
 
+  const UpdateButton = ({ onUpdate }: { onUpdate: () => void }) => {
+    return (
+      <Button
+        onClick={onUpdate}
+        color="danger"
+        variant="shadow"
+        className="mt-6"
+      >
+        Update
+      </Button>
+    );
+  };
+
+  const updatePersonalInfo = async () => {
+    const updatedFields = {
+      firstname: firstname !== patient.firstname ? firstname : undefined,
+      lastname: lastname !== patient.lastname ? lastname : undefined,
+      username: username !== patient.username ? username : undefined,
+      email: email !== patient.email ? email : undefined,
+      dob: dob.toString() !== patient.dob ? dob.toString() : undefined,
+      gender: gender !== patient.gender ? gender : undefined,
+      contact: contact !== patient.contact ? contact : undefined,
+    };
+
+    const filteredFields = Object.fromEntries(
+      Object.entries(updatedFields).filter(([_, v]) => v !== undefined)
+    );
+
+    if (Object.keys(filteredFields).length > 0) {
+      try {
+        const response = await fetch(`/api/patient/update-profile/personal`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(filteredFields),
+        });
+
+        if (response.ok) {
+          toast.success("Personal information updated successfully");
+        } else {
+          const res = await response.json();
+          toast.error(res.error);
+        }
+      } catch (error) {
+        console.error("Error updating personal information:", error);
+        toast.error("An error occurred while updating personal information");
+      }
+    } else {
+      toast.success("No changes to update");
+    }
+  };
+
+  const updateAddressInfo = async () => {
+    const updatedFields = {
+      address_line_1:
+        address.address_line_1 !== patient.address.address_line_1
+          ? address.address_line_1
+          : undefined,
+      address_line_2:
+        address.address_line_2 !== patient.address.address_line_2
+          ? address.address_line_2
+          : undefined,
+      city: address.city !== patient.address.city ? address.city : undefined,
+      state:
+        address.state !== patient.address.state ? address.state : undefined,
+      zip_code:
+        address.zip_code !== patient.address.zip_code
+          ? address.zip_code
+          : undefined,
+      country:
+        address.country !== patient.address.country
+          ? address.country
+          : undefined,
+    };
+
+    const filteredFields = Object.fromEntries(
+      Object.entries(updatedFields).filter(([_, v]) => v !== undefined)
+    );
+
+    if (Object.keys(filteredFields).length > 0) {
+      try {
+        const response = await fetch(`/api/patient/update-profile/address`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(filteredFields),
+        });
+
+        if (response.ok) {
+          toast.success("Address information updated successfully");
+        } else {
+          toast.error("Failed to update address information");
+        }
+      } catch (error) {
+        console.error("Error updating address information:", error);
+        toast.error("An error occurred while updating address information");
+      }
+    } else {
+      toast.success("No changes to update");
+    }
+  };
+
+  const updateSecurityInfo = async () => {
+    if (password) {
+      try {
+        const response = await fetch(
+          `/api/patient/update-profile/reset-password`,
+          {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ password }),
+          }
+        );
+
+        if (response.ok) {
+          toast.success("Password updated successfully");
+          setPassword("");
+        } else {
+          toast.error("Failed to update password");
+        }
+      } catch (error) {
+        console.error("Error updating password:", error);
+        toast.error("An error occurred while updating password");
+      }
+    } else {
+      toast.success("No changes to update");
+    }
+  };
+
   const [activeTab, setActiveTab] = useState("personal");
 
   return (
@@ -327,11 +460,12 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
         </div>
         <nav>
           {["personal", "address", "security"].map((tab) => (
-            <button
+            <Button
+              size="md"
               key={tab}
-              className={`flex items-center w-full p-3 mb-2 rounded-lg transition-colors duration-200 ${
+              className={`flex justify-start items-center bg-transparent w-4/5 p-3 mb-2 transition-colors duration-200 ${
                 activeTab === tab
-                  ? "bg-blue-100 text-blue-600"
+                  ? "bg-blue100 bg-[#1f1c2e] text-white ext-blue-600"
                   : "hover:bg-gray-100"
               }`}
               onClick={() => setActiveTab(tab)}
@@ -340,7 +474,7 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
               {tab === "address" && <FaMapMarkerAlt className="mr-3" />}
               {tab === "security" && <FaLock className="mr-3" />}
               {tab.charAt(0).toUpperCase() + tab.slice(1)} Info
-            </button>
+            </Button>
           ))}
         </nav>
       </div>
@@ -448,6 +582,7 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
                 />
               </div>
             </Card>
+            <UpdateButton onUpdate={updatePersonalInfo} />
           </div>
 
           {/* Address Information */}
@@ -511,6 +646,7 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
                 />
               </div>
             </Card>
+            <UpdateButton onUpdate={updateAddressInfo} />
           </div>
 
           {/* Security Settings */}
@@ -572,11 +708,9 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
                 />
               </div>
             </Card>
+            <UpdateButton onUpdate={updateSecurityInfo} />
           </div>
         </div>
-        <Button color="danger" variant="shadow" className="mt-6">
-          Update
-        </Button>
       </div>
       <Toaster />
     </Card>
