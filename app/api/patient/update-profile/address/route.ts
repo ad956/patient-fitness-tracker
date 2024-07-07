@@ -9,7 +9,7 @@ type AddressBody = {
   country?: string;
 };
 
-export default async function PUT(req: Request) {
+export async function PUT(req: Request) {
   const email = "anandsuthar956@gmail.com";
 
   const addressData: AddressBody = await req.json();
