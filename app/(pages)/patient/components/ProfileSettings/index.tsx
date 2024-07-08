@@ -242,50 +242,6 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
     }
   };
 
-  async function handleFormSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-
-    const updatedFields = {
-      profile: profilePicture !== patient.profile ? profilePicture : undefined,
-      firstname: firstname !== patient.firstname ? firstname : undefined,
-      username: username !== patient.username ? username : undefined,
-      email: email !== patient.email ? email : undefined,
-      dob: dob.toString() !== patient.dob ? dob : undefined,
-      lastname: lastname !== patient.lastname ? lastname : undefined,
-      password: password !== "" ? password : undefined,
-      contact: contact !== patient.contact ? contact : undefined,
-      gender: gender !== patient.gender ? gender : undefined,
-      address: {
-        address_line_1:
-          address.address_line_1 !== patient.address.address_line_1
-            ? address.address_line_1
-            : undefined,
-        address_line_2:
-          address.address_line_2 !== patient.address.address_line_2
-            ? address.address_line_2
-            : undefined,
-        city: address.city !== patient.address.city ? address.city : undefined,
-        state:
-          address.state !== patient.address.state ? address.state : undefined,
-        zip_code:
-          address.zip_code !== patient.address.zip_code
-            ? address.zip_code
-            : undefined,
-        country:
-          address.country !== patient.address.country
-            ? address.country
-            : undefined,
-      },
-    };
-
-    try {
-      // await axios.put(`/api/patients/${patient.id}`, updatedFields);
-      console.log("Profile updated successfully");
-    } catch (error) {
-      console.error("Error updating profile:", error);
-    }
-  }
-
   const UpdateButton = ({ onUpdate }: { onUpdate: () => void }) => {
     return (
       <Button
