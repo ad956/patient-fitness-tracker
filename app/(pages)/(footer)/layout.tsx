@@ -1,4 +1,4 @@
-import { Footer, NavBar } from "@layouts/LandingPage/components";
+import { Footer, NavBar } from "@components/landing-page";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
