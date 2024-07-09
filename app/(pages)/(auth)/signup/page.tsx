@@ -9,6 +9,7 @@ import {
   Input,
   Select,
   SelectItem,
+  Selection,
   Link,
 } from "@nextui-org/react";
 import toast, { Toaster } from "react-hot-toast";
@@ -30,6 +31,9 @@ export default function Signup() {
   const [passwordError, setPasswordError] = useState(null || String);
   const [confirmPassword, setconfirmPassword] = useState("");
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
+  const [role, setRole] = useState<Selection>(new Set([]));
+  const [roleTouched, setRoleTouched] = useState(false);
+
   const [isVisible, setIsVisible] = useState(false);
   const [submitDisabled, setSubmitDisabled] = useState(true);
   const [showOtp, setShowOtp] = useState(false);
@@ -41,6 +45,8 @@ export default function Signup() {
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const confirmPasswordRef = useRef<HTMLInputElement>(null);
+
+  const isRoleValid = Array.from(role).length > 0;
 
   const toggleVisibility = () => setIsVisible(!isVisible);
 
@@ -209,6 +215,42 @@ export default function Signup() {
     }
   }
 
+  useEffect(() => {
+    setSubmitDisabled(isSubmitDisabled());
+  }, [
+    firstNameError,
+    firstName,
+    lastNameError,
+    lastName,
+    usernameError,
+    username,
+    emailError,
+    email,
+    passwordError,
+    password,
+    confirmPasswordError,
+    confirmPassword,
+    role,
+  ]);
+
+  function isSubmitDisabled(): boolean {
+    return (
+      !!firstNameError ||
+      !firstName ||
+      !!lastNameError ||
+      !lastName ||
+      !!usernameError ||
+      !username ||
+      !!emailError ||
+      !email ||
+      !!passwordError ||
+      !password ||
+      !!confirmPasswordError ||
+      !confirmPassword ||
+      !isRoleValid
+    );
+  }
+
   const showToast = (inputRef: React.RefObject<HTMLInputElement>) => {
     if (inputRef.current?.name === "firstname") {
       if (firstNameError) {
@@ -254,40 +296,6 @@ export default function Signup() {
       }
     }
   };
-
-  useEffect(() => {
-    setSubmitDisabled(isSubmitDisabled());
-  }, [
-    firstNameError,
-    firstName,
-    lastNameError,
-    lastName,
-    usernameError,
-    username,
-    emailError,
-    email,
-    passwordError,
-    password,
-    confirmPasswordError,
-    confirmPassword,
-  ]);
-
-  function isSubmitDisabled(): boolean {
-    return (
-      !!firstNameError ||
-      !firstName ||
-      !!lastNameError ||
-      !lastName ||
-      !!usernameError ||
-      !username ||
-      !!emailError ||
-      !email ||
-      !!passwordError ||
-      !password ||
-      !!confirmPasswordError ||
-      !confirmPassword
-    );
-  }
 
   return (
     <div
@@ -437,12 +445,20 @@ export default function Signup() {
 
           <Select
             name="role"
+            isRequired
             items={roles}
             variant="bordered"
             size="md"
             label="Role"
             placeholder="Select who you are"
             className="mx-2 my-2"
+            selectedKeys={role}
+            onSelectionChange={setRole}
+            onClose={() => setRoleTouched(true)}
+            errorMessage={
+              isRoleValid || !roleTouched ? "" : "You must select a role"
+            }
+            isInvalid={isRoleValid || !roleTouched ? false : true}
           >
             {(roles) => (
               <SelectItem key={roles.value}>{roles.label}</SelectItem>

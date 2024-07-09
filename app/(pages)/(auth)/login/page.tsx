@@ -1,5 +1,5 @@
 "use client";
-import { useState, type ChangeEvent, useRef, useEffect } from "react";
+import { useState, type ChangeEvent, useRef, useEffect, useMemo } from "react";
 import { AiTwotoneEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { carouselData, roles } from "@constants/index";
 import { Carousel, OtpSection } from "@components/index";
@@ -9,6 +9,7 @@ import {
   Link,
   Select,
   SelectItem,
+  Selection,
   Image,
 } from "@nextui-org/react";
 import { MdOutlineKey, MdOutlineAlternateEmail } from "react-icons/md";
@@ -20,6 +21,9 @@ export default function Login() {
   const [emailError, setEmailError] = useState(null || String);
   const [password, setPassword] = useState("");
   const [passwordError, setPasswordError] = useState(null || String);
+  const [role, setRole] = useState<Selection>(new Set([]));
+  const [roleTouched, setRoleTouched] = useState(false);
+
   const [isVisible, setIsVisible] = useState(false);
   const [Error, setError] = useState(null || String);
   const [showOtp, setShowOtp] = useState(false);
@@ -27,7 +31,8 @@ export default function Login() {
 
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
-  const roleRef = useRef<HTMLSelectElement>(null);
+
+  const isRoleValid = Array.from(role).length > 0;
 
   const [loginDisabled, setLoginDisabled] = useState(true);
 
@@ -79,10 +84,12 @@ export default function Login() {
 
   useEffect(() => {
     setLoginDisabled(isLoginDisabled());
-  }, [emailError, email, passwordError, password]);
+  }, [emailError, email, passwordError, password, role]);
 
   function isLoginDisabled(): boolean {
-    return !!emailError || !email || !!passwordError || !password;
+    return (
+      !!emailError || !email || !!passwordError || !password || !isRoleValid
+    );
   }
 
   async function handleFormSubmit(
@@ -147,13 +154,6 @@ export default function Login() {
     if (inputRef.current?.name === "password") {
       if (passwordError) {
         toast.error(passwordError, {
-          position: "bottom-center",
-        });
-      }
-    }
-    if (inputRef.current?.name === "role") {
-      if (inputRef.current.value === "") {
-        toast.error("Please select a role", {
           position: "bottom-center",
         });
       }
@@ -234,8 +234,13 @@ export default function Login() {
             label="Role"
             placeholder="Select who you are"
             className="mx-2 my-2"
-            ref={roleRef}
-            onClose={() => showToast(roleRef)}
+            selectedKeys={role}
+            onSelectionChange={setRole}
+            onClose={() => setRoleTouched(true)}
+            errorMessage={
+              isRoleValid || !roleTouched ? "" : "You must select a role"
+            }
+            isInvalid={isRoleValid || !roleTouched ? false : true}
           >
             {(roles) => (
               <SelectItem key={roles.value}>{roles.label}</SelectItem>
