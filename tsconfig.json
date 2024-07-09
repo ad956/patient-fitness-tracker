@@ -20,7 +20,6 @@
     "paths": {
       "@/*": ["./app/*"],
       "@components/*": ["./app/components/*"],
-      "@layouts/*": ["./app/layouts/*"],
       "@utils/*": ["./app/utils/*"],
       "@types": ["./types.d.ts"],
       "@constants/*": ["./app/utils/constants/*"],
