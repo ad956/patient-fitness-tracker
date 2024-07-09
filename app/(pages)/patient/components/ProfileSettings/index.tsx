@@ -10,6 +10,7 @@ import {
   DatePicker,
   Select,
   SelectItem,
+  Textarea,
 } from "@nextui-org/react";
 import { CldUploadWidget, CloudinaryUploadWidgetInfo } from "next-cloudinary";
 import React, { type ChangeEvent, useRef, useState, useEffect } from "react";
@@ -552,15 +553,18 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
                 Address Information
               </h3>
               <div className="grid grid-cols-2 gap-4">
-                <Input
+                <Textarea
                   name="address_line1"
                   type="text"
                   variant="underlined"
                   label="Address Line 1"
                   value={address.address_line_1}
                   className="max-w-xs"
+                  // onChange={}
+                  // ref={firstNameRef}
+                  // onBlur={() => showToast(firstNameRef)}
                 />
-                <Input
+                <Textarea
                   name="address_line2"
                   type="text"
                   variant="underlined"
