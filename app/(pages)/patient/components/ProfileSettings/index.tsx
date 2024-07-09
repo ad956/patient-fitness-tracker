@@ -34,18 +34,30 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
   const [emailError, setEmailError] = useState(null || String);
   const [password, setPassword] = useState("");
   const [passwordError, setPasswordError] = useState(null || String);
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [confirmPasswordError, setConfirmPasswordError] = useState(
+    null || String
+  );
   const [profilePicture, setProfilePicture] = useState(patient.profile);
   const [dob, setDob] = useState<DateValue>(parseDate(patient.dob));
   const [contact, setContact] = useState(patient.contact);
   const [contactError, setContactError] = useState(null || String);
   const [gender, setGender] = useState(patient.gender);
   const [address, setAddress] = useState({
-    address_line_1: patient.address.address_line_1,
-    address_line_2: patient.address.address_line_2,
-    city: patient.address.city,
-    state: patient.address.state,
-    zip_code: patient.address.zip_code,
-    country: patient.address.country,
+    address_line_1: patient.address.address_line_1 || "",
+    address_line_2: patient.address.address_line_2 || "",
+    city: patient.address.city || "",
+    state: patient.address.state || "",
+    zip_code: patient.address.zip_code || "",
+    country: patient.address.country || "",
+  });
+  const [addressErrors, setAddressErrors] = useState({
+    address_line_1: "",
+    address_line_2: "",
+    city: "",
+    state: "",
+    zip_code: "",
+    country: "",
   });
   const [updateDisabled, setUpdateDisabled] = useState(true);
 
@@ -56,7 +68,14 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
   const usernameRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
+  const confirmPasswordRef = useRef<HTMLInputElement>(null);
   const contactRef = useRef<HTMLInputElement>(null);
+  const addressLine1Ref = useRef<HTMLTextAreaElement>(null);
+  const addressLine2Ref = useRef<HTMLTextAreaElement>(null);
+  const cityRef = useRef<HTMLInputElement>(null);
+  const stateRef = useRef<HTMLInputElement>(null);
+  const zipCodeRef = useRef<HTMLInputElement>(null);
+  const countryRef = useRef<HTMLInputElement>(null);
 
   function handleFirstNameChange(e: ChangeEvent<HTMLInputElement>) {
     const firstNameRegex = /^[a-zA-Z'-]+$/;
@@ -138,6 +157,13 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
     setPassword(e.target.value);
   }
 
+  function handleConfirmPasswordChange(e: ChangeEvent<HTMLInputElement>) {
+    setConfirmPassword(e.target.value);
+    setConfirmPasswordError(
+      e.target.value === password ? "" : "Passwords do not match"
+    );
+  }
+
   const isDateInvalid = (): boolean => {
     const birthDate = dob;
     const today = new Date();
@@ -164,6 +190,36 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
     setContact(e.target.value);
   };
 
+  const handleAddressChange =
+    (field: keyof typeof address) =>
+    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      setAddress({ ...address, [field]: e.target.value });
+      validateAddressField(field, e.target.value);
+    };
+
+  const validateAddressField = (field: keyof typeof address, value: string) => {
+    let error = "";
+    switch (field) {
+      case "address_line_1":
+        error = value ? "" : "Address Line 1 is required";
+        break;
+      case "city":
+        error = value ? "" : "City is required";
+        break;
+      case "state":
+        error = value ? "" : "State is required";
+        break;
+      case "zip_code":
+        const zipCodeRegex = /^\d{5}(-\d{4})?$/;
+        error = zipCodeRegex.test(value) ? "" : "Please enter a valid ZIP code";
+        break;
+      case "country":
+        error = value ? "" : "Country is required";
+        break;
+    }
+    setAddressErrors({ ...addressErrors, [field]: error });
+  };
+
   useEffect(() => {
     setUpdateDisabled(isUpdateDisabled());
   }, [
@@ -177,6 +233,9 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
     email,
     passwordError,
     password,
+    confirmPasswordError,
+    confirmPassword,
+    addressErrors,
   ]);
 
   function isUpdateDisabled(): boolean {
@@ -190,11 +249,16 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
       !!emailError ||
       !email ||
       !!passwordError ||
-      !password
+      !password ||
+      !!confirmPasswordError ||
+      !confirmPassword ||
+      Object.values(addressErrors).some((error) => !!error)
     );
   }
 
-  const showToast = (inputRef: React.RefObject<HTMLInputElement>) => {
+  const showToast = (
+    inputRef: React.RefObject<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     if (inputRef.current?.name === "firstname") {
       if (firstNameError) {
         toast.error(firstNameError, {
@@ -223,22 +287,52 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
         });
       }
     }
-    if (
-      inputRef.current?.name === "password" ||
-      inputRef.current?.name === "confirmpassword"
-    ) {
+    if (inputRef.current?.name === "password") {
       if (passwordError) {
         toast.error(passwordError, {
           position: "bottom-center",
         });
       }
     }
-
+    if (inputRef.current?.name === "confirmpassword") {
+      if (confirmPasswordError) {
+        toast.error(confirmPasswordError, {
+          position: "bottom-center",
+        });
+      }
+    }
     if (inputRef.current?.name === "contact") {
       if (contactError) {
         toast.error(contactError, {
           position: "bottom-center",
         });
+      }
+    }
+    if (inputRef.current?.name === "address_line_1") {
+      if (addressErrors.address_line_1) {
+        toast.error(addressErrors.address_line_1, {
+          position: "bottom-center",
+        });
+      }
+    }
+    if (inputRef.current?.name === "city") {
+      if (addressErrors.city) {
+        toast.error(addressErrors.city, { position: "bottom-center" });
+      }
+    }
+    if (inputRef.current?.name === "state") {
+      if (addressErrors.state) {
+        toast.error(addressErrors.state, { position: "bottom-center" });
+      }
+    }
+    if (inputRef.current?.name === "zip_code") {
+      if (addressErrors.zip_code) {
+        toast.error(addressErrors.zip_code, { position: "bottom-center" });
+      }
+    }
+    if (inputRef.current?.name === "country") {
+      if (addressErrors.country) {
+        toast.error(addressErrors.country, { position: "bottom-center" });
       }
     }
   };
@@ -348,7 +442,7 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
   };
 
   const updateSecurityInfo = async () => {
-    if (password) {
+    if (password && password === confirmPassword) {
       try {
         const response = await fetch(
           `/api/patient/update-profile/reset-password`,
@@ -364,6 +458,7 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
         if (response.ok) {
           toast.success("Password updated successfully");
           setPassword("");
+          setConfirmPassword("");
         } else {
           toast.error("Failed to update password");
         }
@@ -371,6 +466,8 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
         console.error("Error updating password:", error);
         toast.error("An error occurred while updating password");
       }
+    } else if (password !== confirmPassword) {
+      toast.error("Passwords do not match");
     } else {
       toast.success("No changes to update");
     }
@@ -554,23 +651,24 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
               </h3>
               <div className="grid grid-cols-2 gap-4">
                 <Textarea
-                  name="address_line1"
-                  type="text"
+                  name="address_line_1"
                   variant="underlined"
                   label="Address Line 1"
                   value={address.address_line_1}
                   className="max-w-xs"
-                  // onChange={}
-                  // ref={firstNameRef}
-                  // onBlur={() => showToast(firstNameRef)}
+                  onChange={handleAddressChange("address_line_1")}
+                  ref={addressLine1Ref}
+                  onBlur={() => showToast(addressLine1Ref)}
+                  errorMessage={addressErrors.address_line_1}
                 />
                 <Textarea
-                  name="address_line2"
-                  type="text"
+                  name="address_line_2"
                   variant="underlined"
                   label="Address Line 2"
                   value={address.address_line_2}
                   className="max-w-xs"
+                  onChange={handleAddressChange("address_line_2")}
+                  ref={addressLine2Ref}
                 />
                 <Input
                   name="city"
@@ -579,6 +677,10 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
                   label="City"
                   value={address.city}
                   className="max-w-xs"
+                  onChange={handleAddressChange("city")}
+                  ref={cityRef}
+                  onBlur={() => showToast(cityRef)}
+                  errorMessage={addressErrors.city}
                 />
                 <Input
                   name="state"
@@ -587,14 +689,22 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
                   label="State"
                   value={address.state}
                   className="max-w-xs"
+                  onChange={handleAddressChange("state")}
+                  ref={stateRef}
+                  onBlur={() => showToast(stateRef)}
+                  errorMessage={addressErrors.state}
                 />
                 <Input
-                  name="zipcode"
+                  name="zip_code"
                   type="text"
                   variant="underlined"
                   label="Zip Code"
                   value={address.zip_code}
                   className="max-w-xs"
+                  onChange={handleAddressChange("zip_code")}
+                  ref={zipCodeRef}
+                  onBlur={() => showToast(zipCodeRef)}
+                  errorMessage={addressErrors.zip_code}
                 />
                 <Input
                   name="country"
@@ -603,6 +713,10 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
                   label="Country"
                   value={address.country}
                   className="max-w-xs"
+                  onChange={handleAddressChange("country")}
+                  ref={countryRef}
+                  onBlur={() => showToast(countryRef)}
+                  errorMessage={addressErrors.country}
                 />
               </div>
             </Card>
@@ -622,7 +736,7 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
                   name="password"
                   type={isVisible ? "text" : "password"}
                   variant="underlined"
-                  label="Password"
+                  label="New Password"
                   value={password}
                   onChange={handlePasswordChange}
                   className="max-w-xs"
@@ -647,8 +761,8 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
                   type={isVisible ? "text" : "password"}
                   variant="underlined"
                   label="Confirm New Password"
-                  value={password}
-                  onChange={handlePasswordChange}
+                  value={confirmPassword}
+                  onChange={handleConfirmPasswordChange}
                   className="max-w-xs"
                   endContent={
                     <button
@@ -663,8 +777,8 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
                       )}
                     </button>
                   }
-                  ref={passwordRef}
-                  onBlur={() => showToast(passwordRef)}
+                  ref={confirmPasswordRef}
+                  onBlur={() => showToast(confirmPasswordRef)}
                 />
               </div>
             </Card>
