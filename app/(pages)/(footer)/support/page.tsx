@@ -108,8 +108,6 @@ function FAQ() {
           details of your appointment.
         </p>
       </AccordionItem>
-
-      {/* Add more FAQ items as needed */}
     </Accordion>
   );
 }
