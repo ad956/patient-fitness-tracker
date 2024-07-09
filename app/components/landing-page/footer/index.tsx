@@ -1,18 +1,7 @@
 "use client";
 
-import {
-  Button,
-  Card,
-  Divider,
-  Image,
-  Link,
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  useDisclosure,
-} from "@nextui-org/react";
+import { Button, Card, Divider, Image } from "@nextui-org/react";
+import Link from "next/link";
 import { TfiTwitter } from "react-icons/tfi";
 import {
   FaTwitter,
@@ -22,7 +11,6 @@ import {
 } from "react-icons/fa6";
 
 export default function Footer() {
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
   return (
     <footer className="lg:h-4/5 flex flex-col justify-center p-0 lg:p-5">
       <Card
@@ -49,7 +37,7 @@ export default function Footer() {
         <div className="flex flex-col justify-center items-center gap-5 w-3/5">
           <Image
             alt="brand-logo"
-            src="patient.svg"
+            src="/icons/patient.svg"
             height={40}
             width={40}
             className=""
@@ -68,90 +56,65 @@ export default function Footer() {
           </div>
 
           <div className="flex flex-row gap-5">
-            <FaLinkedin size={25} color="white" />
-            <FaFacebook size={25} color="white" />
-            <FaInstagram size={25} color="white" />
-            <TfiTwitter size={25} color="white" />
+            <Link
+              href="https://www.linkedin.com"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <FaLinkedin size={25} color="white" />
+            </Link>
+            <Link
+              href="https://www.facebook.com"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <FaFacebook size={25} color="white" />
+            </Link>
+            <Link
+              href="https://www.instagram.com"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <FaInstagram size={25} color="white" />
+            </Link>
+            <Link
+              href="https://www.twitter.com"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <TfiTwitter size={25} color="white" />
+            </Link>
           </div>
 
           <div className="hidden lg:flex flex-row gap-5">
-            <Button className=" bg-transparent text-white" onPress={onOpen}>
+            <Button
+              className=" bg-transparent text-white"
+              as={Link}
+              href="/legal"
+            >
               Privacy
             </Button>
-            <Button className=" bg-transparent text-white">Terms of Use</Button>
-            <Button className=" bg-transparent text-white">
+            <Button
+              className=" bg-transparent text-white"
+              as={Link}
+              href="/legal"
+            >
+              Terms of Use
+            </Button>
+            <Button
+              className=" bg-transparent text-white"
+              as={Link}
+              href="/legal"
+            >
               Acceptable Use Policy
             </Button>
-            <Button className=" bg-transparent text-white">
+            <Button
+              className=" bg-transparent text-white"
+              as={Link}
+              href="/legal"
+            >
               Software Lifecycle Policy
             </Button>
-
-            <Modal
-              backdrop="opaque"
-              isOpen={isOpen}
-              onOpenChange={onOpenChange}
-              motionProps={{
-                variants: {
-                  enter: {
-                    y: 0,
-                    opacity: 1,
-                    transition: {
-                      duration: 0.3,
-                      ease: "easeOut",
-                    },
-                  },
-                  exit: {
-                    y: -20,
-                    opacity: 0,
-                    transition: {
-                      duration: 0.2,
-                      ease: "easeIn",
-                    },
-                  },
-                },
-              }}
-            >
-              <ModalContent>
-                {(onClose) => (
-                  <>
-                    <ModalHeader className="flex flex-col gap-1">
-                      Modal Title
-                    </ModalHeader>
-                    <ModalBody>
-                      <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        Nullam pulvinar risus non risus hendrerit venenatis.
-                        Pellentesque sit amet hendrerit risus, sed porttitor
-                        quam.
-                      </p>
-                      <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        Nullam pulvinar risus non risus hendrerit venenatis.
-                        Pellentesque sit amet hendrerit risus, sed porttitor
-                        quam.
-                      </p>
-                      <p>
-                        Magna exercitation reprehenderit magna aute tempor
-                        cupidatat consequat elit dolor adipisicing. Mollit dolor
-                        eiusmod sunt ex incididunt cillum quis. Velit duis sit
-                        officia eiusmod Lorem aliqua enim laboris do dolor
-                        eiusmod. Et mollit incididunt nisi consectetur esse
-                        laborum eiusmod pariatur proident Lorem eiusmod et.
-                        Culpa deserunt nostrud ad veniam.
-                      </p>
-                    </ModalBody>
-                    <ModalFooter>
-                      <Button color="danger" variant="light" onPress={onClose}>
-                        Close
-                      </Button>
-                      <Button color="primary" onPress={onClose}>
-                        Action
-                      </Button>
-                    </ModalFooter>
-                  </>
-                )}
-              </ModalContent>
-            </Modal>
           </div>
         </div>
       </Card>
