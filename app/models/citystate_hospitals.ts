@@ -16,16 +16,22 @@ interface CityStateHospital extends mongoose.Document {
   cities: CityDocument[];
 }
 
-const hospitalSchema = new mongoose.Schema<HospitalDocument>({
-  hospital_id: { type: String, default: null },
-  hospital_name: { type: String, required: true },
-  appointment_charge: { type: String, required: true },
-});
+const hospitalSchema = new mongoose.Schema<HospitalDocument>(
+  {
+    hospital_id: { type: String, default: null },
+    hospital_name: { type: String, required: true },
+    appointment_charge: { type: String, required: true },
+  },
+  { _id: false }
+);
 
-const citySchema = new mongoose.Schema<CityDocument>({
-  name: { type: String, required: true },
-  hospitals: [hospitalSchema],
-});
+const citySchema = new mongoose.Schema<CityDocument>(
+  {
+    name: { type: String, required: true },
+    hospitals: [hospitalSchema],
+  },
+  { _id: false }
+);
 
 const stateSchema = new mongoose.Schema<CityStateHospital>(
   {

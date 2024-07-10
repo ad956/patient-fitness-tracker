@@ -1,13 +1,16 @@
 import mongoose from "mongoose";
 
-const addressSchema = new mongoose.Schema({
-  address_line_1: String,
-  address_line_2: String,
-  city: String,
-  state: String,
-  country: String,
-  zip_code: String,
-});
+const addressSchema = new mongoose.Schema(
+  {
+    address_line_1: String,
+    address_line_2: String,
+    city: String,
+    state: String,
+    country: String,
+    zip_code: String,
+  },
+  { _id: false }
+);
 
 export interface Receptionist extends mongoose.Document {
   firstname: { type: String; required: true };

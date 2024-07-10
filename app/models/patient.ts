@@ -43,20 +43,26 @@ export interface Patient extends mongoose.Document {
   healthConditions: number[];
 }
 
-const addressSchema = new mongoose.Schema({
-  address_line_1: String,
-  address_line_2: String,
-  city: String,
-  state: String,
-  country: String,
-  zip_code: String,
-});
+const addressSchema = new mongoose.Schema(
+  {
+    address_line_1: String,
+    address_line_2: String,
+    city: String,
+    state: String,
+    country: String,
+    zip_code: String,
+  },
+  { _id: false }
+);
 
-const medicineSchema = new mongoose.Schema({
-  name: String,
-  dosage: String,
-  frequency: String,
-});
+const medicineSchema = new mongoose.Schema(
+  {
+    name: String,
+    dosage: String,
+    frequency: String,
+  },
+  { _id: false }
+);
 
 const patientSchema = new mongoose.Schema(
   {
