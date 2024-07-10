@@ -1,3 +1,5 @@
+import { decrypt } from "@sessions/sessionUtils";
+import dbConfig from "@utils/db";
 import Patient from "@models/patient";
 import bcrypt from "bcrypt";
 
@@ -6,15 +8,27 @@ type SecurityBody = {
 };
 
 export async function PUT(req: Request) {
-  const email = "anandsuthar956@gmail.com";
+  await dbConfig();
 
-  const { password }: SecurityBody = await req.json();
-
-  if (!password) {
-    return Response.json({ message: "Password is required" }, { status: 400 });
+  const session = req.headers.get("Authorization");
+  if (!session) {
+    return Response.json({ error: "Unauthorized" }, { status: 401 });
   }
 
   try {
+    const token = session.split("Bearer ")[1];
+    const decryptedUser = await decrypt(token);
+    const email = decryptedUser.user.email;
+
+    const { password }: SecurityBody = await req.json();
+
+    if (!password) {
+      return Response.json(
+        { message: "Password is required" },
+        { status: 400 }
+      );
+    }
+
     const hashedPassword = await hashPassword(password);
 
     const updatedPatient = await Patient.findOneAndUpdate(

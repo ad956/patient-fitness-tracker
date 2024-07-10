@@ -3,17 +3,17 @@ import { decrypt } from "@sessions/sessionUtils";
 import Patient from "@models/patient";
 
 export async function PUT(request: Request) {
-  //   const session = request.headers.get("Authorization");
-  //   if (!session) {
-  //     return Response.json({ error: "Unauthorized" }, { status: 401 });
-  //   }
+  const session = request.headers.get("Authorization");
+  if (!session) {
+    return Response.json({ error: "Unauthorized" }, { status: 401 });
+  }
 
   const profile_pic = await request.json();
 
   try {
-    // const token = session.split("Bearer ")[1];
-    // const decryptedUser = await decrypt(token);
-    const patient_email = "anandsuthar956@gmail.com"; //decryptedUser.user.email;
+    const token = session.split("Bearer ")[1];
+    const decryptedUser = await decrypt(token);
+    const patient_email = decryptedUser.user.email;
 
     await dbConfig();
 
