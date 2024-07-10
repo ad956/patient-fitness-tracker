@@ -25,18 +25,6 @@ export interface Doctor extends mongoose.Document {
   patients: [];
 }
 
-const addressSchema = new mongoose.Schema(
-  {
-    address_line_1: String,
-    address_line_2: String,
-    city: String,
-    state: String,
-    country: String,
-    zip_code: String,
-  },
-  { _id: false }
-);
-
 const doctorSchema = new mongoose.Schema(
   {
     firstname: {
@@ -82,7 +70,15 @@ const doctorSchema = new mongoose.Schema(
     profile: {
       type: String,
     },
-    address: addressSchema,
+    address: {
+      _id: false,
+      address_line_1: String,
+      address_line_2: String,
+      city: String,
+      state: String,
+      country: String,
+      zip_code: String,
+    },
     current_hospital: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Hospital",

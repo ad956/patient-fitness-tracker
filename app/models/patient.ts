@@ -33,36 +33,13 @@ export interface Patient extends mongoose.Document {
     currentTreatment: number;
     pendingAppointments: number;
   };
-  medicines: [
-    {
-      name: string;
-      dosage: string;
-      frequency: string;
-    }
-  ];
+  medicines: {
+    name: string;
+    dosage: string;
+    frequency: string;
+  }[];
   healthConditions: number[];
 }
-
-const addressSchema = new mongoose.Schema(
-  {
-    address_line_1: String,
-    address_line_2: String,
-    city: String,
-    state: String,
-    country: String,
-    zip_code: String,
-  },
-  { _id: false }
-);
-
-const medicineSchema = new mongoose.Schema(
-  {
-    name: String,
-    dosage: String,
-    frequency: String,
-  },
-  { _id: false }
-);
 
 const patientSchema = new mongoose.Schema(
   {
@@ -81,21 +58,38 @@ const patientSchema = new mongoose.Schema(
     },
     contact: { type: String, required: false },
     profile: String,
-    address: addressSchema,
+    address: {
+      _id: false,
+      address_line_1: String,
+      address_line_2: String,
+      city: String,
+      state: String,
+      country: String,
+      zip_code: String,
+    },
     current_hospital: { type: mongoose.Schema.Types.ObjectId, ref: "Hospital" },
     physicalDetails: {
+      _id: false,
       age: Number,
       blood: String,
       height: Number,
       weight: Number,
     },
     progress: {
+      _id: false,
       generalHealth: Number,
       waterBalance: Number,
       currentTreatment: Number,
       pendingAppointments: Number,
     },
-    medicines: [medicineSchema],
+    medicines: [
+      {
+        _id: false,
+        name: String,
+        dosage: String,
+        frequency: String,
+      },
+    ],
     healthConditions: [Number],
   },
   { collection: "patient" }
