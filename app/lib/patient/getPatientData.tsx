@@ -12,7 +12,7 @@ export default async function getPatientData() {
   try {
     const res = await fetch(`${serverUrl}/api/patient`, {
       headers,
-      next: { revalidate: 10 },
+      cache: "no-cache",
     });
 
     if (!res.ok) {
