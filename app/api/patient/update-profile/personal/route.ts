@@ -1,4 +1,6 @@
+import dbConfig from "@utils/db";
 import Patient from "@models/patient";
+import { decrypt } from "@sessions/sessionUtils";
 
 type PersonalInfoBody = {
   firstname?: string;
@@ -11,18 +13,27 @@ type PersonalInfoBody = {
 };
 
 export async function PUT(req: Request) {
-  const currentEmail = "anandsuthar956@gmail.com";
+  await dbConfig();
 
-  const updateData: PersonalInfoBody = await req.json();
-
-  // remove undefined fields
-  Object.keys(updateData).forEach((key) => {
-    if (updateData[key as keyof PersonalInfoBody] === undefined) {
-      delete updateData[key as keyof PersonalInfoBody];
-    }
-  });
+  const session = req.headers.get("Authorization");
+  if (!session) {
+    return Response.json({ error: "Unauthorized" }, { status: 401 });
+  }
 
   try {
+    const token = session.split("Bearer ")[1];
+    const decryptedUser = await decrypt(token);
+    const currentEmail = decryptedUser.user.email;
+
+    const updateData: PersonalInfoBody = await req.json();
+
+    // remove undefined fields
+    Object.keys(updateData).forEach((key) => {
+      if (updateData[key as keyof PersonalInfoBody] === undefined) {
+        delete updateData[key as keyof PersonalInfoBody];
+      }
+    });
+
     // check for uniqueness of username, email, and contact
     if (updateData.username) {
       const existingUsername = await Patient.findOne({
