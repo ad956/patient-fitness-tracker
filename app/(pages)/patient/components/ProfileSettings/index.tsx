@@ -509,8 +509,8 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
               </Tooltip>
             )}
           </CldUploadWidget>
-          <h2 className="text-xl font-semibold">{`${firstname} ${lastname}`}</h2>
-          <p className="text-gray-500">@{username}</p>
+          <h2 className="text-xl font-semibold">{`${patient.firstname} ${patient.lastname}`}</h2>
+          <p className="text-gray-500">@{patient.username}</p>
         </div>
         <nav>
           {["personal", "address", "security"].map((tab) => (
