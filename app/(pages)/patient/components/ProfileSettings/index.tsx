@@ -20,28 +20,26 @@ import { DateValue, parseDate } from "@internationalized/date";
 import { updateProfilePicture } from "@lib/patient";
 import { FaLock, FaUser } from "react-icons/fa6";
 import { FaMapMarkerAlt } from "react-icons/fa";
+import {
+  updateAddress,
+  updatePersonal,
+  updateSecurity,
+} from "@lib/update-profile";
+import FormValidator from "@utils/formValidator";
 
 export default function ProfileSettings({ patient }: { patient: Patient }) {
-  const [isVisible, setIsVisible] = useState(true);
+  const [formValidator] = useState(new FormValidator());
 
   const [firstname, setFirstName] = useState(patient.firstname);
-  const [firstNameError, setFirstNameError] = useState(null || String);
   const [lastname, setLastName] = useState(patient.lastname);
-  const [lastNameError, setLastNameError] = useState(null || String);
   const [username, setUsername] = useState(patient.username);
-  const [usernameError, setUsernameError] = useState(null || String);
   const [email, setEmail] = useState(patient.email);
-  const [emailError, setEmailError] = useState(null || String);
   const [password, setPassword] = useState("");
-  const [passwordError, setPasswordError] = useState(null || String);
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [confirmPasswordError, setConfirmPasswordError] = useState(
-    null || String
-  );
+
   const [profilePicture, setProfilePicture] = useState(patient.profile);
   const [dob, setDob] = useState<DateValue>(parseDate(patient.dob));
   const [contact, setContact] = useState(patient.contact);
-  const [contactError, setContactError] = useState(null || String);
   const [gender, setGender] = useState(patient.gender);
   const [address, setAddress] = useState({
     address_line_1: patient.address.address_line_1 || "",
@@ -51,117 +49,76 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
     zip_code: patient.address.zip_code || "",
     country: patient.address.country || "",
   });
-  const [addressErrors, setAddressErrors] = useState({
-    address_line_1: "",
-    address_line_2: "",
-    city: "",
-    state: "",
-    zip_code: "",
-    country: "",
-  });
+
+  const [isVisible, setIsVisible] = useState(true);
   const [updateDisabled, setUpdateDisabled] = useState(true);
 
   const toggleVisibility = () => setIsVisible(!isVisible);
 
-  const firstNameRef = useRef<HTMLInputElement>(null);
-  const lastNameRef = useRef<HTMLInputElement>(null);
-  const usernameRef = useRef<HTMLInputElement>(null);
-  const emailRef = useRef<HTMLInputElement>(null);
-  const passwordRef = useRef<HTMLInputElement>(null);
-  const confirmPasswordRef = useRef<HTMLInputElement>(null);
-  const contactRef = useRef<HTMLInputElement>(null);
-  const addressLine1Ref = useRef<HTMLTextAreaElement>(null);
-  const addressLine2Ref = useRef<HTMLTextAreaElement>(null);
-  const cityRef = useRef<HTMLInputElement>(null);
-  const stateRef = useRef<HTMLInputElement>(null);
-  const zipCodeRef = useRef<HTMLInputElement>(null);
-  const countryRef = useRef<HTMLInputElement>(null);
+  useEffect(() => {
+    setUpdateDisabled(isUpdateDisabled());
+  }, [
+    firstname,
+    lastname,
+    username,
+    email,
+    password,
+    confirmPassword,
+    dob,
+    contact,
+    gender,
+    address,
+  ]);
+
+  function isUpdateDisabled(): boolean {
+    return (
+      formValidator.hasErrors() ||
+      !email ||
+      !password ||
+      !confirmPassword ||
+      !dob ||
+      !gender ||
+      !address
+    );
+  }
 
   function handleFirstNameChange(e: ChangeEvent<HTMLInputElement>) {
-    const firstNameRegex = /^[a-zA-Z'-]+$/;
-    const isValidFirstName = firstNameRegex.test(e.target.value);
-
-    setFirstNameError(
-      isValidFirstName
-        ? ""
-        : "First name must only contain letters, hyphens, and apostrophes"
-    );
+    const error = FormValidator.validateName(e.target.value, "firstname");
+    formValidator.setError("firstName", error);
     setFirstName(e.target.value);
   }
 
   function handleLastNameChange(e: ChangeEvent<HTMLInputElement>) {
-    const lastNameRegex = /^[a-zA-Z'-]+(?: [a-zA-Z'-]+)*$/;
-    const isValidLastName = lastNameRegex.test(e.target.value);
-
-    setLastNameError(
-      isValidLastName
-        ? ""
-        : "Last name must only contain letters, hyphens, and apostrophes, with optional spaces between parts"
-    );
+    const error = FormValidator.validateName(e.target.value, "lastname");
+    formValidator.setError("lastName", error);
     setLastName(e.target.value);
   }
 
   function handleUserNameChange(e: ChangeEvent<HTMLInputElement>) {
-    const usernameRegex = /^[a-zA-Z0-9]{5,10}$/;
-    const isValidUsername = usernameRegex.test(e.target.value);
-
-    setUsernameError(
-      isValidUsername
-        ? ""
-        : "Username must be between 5 and 10 characters long and contain only letters and numbers"
-    );
+    const error = FormValidator.validateUsername(e.target.value);
+    formValidator.setError("username", error);
     setUsername(e.target.value);
   }
 
   function handleEmailChange(e: ChangeEvent<HTMLInputElement>) {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const isValidEmail = emailRegex.test(e.target.value);
-
-    setEmailError(isValidEmail ? "" : "Please enter a valid email address");
+    const error = FormValidator.validateEmail(e.target.value);
+    formValidator.setError("email", error);
     setEmail(e.target.value);
   }
 
   function handlePasswordChange(e: ChangeEvent<HTMLInputElement>) {
-    const passwordRegex =
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-    const isValidPassword = passwordRegex.test(e.target.value);
-    const missingComponents = [];
-
-    if (!/[a-z]/.test(e.target.value)) {
-      missingComponents.push("at least one lowercase letter");
-    }
-
-    if (!/[A-Z]/.test(e.target.value)) {
-      missingComponents.push("at least one uppercase letter");
-    }
-
-    if (!/[0-9]/.test(e.target.value)) {
-      missingComponents.push("at least one number");
-    }
-
-    if (!/[@$!%*?&]/.test(e.target.value)) {
-      missingComponents.push(
-        "at least one special character (@, $, !, %, *, ?, &)"
-      );
-    }
-
-    setPasswordError(
-      isValidPassword
-        ? ""
-        : missingComponents.length > 0
-        ? `Password must contain at least 8 characters, and ${missingComponents.join(
-            " and "
-          )}.`
-        : "Password is too short. It must be at least 8 characters long."
-    );
+    const error = FormValidator.validatePassword(e.target.value);
+    formValidator.setError("password", error);
     setPassword(e.target.value);
   }
 
   function handleConfirmPasswordChange(e: ChangeEvent<HTMLInputElement>) {
-    setConfirmPassword(e.target.value);
-    setConfirmPasswordError(
-      e.target.value === password ? "" : "Passwords do not match"
+    const error = FormValidator.validateConfirmPassword(
+      password,
+      e.target.value
     );
+    formValidator.setError("confirmpassword", error);
+    setConfirmPassword(e.target.value);
   }
 
   const isDateInvalid = (): boolean => {
@@ -181,12 +138,8 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
   };
 
   const handleContactChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const regex = /^\d{10}$/;
-    const isContactValid = regex.test(e.target.value);
-
-    setContactError(
-      isContactValid ? "" : "Please enter a 10-digit phone number"
-    );
+    const error = FormValidator.validateContact(e.target.value);
+    formValidator.setError("contact", error);
     setContact(e.target.value);
   };
 
@@ -194,152 +147,18 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
     (field: keyof typeof address) =>
     (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
       setAddress({ ...address, [field]: e.target.value });
-      validateAddressField(field, e.target.value);
+      const errors = FormValidator.validateAddress({
+        ...address,
+        [field]: e.target.value,
+      });
+
+      formValidator.setError(`address.${field}`, errors[field]);
     };
-
-  const validateAddressField = (field: keyof typeof address, value: string) => {
-    let error = "";
-    switch (field) {
-      case "address_line_1":
-        error = value ? "" : "Address Line 1 is required";
-        break;
-      case "city":
-        error = value ? "" : "City is required";
-        break;
-      case "state":
-        error = value ? "" : "State is required";
-        break;
-      case "zip_code":
-        const zipCodeRegex = /^\d{5}(-\d{4})?$/;
-        error = zipCodeRegex.test(value) ? "" : "Please enter a valid ZIP code";
-        break;
-      case "country":
-        error = value ? "" : "Country is required";
-        break;
-    }
-    setAddressErrors({ ...addressErrors, [field]: error });
-  };
-
-  useEffect(() => {
-    setUpdateDisabled(isUpdateDisabled());
-  }, [
-    firstNameError,
-    firstname,
-    lastNameError,
-    lastname,
-    usernameError,
-    username,
-    emailError,
-    email,
-    passwordError,
-    password,
-    confirmPasswordError,
-    confirmPassword,
-    addressErrors,
-  ]);
-
-  function isUpdateDisabled(): boolean {
-    return (
-      !!firstNameError ||
-      !firstname ||
-      !!lastNameError ||
-      !lastname ||
-      !!usernameError ||
-      !username ||
-      !!emailError ||
-      !email ||
-      !!passwordError ||
-      !password ||
-      !!confirmPasswordError ||
-      !confirmPassword ||
-      Object.values(addressErrors).some((error) => !!error)
-    );
-  }
-
-  const showToast = (
-    inputRef: React.RefObject<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    if (inputRef.current?.name === "firstname") {
-      if (firstNameError) {
-        toast.error(firstNameError, {
-          position: "bottom-center",
-        });
-      }
-    }
-    if (inputRef.current?.name === "lastname") {
-      if (lastNameError) {
-        toast.error(lastNameError, {
-          position: "bottom-center",
-        });
-      }
-    }
-    if (inputRef.current?.name === "username") {
-      if (usernameError) {
-        toast.error(usernameError, {
-          position: "bottom-center",
-        });
-      }
-    }
-    if (inputRef.current?.name === "email") {
-      if (emailError) {
-        toast.error(emailError, {
-          position: "bottom-center",
-        });
-      }
-    }
-    if (inputRef.current?.name === "password") {
-      if (passwordError) {
-        toast.error(passwordError, {
-          position: "bottom-center",
-        });
-      }
-    }
-    if (inputRef.current?.name === "confirmpassword") {
-      if (confirmPasswordError) {
-        toast.error(confirmPasswordError, {
-          position: "bottom-center",
-        });
-      }
-    }
-    if (inputRef.current?.name === "contact") {
-      if (contactError) {
-        toast.error(contactError, {
-          position: "bottom-center",
-        });
-      }
-    }
-    if (inputRef.current?.name === "address_line_1") {
-      if (addressErrors.address_line_1) {
-        toast.error(addressErrors.address_line_1, {
-          position: "bottom-center",
-        });
-      }
-    }
-    if (inputRef.current?.name === "city") {
-      if (addressErrors.city) {
-        toast.error(addressErrors.city, { position: "bottom-center" });
-      }
-    }
-    if (inputRef.current?.name === "state") {
-      if (addressErrors.state) {
-        toast.error(addressErrors.state, { position: "bottom-center" });
-      }
-    }
-    if (inputRef.current?.name === "zip_code") {
-      if (addressErrors.zip_code) {
-        toast.error(addressErrors.zip_code, { position: "bottom-center" });
-      }
-    }
-    if (inputRef.current?.name === "country") {
-      if (addressErrors.country) {
-        toast.error(addressErrors.country, { position: "bottom-center" });
-      }
-    }
-  };
 
   const UpdateButton = ({ onUpdate }: { onUpdate: () => void }) => {
     return (
       <Button
+        // isDisabled={updateDisabled} // to be done
         onClick={onUpdate}
         color="danger"
         variant="shadow"
@@ -367,19 +186,14 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
 
     if (Object.keys(filteredFields).length > 0) {
       try {
-        const response = await fetch(`/api/patient/update-profile/personal`, {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(filteredFields),
-        });
+        const response = await updatePersonal(filteredFields);
 
-        if (response.ok) {
+        toast.dismiss();
+
+        if (response.msg) {
           toast.success("Personal information updated successfully");
         } else {
-          const res = await response.json();
-          toast.error(res.error);
+          toast.error("Failed to update personal information");
         }
       } catch (error) {
         console.error("Error updating personal information:", error);
@@ -391,6 +205,7 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
   };
 
   const updateAddressInfo = async () => {
+    toast.loading("Please wait");
     const updatedFields = {
       address_line_1:
         address.address_line_1 !== patient.address.address_line_1
@@ -419,15 +234,11 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
 
     if (Object.keys(filteredFields).length > 0) {
       try {
-        const response = await fetch(`/api/patient/update-profile/address`, {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(filteredFields),
-        });
+        const response = await updateAddress(filteredFields);
 
-        if (response.ok) {
+        toast.dismiss();
+
+        if (response.msg) {
           toast.success("Address information updated successfully");
         } else {
           toast.error("Failed to update address information");
@@ -444,18 +255,11 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
   const updateSecurityInfo = async () => {
     if (password && password === confirmPassword) {
       try {
-        const response = await fetch(
-          `/api/patient/update-profile/reset-password`,
-          {
-            method: "PUT",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ password }),
-          }
-        );
+        const response = await updateSecurity(password);
 
-        if (response.ok) {
+        toast.dismiss();
+
+        if (response.msg) {
           toast.success("Password updated successfully");
           setPassword("");
           setConfirmPassword("");
@@ -557,8 +361,7 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
                   value={firstname}
                   className="max-w-xs"
                   onChange={handleFirstNameChange}
-                  ref={firstNameRef}
-                  onBlur={() => showToast(firstNameRef)}
+                  onBlur={() => formValidator.showToast("firstname")}
                 />
                 <Input
                   name="lastname"
@@ -568,8 +371,7 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
                   value={lastname}
                   className="max-w-xs"
                   onChange={handleLastNameChange}
-                  ref={lastNameRef}
-                  onBlur={() => showToast(lastNameRef)}
+                  onBlur={() => formValidator.showToast("lastname")}
                 />
                 <Input
                   name="username"
@@ -580,8 +382,7 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
                   value={username}
                   className="max-w-xs"
                   onChange={handleUserNameChange}
-                  ref={usernameRef}
-                  onBlur={() => showToast(usernameRef)}
+                  onBlur={() => formValidator.showToast("username")}
                 />
                 <Input
                   name="email"
@@ -592,8 +393,7 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
                   className="max-w-xs"
                   autoComplete="email"
                   onChange={handleEmailChange}
-                  ref={emailRef}
-                  onBlur={() => showToast(emailRef)}
+                  onBlur={() => formValidator.showToast("email")}
                 />
                 <Select
                   name="gender"
@@ -631,8 +431,7 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
                   value={contact}
                   className="max-w-xs"
                   onChange={handleContactChange}
-                  ref={contactRef}
-                  onBlur={() => showToast(contactRef)}
+                  onBlur={() => formValidator.showToast("contact")}
                 />
               </div>
             </Card>
@@ -657,9 +456,9 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
                   value={address.address_line_1}
                   className="max-w-xs"
                   onChange={handleAddressChange("address_line_1")}
-                  ref={addressLine1Ref}
-                  onBlur={() => showToast(addressLine1Ref)}
-                  errorMessage={addressErrors.address_line_1}
+                  onBlur={() =>
+                    formValidator.showToast("address.address_line_1")
+                  }
                 />
                 <Textarea
                   name="address_line_2"
@@ -668,7 +467,9 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
                   value={address.address_line_2}
                   className="max-w-xs"
                   onChange={handleAddressChange("address_line_2")}
-                  ref={addressLine2Ref}
+                  onBlur={() =>
+                    formValidator.showToast("address.address_line_2")
+                  }
                 />
                 <Input
                   name="city"
@@ -678,9 +479,7 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
                   value={address.city}
                   className="max-w-xs"
                   onChange={handleAddressChange("city")}
-                  ref={cityRef}
-                  onBlur={() => showToast(cityRef)}
-                  errorMessage={addressErrors.city}
+                  onBlur={() => formValidator.showToast("address.city")}
                 />
                 <Input
                   name="state"
@@ -690,9 +489,7 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
                   value={address.state}
                   className="max-w-xs"
                   onChange={handleAddressChange("state")}
-                  ref={stateRef}
-                  onBlur={() => showToast(stateRef)}
-                  errorMessage={addressErrors.state}
+                  onBlur={() => formValidator.showToast("address.state")}
                 />
                 <Input
                   name="zip_code"
@@ -702,9 +499,7 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
                   value={address.zip_code}
                   className="max-w-xs"
                   onChange={handleAddressChange("zip_code")}
-                  ref={zipCodeRef}
-                  onBlur={() => showToast(zipCodeRef)}
-                  errorMessage={addressErrors.zip_code}
+                  onBlur={() => formValidator.showToast("address.zip_code")}
                 />
                 <Input
                   name="country"
@@ -714,9 +509,7 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
                   value={address.country}
                   className="max-w-xs"
                   onChange={handleAddressChange("country")}
-                  ref={countryRef}
-                  onBlur={() => showToast(countryRef)}
-                  errorMessage={addressErrors.country}
+                  onBlur={() => formValidator.showToast("address.country")}
                 />
               </div>
             </Card>
@@ -753,8 +546,7 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
                       )}
                     </button>
                   }
-                  ref={passwordRef}
-                  onBlur={() => showToast(passwordRef)}
+                  onBlur={() => formValidator.showToast("password")}
                 />
                 <Input
                   name="confirmpassword"
@@ -777,8 +569,7 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
                       )}
                     </button>
                   }
-                  ref={confirmPasswordRef}
-                  onBlur={() => showToast(confirmPasswordRef)}
+                  onBlur={() => formValidator.showToast("confirmpassword")}
                 />
               </div>
             </Card>
