@@ -1,5 +1,5 @@
 "use client";
-import { useState, type ChangeEvent, useRef, useEffect, useMemo } from "react";
+import { useState, type ChangeEvent, useEffect } from "react";
 import { AiTwotoneEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { carouselData, roles } from "@constants/index";
 import { Carousel, OtpSection } from "@components/index";
@@ -15,81 +15,43 @@ import {
 import { MdOutlineKey, MdOutlineAlternateEmail } from "react-icons/md";
 import { loginAction } from "@lib/actions";
 import toast, { Toaster } from "react-hot-toast";
+import FormValidator from "@utils/formValidator";
 
 export default function Login() {
+  const [formValidator] = useState(new FormValidator());
+
   const [email, setEmail] = useState("");
-  const [emailError, setEmailError] = useState(null || String);
   const [password, setPassword] = useState("");
-  const [passwordError, setPasswordError] = useState(null || String);
   const [role, setRole] = useState<Selection>(new Set([]));
   const [roleTouched, setRoleTouched] = useState(false);
 
   const [isVisible, setIsVisible] = useState(false);
-  const [Error, setError] = useState(null || String);
   const [showOtp, setShowOtp] = useState(false);
   const [userData, setUserData] = useState({ email: "", role: "", action: "" });
-
-  const emailRef = useRef<HTMLInputElement>(null);
-  const passwordRef = useRef<HTMLInputElement>(null);
 
   const isRoleValid = Array.from(role).length > 0;
 
   const [loginDisabled, setLoginDisabled] = useState(true);
+  const toggleVisibility = () => setIsVisible(!isVisible);
 
   function handleEmailChange(e: ChangeEvent<HTMLInputElement>) {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const isValidEmail = emailRegex.test(e.target.value);
-
-    setEmailError(isValidEmail ? "" : "Please enter a valid email address");
+    const error = FormValidator.validateEmail(e.target.value);
+    formValidator.setError("email", error);
     setEmail(e.target.value);
   }
 
   function handlePasswordChange(e: ChangeEvent<HTMLInputElement>) {
-    const passwordRegex =
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-    const isValidPassword = passwordRegex.test(e.target.value);
-    const missingComponents = [];
-
-    if (!/[a-z]/.test(e.target.value)) {
-      missingComponents.push("at least one lowercase letter");
-    }
-
-    if (!/[A-Z]/.test(e.target.value)) {
-      missingComponents.push("at least one uppercase letter");
-    }
-
-    if (!/[0-9]/.test(e.target.value)) {
-      missingComponents.push("at least one number");
-    }
-
-    if (!/[@$!%*?&]/.test(e.target.value)) {
-      missingComponents.push(
-        "at least one special character (@, $, !, %, *, ?, &)"
-      );
-    }
-
-    setPasswordError(
-      isValidPassword
-        ? ""
-        : missingComponents.length > 0
-        ? `Password must contain at least 8 characters, and ${missingComponents.join(
-            " and "
-          )}.`
-        : "Password is too short. It must be at least 8 characters long."
-    );
+    const error = FormValidator.validatePassword(e.target.value);
+    formValidator.setError("password", error);
     setPassword(e.target.value);
   }
 
-  const toggleVisibility = () => setIsVisible(!isVisible);
-
   useEffect(() => {
     setLoginDisabled(isLoginDisabled());
-  }, [emailError, email, passwordError, password, role]);
+  }, [email, password, role]);
 
   function isLoginDisabled(): boolean {
-    return (
-      !!emailError || !email || !!passwordError || !password || !isRoleValid
-    );
+    return formValidator.hasErrors() || !email || !password || !isRoleValid;
   }
 
   async function handleFormSubmit(
@@ -108,21 +70,17 @@ export default function Login() {
       if (isValidUser?.unauthorized) {
         toast.error("Invalid email or password. Please try again.");
       } else {
-        setError("");
         const userRole = formData.get("role");
-        const userEmail = formData.get("email");
-        if (userEmail) {
-          setUserData({
-            email: userEmail.toString(),
-            role: userRole?.toString() || "",
-            action: "Login",
-          });
+        setUserData({
+          email,
+          role: userRole?.toString() || "",
+          action: "Login",
+        });
 
-          toast.success("OTP successfully sent !", {
-            position: "bottom-center",
-          });
-          setShowOtp(true);
-        }
+        toast.success("OTP successfully sent !", {
+          position: "bottom-center",
+        });
+        setShowOtp(true);
       }
     } catch (error) {
       toast.error("Invalid email or password. Please try again.");
@@ -130,7 +88,7 @@ export default function Login() {
   }
 
   async function handleForgetPassword() {
-    if (!emailRef.current?.value || userData.role === "") {
+    if (!email || userData.role === "") {
       toast.error(
         "Please enter a valid email address and select a role to continue.",
         {
@@ -140,25 +98,6 @@ export default function Login() {
       );
     }
   }
-
-  const showToast = (
-    inputRef: React.RefObject<HTMLInputElement | HTMLSelectElement>
-  ) => {
-    if (inputRef.current?.name === "email") {
-      if (emailError) {
-        toast.error(emailError, {
-          position: "bottom-center",
-        });
-      }
-    }
-    if (inputRef.current?.name === "password") {
-      if (passwordError) {
-        toast.error(passwordError, {
-          position: "bottom-center",
-        });
-      }
-    }
-  };
 
   return (
     <div
@@ -194,8 +133,7 @@ export default function Login() {
             value={email}
             className="mx-2 my-1"
             onChange={handleEmailChange}
-            ref={emailRef}
-            onBlur={() => showToast(emailRef)}
+            onBlur={() => formValidator.showToast("email")}
             autoComplete="username"
           />
           <Input
@@ -221,8 +159,7 @@ export default function Login() {
               </button>
             }
             type={isVisible ? "text" : "password"}
-            ref={passwordRef}
-            onBlur={() => showToast(passwordRef)}
+            onBlur={() => formValidator.showToast("password")}
             autoComplete="current-password"
           />
           <Select

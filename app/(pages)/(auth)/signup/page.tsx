@@ -1,5 +1,5 @@
 "use client";
-import { useState, useRef, type ChangeEvent, useEffect } from "react";
+import { useState, type ChangeEvent, useEffect } from "react";
 import { AiTwotoneEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { carouselData, roles } from "@constants/index";
 import { Carousel, OtpSection } from "@components/index";
@@ -17,20 +17,17 @@ import { MdAlternateEmail, MdOutlineKey } from "react-icons/md";
 import { PiUserCircleDuotone } from "react-icons/pi";
 import { IoPersonCircleOutline } from "react-icons/io5";
 import { signupAction } from "@lib/actions";
+import FormValidator from "@utils/formValidator";
 
 export default function Signup() {
+  const [formValidator] = useState(new FormValidator());
+
   const [firstName, setFirstName] = useState("");
-  const [firstNameError, setFirstNameError] = useState(null || String);
   const [lastName, setLastName] = useState("");
-  const [lastNameError, setLastNameError] = useState(null || String);
   const [username, setUsername] = useState("");
-  const [usernameError, setUsernameError] = useState(null || String);
   const [email, setEmail] = useState("");
-  const [emailError, setEmailError] = useState(null || String);
   const [password, setPassword] = useState("");
-  const [passwordError, setPasswordError] = useState(null || String);
-  const [confirmPassword, setconfirmPassword] = useState("");
-  const [confirmPasswordError, setConfirmPasswordError] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [role, setRole] = useState<Selection>(new Set([]));
   const [roleTouched, setRoleTouched] = useState(false);
 
@@ -39,138 +36,47 @@ export default function Signup() {
   const [showOtp, setShowOtp] = useState(false);
   const [userData, setUserData] = useState({ email: "", role: "", action: "" });
 
-  const firstNameRef = useRef<HTMLInputElement>(null);
-  const lastNameRef = useRef<HTMLInputElement>(null);
-  const usernameRef = useRef<HTMLInputElement>(null);
-  const emailRef = useRef<HTMLInputElement>(null);
-  const passwordRef = useRef<HTMLInputElement>(null);
-  const confirmPasswordRef = useRef<HTMLInputElement>(null);
-
   const isRoleValid = Array.from(role).length > 0;
 
   const toggleVisibility = () => setIsVisible(!isVisible);
 
   function handleFirstNameChange(e: ChangeEvent<HTMLInputElement>) {
-    const firstNameRegex = /^[a-zA-Z'-]+$/;
-    const isValidFirstName = firstNameRegex.test(e.target.value);
-
-    setFirstNameError(
-      isValidFirstName
-        ? ""
-        : "First name must only contain letters, hyphens, and apostrophes"
-    );
+    const error = FormValidator.validateName(e.target.value, "firstname");
+    formValidator.setError("firstName", error);
     setFirstName(e.target.value);
   }
 
   function handleLastNameChange(e: ChangeEvent<HTMLInputElement>) {
-    const lastNameRegex = /^[a-zA-Z'-]+(?: [a-zA-Z'-]+)*$/;
-    const isValidLastName = lastNameRegex.test(e.target.value);
-
-    setLastNameError(
-      isValidLastName
-        ? ""
-        : "Last name must only contain letters, hyphens, and apostrophes, with optional spaces between parts"
-    );
+    const error = FormValidator.validateName(e.target.value, "lastname");
+    formValidator.setError("lastName", error);
     setLastName(e.target.value);
   }
 
   function handleUserNameChange(e: ChangeEvent<HTMLInputElement>) {
-    const usernameRegex = /^[a-zA-Z0-9]{5,10}$/;
-    const isValidUsername = usernameRegex.test(e.target.value);
-
-    setUsernameError(
-      isValidUsername
-        ? ""
-        : "Username must be between 5 and 10 characters long and contain only letters and numbers"
-    );
+    const error = FormValidator.validateUsername(e.target.value);
+    formValidator.setError("username", error);
     setUsername(e.target.value);
   }
 
   function handleEmailChange(e: ChangeEvent<HTMLInputElement>) {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const isValidEmail = emailRegex.test(e.target.value);
-
-    setEmailError(isValidEmail ? "" : "Please enter a valid email address");
+    const error = FormValidator.validateEmail(e.target.value);
+    formValidator.setError("email", error);
     setEmail(e.target.value);
   }
 
   function handlePasswordChange(e: ChangeEvent<HTMLInputElement>) {
-    const passwordRegex =
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-    const isValidPassword = passwordRegex.test(e.target.value);
-    const missingComponents = [];
-
-    if (!/[a-z]/.test(e.target.value)) {
-      missingComponents.push("at least one lowercase letter");
-    }
-
-    if (!/[A-Z]/.test(e.target.value)) {
-      missingComponents.push("at least one uppercase letter");
-    }
-
-    if (!/[0-9]/.test(e.target.value)) {
-      missingComponents.push("at least one number");
-    }
-
-    if (!/[@$!%*?&]/.test(e.target.value)) {
-      missingComponents.push(
-        "at least one special character (@, $, !, %, *, ?, &)"
-      );
-    }
-
-    setPasswordError(
-      isValidPassword
-        ? ""
-        : missingComponents.length > 0
-        ? `Password must contain at least 8 characters, and ${missingComponents.join(
-            " and "
-          )}.`
-        : "Password is too short. It must be at least 8 characters long."
-    );
+    const error = FormValidator.validatePassword(e.target.value);
+    formValidator.setError("password", error);
     setPassword(e.target.value);
   }
 
   function handleConfirmPasswordChange(e: ChangeEvent<HTMLInputElement>) {
-    const passwordRegex =
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-    const isValidPassword = passwordRegex.test(e.target.value);
-    const missingComponents = [];
-
-    if (!/[a-z]/.test(e.target.value)) {
-      missingComponents.push("at least one lowercase letter");
-    }
-
-    if (!/[A-Z]/.test(e.target.value)) {
-      missingComponents.push("at least one uppercase letter");
-    }
-
-    if (!/[0-9]/.test(e.target.value)) {
-      missingComponents.push("at least one number");
-    }
-
-    if (!/[@$!%*?&]/.test(e.target.value)) {
-      missingComponents.push(
-        "at least one special character (@, $, !, %, *, ?, &)"
-      );
-    }
-
-    setConfirmPasswordError(
-      isValidPassword
-        ? ""
-        : missingComponents.length > 0
-        ? `Password must contain at least 8 characters, and ${missingComponents.join(
-            " and "
-          )}.`
-        : "Password is too short. It must be at least 8 characters long."
+    const error = FormValidator.validateConfirmPassword(
+      password,
+      e.target.value
     );
-
-    if (e.target.value !== passwordRef.current?.value) {
-      setConfirmPasswordError(
-        "Passwords do not match. Please ensure that your password and confirm password are identical."
-      );
-    }
-
-    setconfirmPassword(e.target.value);
+    formValidator.setError("confirmpassword", error);
+    setConfirmPassword(e.target.value);
   }
 
   async function handleFormSubmit(
@@ -192,22 +98,21 @@ export default function Signup() {
         toast.error(signUpSuccess.msg);
       } else {
         const userRole = formData.get("role");
-        const userEmail = formData.get("email");
-        if (userEmail) {
-          setUserData({
-            email: userEmail.toString(),
-            role: userRole?.toString() || "",
-            action: "Signup",
-          });
 
-          toast.success(
-            "Almost done! Please use the OTP you received to complete signup. Thank you!",
-            {
-              position: "bottom-center",
-            }
-          );
-          setShowOtp(true);
-        }
+        setUserData({
+          email,
+          role: userRole?.toString() || "",
+          action: "Signup",
+        });
+
+        toast.success(
+          "Almost done! Please use the OTP you received to complete signup. Thank you!",
+          {
+            duration: 2000,
+            position: "bottom-center",
+          }
+        );
+        setShowOtp(true);
       }
     } catch (error) {
       console.error("Error signing up");
@@ -217,85 +122,20 @@ export default function Signup() {
 
   useEffect(() => {
     setSubmitDisabled(isSubmitDisabled());
-  }, [
-    firstNameError,
-    firstName,
-    lastNameError,
-    lastName,
-    usernameError,
-    username,
-    emailError,
-    email,
-    passwordError,
-    password,
-    confirmPasswordError,
-    confirmPassword,
-    role,
-  ]);
+  }, [firstName, lastName, username, email, password, confirmPassword, role]);
 
   function isSubmitDisabled(): boolean {
     return (
-      !!firstNameError ||
+      formValidator.hasErrors() ||
       !firstName ||
-      !!lastNameError ||
       !lastName ||
-      !!usernameError ||
       !username ||
-      !!emailError ||
       !email ||
-      !!passwordError ||
       !password ||
-      !!confirmPasswordError ||
       !confirmPassword ||
       !isRoleValid
     );
   }
-
-  const showToast = (inputRef: React.RefObject<HTMLInputElement>) => {
-    if (inputRef.current?.name === "firstname") {
-      if (firstNameError) {
-        toast.error(firstNameError, {
-          position: "bottom-center",
-        });
-      }
-    }
-    if (inputRef.current?.name === "lastname") {
-      if (lastNameError) {
-        toast.error(lastNameError, {
-          position: "bottom-center",
-        });
-      }
-    }
-    if (inputRef.current?.name === "username") {
-      if (usernameError) {
-        toast.error(usernameError, {
-          position: "bottom-center",
-        });
-      }
-    }
-    if (inputRef.current?.name === "email") {
-      if (emailError) {
-        toast.error(emailError, {
-          position: "bottom-center",
-        });
-      }
-    }
-    if (
-      inputRef.current?.name === "password" ||
-      inputRef.current?.name === "confirmpassword"
-    ) {
-      if (passwordError) {
-        toast.error(passwordError, {
-          position: "bottom-center",
-        });
-      }
-      if (confirmPasswordError) {
-        toast.error(confirmPasswordError, {
-          position: "bottom-center",
-        });
-      }
-    }
-  };
 
   return (
     <div
@@ -343,8 +183,7 @@ export default function Signup() {
               value={firstName}
               className="mx-2 my-1"
               onChange={handleFirstNameChange}
-              ref={firstNameRef}
-              onBlur={() => showToast(firstNameRef)}
+              onBlur={() => formValidator.showToast("firstname")}
             />
             <Input
               type="text"
@@ -356,8 +195,7 @@ export default function Signup() {
               value={lastName}
               className="mx-2 my-1"
               onChange={handleLastNameChange}
-              ref={lastNameRef}
-              onBlur={() => showToast(lastNameRef)}
+              onBlur={() => formValidator.showToast("lastname")}
             />
           </div>
           <Input
@@ -371,8 +209,7 @@ export default function Signup() {
             autoComplete="username"
             className="mx-2 my-1"
             onChange={handleUserNameChange}
-            ref={usernameRef}
-            onBlur={() => showToast(usernameRef)}
+            onBlur={() => formValidator.showToast("username")}
           />
           <Input
             type="email"
@@ -385,8 +222,7 @@ export default function Signup() {
             autoComplete="email"
             className="mx-2 my-1"
             onChange={handleEmailChange}
-            ref={emailRef}
-            onBlur={() => showToast(emailRef)}
+            onBlur={() => formValidator.showToast("email")}
           />
           <Input
             name="password"
@@ -412,8 +248,7 @@ export default function Signup() {
               </button>
             }
             type={isVisible ? "text" : "password"}
-            ref={passwordRef}
-            onBlur={() => showToast(passwordRef)}
+            onBlur={() => formValidator.showToast("password")}
           />
           <Input
             name="confirmpassword"
@@ -439,8 +274,7 @@ export default function Signup() {
               </button>
             }
             type={isVisible ? "text" : "password"}
-            ref={confirmPasswordRef}
-            onBlur={() => showToast(confirmPasswordRef)}
+            onBlur={() => formValidator.showToast("confirmpassword")}
           />
 
           <Select
