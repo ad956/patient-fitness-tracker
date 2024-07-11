@@ -7,7 +7,7 @@ export default async function Settings() {
 
   return (
     <section className="h-full w-full flex flex-col overflow-y-auto">
-      <ProfileSettings patient={patient} />
+      <ProfileSettings user={patient} />
     </section>
   );
 }
