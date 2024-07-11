@@ -51,8 +51,6 @@ export async function PUT(req: Request) {
 
     patient.address = updatedAddress;
 
-    console.table(patient.address);
-
     await patient.save();
 
     return Response.json({ msg: "ok" }, { status: 200 });
