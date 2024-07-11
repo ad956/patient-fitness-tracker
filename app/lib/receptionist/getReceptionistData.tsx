@@ -4,7 +4,7 @@ import getBaseUrl from "@utils/getBaseUrl";
 import { getSessionToken } from "../sessions/sessionUtils";
 
 export default async function getReceptionistData() {
-  const session = await getSessionToken();
+  const session = getSessionToken();
   const serverUrl = getBaseUrl();
 
   const headers = {
@@ -13,6 +13,7 @@ export default async function getReceptionistData() {
   try {
     const res = await fetch(`${serverUrl}/api/receptionist`, {
       headers,
+      cache: "no-cache",
     });
 
     if (!res.ok) {
