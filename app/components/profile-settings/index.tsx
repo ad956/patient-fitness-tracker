@@ -1,6 +1,6 @@
 "use client";
 
-import { Patient } from "@types";
+import { User } from "@types";
 import {
   Input,
   Button,
@@ -27,27 +27,31 @@ import {
 } from "@lib/update-profile";
 import FormValidator from "@utils/formValidator";
 
-export default function ProfileSettings({ patient }: { patient: Patient }) {
+type ProfileSettingsProps = {
+  user: User;
+};
+
+export default function ProfileSettings({ user }: ProfileSettingsProps) {
   const [formValidator] = useState(new FormValidator());
 
-  const [firstname, setFirstName] = useState(patient.firstname);
-  const [lastname, setLastName] = useState(patient.lastname);
-  const [username, setUsername] = useState(patient.username);
-  const [email, setEmail] = useState(patient.email);
+  const [firstname, setFirstName] = useState(user.firstname);
+  const [lastname, setLastName] = useState(user.lastname);
+  const [username, setUsername] = useState(user.username);
+  const [email, setEmail] = useState(user.email);
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
 
-  const [profilePicture, setProfilePicture] = useState(patient.profile);
-  const [dob, setDob] = useState<DateValue>(parseDate(patient.dob));
-  const [contact, setContact] = useState(patient.contact);
-  const [gender, setGender] = useState(patient.gender);
+  const [profilePicture, setProfilePicture] = useState(user.profile);
+  const [dob, setDob] = useState<DateValue>(parseDate(user.dob));
+  const [contact, setContact] = useState(user.contact);
+  const [gender, setGender] = useState(user.gender);
   const [address, setAddress] = useState({
-    address_line_1: patient.address.address_line_1 || "",
-    address_line_2: patient.address.address_line_2 || "",
-    city: patient.address.city || "",
-    state: patient.address.state || "",
-    zip_code: patient.address.zip_code || "",
-    country: patient.address.country || "",
+    address_line_1: user.address.address_line_1 || "",
+    address_line_2: user.address.address_line_2 || "",
+    city: user.address.city || "",
+    state: user.address.state || "",
+    zip_code: user.address.zip_code || "",
+    country: user.address.country || "",
   });
 
   const [isVisible, setIsVisible] = useState(true);
@@ -170,13 +174,13 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
     toast.loading("Please wait");
 
     const updatedFields = {
-      firstname: firstname !== patient.firstname ? firstname : undefined,
-      lastname: lastname !== patient.lastname ? lastname : undefined,
-      username: username !== patient.username ? username : undefined,
-      email: email !== patient.email ? email : undefined,
-      dob: dob.toString() !== patient.dob ? dob.toString() : undefined,
-      gender: gender !== patient.gender ? gender : undefined,
-      contact: contact !== patient.contact ? contact : undefined,
+      firstname: firstname !== user.firstname ? firstname : undefined,
+      lastname: lastname !== user.lastname ? lastname : undefined,
+      username: username !== user.username ? username : undefined,
+      email: email !== user.email ? email : undefined,
+      dob: dob.toString() !== user.dob ? dob.toString() : undefined,
+      gender: gender !== user.gender ? gender : undefined,
+      contact: contact !== user.contact ? contact : undefined,
     };
 
     const filteredFields = Object.fromEntries(
@@ -208,24 +212,21 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
     toast.loading("Please wait");
     const updatedFields = {
       address_line_1:
-        address.address_line_1 !== patient.address.address_line_1
+        address.address_line_1 !== user.address.address_line_1
           ? address.address_line_1
           : undefined,
       address_line_2:
-        address.address_line_2 !== patient.address.address_line_2
+        address.address_line_2 !== user.address.address_line_2
           ? address.address_line_2
           : undefined,
-      city: address.city !== patient.address.city ? address.city : undefined,
-      state:
-        address.state !== patient.address.state ? address.state : undefined,
+      city: address.city !== user.address.city ? address.city : undefined,
+      state: address.state !== user.address.state ? address.state : undefined,
       zip_code:
-        address.zip_code !== patient.address.zip_code
+        address.zip_code !== user.address.zip_code
           ? address.zip_code
           : undefined,
       country:
-        address.country !== patient.address.country
-          ? address.country
-          : undefined,
+        address.country !== user.address.country ? address.country : undefined,
     };
 
     const filteredFields = Object.fromEntries(
@@ -320,8 +321,8 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
               </Tooltip>
             )}
           </CldUploadWidget>
-          <h2 className="text-xl font-semibold">{`${patient.firstname} ${patient.lastname}`}</h2>
-          <p className="text-gray-500">@{patient.username}</p>
+          <h2 className="text-xl font-semibold">{`${user.firstname} ${user.lastname}`}</h2>
+          <p className="text-gray-500">@{user.username}</p>
         </div>
         <nav>
           {["personal", "address", "security"].map((tab) => (
