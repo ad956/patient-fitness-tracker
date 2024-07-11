@@ -16,22 +16,16 @@ export async function GET(request: Request) {
     await dbConfig();
 
     const projection = {
-      _id: 1,
-      firstname: 1,
-      lastname: 1,
-      username: 1,
-      email: 1,
-      contact: 1,
-      profile: 1,
-      dob: 1,
-      dailyCount: 1,
+      role: 0,
+      otp: 0,
+      password: 0,
+      current_hospital: 0,
     };
 
     const receptionistData = await Receptionist.findOne(
       { email },
       { projection }
     );
-
     if (!receptionistData) {
       return Response.json(
         { error: "receptionist not found" },
