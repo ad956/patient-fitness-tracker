@@ -103,6 +103,36 @@ export default class FormValidator {
     return regex.test(value) ? null : "Please enter a 10-digit phone number";
   }
 
+  static validateAddress(address: {
+    address_line_1: string;
+    address_line_2: string;
+    city: string;
+    state: string;
+    zip_code: string;
+    country: string;
+  }): Record<string, FieldError> {
+    const errors: Record<string, FieldError> = {
+      address_line_1: this.validateRequired(
+        address.address_line_1,
+        "Address Line 1"
+      ),
+      address_line_2: this.validateOptional(address.address_line_2),
+      city: this.validateRequired(address.city, "City"),
+      state: this.validateRequired(address.state, "State"),
+      zip_code: this.validateZipCode(address.zip_code),
+      country: this.validateRequired(address.country, "Country"),
+    };
+    return errors;
+  }
+
+  static validateRequired(value: string, fieldName: string): FieldError {
+    return value ? null : `${fieldName} is required`;
+  }
+
+  static validateOptional(value: string): FieldError {
+    return null;
+  }
+
   static validateZipCode(value: string): FieldError {
     const regex = /^\d{5}(-\d{4})?$/;
     return regex.test(value) ? null : "Please enter a valid ZIP code";
