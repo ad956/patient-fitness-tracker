@@ -1,7 +1,10 @@
 import getBaseUrl from "@utils/getBaseUrl";
 import { getSessionToken } from "../sessions/sessionUtils";
 
-export default async function updateSecurity(password: string) {
+export default async function resetPassword(
+  currentPassword: string,
+  newPassword: string
+) {
   const session = getSessionToken();
   const serverUrl = getBaseUrl();
 
@@ -15,13 +18,13 @@ export default async function updateSecurity(password: string) {
       {
         method: "PUT",
         headers,
-        body: JSON.stringify({ password }),
+        body: JSON.stringify({ currentPassword, newPassword }),
       }
     );
 
-    const success = await response.json();
+    const result = await response.json();
 
-    return success;
+    return result;
   } catch (error) {
     console.error("Error updating password :", error);
   }

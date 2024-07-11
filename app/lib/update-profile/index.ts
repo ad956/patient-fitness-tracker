@@ -1,7 +1,7 @@
 "use server";
 
-import updateAddress from "./update-address";
-import updatePersonal from "./update-personal";
-import updateSecurity from "./update-security";
+import updateAddress from "./update_address";
+import updatePersonal from "./update_personal_info";
+import resetPassword from "./reset_password";
 
-export { updateAddress, updatePersonal, updateSecurity };
+export { updateAddress, updatePersonal, resetPassword };

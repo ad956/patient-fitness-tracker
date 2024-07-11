@@ -1,7 +1,7 @@
 import getBaseUrl from "@utils/getBaseUrl";
 import { getSessionToken } from "../sessions/sessionUtils";
 
-export default async function updateAddress(filteredFields: any) {
+export default async function updatePersonal(filteredFields: any) {
   const session = getSessionToken();
   const serverUrl = getBaseUrl();
 
@@ -10,16 +10,16 @@ export default async function updateAddress(filteredFields: any) {
   };
 
   try {
-    const response = await fetch(`${serverUrl}/api/update-profile/address`, {
+    const response = await fetch(`${serverUrl}/api/update-profile/personal`, {
       method: "PUT",
       headers,
       body: JSON.stringify(filteredFields),
     });
 
-    const success = await response.json();
+    const result = await response.json();
 
-    return success;
+    return result;
   } catch (error) {
-    console.error("Error updating address information:", error);
+    console.error("Error updating personal information:", error);
   }
 }
