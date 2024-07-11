@@ -21,9 +21,9 @@ import { updateProfilePicture } from "@lib/patient";
 import { FaLock, FaUser } from "react-icons/fa6";
 import { FaMapMarkerAlt } from "react-icons/fa";
 import {
-  updateAddress,
   updatePersonal,
-  updateSecurity,
+  updateAddress,
+  resetPassword,
 } from "@lib/update-profile";
 import FormValidator from "@utils/formValidator";
 
@@ -34,8 +34,8 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
   const [lastname, setLastName] = useState(patient.lastname);
   const [username, setUsername] = useState(patient.username);
   const [email, setEmail] = useState(patient.email);
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
 
   const [profilePicture, setProfilePicture] = useState(patient.profile);
   const [dob, setDob] = useState<DateValue>(parseDate(patient.dob));
@@ -62,8 +62,8 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
     lastname,
     username,
     email,
-    password,
-    confirmPassword,
+    currentPassword,
+    newPassword,
     dob,
     contact,
     gender,
@@ -74,8 +74,8 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
     return (
       formValidator.hasErrors() ||
       !email ||
-      !password ||
-      !confirmPassword ||
+      !currentPassword ||
+      !newPassword ||
       !dob ||
       !gender ||
       !address
@@ -106,19 +106,16 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
     setEmail(e.target.value);
   }
 
-  function handlePasswordChange(e: ChangeEvent<HTMLInputElement>) {
+  function handleCurrentPasswordChange(e: ChangeEvent<HTMLInputElement>) {
     const error = FormValidator.validatePassword(e.target.value);
-    formValidator.setError("password", error);
-    setPassword(e.target.value);
+    formValidator.setError("currentpassword", error);
+    setCurrentPassword(e.target.value);
   }
 
-  function handleConfirmPasswordChange(e: ChangeEvent<HTMLInputElement>) {
-    const error = FormValidator.validateConfirmPassword(
-      password,
-      e.target.value
-    );
-    formValidator.setError("confirmpassword", error);
-    setConfirmPassword(e.target.value);
+  function handleNewPasswordChange(e: ChangeEvent<HTMLInputElement>) {
+    const error = FormValidator.validatePassword(e.target.value);
+    formValidator.setError("newpassword", error);
+    setNewPassword(e.target.value);
   }
 
   const isDateInvalid = (): boolean => {
@@ -170,6 +167,8 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
   };
 
   const updatePersonalInfo = async () => {
+    toast.loading("Please wait");
+
     const updatedFields = {
       firstname: firstname !== patient.firstname ? firstname : undefined,
       lastname: lastname !== patient.lastname ? lastname : undefined,
@@ -200,6 +199,7 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
         toast.error("An error occurred while updating personal information");
       }
     } else {
+      toast.dismiss();
       toast.success("No changes to update");
     }
   };
@@ -248,31 +248,38 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
         toast.error("An error occurred while updating address information");
       }
     } else {
+      toast.dismiss();
       toast.success("No changes to update");
     }
   };
 
   const updateSecurityInfo = async () => {
-    if (password && password === confirmPassword) {
+    toast.loading("Please wait");
+
+    if (currentPassword && currentPassword !== newPassword) {
       try {
-        const response = await updateSecurity(password);
+        const response = await resetPassword(currentPassword, newPassword);
 
         toast.dismiss();
 
         if (response.msg) {
           toast.success("Password updated successfully");
-          setPassword("");
-          setConfirmPassword("");
+          setCurrentPassword("");
+          setNewPassword("");
         } else {
-          toast.error("Failed to update password");
+          toast.error(response.error, {
+            duration: 3000,
+          });
         }
       } catch (error) {
         console.error("Error updating password:", error);
         toast.error("An error occurred while updating password");
       }
-    } else if (password !== confirmPassword) {
-      toast.error("Passwords do not match");
+    } else if (currentPassword === newPassword) {
+      toast.dismiss();
+      toast.error("New password cannot be the same as the current password");
     } else {
+      toast.dismiss();
       toast.success("No changes to update");
     }
   };
@@ -526,12 +533,12 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
               <h3 className="text-xl font-semibold mb-4">Security Settings</h3>
               <div className="grid grid-cols-2 gap-4">
                 <Input
-                  name="password"
+                  name="currentpassword"
                   type={isVisible ? "text" : "password"}
                   variant="underlined"
-                  label="New Password"
-                  value={password}
-                  onChange={handlePasswordChange}
+                  label="Current Password"
+                  value={currentPassword}
+                  onChange={handleCurrentPasswordChange}
                   className="max-w-xs"
                   endContent={
                     <button
@@ -546,15 +553,15 @@ export default function ProfileSettings({ patient }: { patient: Patient }) {
                       )}
                     </button>
                   }
-                  onBlur={() => formValidator.showToast("password")}
+                  onBlur={() => formValidator.showToast("currentpassword")}
                 />
                 <Input
-                  name="confirmpassword"
+                  name="newpassword"
                   type={isVisible ? "text" : "password"}
                   variant="underlined"
-                  label="Confirm New Password"
-                  value={confirmPassword}
-                  onChange={handleConfirmPasswordChange}
+                  label="New Password"
+                  value={newPassword}
+                  onChange={handleNewPasswordChange}
                   className="max-w-xs"
                   endContent={
                     <button
