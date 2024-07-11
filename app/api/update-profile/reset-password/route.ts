@@ -2,9 +2,11 @@ import { decrypt } from "@sessions/sessionUtils";
 import dbConfig from "@utils/db";
 import Patient from "@models/patient";
 import bcrypt from "bcrypt";
+import { error } from "console";
 
 type SecurityBody = {
-  password: string;
+  currentPassword: string;
+  newPassword: string;
 };
 
 export async function PUT(req: Request) {
@@ -20,30 +22,54 @@ export async function PUT(req: Request) {
     const decryptedUser = await decrypt(token);
     const email = decryptedUser.user.email;
 
-    const { password }: SecurityBody = await req.json();
+    const { currentPassword, newPassword }: SecurityBody = await req.json();
 
-    if (!password) {
+    if (!currentPassword || !newPassword) {
       return Response.json(
-        { message: "Password is required" },
+        { error: "Current password and new password are required" },
         { status: 400 }
       );
     }
 
-    const hashedPassword = await hashPassword(password);
+    const patient = await Patient.findOne({ email });
+
+    if (!patient) {
+      return Response.json({ error: "Patient not found" }, { status: 404 });
+    }
+
+    const isPasswordValid = await bcrypt.compare(
+      currentPassword,
+      patient.password
+    );
+
+    if (!isPasswordValid) {
+      return Response.json(
+        { error: "Current password is incorrect" },
+        { status: 400 }
+      );
+    }
+
+    const hashedNewPassword = await hashPassword(newPassword);
 
     const updatedPatient = await Patient.findOneAndUpdate(
       { email },
-      { $set: { password: hashedPassword } },
+      { $set: { password: hashedNewPassword } },
       { new: true }
     );
 
     if (!updatedPatient) {
-      return Response.json({ error: "Patient not found" }, { status: 404 });
+      return Response.json(
+        { error: "Error updating password" },
+        { status: 500 }
+      );
     }
 
-    return Response.json({ msg: "ok" }, { status: 200 });
+    return Response.json(
+      { msg: "Password updated successfully" },
+      { status: 200 }
+    );
   } catch (error) {
-    return Response.json({ error: "Error updating address" }, { status: 500 });
+    return Response.json({ error: "Error updating password" }, { status: 500 });
   }
 }
 
