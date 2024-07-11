@@ -3,6 +3,7 @@ import Carousel from "./carousel";
 import ErrorBoundary from "./error-boundary";
 import Headbar from "./headbar";
 import OtpSection from "./otp";
+import ProfileSettings from "./profile-settings";
 import SpinnerLoader from "./spinnerloader";
 
 export {
@@ -11,5 +12,6 @@ export {
   ErrorBoundary,
   Headbar,
   OtpSection,
+  ProfileSettings,
   SpinnerLoader,
 };

@@ -1,6 +1,6 @@
 import { Patient } from "@types";
 import { getPatientData } from "@lib/patient";
-import { ProfileSettings } from "../components";
+import ProfileSettings from "@components/profile-settings";
 
 export default async function Settings() {
   const patient: Patient = await getPatientData();
