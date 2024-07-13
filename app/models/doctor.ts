@@ -55,7 +55,7 @@ const doctorSchema = new mongoose.Schema(
     },
     otp: String,
     dob: {
-      type: Date,
+      type: String,
       required: false,
     },
     gender: {

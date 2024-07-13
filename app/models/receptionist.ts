@@ -41,7 +41,7 @@ const receptionistSchema = new mongoose.Schema(
     password: { type: String, required: true },
     role: { type: String, required: true, default: "receptionist" },
     otp: String,
-    dob: { type: Date, required: false },
+    dob: { type: String, required: false },
     gender: {
       type: String,
       required: false,

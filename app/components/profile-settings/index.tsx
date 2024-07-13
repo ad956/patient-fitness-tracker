@@ -54,6 +54,9 @@ export default function ProfileSettings({ user }: ProfileSettingsProps) {
     country: user.address.country || "",
   });
 
+  console.log("dob : " + user.dob);
+  console.log("dob : " + dob);
+
   const [isVisible, setIsVisible] = useState(true);
   const [updateDisabled, setUpdateDisabled] = useState(true);
 
