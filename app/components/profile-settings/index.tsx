@@ -17,10 +17,10 @@ import React, { type ChangeEvent, useRef, useState, useEffect } from "react";
 import { AiTwotoneEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import toast, { Toaster } from "react-hot-toast";
 import { DateValue, parseDate } from "@internationalized/date";
-import { updateProfilePicture } from "@lib/patient";
 import { FaLock, FaUser } from "react-icons/fa6";
 import { FaMapMarkerAlt } from "react-icons/fa";
 import {
+  updateProfilePicture,
   updatePersonal,
   updateAddress,
   resetPassword,
@@ -53,9 +53,6 @@ export default function ProfileSettings({ user }: ProfileSettingsProps) {
     zip_code: user.address.zip_code || "",
     country: user.address.country || "",
   });
-
-  console.log("dob : " + user.dob);
-  console.log("dob : " + dob);
 
   const [isVisible, setIsVisible] = useState(true);
   const [updateDisabled, setUpdateDisabled] = useState(true);
