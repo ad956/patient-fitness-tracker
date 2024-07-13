@@ -5,7 +5,6 @@ import getPaymentsHistory from "./getPaymentsHistory";
 import getUpcomingAppointments from "./getUpcomingAppointments";
 import pendingAppointmentsRequest from "./pendingAppointmentsReq";
 import saveAppointmentTransaction from "./saveAppointmentTransaction";
-import updateProfilePicture from "./updateProfilePicture";
 
 export {
   bookAppointment,
@@ -15,5 +14,4 @@ export {
   getUpcomingAppointments,
   pendingAppointmentsRequest,
   saveAppointmentTransaction,
-  updateProfilePicture,
 };
