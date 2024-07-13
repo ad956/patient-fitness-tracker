@@ -3,8 +3,8 @@ import { OtpTemplate } from "@lib/emails/templates";
 import sendEmail from "@lib/sendemail";
 import { render } from "@react-email/render";
 import { generateSecureOTP } from "@utils/generateOtp";
+import getModelByRole from "@utils/getModelByRole";
 import bcrypt from "bcrypt";
-import { Patient, Receptionist, Doctor, Hospital } from "@models/index";
 
 type LoginBody = {
   email: string;
@@ -40,7 +40,12 @@ export async function POST(req: Request) {
 async function setOTP(loginBody: LoginBody) {
   await dbConfig();
 
-  const user = await getUserModel(loginBody.email, loginBody.role);
+  const Model = getModelByRole(loginBody.role);
+
+  const user = await Model.findOne(
+    { email: loginBody.email },
+    { _id: 1, email: 1, firstname: 1, lastname: 1, password: 1 }
+  );
 
   if (!user || !(await bcrypt.compare(loginBody.password, user.password))) {
     return Response.json(
@@ -66,27 +71,4 @@ async function setOTP(loginBody: LoginBody) {
 
   if (!mailsent) return Response.json({ error: "Email Sending Failed" });
   return Response.json({ message: "ok" }, { status: 201 });
-}
-
-// retrieves a user from the database based on email and role
-async function getUserModel(email: string, role: string) {
-  const projection = {
-    _id: 1,
-    email: 1,
-    firstname: 1,
-    lastname: 1,
-    password: 1,
-  };
-  switch (role) {
-    case "patient":
-      return await Patient.findOne({ email }, projection);
-    case "receptionist":
-      return await Receptionist.findOne({ email }, projection);
-    case "doctor":
-      return await Doctor.findOne({ email }, projection);
-    case "hospital":
-      return await Hospital.findOne({ email }, projection);
-    default:
-      return null;
-  }
 }
