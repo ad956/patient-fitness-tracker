@@ -1,6 +1,6 @@
 import dbConfig from "@utils/db";
-import Patient from "@models/patient";
 import { decrypt } from "@sessions/sessionUtils";
+import getModelByRole from "@utils/getModelByRole";
 
 type PersonalInfoBody = {
   firstname?: string;
@@ -24,6 +24,7 @@ export async function PUT(req: Request) {
     const token = session.split("Bearer ")[1];
     const decryptedUser = await decrypt(token);
     const currentEmail = decryptedUser.user.email;
+    const userRole = decryptedUser.user.role;
 
     const updateData: PersonalInfoBody = await req.json();
 
@@ -34,9 +35,11 @@ export async function PUT(req: Request) {
       }
     });
 
+    let UserModel = getModelByRole(userRole);
+
     // check for uniqueness of username, email, and contact
     if (updateData.username) {
-      const existingUsername = await Patient.findOne({
+      const existingUsername = await UserModel.findOne({
         username: updateData.username,
         email: { $ne: currentEmail },
       });
@@ -49,10 +52,10 @@ export async function PUT(req: Request) {
     }
 
     if (updateData.email) {
-      const existingEmail = await Patient.findOne({
+      const existingEmail = await UserModel.findOne({
         email: updateData.email,
         _id: {
-          $ne: await Patient.findOne({ email: currentEmail }).select("_id"),
+          $ne: await UserModel.findOne({ email: currentEmail }).select("_id"),
         },
       });
       if (existingEmail) {
@@ -64,7 +67,7 @@ export async function PUT(req: Request) {
     }
 
     if (updateData.contact) {
-      const existingContact = await Patient.findOne({
+      const existingContact = await UserModel.findOne({
         contact: updateData.contact,
         email: { $ne: currentEmail },
       });
@@ -76,15 +79,15 @@ export async function PUT(req: Request) {
       }
     }
 
-    //  update the patient
-    const updatedPatient = await Patient.findOneAndUpdate(
+    //  update the user
+    const updatedUser = await UserModel.findOneAndUpdate(
       { email: currentEmail },
       { $set: updateData },
       { new: true }
     );
 
-    if (!updatedPatient) {
-      return Response.json({ error: "Patient not found" }, { status: 404 });
+    if (!updatedUser) {
+      return Response.json({ error: `${userRole} not found` }, { status: 404 });
     }
 
     return Response.json(
@@ -92,7 +95,7 @@ export async function PUT(req: Request) {
       { status: 200 }
     );
   } catch (error) {
-    console.error("Error updating patient information:", error);
+    console.error("Error updating personal information:", error);
     return Response.json(
       { error: "Failed to update personal information" },
       { status: 500 }

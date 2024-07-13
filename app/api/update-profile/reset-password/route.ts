@@ -1,8 +1,7 @@
 import { decrypt } from "@sessions/sessionUtils";
 import dbConfig from "@utils/db";
-import Patient from "@models/patient";
 import bcrypt from "bcrypt";
-import { error } from "console";
+import getModelByRole from "@utils/getModelByRole";
 
 type SecurityBody = {
   currentPassword: string;
@@ -21,6 +20,7 @@ export async function PUT(req: Request) {
     const token = session.split("Bearer ")[1];
     const decryptedUser = await decrypt(token);
     const email = decryptedUser.user.email;
+    const userRole = decryptedUser.user.role;
 
     const { currentPassword, newPassword }: SecurityBody = await req.json();
 
@@ -31,15 +31,17 @@ export async function PUT(req: Request) {
       );
     }
 
-    const patient = await Patient.findOne({ email });
+    let UserModel = getModelByRole(userRole);
 
-    if (!patient) {
-      return Response.json({ error: "Patient not found" }, { status: 404 });
+    const user = await UserModel.findOne({ email });
+
+    if (!user) {
+      return Response.json({ error: "User not found" }, { status: 404 });
     }
 
     const isPasswordValid = await bcrypt.compare(
       currentPassword,
-      patient.password
+      user.password
     );
 
     if (!isPasswordValid) {
@@ -51,13 +53,13 @@ export async function PUT(req: Request) {
 
     const hashedNewPassword = await hashPassword(newPassword);
 
-    const updatedPatient = await Patient.findOneAndUpdate(
+    const updatedUser = await UserModel.findOneAndUpdate(
       { email },
       { $set: { password: hashedNewPassword } },
       { new: true }
     );
 
-    if (!updatedPatient) {
+    if (!updatedUser) {
       return Response.json(
         { error: "Error updating password" },
         { status: 500 }

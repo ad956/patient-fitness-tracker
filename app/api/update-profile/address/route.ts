@@ -1,6 +1,6 @@
 import dbConfig from "@utils/db";
-import Patient from "@models/patient";
 import { decrypt } from "@sessions/sessionUtils";
+import getModelByRole from "@utils/getModelByRole";
 
 type AddressBody = {
   address_line_1?: string;
@@ -23,6 +23,7 @@ export async function PUT(req: Request) {
     const token = session.split("Bearer ")[1];
     const decryptedUser = await decrypt(token);
     const email = decryptedUser.user.email;
+    const userRole = decryptedUser.user.role;
 
     const addressData: AddressBody = await req.json();
 
@@ -33,25 +34,27 @@ export async function PUT(req: Request) {
       }
     });
 
-    const patient = await Patient.findOne({ email });
+    let UserModel = getModelByRole(userRole);
 
-    if (!patient) {
-      return Response.json({ error: "Patient not found" }, { status: 404 });
+    const user = await UserModel.findOne({ email });
+
+    if (!user) {
+      return Response.json({ error: `${userRole} not found` }, { status: 404 });
     }
 
     const updatedAddress = {
-      address_line_1: patient.address.address_line_1,
-      address_line_2: patient.address.address_line_2,
-      city: patient.address.city,
-      state: patient.address.state,
-      zip_code: patient.address.zip_code,
-      country: patient.address.country,
+      address_line_1: user.address.address_line_1,
+      address_line_2: user.address.address_line_2,
+      city: user.address.city,
+      state: user.address.state,
+      zip_code: user.address.zip_code,
+      country: user.address.country,
       ...addressData,
     };
 
-    patient.address = updatedAddress;
+    user.address = updatedAddress;
 
-    await patient.save();
+    await user.save();
 
     return Response.json({ msg: "ok" }, { status: 200 });
   } catch (error) {

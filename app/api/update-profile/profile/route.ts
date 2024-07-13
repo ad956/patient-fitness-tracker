@@ -1,6 +1,6 @@
 import dbConfig from "@utils/db";
 import { decrypt } from "@sessions/sessionUtils";
-import Patient from "@models/patient";
+import getModelByRole from "@utils/getModelByRole";
 
 export async function PUT(request: Request) {
   const session = request.headers.get("Authorization");
@@ -14,10 +14,13 @@ export async function PUT(request: Request) {
     const token = session.split("Bearer ")[1];
     const decryptedUser = await decrypt(token);
     const patient_email = decryptedUser.user.email;
+    const userRole = decryptedUser.user.role;
 
     await dbConfig();
 
-    const result = await Patient.updateOne(
+    let UserModel = getModelByRole(userRole);
+
+    const result = await UserModel.updateOne(
       { email: patient_email },
       { $set: { profile: profile_pic } }
     );
@@ -28,7 +31,7 @@ export async function PUT(request: Request) {
 
     return Response.json({ msg: "ok" });
   } catch (error) {
-    console.error("Error updating patient profile picture :", error);
+    console.error("Error updating profile picture :", error);
     return Response.json({ error: "Internal Server Error" }, { status: 500 });
   }
 }
