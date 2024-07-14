@@ -1,16 +1,19 @@
-import dbConfig from "@utils/db";
 import { OtpTemplate } from "@lib/emails/templates";
 import sendEmail from "@lib/sendemail";
 import { render } from "@react-email/render";
-import { generateSecureOTP } from "@utils/generateOtp";
-import getModelByRole from "@utils/getModelByRole";
 import {
+  allowedRoles,
   doctoradditionalDetails,
   hospitaladditionalDetails,
   patientadditionalDetails,
   receptionistadditionalDetails,
 } from "@constants/index";
-import bcrypt from "bcrypt";
+import {
+  dbConfig,
+  generateSecureOTP,
+  getModelByRole,
+  hashPassword,
+} from "@utils/index";
 
 type SignupBody = {
   firstname: string;
@@ -20,8 +23,6 @@ type SignupBody = {
   role: string;
   password: string;
 };
-
-const allowedRoles = ["patient", "receptionist", "doctor", "hospital"];
 
 export async function POST(req: Request) {
   try {
@@ -49,9 +50,9 @@ export async function POST(req: Request) {
 async function createAccount(signupBody: SignupBody) {
   await dbConfig();
 
-  const Model = getModelByRole(signupBody.role);
+  const UserModel = getModelByRole(signupBody.role);
 
-  const existingUser = await Model.findOne({
+  const existingUser = await UserModel.findOne({
     $or: [{ email: signupBody.email }, { username: signupBody.username }],
   });
 
@@ -73,7 +74,7 @@ async function createAccount(signupBody: SignupBody) {
 
   const hashedPassword = await hashPassword(signupBody.password);
 
-  const newUser = new Model({
+  const newUser = new UserModel({
     ...signupBody,
     password: hashedPassword,
     ...additionalDetails,
@@ -130,11 +131,4 @@ function getAdditionalDetails(role: string) {
     case "hospital":
       return hospitaladditionalDetails;
   }
-}
-
-// hashing the password
-async function hashPassword(password: string) {
-  const saltRounds = parseInt(process.env.BCRYPT_SALT_ROUNDS || "10");
-  const hashedPassword = await bcrypt.hash(password, saltRounds);
-  return hashedPassword;
 }

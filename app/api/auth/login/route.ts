@@ -1,9 +1,8 @@
-import dbConfig from "@utils/db";
 import { OtpTemplate } from "@lib/emails/templates";
 import sendEmail from "@lib/sendemail";
 import { render } from "@react-email/render";
-import { generateSecureOTP } from "@utils/generateOtp";
-import getModelByRole from "@utils/getModelByRole";
+import { dbConfig, generateSecureOTP, getModelByRole } from "@utils/index";
+import { allowedRoles } from "@constants/index";
 import bcrypt from "bcrypt";
 
 type LoginBody = {
@@ -11,8 +10,6 @@ type LoginBody = {
   password: string;
   role: string;
 };
-
-const allowedRoles = ["patient", "receptionist", "doctor", "hospital"];
 
 export async function POST(req: Request) {
   try {
@@ -40,9 +37,9 @@ export async function POST(req: Request) {
 async function setOTP(loginBody: LoginBody) {
   await dbConfig();
 
-  const Model = getModelByRole(loginBody.role);
+  const UserModel = getModelByRole(loginBody.role);
 
-  const user = await Model.findOne(
+  const user = await UserModel.findOne(
     { email: loginBody.email },
     { _id: 1, email: 1, firstname: 1, lastname: 1, password: 1 }
   );
