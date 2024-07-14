@@ -1,7 +1,7 @@
 import { setSession } from "@sessions/sessionUtils";
-import dbConfig from "@utils/db";
+import { dbConfig, getModelByRole } from "@utils/index";
+import { allowedRoles } from "@constants/index";
 import logUserActivity from "@lib/logs";
-import { Doctor, Hospital, Patient, Receptionist } from "@models/index";
 
 type bodyType = {
   email: string;
@@ -9,8 +9,6 @@ type bodyType = {
   role: string;
   action: string;
 };
-
-const allowedRoles = ["patient", "receptionist", "doctor", "hospital"];
 
 export async function POST(req: Request) {
   try {
@@ -37,7 +35,12 @@ export async function POST(req: Request) {
 async function checkOTP(body: bodyType, req: Request) {
   await dbConfig();
 
-  const user = await getUserModel(body.email, body.role);
+  const UserModel = getModelByRole(body.role);
+
+  const user = await UserModel.findOne(
+    { email: body.email },
+    { _id: 0, username: 1, firstname: 1, lastname: 1, otp: 1 }
+  );
 
   if (!user || user.otp !== body.otp)
     return Response.json({ error: "OTP Verification Failed" });
@@ -59,26 +62,4 @@ async function checkOTP(body: bodyType, req: Request) {
   await logUserActivity(userlog, req);
 
   return Response.json({ message: "ok" }, { status: 200 });
-}
-// retrieves a user from the database based on email and role
-async function getUserModel(email: string, role: string) {
-  const projection = {
-    _id: 0,
-    username: 1,
-    firstname: 1,
-    lastname: 1,
-    otp: 1,
-  };
-  switch (role) {
-    case "patient":
-      return await Patient.findOne({ email }, projection);
-    case "receptionist":
-      return await Receptionist.findOne({ email }, projection);
-    case "doctor":
-      return await Doctor.findOne({ email }, projection);
-    case "hospital":
-      return await Hospital.findOne({ email }, projection);
-    default:
-      return null;
-  }
 }
