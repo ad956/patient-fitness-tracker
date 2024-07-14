@@ -1,7 +1,6 @@
+import { dbConfig, getModelByRole } from "@utils/index";
 import { decrypt } from "@sessions/sessionUtils";
-import dbConfig from "@utils/db";
 import bcrypt from "bcrypt";
-import getModelByRole from "@utils/getModelByRole";
 
 type SecurityBody = {
   currentPassword: string;

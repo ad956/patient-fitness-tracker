@@ -1,6 +1,5 @@
-import dbConfig from "@utils/db";
+import { dbConfig, getModelByRole } from "@utils/index";
 import { decrypt } from "@sessions/sessionUtils";
-import getModelByRole from "@utils/getModelByRole";
 
 export async function PUT(request: Request) {
   const session = request.headers.get("Authorization");

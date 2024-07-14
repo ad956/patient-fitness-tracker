@@ -1,11 +1,10 @@
-import dbConfig from "@utils/db";
+import { dbConfig, getFormattedDate } from "@utils/index";
 import { bookingAppointment } from "@types";
 import { decrypt } from "@sessions/sessionUtils";
 import { Types } from "mongoose";
 import sendEmail from "@lib/sendemail";
 import { render } from "@react-email/render";
 import { AppointmentBookedTemplate } from "@lib/emails/templates";
-import { getFormattedDate } from "@utils/getDate";
 import sendNotification from "@lib/novu";
 import { Patient, BookedAppointment, Doctor } from "@models/index";
 
