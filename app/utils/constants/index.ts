@@ -50,6 +50,8 @@ const roles = [
   { label: "Doctor", value: "doctor" },
 ];
 
+const allowedRoles = ["patient", "receptionist", "doctor", "hospital"];
+
 const commonadditionalDetails = {
   otp: "",
   dob: "1970-01-01",
@@ -122,6 +124,7 @@ export {
   carouselData,
   projectFeatures,
   roles,
+  allowedRoles,
   patientadditionalDetails,
   hospitaladditionalDetails,
   doctoradditionalDetails,
