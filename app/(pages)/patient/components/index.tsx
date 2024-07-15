@@ -6,7 +6,6 @@ import MedicineDetails from "./MedicineDetails";
 import PaymentDetails from "./PaymentDetails";
 import QRCode from "./QR";
 import CarouselService from "./ServiceCarousel";
-import Sidebar from "./Sidebar";
 
 export {
   BookAppointment,
@@ -18,5 +17,4 @@ export {
   PaymentDetails,
   QRCode,
   CarouselService,
-  Sidebar,
 };
