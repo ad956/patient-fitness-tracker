@@ -64,20 +64,6 @@ const MonthlyVisitors = ({ progressData }: weeklyVisitorsProps) => {
     <div className="h-full w-full p-5">
       <div className="flex flex-row justify-between items-center">
         <p className="text-md font-semibold">Monthly visitors</p>
-
-        <Select
-          aria-label="Select Year"
-          color="secondary"
-          labelPlacement="outside-left"
-          className="w-1/6"
-          defaultSelectedKeys={["2024"]}
-        >
-          {years.map((year) => (
-            <SelectItem key={year.year} value={year.year}>
-              {year.label}
-            </SelectItem>
-          ))}
-        </Select>
       </div>
       <ResponsiveLine
         fill={[{ match: "*", id: "gradient" }]}
