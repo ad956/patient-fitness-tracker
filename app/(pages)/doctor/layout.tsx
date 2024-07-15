@@ -1,5 +1,6 @@
-import { Sidebar } from "./components";
-import { Headbar } from "@components/index";
+import { Sidebar, Headbar } from "@components/index";
+import { getDoctorData } from "@lib/doctor";
+import { Doctor } from "@types";
 
 import type { Metadata } from "next";
 
@@ -13,30 +14,11 @@ export default async function PatientLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // const doctor = await getAdminData();
-  const doctor = {
-    _id: "",
-    firstname: "ADMIN",
-    profile: "",
-    username: "ad956",
-    lastname: "",
-    email: "",
-    dob: "",
-    gender: "",
-    contact: "",
-    address: {
-      address_line_1: "",
-      address_line_2: "",
-      city: "",
-      state: "",
-      country: "",
-      zip_code: "",
-    },
-  };
+  const doctor: Doctor = await getDoctorData();
 
   return (
     <main className="h-screen flex">
-      <Sidebar />
+      <Sidebar userType="doctor" />
       <section className="flex flex-col w-full">
         <Headbar user={doctor} role="doctor" />
         {children}

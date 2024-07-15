@@ -1,6 +1,5 @@
 import { Receptionist } from "@types";
-import { Sidebar } from "./components";
-import { Headbar } from "@components/index";
+import { Sidebar, Headbar } from "@components/index";
 
 import type { Metadata } from "next";
 import { getReceptionistData } from "@lib/receptionist";
@@ -19,10 +18,9 @@ export default async function PatientLayout({
 
   return (
     <main className="h-[100vh] flex">
-      <Sidebar />
+      <Sidebar userType="receptionist" />
       <section className="flex flex-col w-full">
         <Headbar user={receptionist} role="receptionist" />
-
         {children}
       </section>
     </main>

@@ -1,6 +1,5 @@
 import Script from "next/script";
-import { Sidebar } from "./components";
-import { Headbar } from "@components/index";
+import { Sidebar, Headbar } from "@components/index";
 import { Patient } from "@types";
 import { getPatientData } from "@lib/patient";
 
@@ -20,7 +19,7 @@ export default async function PatientLayout({
 
   return (
     <main className="h-screen flex">
-      <Sidebar />
+      <Sidebar userType="patient" />
       <section className="flex flex-col w-full">
         <Headbar user={patient} role="patient" />
         {children}
