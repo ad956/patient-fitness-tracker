@@ -1,17 +1,23 @@
 import { test, expect } from "@playwright/test";
 
-test("Displays the landing page correctly and triggers rollback on failure", async ({
-  page,
-  baseURL,
-}) => {
-  // Navigate to the home page
+test("test", async ({ baseURL, page }) => {
   await page.goto(`${baseURL}`);
+  await page.getByRole("heading", { name: "Patient Fitness Tracker" }).click();
+  await page
+    .getByRole("heading", { name: "The New Era of Healthcare" })
+    .click();
+  await page.getByRole("button", { name: "Get Started" }).click();
 
-  // Intentionally fail the test by expecting a non-existent element
-  //  await expect(page.getByText("NonExistentElement")).toBeVisible(); // This will intentionally fail the test
+  await page
+    .locator("#services")
+    .getByText("Services", { exact: true })
+    .click();
+  await page.getByText("We Cover A Big Variety Of").click();
+  await page
+    .locator("div")
+    .filter({ hasText: "© 2024 Patient Fitness" })
+    .nth(3)
+    .click();
 
-  // If the test reaches this point, the intentional failure did not occur
-  // This line should not be reached if the test fails as expected
-
-  console.log("This line should not be reached if the test fails as expected");
+  await page.locator("footer").getByRole("img", { name: "brand-logo" }).click();
 });
