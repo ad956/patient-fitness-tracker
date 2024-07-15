@@ -4,6 +4,7 @@ import ErrorBoundary from "./error-boundary";
 import Headbar from "./headbar";
 import OtpSection from "./otp";
 import ProfileSettings from "./profile-settings";
+import Sidebar from "./sidebar";
 import SpinnerLoader from "./spinnerloader";
 
 export {
@@ -13,5 +14,6 @@ export {
   Headbar,
   OtpSection,
   ProfileSettings,
+  Sidebar,
   SpinnerLoader,
 };
