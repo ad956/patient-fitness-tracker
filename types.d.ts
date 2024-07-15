@@ -49,6 +49,9 @@ export type Receptionist = User & {
   };
 };
 
+export type Doctor = User & {};
+export type Hospital = User & {};
+
 export type bookedAppointments = [
   {
     _id: string;
