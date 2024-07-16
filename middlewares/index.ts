@@ -1,9 +1,5 @@
-import { PrivateRoutes, PublicRoutes, redirectMiddleware } from "./redirect";
-import updateSessionMiddleware from "./updateSession";
+import handleExpiredSession from "./handleExpiredSession";
+import handlePrivateRoute from "./handlePrivateRoute";
+import handlePublicRoute from "./handlePublicRoute";
 
-export {
-  PrivateRoutes,
-  PublicRoutes,
-  redirectMiddleware,
-  updateSessionMiddleware,
-};
+export { handleExpiredSession, handlePrivateRoute, handlePublicRoute };
