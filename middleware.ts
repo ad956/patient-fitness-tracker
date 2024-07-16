@@ -1,26 +1,46 @@
 import { NextRequest, NextResponse } from "next/server";
+import { updateSession } from "@sessions/sessionUtils";
 import {
-  PublicRoutes,
-  redirectMiddleware,
-  updateSessionMiddleware,
+  handleApiRoute,
+  handleExpiredSession,
+  handlePrivateRoute,
+  handlePublicRoute,
 } from "@middlewares/index";
 
+const PUBLIC_ROUTES = ["/", "/login", "/signup"];
+const PRIVATE_ROUTES = [
+  "/patient",
+  "/receptionist",
+  "/doctor",
+  "/hospital",
+  "/admin",
+];
+
+const SESSION_COOKIE = "session";
+const SESSION_EXPIRED_URL = "/session-expired";
+
 export async function middleware(request: NextRequest) {
-  if (!PublicRoutes.includes(request.nextUrl.pathname)) {
-    const sessionUpdated = await updateSessionMiddleware(request);
-    if (!sessionUpdated) {
-      return NextResponse.redirect(new URL(`/session-expired`, request.url), {
-        // removing existing session cookie
-        headers: {
-          "Set-Cookie": "session=; Path=/; Expires=",
-        },
-      });
-    }
+  const path = request.nextUrl.pathname;
+  const token = request.cookies.get(SESSION_COOKIE)?.value;
+
+  // check if it's a public route
+  if (PUBLIC_ROUTES.includes(path)) {
+    return handlePublicRoute(request, token);
   }
-  return redirectMiddleware(request);
+
+  // update session for non-public routes
+  if (token && !(await updateSession(request))) {
+    return handleExpiredSession(request, SESSION_COOKIE, SESSION_EXPIRED_URL);
+  }
+
+  // handle private routes
+  if (PRIVATE_ROUTES.includes(`/${path.split("/")[1]}`)) {
+    return handlePrivateRoute(request, token);
+  }
+
+  return NextResponse.next();
 }
 
-// Optionally, don't invoke Middleware on some paths
 export const config = {
   matcher: [
     "/((?!api|_next/static|_next/image|.*\\.png$|.*\\.svg$|.*\\.gif$|.*\\.ico$|.*\\.jpg$|.*\\.webp$|error).*)",
