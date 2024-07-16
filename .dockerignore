@@ -1,0 +1,12 @@
+node_modules
+.next
+.vercel
+
+todo.md
+/test-results/
+/tests-examples/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+
+.env.local
