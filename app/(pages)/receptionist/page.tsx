@@ -1,147 +1,159 @@
-import { Card, Progress } from "@nextui-org/react";
+// pages/receptionist/dashboard.tsx
+
+import { Card, Input, Badge, CardHeader, CardBody } from "@nextui-org/react";
 import {
   BsFillPersonPlusFill,
   BsPersonBoundingBox,
   BsPersonCheckFill,
   BsPersonLinesFill,
+  BsSearch,
+  BsBell,
 } from "react-icons/bs";
 import { Receptionist } from "@types";
-import { getReceptionistData, getPendingAppointments } from "@lib/receptionist";
-import { MonthlyVisitors, PatientTabs } from "./components";
+import {
+  getReceptionistData,
+  getPendingAppointments,
+} from "@/lib/receptionist";
+import {
+  MonthlyVisitors,
+  PatientTabs,
+  ProgressBar,
+  StatItem,
+  WaitingRoomStatus,
+} from "./components/Graphs";
 
 export default async function ReceptionistPage() {
-  const receptionist: Receptionist = await getReceptionistData();
+  interface PatientDetail {
+    id: string;
+    name: string;
+    appointmentTime: string;
+    reason: string;
+    contactNumber: string;
+    email?: string;
+  }
 
-  const pendingPatients = await getPendingAppointments();
+  interface PendingPatients {
+    patientDetails: PatientDetail[];
+    totalCount: number;
+  }
+
+  const receptionist: Receptionist = await getReceptionistData();
+  const pendingPatients: PendingPatients = await getPendingAppointments();
 
   const pendingAppointments = pendingPatients.patientDetails.length;
   const approvedAppointments = receptionist.dailyCount.approved;
   const waitingPatients = receptionist.dailyCount.waiting;
 
   return (
-    <section className="bg-[#f3f6fd] overflow-hidden p-2 h-full">
-      <div className="border2 border-rose-600 grid grid-cols-6 grid-rows-5 h-full gap-3">
-        <Card className="row-span-2 col-span-2 flex flex-col gap-10 items-center p-5">
-          <p className="text-sm font-semibold self-start">Patient Statistics</p>
-          <div className="flex flex-row justify-around gap-10 items-center w-full">
-            <div className="flex flex-col justify-center items-start gap-5">
-              <div className="flex flex-row justify-center items-center gap-2">
-                <BsPersonLinesFill
-                  size={35}
-                  fill="#fff"
-                  className="bg-gradient-to-r from-yellow-500 to-pink-500 rounded-full p-2"
-                />
+    <section className="bg-[#f3f6fd] min-h-screen p-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4">
+        {/* Quick Patient Search */}
+        <Card className="lg:col-span-4 p-4">
+          <Input
+            className="w-full"
+            placeholder="Quick patient search..."
+            startContent={<BsSearch className="text-default-400" />}
+          />
+        </Card>
 
-                <div className="flex flex-col">
-                  <p className="text-sm font-bold">34 Patients</p>
-                  <p className="text-xs text-black/80">In the last 30 days</p>
-                </div>
-              </div>
-              <div className="flex flex-row justify-center items-center gap-2">
-                <BsFillPersonPlusFill
-                  size={35}
-                  fill="#fff"
-                  className="bg-success rounded-full p-2"
-                />
+        {/* Notifications */}
+        <Card className="lg:col-span-2 p-4 flex justify-between items-center">
+          <BsBell size={20} className="text-default-400" />
+          <Badge content={3} color="danger">
+            <span className="text-sm">New notifications</span>
+          </Badge>
+        </Card>
 
-                <div className="flex flex-col">
-                  <p className="text-sm font-bold">14 Patients</p>
-                  <p className="text-xs text-black/80">In the last 7 days</p>
-                </div>
-              </div>
+        {/* Patient Statistics */}
+        <Card className="lg:col-span-3 lg:row-span-2">
+          <CardHeader>
+            <p className="text-sm font-semibold">Patient Statistics</p>
+          </CardHeader>
+          <CardBody className="flex flex-col gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <StatItem
+                icon={<BsPersonLinesFill size={35} />}
+                count={34}
+                label="Patients"
+                sublabel="In the last 30 days"
+                color="bg-gradient-to-r from-yellow-500 to-pink-500"
+              />
+              <StatItem
+                icon={<BsFillPersonPlusFill size={35} />}
+                count={14}
+                label="Patients"
+                sublabel="In the last 7 days"
+                color="bg-success"
+              />
+              <StatItem
+                icon={<BsPersonCheckFill size={35} />}
+                count={10}
+                label="Done"
+                sublabel="In the last 7 days"
+                color="bg-secondary"
+              />
+              <StatItem
+                icon={<BsPersonBoundingBox size={35} />}
+                count={pendingAppointments}
+                label="New"
+                sublabel="Waiting for approval"
+                color="bg-warning"
+              />
             </div>
-            <div className="flex flex-col justify-center items-start gap-5">
-              <div className="flex flex-row justify-center items-center gap-2">
-                <BsPersonCheckFill
-                  size={35}
-                  fill="#fff"
-                  className="bg-secondary rounded-full p-2"
-                />
-
-                <div className="flex flex-col">
-                  <p className="text-sm font-bold">10 Done</p>
-                  <p className="text-xs text-black/80">In the last 7 days</p>
-                </div>
-              </div>
-
-              <div className="flex flex-row justify-center items-center gap-2">
-                <BsPersonBoundingBox
-                  size={35}
-                  fill="#fff"
-                  className="bg-warning rounded-full p-2"
-                />
-
-                <div className="flex flex-col">
-                  <p className="text-sm font-bold">
-                    {pendingPatients.patientDetails.length} New
-                  </p>
-                  <p className="text-xs text-black/80">Waiting for approval</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </Card>
-        <Card className="row-span-2 col-span-2 flex flex-col gap-5 items-center p-5">
-          <p className="text-sm font-semibold self-start">Todays Statistics</p>
-
-          <Progress
-            size="sm"
-            radius="sm"
-            classNames={{
-              base: "max-w-md",
-              track: "drop-shadow-md border border-default",
-              indicator: "bg-gradient-to-r from-yellow-500 to-pink-500",
-              label: "tracking-wider font-bold text-xs",
-              value: "text-foreground/60 text-xs",
-            }}
-            label="Patients Waiting"
-            formatOptions={{ style: "decimal" }}
-            value={waitingPatients}
-            showValueLabel={true}
-          />
-
-          <Progress
-            size="sm"
-            radius="sm"
-            color="secondary"
-            classNames={{
-              base: "max-w-md",
-              track: "drop-shadow-md border border-default",
-
-              label: "tracking-wider font-bold text-xs",
-              value: "text-foreground/60 text-xs",
-            }}
-            label="Approved Patients"
-            formatOptions={{ style: "decimal" }}
-            value={approvedAppointments}
-            showValueLabel={true}
-          />
-
-          <Progress
-            size="sm"
-            radius="sm"
-            color="warning"
-            classNames={{
-              base: "max-w-md",
-              track: "drop-shadow-md border border-default",
-              label: "tracking-wider font-bold text-xs",
-              value: "text-foreground/60 text-xs",
-            }}
-            label="Pending Appointments"
-            formatOptions={{ style: "decimal" }}
-            value={pendingAppointments}
-            showValueLabel={true}
-          />
+          </CardBody>
         </Card>
 
-        <Card className="row-span-6  col-span-2 flex justify-center gap-5 items-center p-5">
-          <PatientTabs pendingAppointments={pendingPatients} />
+        {/* Today's Statistics */}
+        <Card className="lg:col-span-3 lg:row-span-2">
+          <CardHeader>
+            <p className="text-sm font-semibold">Today's Statistics</p>
+          </CardHeader>
+          <CardBody className="flex flex-col gap-4">
+            <ProgressBar
+              label="Patients Waiting"
+              value={waitingPatients}
+              color="bg-gradient-to-r from-yellow-500 to-pink-500"
+            />
+            <ProgressBar
+              label="Approved Patients"
+              value={approvedAppointments}
+              color="bg-secondary"
+            />
+            <ProgressBar
+              label="Pending Appointments"
+              value={pendingAppointments}
+              color="bg-warning"
+            />
+          </CardBody>
         </Card>
 
-        <Card className="row-span-3 col-span-4  flex flex-col justify-evenly items-center p-2">
-          <MonthlyVisitors
-            progressData={[10, 30, 20, 40, 50, 50, 70, 80, 45, 55, 33, 77]}
-          />
+        {/* Waiting Room Status */}
+        <Card className="lg:col-span-2 lg:row-span-2">
+          <CardHeader>
+            <p className="text-sm font-semibold">Waiting Room Status</p>
+          </CardHeader>
+          <CardBody>
+            <WaitingRoomStatus waitingPatients={waitingPatients} />
+          </CardBody>
+        </Card>
+
+        {/* Patient Tabs (Pending Appointments) */}
+        <Card className="lg:col-span-2 lg:row-span-4">
+          <CardBody>
+            <PatientTabs pendingAppointments={pendingPatients} />
+          </CardBody>
+        </Card>
+
+        {/* Monthly Visitors Graph */}
+        <Card className="lg:col-span-4 lg:row-span-2">
+          <CardHeader>
+            <p className="text-sm font-semibold">Monthly Visitors</p>
+          </CardHeader>
+          <CardBody>
+            <MonthlyVisitors
+              progressData={[10, 30, 20, 40, 50, 50, 70, 80, 45, 55, 33, 77]}
+            />
+          </CardBody>
         </Card>
       </div>
     </section>

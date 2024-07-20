@@ -1,8 +1,17 @@
 "use client";
 
-import { Select, SelectItem } from "@nextui-org/react";
+import {
+  Card,
+  CardBody,
+  Progress,
+  Select,
+  SelectItem,
+  Tab,
+  Tabs,
+} from "@nextui-org/react";
 import { PointTooltip, ResponsiveLine } from "@nivo/line";
 import { ResponsiveRadialBar } from "@nivo/radial-bar";
+import React from "react";
 
 const healthData = [
   {
@@ -51,83 +60,83 @@ type weeklyVisitorsProps = {
   progressData: number[];
 };
 
-const MonthlyVisitors = ({ progressData }: weeklyVisitorsProps) => {
-  const updatedHealthData = healthData.map((patient) => ({
-    ...patient,
-    data: patient.data.map((item, index) => ({
-      ...item,
-      y: progressData[index] !== undefined ? progressData[index] : item.y,
-    })),
-  }));
+// const MonthlyVisitors = ({ progressData }: weeklyVisitorsProps) => {
+//   const updatedHealthData = healthData.map((patient) => ({
+//     ...patient,
+//     data: patient.data.map((item, index) => ({
+//       ...item,
+//       y: progressData[index] !== undefined ? progressData[index] : item.y,
+//     })),
+//   }));
 
-  return (
-    <div className="h-full w-full p-5">
-      <div className="flex flex-row justify-between items-center">
-        <p className="text-md font-semibold">Monthly visitors</p>
-      </div>
-      <ResponsiveLine
-        fill={[{ match: "*", id: "gradient" }]}
-        defs={[]}
-        enableCrosshair={false}
-        crosshairType="x"
-        role=""
-        sliceTooltip={({ slice }) => <></>}
-        data={updatedHealthData}
-        margin={{ top: 50, right: 110, bottom: 50, left: 60 }}
-        xScale={{ type: "point" }}
-        yScale={{ type: "linear", min: 0, max: 100 }}
-        curve="catmullRom"
-        axisTop={null}
-        axisRight={null}
-        enableGridX={false}
-        enableGridY={false}
-        colors={["#0070f0"]}
-        lineWidth={2}
-        pointSize={8}
-        pointColor={{ theme: "grid.line.stroke" }}
-        pointBorderWidth={2}
-        pointBorderColor={{ from: "serieColor" }}
-        axisLeft={{
-          tickValues: [0, 25, 50, 75, 100],
-          legendOffset: -40,
-          legendPosition: "middle",
-        }}
-        useMesh={true}
-        debugSlices={false}
-        enableSlices={false}
-        // tooltip={({ point }) => (
-        //   <div>
-        //     <strong>X value:</strong> {point.data.xFormatted}
-        //     <br />
-        //     <strong>Y value:</strong> {point.data.yFormatted}
-        //   </div>
-        // )}
-        debugMesh={false}
-        isInteractive={true}
-        legends={[]}
-        areaBaselineValue={0}
-        areaBlendMode="normal"
-        areaOpacity={0.2}
-        enableArea={false}
-        pointLabel="y"
-        enablePointLabel={false}
-        enablePoints={true}
-        layers={[
-          "grid",
-          "markers",
-          "axes",
-          "areas",
-          "crosshair",
-          "lines",
-          "slices",
-          "points",
-          "mesh",
-          "legends",
-        ]}
-      />
-    </div>
-  );
-};
+//   return (
+//     <div className="h-full w-full p-5">
+//       <div className="flex flex-row justify-between items-center">
+//         <p className="text-md font-semibold">Monthly visitors</p>
+//       </div>
+//       <ResponsiveLine
+//         fill={[{ match: "*", id: "gradient" }]}
+//         defs={[]}
+//         enableCrosshair={false}
+//         crosshairType="x"
+//         role=""
+//         sliceTooltip={({ slice }) => <></>}
+//         data={updatedHealthData}
+//         margin={{ top: 50, right: 110, bottom: 50, left: 60 }}
+//         xScale={{ type: "point" }}
+//         yScale={{ type: "linear", min: 0, max: 100 }}
+//         curve="catmullRom"
+//         axisTop={null}
+//         axisRight={null}
+//         enableGridX={false}
+//         enableGridY={false}
+//         colors={["#0070f0"]}
+//         lineWidth={2}
+//         pointSize={8}
+//         pointColor={{ theme: "grid.line.stroke" }}
+//         pointBorderWidth={2}
+//         pointBorderColor={{ from: "serieColor" }}
+//         axisLeft={{
+//           tickValues: [0, 25, 50, 75, 100],
+//           legendOffset: -40,
+//           legendPosition: "middle",
+//         }}
+//         useMesh={true}
+//         debugSlices={false}
+//         enableSlices={false}
+//         // tooltip={({ point }) => (
+//         //   <div>
+//         //     <strong>X value:</strong> {point.data.xFormatted}
+//         //     <br />
+//         //     <strong>Y value:</strong> {point.data.yFormatted}
+//         //   </div>
+//         // )}
+//         debugMesh={false}
+//         isInteractive={true}
+//         legends={[]}
+//         areaBaselineValue={0}
+//         areaBlendMode="normal"
+//         areaOpacity={0.2}
+//         enableArea={false}
+//         pointLabel="y"
+//         enablePointLabel={false}
+//         enablePoints={true}
+//         layers={[
+//           "grid",
+//           "markers",
+//           "axes",
+//           "areas",
+//           "crosshair",
+//           "lines",
+//           "slices",
+//           "points",
+//           "mesh",
+//           "legends",
+//         ]}
+//       />
+//     </div>
+//   );
+// };
 
 const todaysData = [
   {
@@ -196,4 +205,240 @@ const WeeklyProgress = ({ progressData }: WeeklyProgressProps) => {
   );
 };
 
-export { WeeklyProgress, MonthlyVisitors };
+// --------
+
+// Helper components
+const StatItem = ({ icon, count, label, sublabel, color }: any) => (
+  <div className="flex flex-row justify-center items-center gap-2">
+    <div className={`${color} rounded-full p-2`}>
+      {React.cloneElement(icon, { fill: "#fff" })}
+    </div>
+    <div className="flex flex-col">
+      <p className="text-sm font-bold">
+        {count} {label}
+      </p>
+      <p className="text-xs text-black/80">{sublabel}</p>
+    </div>
+  </div>
+);
+
+const ProgressBar = ({ label, value, color }: any) => (
+  <Progress
+    size="sm"
+    radius="sm"
+    classNames={{
+      base: "max-w-md",
+      track: "drop-shadow-md border border-default",
+      indicator: color,
+      label: "tracking-wider font-bold text-xs",
+      value: "text-foreground/60 text-xs",
+    }}
+    label={label}
+    value={value}
+    showValueLabel={true}
+  />
+);
+
+// ---
+
+// components/receptionist/WaitingRoomStatus.tsx
+
+interface WaitingRoomStatusProps {
+  waitingPatients: number;
+}
+
+const WaitingRoomStatus: React.FC<WaitingRoomStatusProps> = ({
+  waitingPatients,
+}) => {
+  const maxCapacity = 20; // Assuming a max capacity of 20 patients
+  const occupancyPercentage = (waitingPatients / maxCapacity) * 100;
+
+  return (
+    <Card className="w-full p-4">
+      <h3 className="text-lg font-semibold mb-2">Waiting Room Occupancy</h3>
+      <Progress
+        size="md"
+        radius="sm"
+        classNames={{
+          base: "max-w-md",
+          track: "drop-shadow-md border border-default",
+          indicator: "bg-gradient-to-r from-blue-500 to-purple-500",
+          label: "tracking-wider font-medium text-default-600",
+          value: "text-foreground/60",
+        }}
+        value={occupancyPercentage}
+        showValueLabel={true}
+        label={`${waitingPatients}/${maxCapacity} patients`}
+      />
+    </Card>
+  );
+};
+
+//
+
+interface PatientDetail {
+  id: string;
+  name: string;
+  appointmentTime: string;
+  reason: string;
+  contactNumber: string;
+  email?: string;
+}
+
+interface PendingPatients {
+  patientDetails: PatientDetail[];
+  totalCount: number;
+}
+
+interface PatientTabsProps {
+  pendingAppointments: PendingPatients;
+}
+
+const PatientTabs: React.FC<PatientTabsProps> = ({ pendingAppointments }) => {
+  return (
+    <Tabs aria-label="Patient management">
+      <Tab key="pending" title="Pending">
+        <Card>
+          <CardBody>
+            {pendingAppointments.patientDetails.map(
+              (patient: any, index: any) => (
+                <div key={index} className="mb-2">
+                  <p className="font-semibold">{patient.name}</p>
+                  <p className="text-sm text-gray-600">
+                    {patient.appointmentTime}
+                  </p>
+                </div>
+              )
+            )}
+          </CardBody>
+        </Card>
+      </Tab>
+      <Tab key="approved" title="Approved">
+        <Card>
+          <CardBody>
+            <p>List of approved appointments</p>
+            {/* Add approved appointments list here */}
+          </CardBody>
+        </Card>
+      </Tab>
+      <Tab key="cancelled" title="Cancelled">
+        <Card>
+          <CardBody>
+            <p>List of cancelled appointments</p>
+            {/* Add cancelled appointments list here */}
+          </CardBody>
+        </Card>
+      </Tab>
+    </Tabs>
+  );
+};
+
+// components/receptionist/MonthlyVisitors.tsx
+
+interface MonthlyVisitorsProps {
+  progressData: number[];
+}
+
+const MonthlyVisitors: React.FC<MonthlyVisitorsProps> = ({ progressData }) => {
+  const months = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+
+  const data = [
+    {
+      id: "Monthly Visitors",
+      data: progressData.map((value, index) => ({
+        x: months[index],
+        y: value,
+      })),
+    },
+  ];
+
+  return (
+    <div className="w-full h-[300px]">
+      <ResponsiveLine
+        data={data}
+        margin={{ top: 50, right: 110, bottom: 50, left: 60 }}
+        xScale={{ type: "point" }}
+        yScale={{
+          type: "linear",
+          min: "auto",
+          max: "auto",
+          stacked: false,
+          reverse: false,
+        }}
+        yFormat=" >-.2f"
+        axisTop={null}
+        axisRight={null}
+        axisBottom={{
+          tickSize: 5,
+          tickPadding: 5,
+          tickRotation: 0,
+          legend: "Month",
+          legendOffset: 36,
+          legendPosition: "middle",
+        }}
+        axisLeft={{
+          tickSize: 5,
+          tickPadding: 5,
+          tickRotation: 0,
+          legend: "Visitors",
+          legendOffset: -40,
+          legendPosition: "middle",
+        }}
+        pointSize={10}
+        pointColor={{ theme: "background" }}
+        pointBorderWidth={2}
+        pointBorderColor={{ from: "serieColor" }}
+        pointLabelYOffset={-12}
+        useMesh={true}
+        legends={[
+          {
+            anchor: "bottom-right",
+            direction: "column",
+            justify: false,
+            translateX: 100,
+            translateY: 0,
+            itemsSpacing: 0,
+            itemDirection: "left-to-right",
+            itemWidth: 80,
+            itemHeight: 20,
+            itemOpacity: 0.75,
+            symbolSize: 12,
+            symbolShape: "circle",
+            symbolBorderColor: "rgba(0, 0, 0, .5)",
+            effects: [
+              {
+                on: "hover",
+                style: {
+                  itemBackground: "rgba(0, 0, 0, .03)",
+                  itemOpacity: 1,
+                },
+              },
+            ],
+          },
+        ]}
+      />
+    </div>
+  );
+};
+
+export {
+  WeeklyProgress,
+  MonthlyVisitors,
+  WaitingRoomStatus,
+  PatientTabs,
+  StatItem,
+  ProgressBar,
+};
