@@ -287,14 +287,31 @@ export default function ProfileSettings({ user }: ProfileSettingsProps) {
 
   const [activeTab, setActiveTab] = useState("personal");
 
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   return (
     <Card
       radius="lg"
       shadow="lg"
-      className="flex flex-row gap-5 items-start p-5 h-full w-full overflow-y-auto"
+      className="flex flex-col md:flex-row gap-5 items-start p-2 md:p-5 h-full w-full overflow-y-auto"
     >
       {/* Sidebar */}
-      <div className="w-1/4 bg-white p-6 border-r border-gray-200">
+      <div
+        className={`w-full md:w-1/4 bg-white p-4 md:p-6 ${
+          isMobile ? "border-b" : "border-r"
+        } border-gray-200`}
+      >
         <div className="flex flex-col items-center mb-8">
           <CldUploadWidget
             signatureEndpoint="/api/cloudinary/sign-image"
@@ -315,7 +332,7 @@ export default function ProfileSettings({ user }: ProfileSettingsProps) {
               <Tooltip content="Click to Update Your Profile Picture">
                 <Avatar
                   src={profilePicture}
-                  className="w-32 h-32 text-large cursor-pointer mb-4"
+                  className="w-24 h-24 md:w-32 md:h-32 text-large cursor-pointer mb-4"
                   onClick={() => open()}
                 />
               </Tooltip>
@@ -324,29 +341,33 @@ export default function ProfileSettings({ user }: ProfileSettingsProps) {
           <h2 className="text-xl font-semibold">{`${user.firstname} ${user.lastname}`}</h2>
           <p className="text-gray-500">@{user.username}</p>
         </div>
-        <nav>
+        <nav className="flex flex-row md:flex-col justify-around md:justify-start">
           {["personal", "address", "security"].map((tab) => (
             <Button
               size="md"
               key={tab}
-              className={`flex justify-start items-center bg-transparent w-4/5 p-3 mb-2 transition-colors duration-200 ${
+              className={`flex justify-start items-center bg-transparent w-auto md:w-4/5 p-2 md:p-3 mb-2 transition-colors duration-200 ${
                 activeTab === tab
-                  ? "bg-blue100 bg-[#1f1c2e] text-white ext-blue-600"
+                  ? "bg-blue100 bg-[#1f1c2e] text-white"
                   : "hover:bg-gray-100"
               }`}
               onClick={() => setActiveTab(tab)}
             >
-              {tab === "personal" && <FaUser className="mr-3" />}
-              {tab === "address" && <FaMapMarkerAlt className="mr-3" />}
-              {tab === "security" && <FaLock className="mr-3" />}
-              {tab.charAt(0).toUpperCase() + tab.slice(1)} Info
+              <div className="flex items-center justify-center md:justify-start w-full">
+                {tab === "personal" && <FaUser className="md:mr-2" />}
+                {tab === "address" && <FaMapMarkerAlt className="md:mr-2" />}
+                {tab === "security" && <FaLock className="md:mr-2" />}
+                <span className="hidden md:inline ml-2">
+                  {tab.charAt(0).toUpperCase() + tab.slice(1)} Info
+                </span>
+              </div>
             </Button>
           ))}
         </nav>
       </div>
 
       {/* Main Content */}
-      <div className="w-3/4 p-8">
+      <div className="w-full md:w-3/4 p-4 md:p-8">
         <h1 className="text-2xl font-bold mb-6">Profile Settings</h1>
 
         <div className="relative">
@@ -356,11 +377,11 @@ export default function ProfileSettings({ user }: ProfileSettingsProps) {
               activeTab === "personal" ? "opacity-100 z-10" : "opacity-0 z-0"
             }`}
           >
-            <Card className="p-6">
+            <Card className="p-4 md:p-6">
               <h3 className="text-xl font-semibold mb-4">
                 Personal Information
               </h3>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <Input
                   name="firstname"
                   type="text"
@@ -452,11 +473,11 @@ export default function ProfileSettings({ user }: ProfileSettingsProps) {
               activeTab === "address" ? "opacity-100 z-10" : "opacity-0 z-0"
             }`}
           >
-            <Card className="p-6">
+            <Card className="p-4 md:p-6">
               <h3 className="text-xl font-semibold mb-4">
                 Address Information
               </h3>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <Textarea
                   name="address_line_1"
                   variant="underlined"
@@ -532,7 +553,7 @@ export default function ProfileSettings({ user }: ProfileSettingsProps) {
           >
             <Card className="p-6">
               <h3 className="text-xl font-semibold mb-4">Security Settings</h3>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <Input
                   name="currentpassword"
                   type={isVisible ? "text" : "password"}
