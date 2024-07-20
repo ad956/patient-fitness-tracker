@@ -1,7 +1,6 @@
 "use client";
 
 import { OtpSection } from "@components/index";
-import { roles } from "@utils/constants";
 import { Input, Button, Link, Card, Image } from "@nextui-org/react";
 import { AiOutlineEyeInvisible, AiTwotoneEye } from "react-icons/ai";
 import { MdOutlineAlternateEmail, MdOutlineKey } from "react-icons/md";
@@ -11,24 +10,50 @@ import { loginAction } from "@lib/actions";
 
 export default function AdminLoginPage() {
   const [email, setEmail] = useState("");
-  const [emailError, setEmailError] = useState(null || String);
+  const [emailError, setEmailError] = useState<string | null>(null);
   const [password, setPassword] = useState("");
-  const [passwordError, setPasswordError] = useState(null || String);
+  const [passwordError, setPasswordError] = useState<string | null>(null);
   const [isVisible, setIsVisible] = useState(false);
-  const [Error, setError] = useState(null || String);
   const [showOtp, setShowOtp] = useState(false);
   const [userData, setUserData] = useState({ email: "", role: "", action: "" });
+  const [isDesktop, setIsDesktop] = useState(true);
 
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
 
   const [loginDisabled, setLoginDisabled] = useState(true);
 
+  useEffect(() => {
+    const checkDeviceType = () => {
+      const userAgent = navigator.userAgent.toLowerCase();
+      const mobileKeywords = [
+        "android",
+        "webos",
+        "iphone",
+        "ipad",
+        "ipod",
+        "blackberry",
+        "windows phone",
+      ];
+      const isMobile = mobileKeywords.some((keyword) =>
+        userAgent.includes(keyword)
+      );
+      setIsDesktop(!isMobile);
+    };
+
+    checkDeviceType();
+    window.addEventListener("resize", checkDeviceType);
+
+    return () => {
+      window.removeEventListener("resize", checkDeviceType);
+    };
+  }, []);
+
   function handleEmailChange(e: ChangeEvent<HTMLInputElement>) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const isValidEmail = emailRegex.test(e.target.value);
 
-    setEmailError(isValidEmail ? "" : "Please enter a valid email address");
+    setEmailError(isValidEmail ? null : "Please enter a valid email address");
     setEmail(e.target.value);
   }
 
@@ -38,30 +63,20 @@ export default function AdminLoginPage() {
     const isValidPassword = passwordRegex.test(e.target.value);
     const missingComponents = [];
 
-    if (!/[a-z]/.test(e.target.value)) {
-      missingComponents.push("at least one lowercase letter");
-    }
-
-    if (!/[A-Z]/.test(e.target.value)) {
-      missingComponents.push("at least one uppercase letter");
-    }
-
-    if (!/[0-9]/.test(e.target.value)) {
-      missingComponents.push("at least one number");
-    }
-
-    if (!/[@$!%*?&]/.test(e.target.value)) {
-      missingComponents.push(
-        "at least one special character (@, $, !, %, *, ?, &)"
-      );
-    }
+    if (!/[a-z]/.test(e.target.value))
+      missingComponents.push("lowercase letter");
+    if (!/[A-Z]/.test(e.target.value))
+      missingComponents.push("uppercase letter");
+    if (!/[0-9]/.test(e.target.value)) missingComponents.push("number");
+    if (!/[@$!%*?&]/.test(e.target.value))
+      missingComponents.push("special character (@, $, !, %, *, ?, &)");
 
     setPasswordError(
       isValidPassword
-        ? ""
+        ? null
         : missingComponents.length > 0
         ? `Password must contain at least 8 characters, and ${missingComponents.join(
-            " and "
+            ", "
           )}.`
         : "Password is too short. It must be at least 8 characters long."
     );
@@ -71,116 +86,109 @@ export default function AdminLoginPage() {
   const toggleVisibility = () => setIsVisible(!isVisible);
 
   useEffect(() => {
-    setLoginDisabled(isLoginDisabled());
+    setLoginDisabled(!!emailError || !email || !!passwordError || !password);
   }, [emailError, email, passwordError, password]);
-
-  function isLoginDisabled(): boolean {
-    return !!emailError || !email || !!passwordError || !password;
-  }
 
   async function handleFormSubmit(
     e: React.FormEvent<HTMLFormElement>
   ): Promise<void> {
     e.preventDefault();
-    const formData = new FormData(e.currentTarget as HTMLFormElement);
+    const formData = new FormData(e.currentTarget);
 
     try {
-      toast.loading("Please wait ...", {
-        position: "bottom-center",
-      });
-
+      toast.loading("Please wait ...", { position: "bottom-center" });
       const isValidUser = await loginAction(formData);
       toast.dismiss();
+
       if (isValidUser?.unauthorized) {
         toast.error("Invalid email or password. Please try again.");
       } else {
-        setError("");
-        const userRole = formData.get("role");
         const userEmail = formData.get("email");
         if (userEmail) {
           setUserData({
             email: userEmail.toString(),
-            role: userRole?.toString() || "",
+            role: "admin",
             action: "Login",
           });
-
-          toast.success("OTP successfully sent !", {
+          toast.success("OTP successfully sent!", {
             position: "bottom-center",
           });
           setShowOtp(true);
         }
       }
     } catch (error) {
-      toast.error("Invalid email or password. Please try again.");
+      toast.error("An error occurred. Please try again.");
     }
   }
 
   const showToast = (inputRef: React.RefObject<HTMLInputElement>) => {
-    if (inputRef.current?.name === "email") {
-      if (emailError) {
-        toast.error(emailError, {
-          position: "bottom-center",
-        });
-      }
-    }
-    if (inputRef.current?.name === "password") {
-      if (passwordError) {
-        toast.error(passwordError, {
-          position: "bottom-center",
-        });
-      }
+    const error =
+      inputRef.current?.name === "email" ? emailError : passwordError;
+    if (error) {
+      toast.error(error, { position: "bottom-center" });
     }
   };
 
+  if (!isDesktop) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
+        <Card shadow="lg" className="w-full max-w-md p-6">
+          <h2 className="text-xl font-bold text-center text-red-600 mb-4">
+            Access Denied
+          </h2>
+          <p className="text-center">
+            This admin page is only accessible on desktop devices. Please use a
+            desktop computer to access this site.
+          </p>
+        </Card>
+      </div>
+    );
+  }
+
   return (
-    <div className="h-screen w-screen grid place-items-center">
-      <Card radius="lg" className="h-4/5 w-4/5 grid place-items-center">
-        <div className="">
-          <div className="flex justify-start items-center">
-            <Image
-              src="/icons/patient.svg"
-              height="50"
-              width="50"
-              alt="brand-logo"
-            />
-            <h2 className="ml-2 font-bold text-lg">Patient Fitness Tracker</h2>
-          </div>
-          <div className="mt-5">
-            <h3 className="text-3xl font-bold tracking-wider">
-              Welcome Admin!
-            </h3>
-            <p className="text-[13px] text-gray-500">
-              Please enter log in details below
-            </p>
-          </div>
+    <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
+      <Card shadow="lg" className="w-full max-w-md p-6">
+        <div className="flex items-center mb-6">
+          <Image
+            src="/icons/patient.svg"
+            alt="brand-logo"
+            width={40}
+            height={40}
+          />
+          <h2 className="ml-2 text-xl font-bold">Patient Fitness Tracker</h2>
         </div>
-        <form
-          className="flex flex-col h-full w-2/6"
-          onSubmit={handleFormSubmit}
-        >
+        <div className="mb-6">
+          <h3 className="text-2xl font-bold">Welcome Admin!</h3>
+          <p className="text-sm text-gray-500">
+            Please enter your login details below
+          </p>
+        </div>
+        <form className="space-y-4" onSubmit={handleFormSubmit}>
           <Input
             name="email"
+            label="Email"
             variant="bordered"
             size="lg"
             type="email"
             placeholder="you@example.com"
             startContent={<MdOutlineAlternateEmail />}
             value={email}
-            className="mx-2 my-1"
             onChange={handleEmailChange}
             ref={emailRef}
             onBlur={() => showToast(emailRef)}
             autoComplete="username"
+            isInvalid={!!emailError}
+            errorMessage={emailError}
           />
           <Input
             name="password"
+            label="Password"
             variant="bordered"
             size="lg"
             placeholder="Enter your password"
             startContent={<MdOutlineKey />}
             value={password}
             onChange={handlePasswordChange}
-            className="mx-2 my-1"
             endContent={
               <button
                 className="focus:outline-none"
@@ -188,9 +196,9 @@ export default function AdminLoginPage() {
                 onClick={toggleVisibility}
               >
                 {isVisible ? (
-                  <AiOutlineEyeInvisible className="text-2xl text-default-400 pointer-events-none" />
+                  <AiOutlineEyeInvisible className="text-2xl text-default-400" />
                 ) : (
-                  <AiTwotoneEye className="text-2xl text-default-400 pointer-events-none" />
+                  <AiTwotoneEye className="text-2xl text-default-400" />
                 )}
               </button>
             }
@@ -198,43 +206,24 @@ export default function AdminLoginPage() {
             ref={passwordRef}
             onBlur={() => showToast(passwordRef)}
             autoComplete="current-password"
+            isInvalid={!!passwordError}
+            errorMessage={passwordError}
           />
-          {/* <Select
-            name="role"
-            isRequired
-            items={roles}
-            variant="bordered"
-            size="md"
-            label="Role"
-            placeholder="Select who you are"
-            className="mx-2 my-2"
-          >
-            {(roles) => (
-              <SelectItem key={roles.value}>{roles.label}</SelectItem>
-            )}
-          </Select> */}
-          <Link
-            // size="sm"
-            href="#"
-            underline="hover"
-            className="self-right m-2 text-xs text-black/70"
-          >
-            Forget password?
+          <Link href="#" size="sm" className="text-sm text-right block">
+            Forgot password?
           </Link>
-          {/* passing the user data to otp section */}
           {showOtp && <OtpSection userData={userData} />}
-
           <Button
             type="submit"
-            variant="shadow"
-            className="text-white self-center bg-[#161313] text-sm tracking-wide rounded-lg w-5/6 h-12 my-2"
+            size="lg"
+            className="w-full text-white self-center bg-[#161313]"
             isDisabled={loginDisabled}
           >
             Sign in
           </Button>
-          <Toaster />
         </form>
       </Card>
+      <Toaster />
     </div>
   );
 }
