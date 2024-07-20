@@ -106,7 +106,7 @@ export default async function ReceptionistPage() {
         {/* Today's Statistics */}
         <Card className="lg:col-span-3 lg:row-span-2">
           <CardHeader>
-            <p className="text-sm font-semibold">Today's Statistics</p>
+            <p className="text-sm font-semibold">Today&apos;s Statistics</p>
           </CardHeader>
           <CardBody className="flex flex-col gap-4">
             <ProgressBar
