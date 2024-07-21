@@ -1,44 +1,21 @@
-import { Sidebar } from "./components";
-import { Headbar } from "@components/index";
-
 import type { Metadata } from "next";
+import { Sidebar, Header } from "./components";
 
 export const metadata: Metadata = {
-  title: "Patient Fitness Tracker",
-  description: "The page is for admin related applications.",
+  title: "Patient Fitness Tracker - Admin",
+  description: "Admin dashboard for Patient Fitness Tracker application.",
 };
 
-export default async function AdminLayout({
+export default function AdminLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // const admin = await getAdminData();
-  const admin = {
-    _id: "",
-    firstname: "ADMIN",
-    profile: "",
-    username: "ad956",
-    lastname: "",
-    email: "",
-    dob: "",
-    gender: "",
-    contact: "",
-    address: {
-      address_line_1: "",
-      address_line_2: "",
-      city: "",
-      state: "",
-      country: "",
-      zip_code: "",
-    },
-  };
-
   return (
-    <main className="h-screen flex">
+    <main className="flex flex-row">
       <Sidebar />
-      <section className="flex flex-col w-full">
-        <Headbar user={admin} role="admin" />
+      <section className="flex flex-col w-screen bg-gray-50 overflow-hidden">
+        <Header />
         {children}
       </section>
     </main>
