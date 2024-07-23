@@ -6,13 +6,13 @@ import {
   handlePublicRoute,
 } from "@middlewares/index";
 
-const PUBLIC_ROUTES = ["/", "/login", "/signup"];
+const PUBLIC_ROUTES = ["/", "/login", "/signup", "/admin-login"];
 const PRIVATE_ROUTES = [
   "/patient",
   "/receptionist",
   "/doctor",
   "/hospital",
-  "/admin",
+  // "/admin",
 ];
 
 const SESSION_COOKIE = "session";
