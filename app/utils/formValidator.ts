@@ -1,5 +1,3 @@
-import { toast } from "react-hot-toast";
-
 type FieldError = string | null;
 
 export default class FormValidator {
@@ -15,13 +13,6 @@ export default class FormValidator {
 
   hasErrors(): boolean {
     return Object.values(this.errors).some((error) => !!error);
-  }
-
-  showToast(field: string) {
-    const error = this.getError(field);
-    if (error) {
-      toast.error(error, { position: "bottom-center" });
-    }
   }
 
   validateField(
