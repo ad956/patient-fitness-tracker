@@ -1,5 +1,3 @@
-// pages/receptionist/dashboard.tsx
-
 import { Card, Input, Badge, CardHeader, CardBody } from "@nextui-org/react";
 import {
   BsFillPersonPlusFill,
@@ -10,10 +8,7 @@ import {
   BsBell,
 } from "react-icons/bs";
 import { Receptionist } from "@types";
-import {
-  getReceptionistData,
-  getPendingAppointments,
-} from "@/lib/receptionist";
+import { getReceptionistData, getPendingAppointments } from "@lib/receptionist";
 import {
   MonthlyVisitors,
   PatientTabs,

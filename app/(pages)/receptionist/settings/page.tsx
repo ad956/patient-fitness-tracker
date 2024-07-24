@@ -1,4 +1,4 @@
-import ProfileSettings from "@components/profile-settings";
+import ProfileSettings from "@components/ProfileSettings";
 import { getReceptionistData } from "@lib/receptionist";
 import { Receptionist } from "@types";
 

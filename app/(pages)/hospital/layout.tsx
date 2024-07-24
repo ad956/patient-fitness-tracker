@@ -1,5 +1,5 @@
 import { Sidebar, Headbar } from "@components/index";
-import { getHospitalData } from "@/lib/hospital";
+import { getHospitalData } from "@lib/hospital";
 import { Hospital } from "@types";
 
 import type { Metadata } from "next";

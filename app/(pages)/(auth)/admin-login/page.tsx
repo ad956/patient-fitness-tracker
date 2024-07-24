@@ -1,6 +1,6 @@
 "use client";
 
-import { OtpSection } from "@components/index";
+import OtpSection from "@components/OtpSection";
 import { Input, Button, Link, Card, Image } from "@nextui-org/react";
 import { AiOutlineEyeInvisible, AiTwotoneEye } from "react-icons/ai";
 import { MdOutlineAlternateEmail, MdOutlineKey } from "react-icons/md";

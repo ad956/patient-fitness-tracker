@@ -1,15 +1,8 @@
 "use client";
 
-import Notifications from "@components/notifications";
 import { logoutAction } from "@lib/actions";
-import {
-  Navbar,
-  Avatar,
-  NavbarBrand,
-  Divider,
-  User,
-  Button,
-} from "@nextui-org/react";
+import { Navbar, NavbarBrand, Divider, User, Button } from "@nextui-org/react";
+import Notifications from "@components/Notifications";
 import Link from "next/link";
 import { CiLogin } from "react-icons/ci";
 import { GoPlus } from "react-icons/go";
