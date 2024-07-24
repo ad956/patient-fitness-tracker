@@ -121,21 +121,17 @@ export default function Signup() {
   }
 
   useEffect(() => {
-    setSubmitDisabled(isSubmitDisabled());
-  }, [firstName, lastName, username, email, password, confirmPassword, role]);
-
-  function isSubmitDisabled(): boolean {
-    return (
+    setSubmitDisabled(
       formValidator.hasErrors() ||
-      !firstName ||
-      !lastName ||
-      !username ||
-      !email ||
-      !password ||
-      !confirmPassword ||
-      !isRoleValid
+        !firstName ||
+        !lastName ||
+        !username ||
+        !email ||
+        !password ||
+        !confirmPassword ||
+        !isRoleValid
     );
-  }
+  }, [firstName, lastName, username, email, password, confirmPassword, role]);
 
   return (
     <div
@@ -183,7 +179,8 @@ export default function Signup() {
               value={firstName}
               className="mx-2 my-1"
               onChange={handleFirstNameChange}
-              onBlur={() => formValidator.showToast("firstname")}
+              isInvalid={!!formValidator.getError("firstname")}
+              errorMessage={formValidator.getError("firstname")}
             />
             <Input
               type="text"
@@ -195,7 +192,8 @@ export default function Signup() {
               value={lastName}
               className="mx-2 my-1"
               onChange={handleLastNameChange}
-              onBlur={() => formValidator.showToast("lastname")}
+              isInvalid={!!formValidator.getError("lastname")}
+              errorMessage={formValidator.getError("lastname")}
             />
           </div>
           <Input
@@ -209,7 +207,8 @@ export default function Signup() {
             autoComplete="username"
             className="mx-2 my-1"
             onChange={handleUserNameChange}
-            onBlur={() => formValidator.showToast("username")}
+            isInvalid={!!formValidator.getError("username")}
+            errorMessage={formValidator.getError("username")}
           />
           <Input
             type="email"
@@ -222,7 +221,8 @@ export default function Signup() {
             autoComplete="email"
             className="mx-2 my-1"
             onChange={handleEmailChange}
-            onBlur={() => formValidator.showToast("email")}
+            isInvalid={!!formValidator.getError("email")}
+            errorMessage={formValidator.getError("email")}
           />
           <Input
             name="password"
@@ -248,7 +248,8 @@ export default function Signup() {
               </button>
             }
             type={isVisible ? "text" : "password"}
-            onBlur={() => formValidator.showToast("password")}
+            isInvalid={!!formValidator.getError("password")}
+            errorMessage={formValidator.getError("password")}
           />
           <Input
             name="confirmpassword"
@@ -274,7 +275,8 @@ export default function Signup() {
               </button>
             }
             type={isVisible ? "text" : "password"}
-            onBlur={() => formValidator.showToast("confirmpassword")}
+            isInvalid={!!formValidator.getError("confirmpassword")}
+            errorMessage={formValidator.getError("confirmpassword")}
           />
 
           <Select

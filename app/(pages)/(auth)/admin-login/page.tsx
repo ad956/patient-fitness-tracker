@@ -7,19 +7,17 @@ import { MdOutlineAlternateEmail, MdOutlineKey } from "react-icons/md";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { loginAction } from "@lib/actions";
+import FormValidator from "@utils/formValidator";
 
 export default function AdminLoginPage() {
+  const [formValidator] = useState(new FormValidator());
+
   const [email, setEmail] = useState("");
-  const [emailError, setEmailError] = useState<string | null>(null);
   const [password, setPassword] = useState("");
-  const [passwordError, setPasswordError] = useState<string | null>(null);
   const [isVisible, setIsVisible] = useState(false);
   const [showOtp, setShowOtp] = useState(false);
   const [userData, setUserData] = useState({ email: "", role: "", action: "" });
   const [isDesktop, setIsDesktop] = useState(true);
-
-  const emailRef = useRef<HTMLInputElement>(null);
-  const passwordRef = useRef<HTMLInputElement>(null);
 
   const [loginDisabled, setLoginDisabled] = useState(true);
 
@@ -50,44 +48,22 @@ export default function AdminLoginPage() {
   }, []);
 
   function handleEmailChange(e: ChangeEvent<HTMLInputElement>) {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const isValidEmail = emailRegex.test(e.target.value);
-
-    setEmailError(isValidEmail ? null : "Please enter a valid email address");
+    const error = FormValidator.validateEmail(e.target.value);
+    formValidator.setError("email", error);
     setEmail(e.target.value);
   }
 
   function handlePasswordChange(e: ChangeEvent<HTMLInputElement>) {
-    const passwordRegex =
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-    const isValidPassword = passwordRegex.test(e.target.value);
-    const missingComponents = [];
-
-    if (!/[a-z]/.test(e.target.value))
-      missingComponents.push("lowercase letter");
-    if (!/[A-Z]/.test(e.target.value))
-      missingComponents.push("uppercase letter");
-    if (!/[0-9]/.test(e.target.value)) missingComponents.push("number");
-    if (!/[@$!%*?&]/.test(e.target.value))
-      missingComponents.push("special character (@, $, !, %, *, ?, &)");
-
-    setPasswordError(
-      isValidPassword
-        ? null
-        : missingComponents.length > 0
-        ? `Password must contain at least 8 characters, and ${missingComponents.join(
-            ", "
-          )}.`
-        : "Password is too short. It must be at least 8 characters long."
-    );
+    const error = FormValidator.validatePassword(e.target.value);
+    formValidator.setError("password", error);
     setPassword(e.target.value);
   }
 
   const toggleVisibility = () => setIsVisible(!isVisible);
 
   useEffect(() => {
-    setLoginDisabled(!!emailError || !email || !!passwordError || !password);
-  }, [emailError, email, passwordError, password]);
+    setLoginDisabled(formValidator.hasErrors() || !email || !password);
+  }, [email, password]);
 
   async function handleFormSubmit(
     e: React.FormEvent<HTMLFormElement>
@@ -120,14 +96,6 @@ export default function AdminLoginPage() {
       toast.error("An error occurred. Please try again.");
     }
   }
-
-  const showToast = (inputRef: React.RefObject<HTMLInputElement>) => {
-    const error =
-      inputRef.current?.name === "email" ? emailError : passwordError;
-    if (error) {
-      toast.error(error, { position: "bottom-center" });
-    }
-  };
 
   if (!isDesktop) {
     return (
@@ -174,11 +142,9 @@ export default function AdminLoginPage() {
             startContent={<MdOutlineAlternateEmail />}
             value={email}
             onChange={handleEmailChange}
-            ref={emailRef}
-            onBlur={() => showToast(emailRef)}
             autoComplete="username"
-            isInvalid={!!emailError}
-            errorMessage={emailError}
+            isInvalid={!!formValidator.getError("email")}
+            errorMessage={formValidator.getError("email")}
           />
           <Input
             name="password"
@@ -203,11 +169,9 @@ export default function AdminLoginPage() {
               </button>
             }
             type={isVisible ? "text" : "password"}
-            ref={passwordRef}
-            onBlur={() => showToast(passwordRef)}
             autoComplete="current-password"
-            isInvalid={!!passwordError}
-            errorMessage={passwordError}
+            isInvalid={!!formValidator.getError("password")}
+            errorMessage={formValidator.getError("password")}
           />
           <Link href="#" size="sm" className="text-sm text-right block">
             Forgot password?

@@ -47,12 +47,10 @@ export default function Login() {
   }
 
   useEffect(() => {
-    setLoginDisabled(isLoginDisabled());
+    setLoginDisabled(
+      formValidator.hasErrors() || !email || !password || !isRoleValid
+    );
   }, [email, password, role]);
-
-  function isLoginDisabled(): boolean {
-    return formValidator.hasErrors() || !email || !password || !isRoleValid;
-  }
 
   async function handleFormSubmit(
     e: React.FormEvent<HTMLFormElement>
@@ -133,7 +131,8 @@ export default function Login() {
             value={email}
             className="mx-2 my-1"
             onChange={handleEmailChange}
-            onBlur={() => formValidator.showToast("email")}
+            isInvalid={!!formValidator.getError("email")}
+            errorMessage={formValidator.getError("email")}
             autoComplete="username"
           />
           <Input
@@ -159,7 +158,8 @@ export default function Login() {
               </button>
             }
             type={isVisible ? "text" : "password"}
-            onBlur={() => formValidator.showToast("password")}
+            isInvalid={!!formValidator.getError("password")}
+            errorMessage={formValidator.getError("password")}
             autoComplete="current-password"
           />
           <Select
