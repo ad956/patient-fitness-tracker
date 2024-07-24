@@ -9,7 +9,7 @@ import { IoSettingsOutline } from "react-icons/io5";
 import { RxDashboard } from "react-icons/rx";
 
 const Sidebar = () => (
-  <aside className="fixed h-full w-14 flex-col border-r bg-white">
+  <aside className="h-full flex-col border-r bg-white">
     <nav className="flex flex-col items-center gap-4 px-2 py-5">
       <Link
         href="/admin"
@@ -50,7 +50,7 @@ const Sidebar = () => (
     </nav>
     <nav className="mt-auto flex flex-col items-center gap-4 px-2 py-5">
       <Link
-        href="#"
+        href="/admin/settings"
         className="flex h-9 w-9 items-center justify-center rounded-lg text-gray-500 hover:text-black"
       >
         <FaRegUserCircle className="h-5 w-5" />
