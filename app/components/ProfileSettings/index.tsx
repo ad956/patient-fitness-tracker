@@ -390,7 +390,8 @@ export default function ProfileSettings({ user }: ProfileSettingsProps) {
                   value={firstname}
                   className="max-w-xs"
                   onChange={handleFirstNameChange}
-                  onBlur={() => formValidator.showToast("firstname")}
+                  isInvalid={!!formValidator.getError("firstname")}
+                  errorMessage={formValidator.getError("firstname")}
                 />
                 <Input
                   name="lastname"
@@ -400,7 +401,8 @@ export default function ProfileSettings({ user }: ProfileSettingsProps) {
                   value={lastname}
                   className="max-w-xs"
                   onChange={handleLastNameChange}
-                  onBlur={() => formValidator.showToast("lastname")}
+                  isInvalid={!!formValidator.getError("lastname")}
+                  errorMessage={formValidator.getError("lastname")}
                 />
                 <Input
                   name="username"
@@ -411,7 +413,8 @@ export default function ProfileSettings({ user }: ProfileSettingsProps) {
                   value={username}
                   className="max-w-xs"
                   onChange={handleUserNameChange}
-                  onBlur={() => formValidator.showToast("username")}
+                  isInvalid={!!formValidator.getError("username")}
+                  errorMessage={formValidator.getError("username")}
                 />
                 <Input
                   name="email"
@@ -422,7 +425,8 @@ export default function ProfileSettings({ user }: ProfileSettingsProps) {
                   className="max-w-xs"
                   autoComplete="email"
                   onChange={handleEmailChange}
-                  onBlur={() => formValidator.showToast("email")}
+                  isInvalid={!!formValidator.getError("email")}
+                  errorMessage={formValidator.getError("email")}
                 />
                 <Select
                   name="gender"
@@ -460,7 +464,8 @@ export default function ProfileSettings({ user }: ProfileSettingsProps) {
                   value={contact}
                   className="max-w-xs"
                   onChange={handleContactChange}
-                  onBlur={() => formValidator.showToast("contact")}
+                  isInvalid={!!formValidator.getError("contact")}
+                  errorMessage={formValidator.getError("contact")}
                 />
               </div>
             </Card>
@@ -485,9 +490,10 @@ export default function ProfileSettings({ user }: ProfileSettingsProps) {
                   value={address.address_line_1}
                   className="max-w-xs"
                   onChange={handleAddressChange("address_line_1")}
-                  onBlur={() =>
-                    formValidator.showToast("address.address_line_1")
-                  }
+                  isInvalid={!!formValidator.getError("address.address_line_1")}
+                  errorMessage={formValidator.getError(
+                    "address.address_line_1"
+                  )}
                 />
                 <Textarea
                   name="address_line_2"
@@ -496,9 +502,10 @@ export default function ProfileSettings({ user }: ProfileSettingsProps) {
                   value={address.address_line_2}
                   className="max-w-xs"
                   onChange={handleAddressChange("address_line_2")}
-                  onBlur={() =>
-                    formValidator.showToast("address.address_line_2")
-                  }
+                  isInvalid={!!formValidator.getError("address.address_line_2")}
+                  errorMessage={formValidator.getError(
+                    "address.address_line_2"
+                  )}
                 />
                 <Input
                   name="city"
@@ -508,7 +515,8 @@ export default function ProfileSettings({ user }: ProfileSettingsProps) {
                   value={address.city}
                   className="max-w-xs"
                   onChange={handleAddressChange("city")}
-                  onBlur={() => formValidator.showToast("address.city")}
+                  isInvalid={!!formValidator.getError("city")}
+                  errorMessage={formValidator.getError("city")}
                 />
                 <Input
                   name="state"
@@ -518,7 +526,8 @@ export default function ProfileSettings({ user }: ProfileSettingsProps) {
                   value={address.state}
                   className="max-w-xs"
                   onChange={handleAddressChange("state")}
-                  onBlur={() => formValidator.showToast("address.state")}
+                  isInvalid={!!formValidator.getError("address.state")}
+                  errorMessage={formValidator.getError("address.state")}
                 />
                 <Input
                   name="zip_code"
@@ -528,7 +537,8 @@ export default function ProfileSettings({ user }: ProfileSettingsProps) {
                   value={address.zip_code}
                   className="max-w-xs"
                   onChange={handleAddressChange("zip_code")}
-                  onBlur={() => formValidator.showToast("address.zip_code")}
+                  isInvalid={!!formValidator.getError("address.zipcode")}
+                  errorMessage={formValidator.getError("address.zipcode")}
                 />
                 <Input
                   name="country"
@@ -538,7 +548,8 @@ export default function ProfileSettings({ user }: ProfileSettingsProps) {
                   value={address.country}
                   className="max-w-xs"
                   onChange={handleAddressChange("country")}
-                  onBlur={() => formValidator.showToast("address.country")}
+                  isInvalid={!!formValidator.getError("address.country")}
+                  errorMessage={formValidator.getError("address.country")}
                 />
               </div>
             </Card>
@@ -575,7 +586,8 @@ export default function ProfileSettings({ user }: ProfileSettingsProps) {
                       )}
                     </button>
                   }
-                  onBlur={() => formValidator.showToast("currentpassword")}
+                  isInvalid={!!formValidator.getError("currentpassword")}
+                  errorMessage={formValidator.getError("currentpassword")}
                 />
                 <Input
                   name="newpassword"
@@ -598,7 +610,8 @@ export default function ProfileSettings({ user }: ProfileSettingsProps) {
                       )}
                     </button>
                   }
-                  onBlur={() => formValidator.showToast("confirmpassword")}
+                  isInvalid={!!formValidator.getError("newpassword")}
+                  errorMessage={formValidator.getError("newpassword")}
                 />
               </div>
             </Card>
