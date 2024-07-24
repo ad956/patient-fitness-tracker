@@ -14,7 +14,7 @@ export default function AdminLayout({
   return (
     <main className="flex flex-row">
       <Sidebar />
-      <section className="flex flex-col w-screen bg-gray-50 overflow-hidden">
+      <section className="flex flex-col h-screen  w-screen bg-gray-50 overflow-hidden p-5">
         <Header />
         {children}
       </section>
