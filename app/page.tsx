@@ -11,7 +11,7 @@ import {
   Testimonial,
   TrustedBy,
   WorkingProcess,
-} from "./components/landing-page";
+} from "./components/LandingPage";
 
 export default function LandingPage() {
   return (
