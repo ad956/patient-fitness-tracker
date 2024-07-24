@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { BrandLogo } from "../brandlogo";
+import BrandLogo from "../../BrandLogo";
 import {
   Navbar,
   NavbarBrand,
