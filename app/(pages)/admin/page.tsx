@@ -33,7 +33,7 @@ import {
 
 export default function Admin() {
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col h-screen">
       <main className="flex-grow p-8">
         <div className="max-w-7xl mx-auto space-y-8">
           {/* Statistics Cards */}

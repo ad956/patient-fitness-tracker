@@ -1,11 +1,11 @@
-import BrandLogo from "./brandlogo";
-import Carousel from "./carousel";
-import ErrorBoundary from "./error-boundary";
-import Headbar from "./headbar";
-import OtpSection from "./otp";
-import ProfileSettings from "./profile-settings";
-import Sidebar from "./sidebar";
-import SpinnerLoader from "./spinnerloader";
+import BrandLogo from "./BrandLogo";
+import Carousel from "./Carousel";
+import ErrorBoundary from "./ErrorBoundary";
+import Headbar from "./Headbar";
+import OtpSection from "./OTP";
+import ProfileSettings from "./ProfileSettings";
+import Sidebar from "./Sidebar";
+import SpinnerLoader from "./SpinnerLoader";
 
 export {
   BrandLogo,

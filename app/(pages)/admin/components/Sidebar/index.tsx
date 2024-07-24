@@ -1,20 +1,21 @@
 "use client";
 
-import { Link } from "@nextui-org/react";
-import { CiCalendarDate, CiHospital1 } from "react-icons/ci";
+import { Image } from "@nextui-org/react";
+import Link from "next/link";
+import { CiCalendarDate } from "react-icons/ci";
 import { FaRegUserCircle } from "react-icons/fa";
 import { HiOutlinePresentationChartBar } from "react-icons/hi";
 import { IoSettingsOutline } from "react-icons/io5";
 import { RxDashboard } from "react-icons/rx";
 
-const Sidebar = ({ menuItems }: any) => (
+const Sidebar = () => (
   <aside className="fixed h-full w-14 flex-col border-r bg-white">
     <nav className="flex flex-col items-center gap-4 px-2 py-5">
       <Link
-        href="#"
-        className="flex h-9 w-9 items-center justify-center rounded-full bg-black text-white"
+        href="/admin"
+        className="flex h-9 w-9 items-center justify-center rounded-full bgblack text-white"
       >
-        <CiHospital1 className="h-5 w-5" />
+        <Image src={"/icons/patient.svg"} className="h-20 w-20" alt="logo" />
       </Link>
       <Link
         href="#"

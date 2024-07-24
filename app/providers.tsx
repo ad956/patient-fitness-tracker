@@ -1,7 +1,7 @@
 "use client";
 
 import { NextUIProvider } from "@nextui-org/react";
-import ErrorBoundary from "@components/error-boundary"; // Import the ErrorBoundary component
+import ErrorBoundary from "@components/ErrorBoundary"; // Import the ErrorBoundary component
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
