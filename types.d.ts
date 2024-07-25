@@ -18,6 +18,8 @@ export type User = {
   };
 };
 
+export type Admin = User & {};
+
 export type Patient = User & {
   physicalDetails: {
     age: number;
