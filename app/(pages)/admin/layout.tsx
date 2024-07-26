@@ -12,9 +12,9 @@ export default function AdminLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <main className="flex flex-row">
+    <main className="h-screen flex flex-row">
       <Sidebar />
-      <section className="flex flex-col h-screen  w-screen bg-gray-50 overflow-hidden p-5">
+      <section className="flex flex-col w-full">
         <Header />
         {children}
       </section>
