@@ -9,7 +9,7 @@ import { IoSettingsOutline } from "react-icons/io5";
 import { RxDashboard } from "react-icons/rx";
 
 const Sidebar = () => (
-  <aside className="h-full flex-col border-r bg-white">
+  <aside className="absolut h-screen flex-col border-r bg-white">
     <nav className="flex flex-col items-center gap-4 px-2 py-5">
       <Link
         href="/admin"

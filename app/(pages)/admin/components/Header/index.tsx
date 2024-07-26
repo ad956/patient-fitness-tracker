@@ -8,39 +8,34 @@ import { CiLogin } from "react-icons/ci";
 import { GoPlus } from "react-icons/go";
 
 const Header = ({ isMenuOpen, setIsMenuOpen }: any) => (
-  <Navbar
-    isBordered
-    className="w-[90%] self-center flex flex-row justify-around rounded-lg"
-  >
-    <NavbarBrand className="flex-grow-0 border- border-purple-400">
-      <p className="font-medium text-xl text-gray-800">Dashboard</p>
-    </NavbarBrand>
+  <div className="bg-[#f3f6fd] p-4 flex flex-row justify-between">
+    <div className="flex items-center w-3/5">
+      <p className="hidden ml-2 md:-ml-2 text-sm md:flex md:text-lg font-semibold tracking-wider">
+        Patient Fitness Tracker
+      </p>
+    </div>
 
-    <div className="flex justify-end items-center gap-2 ml-auto border- border-purple-400">
+    <div className="flex justify-center items-center gap-2">
       <Button
         as={Link}
         isIconOnly
         radius="full"
         variant="shadow"
         size="sm"
-        href={`/admin/appointments`}
+        className=""
+        href={`/appointments`}
       >
         <GoPlus size={20} />
       </Button>
-      <Notifications userId={"admin._id"} />
+      <Notifications userId={"user._id"} />
       <Divider orientation="vertical" className="h-8" />
 
       <User
-        as="button"
-        name={"Anand"}
+        name={"Admin Kumar"}
         avatarProps={{
-          src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTjzJjPa-3jdL6XAI0yqXBY8VzK_p5h0yQIkQ&s",
-          isBordered: true,
-          color: "default",
-          // className: "transition-transform hover:scale-105",
-          size: "md",
+          src: "https://avatarfiles.alphacoders.com/375/375112.png",
         }}
-        className="transition-transform hover:scale-105"
+        className=""
         description={
           <Link
             href={`/admin/settings`}
@@ -50,13 +45,13 @@ const Header = ({ isMenuOpen, setIsMenuOpen }: any) => (
       />
       <Divider orientation="vertical" className="h-8" />
 
-      <form action={logoutAction}>
+      <form action={logoutAction} className="">
         <Button size="sm" type="submit" isIconOnly className="bg-transparent">
           <CiLogin size={25} />
         </Button>
       </form>
     </div>
-  </Navbar>
+  </div>
 );
 
 export default Header;
