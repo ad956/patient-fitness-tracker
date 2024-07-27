@@ -23,6 +23,7 @@
       "@utils/*": ["./app/utils/*"],
       "@types": ["./types.d.ts"],
       "@constants/*": ["./app/utils/constants/*"],
+      "@admin/*": ["./app/(pages)/admin/*"],
       "@patient/*": ["./app/(pages)/patient/*"],
       "@receptionist/*": ["./app/(pages)/receptionist/*"],
       "@models/*": ["./app/models/*"],
