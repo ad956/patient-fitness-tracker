@@ -2,11 +2,14 @@
 
 import { Image } from "@nextui-org/react";
 import Link from "next/link";
-import { CiCalendarDate } from "react-icons/ci";
-import { FaRegUserCircle } from "react-icons/fa";
-import { HiOutlinePresentationChartBar } from "react-icons/hi";
-import { IoSettingsOutline } from "react-icons/io5";
-import { RxDashboard } from "react-icons/rx";
+import React from "react";
+import {
+  FiCalendar,
+  FiUser,
+  FiBarChart2,
+  FiSettings,
+  FiGrid,
+} from "react-icons/fi";
 
 const Sidebar = () => (
   <aside className="h-screen flex-col border-r bg-white w-16 shadow-sm">
@@ -17,46 +20,29 @@ const Sidebar = () => (
         width={35}
         alt="Patient Fitness Tracker"
       />
-      <Link
-        href="#"
-        className="flex h-10 w-10 items-center justify-center rounded-lg bg-warning-100 text-warning-600 hover:bg-blue-200"
-      >
-        <RxDashboard className="h-5 w-5" />
-      </Link>
-      <Link
-        href="#"
-        className="flex h-10 w-10 items-center justify-center rounded-lg text-gray-600 hover:bg-gray-100"
-      >
-        <FaRegUserCircle className="h-5 w-5" />
-      </Link>
-      <Link
-        href="#"
-        className="flex h-10 w-10 items-center justify-center rounded-lg text-gray-600 hover:bg-gray-100"
-      >
-        <CiCalendarDate className="h-5 w-5" />
-      </Link>
-      <Link
-        href="#"
-        className="flex h-10 w-10 items-center justify-center rounded-lg text-gray-600 hover:bg-gray-100"
-      >
-        <HiOutlinePresentationChartBar className="h-5 w-5" />
-      </Link>
-      <Link
-        href="#"
-        className="flex h-10 w-10 items-center justify-center rounded-lg text-gray-600 hover:bg-gray-100"
-      >
-        <IoSettingsOutline className="h-5 w-5" />
-      </Link>
+      <SidebarIcon icon={<FiGrid />} isActive />
+      <SidebarIcon icon={<FiUser />} />
+      <SidebarIcon icon={<FiCalendar />} />
+      <SidebarIcon icon={<FiBarChart2 />} />
+      <SidebarIcon icon={<FiSettings />} />
     </nav>
     <nav className="mt-auto flex flex-col items-center gap-4 px-2 py-5">
-      <Link
-        href="/admin/settings"
-        className="flex h-10 w-10 items-center justify-center rounded-lg text-gray-600 hover:bg-gray-100"
-      >
-        <FaRegUserCircle className="h-5 w-5" />
-      </Link>
+      <SidebarIcon icon={<FiUser />} href="/admin/settings" />
     </nav>
   </aside>
+);
+
+const SidebarIcon = ({ icon, isActive = false, href = "#" }: any) => (
+  <Link
+    href={href}
+    className={`flex h-10 w-10 items-center justify-center rounded-lg transition-colors duration-200 ${
+      isActive
+        ? "bg-warning-100 text-warning-600"
+        : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
+    }`}
+  >
+    {React.cloneElement(icon, { className: "h-5 w-5" })}
+  </Link>
 );
 
 export default Sidebar;
