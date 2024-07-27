@@ -1,62 +1,77 @@
 "use client";
 
 import { logoutAction } from "@lib/actions";
-import { Navbar, NavbarBrand, Divider, User, Button } from "@nextui-org/react";
+import { Divider, User, Button, Image } from "@nextui-org/react";
 import Notifications from "@components/Notifications";
 import Link from "next/link";
 import { CiLogin } from "react-icons/ci";
-import { GoPlus } from "react-icons/go";
 
 const Header = ({ isMenuOpen, setIsMenuOpen }: any) => (
-  <Navbar
-    isBordered
-    className="w-[90%] self-center flex flex-row justify-around rounded-lg"
-  >
-    <NavbarBrand className="flex-grow-0 border- border-purple-400">
-      <p className="font-medium text-xl text-gray-800">Dashboard</p>
-    </NavbarBrand>
+  <div className="bg-white p-4 flex flex-row justify-between items-center shadow-sm">
+    <div className="flex gap-3 items-center">
+      <div className="flex items-center justify-between bg-warning-100 rounded-full px-4 py-2 shadow-md hover:shadow-lg transition-shadow duration-300">
+        <div className="flex items-center">
+          <span
+            className="text-2xl mr-2 animate-[wave_2.5s_infinite]"
+            role="img"
+            aria-label="wave"
+          >
+            👋
+          </span>
+          <p className="text-lg font-semibold text-gray-800 tracking-wider">
+            Welcome,{" "}
+            <span className="ml-1 bg-gradient-to-r from-blue-500 to-purple-600 text-transparent bg-clip-text font-bold">
+              Anand
+            </span>
+            <span className="bg-gradient-to-r from-blue-500 to-purple-600 text-transparent bg-clip-text animate-pulse">
+              !
+            </span>
+          </p>
+        </div>
+        <div className="ml-4 text-sm text-gray-600 hidden sm:block">
+          {new Date().toLocaleDateString("en-US", {
+            weekday: "long",
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          })}
+        </div>
+      </div>
+    </div>
 
-    <div className="flex justify-end items-center gap-2 ml-auto border- border-purple-400">
-      <Button
-        as={Link}
-        isIconOnly
-        radius="full"
-        variant="shadow"
-        size="sm"
-        href={`/admin/appointments`}
-      >
-        <GoPlus size={20} />
-      </Button>
-      <Notifications userId={"admin._id"} />
-      <Divider orientation="vertical" className="h-8" />
+    <div className="flex items-center gap-4">
+      <Notifications userId={"user._id"} />
+      <Divider orientation="vertical" className="h-8 bg-gray-300" />
 
       <User
-        as="button"
-        name={"Anand"}
+        name="Admin Kumar"
         avatarProps={{
-          src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTjzJjPa-3jdL6XAI0yqXBY8VzK_p5h0yQIkQ&s",
-          isBordered: true,
-          color: "default",
-          // className: "transition-transform hover:scale-105",
-          size: "md",
+          src: "https://avatarfiles.alphacoders.com/375/375112.png",
+          className: "border-2 border-gray-200",
         }}
-        className="transition-transform hover:scale-105"
         description={
           <Link
             href={`/admin/settings`}
-            className="text-xs text-danger"
-          >{`@ad956`}</Link>
+            className="text-xs text-blue-600 hover:underline"
+          >
+            @ad956
+          </Link>
         }
       />
-      <Divider orientation="vertical" className="h-8" />
+      <Divider orientation="vertical" className="h-8 bg-gray-300" />
 
       <form action={logoutAction}>
-        <Button size="sm" type="submit" isIconOnly className="bg-transparent">
+        <Button
+          size="sm"
+          type="submit"
+          isIconOnly
+          className="bg-gray-100 hover:bg-gray-200 text-gray-600"
+        >
           <CiLogin size={25} />
         </Button>
       </form>
     </div>
-  </Navbar>
+  </div>
 );
 
 export default Header;
