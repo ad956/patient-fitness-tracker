@@ -1,3 +1,4 @@
+import AnimatedBackground from "./AnimatedBackground";
 import BrandLogo from "./BrandLogo";
 import Carousel from "./Carousel";
 import ErrorBoundary from "./ErrorBoundary";
@@ -8,6 +9,7 @@ import Sidebar from "./Sidebar";
 import SpinnerLoader from "./SpinnerLoader";
 
 export {
+  AnimatedBackground,
   BrandLogo,
   Carousel,
   ErrorBoundary,
