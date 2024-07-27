@@ -18,18 +18,18 @@ import {
   CardHeader,
 } from "@nextui-org/react";
 import {
-  MdDashboard as LayoutDashboardIcon,
-  MdPeople as UsersIcon,
-  MdCalendarToday as CalendarIcon,
-  MdBarChart as BarChartIcon,
-  MdSettings as SettingsIcon,
-  MdPerson as UserIcon,
-  MdMenu as MenuIcon,
-  MdAdd as PlusIcon,
-  MdCheck as CheckIcon,
-  MdBusiness as BuildingIcon,
-  MdLocalHospital as HospitalIcon,
-} from "react-icons/md";
+  RiDashboardLine,
+  RiUserLine,
+  RiCalendarLine,
+  RiBarChartLine,
+  RiSettings4Line,
+  RiMenuLine,
+  RiAddLine,
+  RiCheckLine,
+  RiBuilding2Line,
+  RiHospitalLine,
+  RiTeamLine,
+} from "react-icons/ri";
 
 export default function Admin() {
   return (
@@ -42,22 +42,22 @@ export default function Admin() {
               {
                 title: "Total Patients",
                 value: "1,234",
-                icon: <UserIcon className="h-8 w-8 text-blue-600" />,
+                icon: <RiUserLine className="h-8 w-8 text-blue-600" />,
               },
               {
                 title: "Total Doctors",
                 value: "234",
-                icon: <UsersIcon className="h-8 w-8 text-green-600" />,
+                icon: <RiTeamLine className="h-8 w-8 text-green-600" />,
               },
               {
                 title: "Total Appointments",
                 value: "5,678",
-                icon: <CalendarIcon className="h-8 w-8 text-purple-600" />,
+                icon: <RiCalendarLine className="h-8 w-8 text-purple-600" />,
               },
               {
                 title: "Total Hospitals",
                 value: "25",
-                icon: <BuildingIcon className="h-8 w-8 text-red-600" />,
+                icon: <RiHospitalLine className="h-8 w-8 text-red-600" />,
               },
             ].map((stat, index) => (
               <Card
@@ -90,14 +90,14 @@ export default function Admin() {
               <div className="space-y-6">
                 {[
                   {
-                    icon: <UserIcon className="h-5 w-5" />,
+                    icon: <RiUserLine className="h-5 w-5" />,
                     title: "New Patient Registered",
                     description: "John Doe registered as a new patient.",
                     time: "2 hours ago",
                     color: "bg-blue-100 text-blue-600",
                   },
                   {
-                    icon: <CalendarIcon className="h-5 w-5" />,
+                    icon: <RiCalendarLine className="h-5 w-5" />,
                     title: "Appointment Scheduled",
                     description:
                       "Dr. Jane Smith scheduled an appointment with Sarah Johnson.",
@@ -105,7 +105,7 @@ export default function Admin() {
                     color: "bg-green-100 text-green-600",
                   },
                   {
-                    icon: <BarChartIcon className="h-5 w-5" />,
+                    icon: <RiBarChartLine className="h-5 w-5" />,
                     title: "New Report Generated",
                     description:
                       "A new patient health report has been generated.",
@@ -141,19 +141,21 @@ export default function Admin() {
           <div className="grid grid-cols-3 gap-6">
             <Button
               className="bg-blue-600 hover:bg-blue-700 text-white text-lg py-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300"
-              startContent={<PlusIcon className="h-5 w-5" />}
+              startContent={<RiAddLine className="h-5 w-5" />}
             >
               Add Patient
             </Button>
             <Button
               className="bg-white hover:bg-gray-50 text-gray-800 border border-gray-300 text-lg py-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300"
-              startContent={<CalendarIcon className="h-5 w-5 text-gray-600" />}
+              startContent={
+                <RiCalendarLine className="h-5 w-5 text-gray-600" />
+              }
             >
               Schedule Appointment
             </Button>
             <Button
               className="bg-white hover:bg-gray-50 text-gray-800 border border-gray-300 text-lg py-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300"
-              startContent={<CheckIcon className="h-5 w-5 text-gray-600" />}
+              startContent={<RiCheckLine className="h-5 w-5 text-gray-600" />}
             >
               Generate Report
             </Button>
