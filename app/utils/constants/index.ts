@@ -50,7 +50,7 @@ const roles = [
   { label: "Doctor", value: "doctor" },
 ];
 
-const allowedRoles = ["patient", "receptionist", "doctor", "hospital"];
+const allowedRoles = ["patient", "receptionist", "doctor", "hospital", "admin"];
 
 const commonadditionalDetails = {
   otp: "",
