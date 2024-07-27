@@ -12,7 +12,7 @@ const PRIVATE_ROUTES = [
   "/receptionist",
   "/doctor",
   "/hospital",
-  // "/admin",
+  "/admin",
 ];
 
 const SESSION_COOKIE = "session";
