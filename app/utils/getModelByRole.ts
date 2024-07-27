@@ -1,4 +1,4 @@
-import { Patient, Receptionist, Doctor, Hospital } from "@models/index";
+import { Patient, Receptionist, Doctor, Hospital, Admin } from "@models/index";
 
 export default function getModelByRole(role: string) {
   switch (role) {
@@ -10,6 +10,8 @@ export default function getModelByRole(role: string) {
       return Doctor;
     case "hospital":
       return Hospital;
+    case "admin":
+      return Admin;
     default:
       throw new Error(`Invalid role: ${role}`);
   }

@@ -36,14 +36,17 @@ export async function POST(req: Request) {
     }
 
     if (!allowedRoles.includes(body.role)) {
-      return Response.json({ error: "User role isn't valid." });
+      return Response.json(
+        { error: "User role isn't valid." },
+        { status: 400 }
+      );
     }
 
     const result = await createAccount(body);
     return result;
   } catch (error) {
     console.error("Error during signup:", error);
-    return Response.json({ error: "Internal Server Error" });
+    return Response.json({ error: "Internal Server Error" }, { status: 500 });
   }
 }
 

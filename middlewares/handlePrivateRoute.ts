@@ -5,13 +5,16 @@ export default async function handlePrivateRoute(
   request: NextRequest,
   token: string | undefined
 ) {
+  const currentRole = request.nextUrl.pathname.split("/")[1];
+
   if (!token) {
-    return NextResponse.redirect(new URL("/login", request.url));
+    let loginUrl = currentRole === "admin" ? "/admin-login" : "/login";
+
+    return NextResponse.redirect(new URL(loginUrl, request.url));
   }
 
   const decryptedToken = await decrypt(token);
   const userRole = decryptedToken.user.role;
-  const currentRole = request.nextUrl.pathname.split("/")[1];
 
   if (currentRole !== userRole) {
     return NextResponse.redirect(new URL(`/${userRole}`, request.url));

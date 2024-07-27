@@ -97,6 +97,15 @@ export default function AdminLoginPage() {
     }
   }
 
+  async function handleForgetPassword() {
+    if (!email) {
+      toast.error("Please enter a valid email address to continue.", {
+        position: "bottom-center",
+        duration: 2000,
+      });
+    }
+  }
+
   if (!isDesktop) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
@@ -146,6 +155,7 @@ export default function AdminLoginPage() {
             isInvalid={!!formValidator.getError("email")}
             errorMessage={formValidator.getError("email")}
           />
+          <input name="role" type="hidden" value="admin" />
           <Input
             name="password"
             label="Password"
@@ -173,7 +183,12 @@ export default function AdminLoginPage() {
             isInvalid={!!formValidator.getError("password")}
             errorMessage={formValidator.getError("password")}
           />
-          <Link href="#" size="sm" className="text-sm text-right block">
+          <Link
+            href="#"
+            size="sm"
+            className="text-sm text-right block"
+            onClick={handleForgetPassword}
+          >
             Forgot password?
           </Link>
           {showOtp && <OtpSection userData={userData} />}

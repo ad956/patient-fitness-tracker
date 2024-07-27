@@ -1,3 +1,4 @@
+import Admin from "./admin";
 import BookedAppointment from "./bookedAppointment";
 import CommonDiseases from "./commonDisease";
 import Doctor from "./doctor";
@@ -10,6 +11,7 @@ import Transaction from "./transaction";
 import UserLog from "./userLog";
 
 export {
+  Admin,
   BookedAppointment,
   CommonDiseases,
   Doctor,
