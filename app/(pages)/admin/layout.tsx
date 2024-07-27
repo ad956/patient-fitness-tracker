@@ -18,7 +18,7 @@ export default async function AdminLayout({
   return (
     <main className="h-screen flex flex-row">
       <Sidebar />
-      <section className="flex flex-col w-full">
+      <section className="flex flex-col w-full overflow-hidden">
         <Header admin={admin} />
         {children}
       </section>
