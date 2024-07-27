@@ -16,21 +16,27 @@ export async function POST(req: Request) {
     const body: LoginBody = await req.json();
 
     if (!body || !body.email || !body.password || !body.role) {
-      return Response.json({
-        error:
-          "Invalid request body. Please provide email, password, and role.",
-      });
+      return Response.json(
+        {
+          error:
+            "Invalid request body. Please provide email, password, and role.",
+        },
+        { status: 400 }
+      );
     }
 
     if (!allowedRoles.includes(body.role)) {
-      return Response.json({ error: "User role isn't valid." });
+      return Response.json(
+        { error: "User role isn't valid." },
+        { status: 400 }
+      );
     }
 
     const result = await setOTP(body);
     return result;
   } catch (error) {
-    console.error("Error during login:", error);
-    return Response.json({ error: "Internal Server Error" });
+    console.error("Error during login: ", error);
+    return Response.json({ error: "Internal Server Error" }, { status: 500 });
   }
 }
 

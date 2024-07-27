@@ -15,21 +15,27 @@ export async function POST(req: Request) {
     const body: bodyType = await req.json();
 
     if (!body || !body.email || !body.role || !body.action || !body.otp) {
-      return Response.json({
-        error:
-          "Email, OTP, action and role are required fields in the request body.",
-      });
+      return Response.json(
+        {
+          error:
+            "Email, OTP, action and role are required fields in the request body.",
+        },
+        { status: 400 }
+      );
     }
 
     if (!allowedRoles.includes(body.role)) {
-      return Response.json({ error: "User role isn't valid." });
+      return Response.json(
+        { error: "User role isn't valid." },
+        { status: 400 }
+      );
     }
 
     const result = await checkOTP(body, req);
     return result;
   } catch (error) {
     console.error("Error during otp verification:", error);
-    return Response.json({ error: "Internal Server Error" });
+    return Response.json({ error: "Internal Server Error" }, { status: 500 });
   }
 }
 async function checkOTP(body: bodyType, req: Request) {
@@ -43,7 +49,7 @@ async function checkOTP(body: bodyType, req: Request) {
   );
 
   if (!user || user.otp !== body.otp)
-    return Response.json({ error: "OTP Verification Failed" });
+    return Response.json({ error: "OTP Verification Failed" }, { status: 401 });
 
   await user.updateOne({ email: body.email }, { $set: { otp: "" } });
 
