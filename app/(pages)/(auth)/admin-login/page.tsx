@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import toast, { Toaster } from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
 import AnimatedBackground from "@components/AnimatedBackground";
 import { AccessDenied, LoginForm, PinVerification } from "@admin/components";
 
