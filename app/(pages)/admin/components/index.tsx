@@ -1,4 +1,7 @@
-import Sidebar from "./Sidebar";
+import AccessDenied from "./AccessDenied";
+import LoginForm from "./LoginForm";
 import Header from "./Header";
+import PinVerification from "./PinVerification";
+import Sidebar from "./Sidebar";
 
-export { Sidebar, Header };
+export { AccessDenied, LoginForm, Header, PinVerification, Sidebar };
