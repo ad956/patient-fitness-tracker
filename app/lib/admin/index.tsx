@@ -1,3 +1,4 @@
 import getAdminData from "./getAdminData";
-export { getAdminData };
+import { getTilesData, getRecentUsersData } from "./getDashboardData";
 
+export { getAdminData, getTilesData, getRecentUsersData };
