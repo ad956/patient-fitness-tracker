@@ -57,7 +57,6 @@ export type Hospital = User & {};
 export type bookedAppointments = [
   {
     _id: string;
-    date: string;
     timing: string;
     state: string;
     city: string;
@@ -76,11 +75,12 @@ export type bookedAppointments = [
       profile: string;
       specialty: string;
     };
+    createdAt: string;
+    updatedAt: string;
   }
 ];
 
 export type bookingAppointment = {
-  date: string;
   state: string;
   city: string;
   hospital: {
@@ -98,9 +98,9 @@ export interface PaymentHistory {
   };
   disease: string;
   description: string;
-  timestamp: string;
   amount: number;
   status: string;
+  createdAt: string;
 }
 export interface MedicalHistory {
   hospital: {
@@ -122,7 +122,7 @@ export type PatientDetails = User & {
   disease: string;
   note: string;
   date: string;
-  timing: string;
+  timing: string; // createdAt
 };
 
 export interface UserLog {
@@ -131,7 +131,6 @@ export interface UserLog {
   email: string;
   action: string;
   userType: string;
-  timing: string;
   device: string;
   ip: string;
   location: string;
@@ -139,7 +138,6 @@ export interface UserLog {
 
 export interface Transaction {
   transaction_id: string | null;
-  timestamp: Date;
   patient_id: string;
   hospital_id: string;
   disease: string;
