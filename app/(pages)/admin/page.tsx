@@ -1,65 +1,140 @@
 "use client";
 
-import Link from "next/link";
+import { useState, useEffect, useRef, useCallback } from "react";
+import { Button, Card, CardBody, CardHeader, Spinner } from "@nextui-org/react";
 import {
-  Button,
-  Card,
-  Input,
-  Dropdown,
-  Navbar,
-  NavbarBrand,
-  NavbarContent,
-  NavbarItem,
-  Avatar,
-  DropdownTrigger,
-  DropdownItem,
-  DropdownMenu,
-  CardBody,
-  CardHeader,
-} from "@nextui-org/react";
-import {
-  RiDashboardLine,
   RiUserLine,
   RiCalendarLine,
-  RiBarChartLine,
-  RiSettings4Line,
-  RiMenuLine,
   RiAddLine,
   RiCheckLine,
-  RiBuilding2Line,
-  RiHospitalLine,
   RiTeamLine,
+  RiHospitalLine,
 } from "react-icons/ri";
+import { getTilesData } from "@lib/admin";
+
+type TilesDataProp = {
+  totalHospitals: string;
+  totalPatients: string;
+  totalDoctors: string;
+  totalReceptionists: string;
+};
+
+type ActivityType =
+  | "New Patient Registered"
+  | "New Doctor Registered"
+  | "New Hospital Registered"
+  | "New Receptionist Registered";
+
+type RecentUser = {
+  title: ActivityType;
+  description: string;
+  timeSince: string;
+};
+
+type PaginatedResponse = {
+  users: RecentUser[];
+  page: number;
+  totalPages: number;
+  totalItems: number;
+};
+
+const activityIcons: Record<ActivityType, JSX.Element> = {
+  "New Patient Registered": <RiUserLine className="h-5 w-5" />,
+  "New Doctor Registered": <RiTeamLine className="h-5 w-5" />,
+  "New Hospital Registered": <RiHospitalLine className="h-5 w-5" />,
+  "New Receptionist Registered": <RiCalendarLine className="h-5 w-5" />,
+};
+
+const activityColors: Record<ActivityType, string> = {
+  "New Patient Registered": "bg-blue-100 text-blue-600",
+  "New Doctor Registered": "bg-green-100 text-green-600",
+  "New Hospital Registered": "bg-red-100 text-red-600",
+  "New Receptionist Registered": "bg-purple-100 text-purple-600",
+};
 
 export default function Admin() {
+  const [tilesData, setTilesData] = useState<TilesDataProp | null>(null);
+  const [recentUsers, setRecentUsers] = useState<RecentUser[]>([]);
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const observer = useRef<IntersectionObserver | null>(null);
+  const lastUserElementRef = useCallback(
+    (node: HTMLDivElement | null) => {
+      if (isLoading) return;
+      if (observer.current) observer.current.disconnect();
+      observer.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && hasMore) {
+          setPage((prevPage) => prevPage + 1);
+        }
+      });
+      if (node) observer.current.observe(node);
+    },
+    [isLoading, hasMore]
+  );
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const tiles = await getTilesData();
+      setTilesData(tiles);
+    };
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    fetchRecentUsers();
+  }, [page]);
+
+  const fetchRecentUsers = async () => {
+    if (isLoading || !hasMore) return;
+    setIsLoading(true);
+    try {
+      const response = await fetch(
+        `/api/admin/dashboard/recent-users?page=${page}&limit=10`
+      );
+      const data: PaginatedResponse = await response.json();
+      setRecentUsers((prev) => [...prev, ...data.users]);
+      setHasMore(data.page < data.totalPages);
+    } catch (error) {
+      console.error("Error fetching recent users:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const statisticsCards = tilesData
+    ? [
+        {
+          title: "Total Patients",
+          value: tilesData.totalPatients,
+          icon: <RiUserLine className="h-8 w-8 text-blue-600" />,
+        },
+        {
+          title: "Total Doctors",
+          value: tilesData.totalDoctors,
+          icon: <RiTeamLine className="h-8 w-8 text-green-600" />,
+        },
+        {
+          title: "Total Appointments",
+          value: tilesData.totalReceptionists,
+          icon: <RiCalendarLine className="h-8 w-8 text-purple-600" />,
+        },
+        {
+          title: "Total Hospitals",
+          value: tilesData.totalHospitals,
+          icon: <RiHospitalLine className="h-8 w-8 text-red-600" />,
+        },
+      ]
+    : [];
+
   return (
     <div className="flex flex-col overflow-y-scroll scrollbar">
       <main className="flex-grow p-8">
         <div className="max-w-7xl mx-auto space-y-8">
           {/* Statistics Cards */}
           <div className="grid grid-cols-4 gap-6">
-            {[
-              {
-                title: "Total Patients",
-                value: "1,234",
-                icon: <RiUserLine className="h-8 w-8 text-blue-600" />,
-              },
-              {
-                title: "Total Doctors",
-                value: "234",
-                icon: <RiTeamLine className="h-8 w-8 text-green-600" />,
-              },
-              {
-                title: "Total Appointments",
-                value: "5,678",
-                icon: <RiCalendarLine className="h-8 w-8 text-purple-600" />,
-              },
-              {
-                title: "Total Hospitals",
-                value: "25",
-                icon: <RiHospitalLine className="h-8 w-8 text-red-600" />,
-              },
-            ].map((stat, index) => (
+            {statisticsCards.map((stat, index) => (
               <Card
                 key={index}
                 className="bg-white shadow-lg hover:shadow-xl transition-shadow duration-300"
@@ -80,59 +155,45 @@ export default function Admin() {
           </div>
 
           {/* Recent Activity */}
-          <Card className="bg-white shadow-lg">
+          <Card className="bg-white shadow-lg h-[400px]">
             <CardHeader className="border-b border-gray-200 p-6">
               <h3 className="text-2xl font-semibold text-gray-800">
                 Recent Activity
               </h3>
             </CardHeader>
-            <CardBody className="p-6">
+            <CardBody className="p-6 overflow-y-auto scrollbar">
               <div className="space-y-6">
-                {[
-                  {
-                    icon: <RiUserLine className="h-5 w-5" />,
-                    title: "New Patient Registered",
-                    description: "John Doe registered as a new patient.",
-                    time: "2 hours ago",
-                    color: "bg-blue-100 text-blue-600",
-                  },
-                  {
-                    icon: <RiCalendarLine className="h-5 w-5" />,
-                    title: "Appointment Scheduled",
-                    description:
-                      "Dr. Jane Smith scheduled an appointment with Sarah Johnson.",
-                    time: "1 day ago",
-                    color: "bg-green-100 text-green-600",
-                  },
-                  {
-                    icon: <RiBarChartLine className="h-5 w-5" />,
-                    title: "New Report Generated",
-                    description:
-                      "A new patient health report has been generated.",
-                    time: "3 days ago",
-                    color: "bg-purple-100 text-purple-600",
-                  },
-                ].map((activity, index) => (
+                {recentUsers.map((user, index) => (
                   <div
                     key={index}
+                    ref={
+                      index === recentUsers.length - 1
+                        ? lastUserElementRef
+                        : null
+                    }
                     className="flex items-center gap-4 p-4 bg-gray-50 rounded-lg"
                   >
                     <div
-                      className={`flex h-12 w-12 items-center justify-center rounded-full ${activity.color}`}
+                      className={`flex h-12 w-12 items-center justify-center rounded-full ${
+                        activityColors[user.title]
+                      }`}
                     >
-                      {activity.icon}
+                      {activityIcons[user.title]}
                     </div>
                     <div className="flex-grow">
-                      <p className="font-medium text-gray-900">
-                        {activity.title}
-                      </p>
+                      <p className="font-medium text-gray-900">{user.title}</p>
                       <p className="text-sm text-gray-600">
-                        {activity.description}
+                        {user.description}
                       </p>
                     </div>
-                    <p className="text-sm text-gray-500">{activity.time}</p>
+                    <p className="text-sm text-gray-500">{user.timeSince}</p>
                   </div>
                 ))}
+                {isLoading && (
+                  <div className="text-center">
+                    <Spinner size="md" />
+                  </div>
+                )}
               </div>
             </CardBody>
           </Card>
