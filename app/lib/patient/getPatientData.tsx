@@ -3,7 +3,7 @@ import { getSessionToken } from "../sessions/sessionUtils";
 import getBaseUrl from "@utils/getBaseUrl";
 
 export default async function getPatientData() {
-  const session = await getSessionToken();
+  const session = getSessionToken();
   const serverUrl = getBaseUrl();
 
   const headers = {

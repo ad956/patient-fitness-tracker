@@ -8,7 +8,7 @@ export default async function bookAppointment(
   transaction_id: string | null,
   appointment_charge: string
 ) {
-  const session = await getSessionToken();
+  const session = getSessionToken();
   const serverUrl = getBaseUrl();
   try {
     const response = await fetch(`${serverUrl}/api/patient/appointment`, {

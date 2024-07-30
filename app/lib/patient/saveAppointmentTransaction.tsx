@@ -13,7 +13,6 @@ export default async function saveAppointmentTransaction(
 ) {
   const transactionData = {
     transaction_id,
-    timestamp: new Date().toISOString(),
     patient_id,
     hospital_id,
     disease,
@@ -22,7 +21,7 @@ export default async function saveAppointmentTransaction(
     status,
   };
 
-  const session = await getSessionToken();
+  const session = getSessionToken();
   const serverUrl = getBaseUrl();
 
   const headers = {
