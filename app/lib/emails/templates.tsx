@@ -1,6 +1,6 @@
 import { UserLog, bookingAppointment } from "@types";
 import { Html } from "@react-email/html";
-import { getCurrentDateFormatted } from "@utils/getDate";
+import { getCurrentDateFormatted, getFormattedDate } from "@utils/getDate";
 import React from "react";
 
 function Layout({ children }: { children: React.ReactNode }) {
@@ -311,7 +311,7 @@ export function UserActivityTemplate(user: UserLog) {
                 <strong>User Type:</strong> {user.userType}
               </p>
               <p>
-                <strong>Timing:</strong> {user.timing}
+                <strong>Timing:</strong> {new Date().toISOString()}
               </p>
               <p>
                 <strong>Device:</strong> {user.device}
@@ -436,7 +436,8 @@ export function AppointmentBookedTemplate({
                 <strong>Transaction ID:</strong> {transaction_id}
               </p>
               <p>
-                <strong>Transaction Date:</strong> {bookedAppointmentData.date}
+                <strong>Transaction Date:</strong>{" "}
+                {getFormattedDate(new Date())}
               </p>
               <p>
                 <strong>Amount Paid:</strong> {appointment_charge}

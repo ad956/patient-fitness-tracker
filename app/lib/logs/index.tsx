@@ -22,7 +22,6 @@ async function logUserActivity(userlog: userlogType, req: Request) {
       email: userlog.email,
       action: userlog.action,
       userType: userlog.role,
-      timing: new Date().toISOString(),
       device: req.headers.get("user-agent") || "",
       ip: (req.headers.get("x-forwarded-for") ?? "127.0.0.1")
         .split(",")[0]
