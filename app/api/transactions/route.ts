@@ -13,7 +13,6 @@ export async function POST(req: Request) {
   try {
     const {
       transaction_id,
-      timestamp,
       patient_id,
       hospital_id,
       disease,
@@ -26,7 +25,6 @@ export async function POST(req: Request) {
 
     const transactionData = {
       transaction_id,
-      timestamp,
       patient: new Types.ObjectId(patient_id),
       hospital: new Types.ObjectId(hospital_id),
       disease,

@@ -25,7 +25,6 @@ export default function Calendar({
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   const [appointmentDetail, setappointmentDetail] = React.useState<{
-    date: string;
     timing: string;
     state: string;
     city: string;
@@ -41,6 +40,8 @@ export default function Calendar({
       profile: string;
       specialty: string;
     };
+    createdAt: string;
+    updatedAt: string;
   } | null>(null);
 
   const [appointmentDates, setAppointmentDates] = React.useState<Date[]>([]);
@@ -48,7 +49,7 @@ export default function Calendar({
   React.useEffect(() => {
     if (upcomingAppointments && upcomingAppointments.length > 0) {
       const selectedDates = upcomingAppointments.map(
-        (approvedAppointment) => new Date(approvedAppointment.date)
+        (approvedAppointment) => new Date(approvedAppointment.createdAt)
       );
       setAppointmentDates(selectedDates);
     } else {
@@ -88,7 +89,7 @@ export default function Calendar({
 
     const selectedAppointment = upcomingAppointments.find(
       (appointment) =>
-        getFormattedDate(new Date(appointment.date)) === dayString
+        getFormattedDate(new Date(appointment.createdAt)) === dayString
     );
     if (selectedAppointment) {
       setappointmentDetail(selectedAppointment);
@@ -151,7 +152,9 @@ export default function Calendar({
                     <div className="flex flex-col">
                       <p className="font-bold text-black/80 text-md">
                         {appointmentDetail &&
-                          getFormattedDate(new Date(appointmentDetail.date))}
+                          getFormattedDate(
+                            new Date(appointmentDetail.createdAt)
+                          )}
                       </p>
                       <p className="font-bold text-black/70 text-sm">
                         {appointmentDetail?.timing}

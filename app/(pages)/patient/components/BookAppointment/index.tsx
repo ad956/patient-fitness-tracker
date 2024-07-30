@@ -237,7 +237,6 @@ export default function BookAppointment({
 
     // booking appointment after payment
     const bookAppointmentData = {
-      date: new Date().toISOString(),
       state: selectedState,
       city: selectedCity,
       hospital: selectedHospital,

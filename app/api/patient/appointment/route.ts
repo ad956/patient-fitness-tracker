@@ -81,7 +81,6 @@ export async function POST(req: Request) {
 
   try {
     const {
-      date,
       state,
       city,
       hospital,
@@ -102,10 +101,8 @@ export async function POST(req: Request) {
     if (!patient) {
       return Response.json({ error: "Patient not found" }, { status: 404 });
     }
-    console.log("=> " + hospital.hospital_id);
 
     const appointmentData = {
-      date,
       state,
       city,
       hospital: {
@@ -128,7 +125,6 @@ export async function POST(req: Request) {
       });
 
     const bookedAppointmentData = {
-      date: getFormattedDate(new Date(date)),
       state,
       city,
       hospital,

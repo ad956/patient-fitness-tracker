@@ -24,17 +24,18 @@ export async function GET(request: Request) {
       patient: patient._id,
     })
       .populate("hospital", "firstname lastname profile")
-      .select("hospital disease description timestamp amount status");
+      .select("hospital disease description createdAt amount status")
+      .sort({ createdAt: -1 });
 
     const formattedTransactions = transactions.map(
-      ({ hospital, disease, description, timestamp, amount, status }) => ({
+      ({ hospital, disease, description, createdAt, amount, status }) => ({
         hospital: {
           name: `${hospital.firstname} ${hospital.lastname}`,
           profile: hospital.profile,
         },
         disease,
         description,
-        timestamp,
+        createdAt,
         amount,
         status,
       })

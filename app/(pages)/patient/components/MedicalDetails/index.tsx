@@ -12,6 +12,7 @@ import {
   TableRow,
   User,
 } from "@nextui-org/react";
+import { getFormattedDate } from "@utils/getDate";
 
 type MedicalDetailsProps = {
   medicalDetails: MedicalHistory[];
@@ -56,8 +57,12 @@ export default function MedicalDetails({
                 </User>
               </TableCell>
               <TableCell>{history.disease}</TableCell>
-              <TableCell>{history.start_date}</TableCell>
-              <TableCell>{history.end_date}</TableCell>
+              <TableCell>
+                {getFormattedDate(new Date(history.start_date))}
+              </TableCell>
+              <TableCell>
+                {getFormattedDate(new Date(history.end_date))}
+              </TableCell>
               <TableCell>
                 <User
                   avatarProps={{

@@ -72,7 +72,7 @@ export default function PaymentDetails({ paymentHistory }: paymentsPropType) {
                   {payment.description}
                 </TableCell>
                 <TableCell className="text-xs md:text-sm">
-                  {getFormattedDate(new Date(payment.timestamp))}
+                  {getFormattedDate(new Date(payment.createdAt))}
                 </TableCell>
                 <TableCell className="text-xs md:text-sm">
                   {payment.amount}
