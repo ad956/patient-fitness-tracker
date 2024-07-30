@@ -1,93 +1,45 @@
 import dbConfig from "@utils/db";
-import { decrypt } from "@sessions/sessionUtils";
 import mongoose from "mongoose";
 
 export async function GET(request: Request) {
-  // const session = request.headers.get("Authorization");
-  // if (!session) {
-  //   return Response.json({ error: "Unauthorized" }, { status: 401 });
-  // }
-
   try {
-    // const token = session.split("Bearer ")[1];
-    // await decrypt(token);
-
     await dbConfig();
 
-    const pipeline = [
-      {
-        $facet: {
-          hospitals: [
-            { $lookup: { from: "hospital", pipeline: [], as: "hospitals" } },
-            { $unwind: "$hospitals" },
-            { $count: "total" },
-          ],
-          patients: [
-            { $lookup: { from: "patient", pipeline: [], as: "patients" } },
-            { $unwind: "$patients" },
-            { $count: "total" },
-          ],
-          doctors: [
-            { $lookup: { from: "doctor", pipeline: [], as: "doctors" } },
-            { $unwind: "$doctors" },
-            { $count: "total" },
-          ],
-          receptionists: [
-            {
-              $lookup: {
-                from: "receptionist",
-                pipeline: [],
-                as: "receptionists",
-              },
-            },
-            { $unwind: "$receptionists" },
-            { $count: "total" },
-          ],
-          bookedAppointments: [
-            {
-              $lookup: {
-                from: "bookedAppointment",
-                pipeline: [],
-                as: "appointments",
-              },
-            },
-            { $unwind: "$appointments" },
-            {
-              $group: {
-                _id: null,
-                total: { $sum: 1 },
-                upcoming: {
-                  $sum: {
-                    $cond: [{ $gte: ["$appointments.date", new Date()] }, 1, 0],
-                  },
-                },
-              },
-            },
-          ],
-        },
-      },
-      {
-        $project: {
-          totalHospitals: { $arrayElemAt: ["$hospitals.total", 0] },
-          totalPatients: { $arrayElemAt: ["$patients.total", 0] },
-          totalDoctors: { $arrayElemAt: ["$doctors.total", 0] },
-          totalReceptionists: { $arrayElemAt: ["$receptionists.total", 0] },
-          totalBookedAppointments: {
-            $arrayElemAt: ["$bookedAppointments.total", 0],
-          },
-          upcomingAppointments: {
-            $arrayElemAt: ["$bookedAppointments.upcoming", 0],
-          },
-        },
-      },
-    ];
+    const db = mongoose.connection.db;
 
-    const totalCounts = await mongoose.connection.db
-      .collection("hospital")
-      .aggregate(pipeline)
-      .toArray();
+    const [
+      totalHospitals,
+      totalPatients,
+      totalDoctors,
+      totalReceptionists,
+      bookedAppointments,
+    ] = await Promise.all([
+      db.collection("hospital").countDocuments(),
+      db.collection("patient").countDocuments(),
+      db.collection("doctor").countDocuments(),
+      db.collection("receptionist").countDocuments(),
+      db
+        .collection("bookedAppointment")
+        .aggregate([
+          {
+            $group: {
+              _id: null,
+              total: { $sum: 1 },
+            },
+          },
+        ])
+        .toArray(),
+    ]);
 
-    return Response.json(totalCounts[0]);
+    const result = {
+      totalHospitals,
+      totalPatients,
+      totalDoctors,
+      totalReceptionists,
+      totalBookedAppointments: bookedAppointments[0]?.total || 0,
+    };
+
+    return Response.json(result);
   } catch (error) {
     console.error("Error fetching total counts:", error);
     return Response.json({ error: "Internal Server Error" }, { status: 500 });
