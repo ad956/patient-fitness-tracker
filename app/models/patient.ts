@@ -92,7 +92,7 @@ const patientSchema = new mongoose.Schema(
     ],
     healthConditions: [Number],
   },
-  { collection: "patient" }
+  { collection: "patient", timestamps: true }
 );
 
 export default mongoose.models.Patient ||

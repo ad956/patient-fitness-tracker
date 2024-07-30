@@ -47,6 +47,7 @@ const medicalHistorySchema = new mongoose.Schema(
   },
   {
     collection: "medicalhistory",
+    timestamps: true,
   }
 );
 

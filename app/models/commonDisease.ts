@@ -10,6 +10,7 @@ const diseaseSchema = new mongoose.Schema(
   },
   {
     collection: "commonDiseases",
+    timestamps: true,
   }
 );
 

@@ -65,7 +65,7 @@ const receptionistSchema = new mongoose.Schema(
       waiting: { type: Number, default: 0 },
     },
   },
-  { collection: "receptionist" }
+  { collection: "receptionist", timestamps: true }
 );
 
 export default mongoose.models.Receptionist ||

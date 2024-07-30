@@ -6,7 +6,6 @@ export interface UserLog extends mongoose.Document {
   email: string;
   action: string;
   userType: string;
-  timing: string;
   device: string;
   ip: string;
   location: string;
@@ -19,13 +18,13 @@ const userLogSchema = new mongoose.Schema(
     email: { type: String, required: true },
     action: { type: String, required: true },
     userType: { type: String, required: true },
-    timing: { type: Date, required: true },
     device: { type: String, required: true },
     ip: { type: String, required: true },
     location: String,
   },
   {
     collection: "user_logs",
+    timestamps: true,
   }
 );
 

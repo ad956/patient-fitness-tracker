@@ -94,6 +94,7 @@ const hospitalSchema = new mongoose.Schema(
 
   {
     collection: "hospital",
+    timestamps: true,
   }
 );
 

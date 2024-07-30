@@ -49,7 +49,7 @@ const adminSchema = new mongoose.Schema(
       zip_code: String,
     },
   },
-  { collection: "admin" }
+  { collection: "admin", timestamps: true }
 );
 
 export default mongoose.models.Admin ||

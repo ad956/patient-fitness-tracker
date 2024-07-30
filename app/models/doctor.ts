@@ -96,6 +96,7 @@ const doctorSchema = new mongoose.Schema(
   },
   {
     collection: "doctor",
+    timestamps: true,
   }
 );
 

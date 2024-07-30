@@ -1,7 +1,6 @@
 import mongoose from "mongoose";
 
 export interface BookedAppointment extends mongoose.Document {
-  date: string;
   timing: string;
   state: string;
   city: string;
@@ -19,7 +18,6 @@ export interface BookedAppointment extends mongoose.Document {
 
 const bookedAppointmentsSchema = new mongoose.Schema(
   {
-    date: { type: Date, required: true },
     timing: { type: String, required: false },
     state: { type: String, required: true },
     city: { type: String, required: true },
@@ -38,7 +36,7 @@ const bookedAppointmentsSchema = new mongoose.Schema(
     doctor_id: { type: mongoose.Schema.Types.ObjectId },
     receptionist_id: { type: mongoose.Schema.Types.ObjectId },
   },
-  { collection: "bookedAppointments" }
+  { collection: "bookedAppointments", timestamps: true }
 );
 
 export default mongoose.models.BookedAppointment ||

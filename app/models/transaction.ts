@@ -2,7 +2,6 @@ import mongoose from "mongoose";
 
 export interface Transaction extends mongoose.Document {
   transaction_id: string;
-  timestamp: Date;
   patient_id: mongoose.Schema.Types.ObjectId;
   hospital_id: mongoose.Schema.Types.ObjectId;
   disease: string;
@@ -14,7 +13,6 @@ export interface Transaction extends mongoose.Document {
 const transactionSchema = new mongoose.Schema(
   {
     transaction_id: { type: String, required: true, unique: true },
-    timestamp: { type: Date, required: true },
     patient: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Patient",
@@ -36,6 +34,7 @@ const transactionSchema = new mongoose.Schema(
   },
   {
     collection: "transactions",
+    timestamps: true,
   }
 );
 
