@@ -13,7 +13,6 @@ export default function Intro() {
           The <span className="text-[#e95b7b]">New Era</span> of Healthcare
           Management
         </h3>
-        <h2>JAGDISH SUTHAR ❤️</h2>
 
         <p className="text-md font-medium tracking-wider">
           The Patient Fitness Tracker introduces a new era of healthcare
