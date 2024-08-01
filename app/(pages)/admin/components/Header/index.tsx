@@ -50,7 +50,7 @@ export default function Header({ admin }: HeaderProps) {
         <Divider orientation="vertical" className="h-8 bg-gray-300" />
 
         <User
-          name="Admin Kumar"
+          name={`${admin.firstname} ${admin.lastname}`}
           avatarProps={{
             src: `${admin.profile}`,
             className: "border-2 border-gray-200",
