@@ -1,4 +1,5 @@
+import addAdmin from "./addAdmin";
 import getAdminData from "./getAdminData";
 import { getTilesData, getRecentUsersData } from "./getDashboardData";
 
-export { getAdminData, getTilesData, getRecentUsersData };
+export { addAdmin, getAdminData, getTilesData, getRecentUsersData };
