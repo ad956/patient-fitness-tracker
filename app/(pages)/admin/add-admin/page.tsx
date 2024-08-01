@@ -1,64 +1,102 @@
 "use client";
 
-import React from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { Input, Button, Card, CardBody, CardHeader } from "@nextui-org/react";
 import { motion } from "framer-motion";
+import toast from "react-hot-toast";
+import AnimatedBackground from "@components/AnimatedBackground";
+import FormValidator from "@utils/formValidator";
+import { AiOutlineEyeInvisible, AiTwotoneEye } from "react-icons/ai";
+import addAdmin from "@lib/admin/addAdmin";
 
 export default function AddAdmin() {
-  const handleSubmit = (e: any) => {
+  const [formValidator] = useState(new FormValidator());
+
+  const [firstname, setFirstName] = useState("");
+  const [lastname, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [isVisible, setIsVisible] = useState(false);
+
+  const [userData, setUserData] = useState({ email: "", role: "", action: "" });
+  const [loginDisabled, setLoginDisabled] = useState(true);
+
+  function handleFirstNameChange(e: ChangeEvent<HTMLInputElement>) {
+    const error = FormValidator.validateName(e.target.value, "firstname");
+    formValidator.setError("firstname", error);
+    setFirstName(e.target.value);
+  }
+  function handleLastNameChange(e: ChangeEvent<HTMLInputElement>) {
+    const error = FormValidator.validateName(e.target.value, "lastname");
+    formValidator.setError("lastname", error);
+    setLastName(e.target.value);
+  }
+  function handleEmailChange(e: ChangeEvent<HTMLInputElement>) {
+    const error = FormValidator.validateEmail(e.target.value);
+    formValidator.setError("email", error);
+    setEmail(e.target.value);
+  }
+
+  function handlePasswordChange(e: ChangeEvent<HTMLInputElement>) {
+    const error = FormValidator.validatePassword(e.target.value);
+    formValidator.setError("password", error);
+    setPassword(e.target.value);
+  }
+
+  const toggleVisibility = () => setIsVisible(!isVisible);
+
+  useEffect(() => {
+    setLoginDisabled(formValidator.hasErrors() || !email || !password);
+  }, [email, password]);
+
+  async function handleFormSubmit(
+    e: React.FormEvent<HTMLFormElement>
+  ): Promise<void> {
     e.preventDefault();
-    console.log("Form submitted");
-  };
+    const formData = new FormData(e.currentTarget);
+
+    try {
+      toast.loading("Please wait ...", { position: "bottom-center" });
+      const result = await addAdmin(formData);
+      toast.dismiss();
+
+      if (result?.failure) {
+        toast.error(
+          "Something went wrong while adding the admin. Please try again."
+        );
+      } else {
+        toast.success("Success! The admin has been added successfully.", {
+          position: "bottom-center",
+        });
+      }
+    } catch (error) {
+      toast.error("An error occurred. Please try again.");
+    }
+  }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 flex justify-center px-4 sm:px-6 lg:px-8 relative overflow-hidden">
-      {/* Subtle animated background shapes */}
-      <motion.div
-        className="absolute top-0 left-0 w-64 h-64 bg-blue-100 rounded-full mix-blend-multiply filter blur-xl opacity-70"
-        animate={{
-          scale: [1, 1.1, 1],
-          rotate: [0, 180, 0],
-        }}
-        transition={{
-          duration: 20,
-          ease: "easeInOut",
-          times: [0, 0.5, 1],
-          repeat: Infinity,
-          repeatType: "reverse",
-        }}
-      />
-      <motion.div
-        className="absolute bottom-0 right-0 w-64 h-64 bg-purple-100 rounded-full mix-blend-multiply filter blur-xl opacity-70"
-        animate={{
-          scale: [1, 1.2, 1],
-          rotate: [0, -180, 0],
-        }}
-        transition={{
-          duration: 25,
-          ease: "easeInOut",
-          times: [0, 0.5, 1],
-          repeat: Infinity,
-          repeatType: "reverse",
-        }}
-      />
-
+    <AnimatedBackground>
       <Card className="w-full max-w-4xl shadow-lg mt-8 h-4/5">
         <CardHeader className="bg-white border-b border-gray-200 p-6">
           <h1 className="text-2xl font-semibold text-gray-800">
             Create New Admin
           </h1>
         </CardHeader>
-        <CardBody className="p-8 flex flex-col md:flex-row gap-8">
+        <CardBody className="p-8 flex flex-col md:flex-row gap-8 scrollbar">
           {/* Left side - Form */}
           <div className="flex-1">
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={handleFormSubmit} className="space-y-6">
               <div className="space-y-2">
                 <label className="text-sm font-medium text-gray-700">
-                  Full Name
+                  First Name
                 </label>
                 <Input
-                  placeholder="John Doe"
+                  name="firstname"
+                  type="text"
+                  placeholder="John"
                   variant="bordered"
+                  value={firstname}
+                  onChange={handleFirstNameChange}
                   startContent={
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -75,6 +113,39 @@ export default function AddAdmin() {
                       />
                     </svg>
                   }
+                  isInvalid={!!formValidator.getError("firstname")}
+                  errorMessage={formValidator.getError("firstname")}
+                />
+              </div>
+              <div className="space-y-2">
+                <label className="text-sm font-medium text-gray-700">
+                  Last Name
+                </label>
+                <Input
+                  name="lastname"
+                  type="text"
+                  placeholder="Doe"
+                  variant="bordered"
+                  value={lastname}
+                  onChange={handleLastNameChange}
+                  startContent={
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="w-5 h-5 text-gray-400"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"
+                      />
+                    </svg>
+                  }
+                  isInvalid={!!formValidator.getError("lastname")}
+                  errorMessage={formValidator.getError("lastname")}
                 />
               </div>
               <div className="space-y-2">
@@ -82,9 +153,13 @@ export default function AddAdmin() {
                   Email Address
                 </label>
                 <Input
+                  name="email"
                   type="email"
-                  placeholder="admin@example.com"
+                  autoComplete="username"
+                  placeholder="johndoe@example.com"
                   variant="bordered"
+                  value={email}
+                  onChange={handleEmailChange}
                   startContent={
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -101,6 +176,8 @@ export default function AddAdmin() {
                       />
                     </svg>
                   }
+                  isInvalid={!!formValidator.getError("email")}
+                  errorMessage={formValidator.getError("email")}
                 />
               </div>
               <div className="space-y-2">
@@ -108,7 +185,8 @@ export default function AddAdmin() {
                   Password
                 </label>
                 <Input
-                  type="password"
+                  name="password"
+                  type={isVisible ? "text" : "password"}
                   placeholder="••••••••"
                   variant="bordered"
                   startContent={
@@ -127,36 +205,30 @@ export default function AddAdmin() {
                       />
                     </svg>
                   }
-                />
-              </div>
-              <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-700">
-                  Confirm Password
-                </label>
-                <Input
-                  type="password"
-                  placeholder="••••••••"
-                  variant="bordered"
-                  startContent={
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      strokeWidth={1.5}
-                      stroke="currentColor"
-                      className="w-5 h-5 text-gray-400"
+                  value={password}
+                  onChange={handlePasswordChange}
+                  endContent={
+                    <button
+                      className="focus:outline-none"
+                      type="button"
+                      onClick={toggleVisibility}
                     >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"
-                      />
-                    </svg>
+                      {isVisible ? (
+                        <AiOutlineEyeInvisible className="text-2xl text-default-400" />
+                      ) : (
+                        <AiTwotoneEye className="text-2xl text-default-400" />
+                      )}
+                    </button>
                   }
+                  autoComplete="current-password"
+                  isInvalid={!!formValidator.getError("password")}
+                  errorMessage={formValidator.getError("password")}
                 />
               </div>
+
               <Button
                 type="submit"
+                isDisabled={loginDisabled}
                 className="w-full bg-blue-600 text-white hover:bg-blue-700 transition-colors"
               >
                 Create Admin Account
@@ -202,6 +274,6 @@ export default function AddAdmin() {
           </div>
         </CardBody>
       </Card>
-    </div>
+    </AnimatedBackground>
   );
 }
