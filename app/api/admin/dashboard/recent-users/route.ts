@@ -3,13 +3,14 @@ import { decrypt } from "@sessions/sessionUtils";
 import mongoose from "mongoose";
 
 interface User {
-  name: string;
+  firstname: string;
   createdAt: Date;
   type: string;
 }
 
 interface FormattedUser {
-  message: string;
+  title: string;
+  description: string;
   timeSince: string;
 }
 
@@ -41,7 +42,7 @@ export async function GET(request: Request): Promise<Response> {
           { createdAt: { $gte: oneMonthAgo } },
           {
             projection: {
-              name: 1,
+              firstname: 1,
               createdAt: 1,
               type: { $literal: collection },
             },
@@ -70,9 +71,8 @@ export async function GET(request: Request): Promise<Response> {
           receptionist: "Receptionist",
         };
         return {
-          message: `**New ${typeMap[user.type]} Registered**\n${
-            user.name
-          } registered as a new ${user.type}.`,
+          title: `New ${typeMap[user.type]} Registered`,
+          description: `${user.firstname} registered as a new ${user.type}.`,
           timeSince: timeSince,
         };
       });
