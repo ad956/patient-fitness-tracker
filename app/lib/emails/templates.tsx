@@ -500,3 +500,117 @@ export function AppointmentBookedTemplate({
     </Layout>
   );
 }
+
+export function NewAdminTemplate(admin: {
+  firstname: string;
+  lastname: string;
+  email: string;
+  username: string;
+  password: string;
+}) {
+  return (
+    <Layout>
+      <main>
+        <div
+          style={{
+            margin: "0",
+            marginTop: "70px",
+            padding: "92px 30px 115px",
+            background: "#ffffff",
+            borderRadius: "30px",
+            textAlign: "center",
+          }}
+        >
+          <div style={{ width: "100%", maxWidth: "489px", margin: "0 auto" }}>
+            <h1
+              style={{
+                margin: "0",
+                fontSize: "24px",
+                fontWeight: "500",
+                color: "#1f1f1f",
+              }}
+            >
+              Welcome to Patient Fitness Tracker
+            </h1>
+            <p
+              style={{
+                margin: "0",
+                marginTop: "17px",
+                fontSize: "16px",
+                fontWeight: "500",
+              }}
+            >
+              Hello {admin.firstname} {admin.lastname},
+            </p>
+            <p
+              style={{
+                margin: "0",
+                marginTop: "17px",
+                fontWeight: "500",
+                letterSpacing: "0.56px",
+              }}
+            >
+              Your admin account has been successfully created. Here are your
+              account details:
+            </p>
+            <div style={{ marginTop: "30px", textAlign: "left" }}>
+              <p>
+                <strong>First Name:</strong> {admin.firstname}
+              </p>
+              <p>
+                <strong>Last Name:</strong> {admin.lastname}
+              </p>
+              <p>
+                <strong>Email:</strong> {admin.email}
+              </p>
+              <p>
+                <strong>Username:</strong> {admin.username}
+              </p>
+              <p>
+                <strong>Temporary Password:</strong> {admin.password}
+              </p>
+            </div>
+            <p
+              style={{
+                margin: "0",
+                marginTop: "30px",
+                fontWeight: "500",
+                color: "#ba3d4f",
+              }}
+            >
+              For security reasons, please log in and change your password and
+              username as per your preference.
+            </p>
+          </div>
+        </div>
+
+        <p
+          style={{
+            maxWidth: "400px",
+            margin: "0 auto",
+            marginTop: "90px",
+            textAlign: "center",
+            fontWeight: "500",
+            color: "#8c8c8c",
+          }}
+        >
+          Need help? Ask at{" "}
+          <a
+            href="mailto:support@patientfitnesstracker.com"
+            style={{ color: "#499fb6", textDecoration: "none" }}
+          >
+            support@patientfitnesstracker.com
+          </a>{" "}
+          or visit our{" "}
+          <a
+            href=""
+            target="_blank"
+            style={{ color: "#499fb6", textDecoration: "none" }}
+          >
+            Help Center
+          </a>
+        </p>
+      </main>
+    </Layout>
+  );
+}

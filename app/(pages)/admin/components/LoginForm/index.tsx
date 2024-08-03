@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, ChangeEvent } from "react";
 import { Input, Button, Link, Card, Image } from "@nextui-org/react";
 import { AiOutlineEyeInvisible, AiTwotoneEye } from "react-icons/ai";
 import { MdOutlineAlternateEmail, MdOutlineKey } from "react-icons/md";
@@ -18,13 +18,13 @@ export default function LoginForm() {
   const [userData, setUserData] = useState({ email: "", role: "", action: "" });
   const [loginDisabled, setLoginDisabled] = useState(true);
 
-  function handleEmailChange(e: any) {
+  function handleEmailChange(e: ChangeEvent<HTMLInputElement>) {
     const error = FormValidator.validateEmail(e.target.value);
     formValidator.setError("email", error);
     setEmail(e.target.value);
   }
 
-  function handlePasswordChange(e: any) {
+  function handlePasswordChange(e: ChangeEvent<HTMLInputElement>) {
     const error = FormValidator.validatePassword(e.target.value);
     formValidator.setError("password", error);
     setPassword(e.target.value);
@@ -36,7 +36,9 @@ export default function LoginForm() {
     setLoginDisabled(formValidator.hasErrors() || !email || !password);
   }, [email, password]);
 
-  async function handleFormSubmit(e: any) {
+  async function handleFormSubmit(
+    e: React.FormEvent<HTMLFormElement>
+  ): Promise<void> {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
 
