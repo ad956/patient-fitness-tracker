@@ -8,27 +8,28 @@ export default async function addAdmin(formData: FormData) {
 
   const headers = {
     Authorization: `Bearer ${session}`,
+    "Content-Type": "application/json",
   };
+
   try {
+    const formDataObject = Object.fromEntries(formData.entries());
+
     const res = await fetch(`${serverUrl}/api/admin/add-admin`, {
       method: "POST",
       headers,
-      body: JSON.stringify(formData),
+      body: JSON.stringify(formDataObject),
       cache: "no-cache",
     });
 
-    if (!res.ok) {
-      console.error(`Error fetching admin data: ${res.statusText}`);
-      throw new Error("fetching admin data");
-    }
-
     const result = await res.json();
 
-    console.table(result);
+    if (!res.ok) {
+      return { error: result.error || "An error occurred" };
+    }
 
     return result;
   } catch (error) {
-    console.error("An error occurred while fetching admin data:", error);
-    throw error;
+    console.error("An error occurred while adding admin:", error);
+    return { error: "An unexpected error occurred" };
   }
 }
