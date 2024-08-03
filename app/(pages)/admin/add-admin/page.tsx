@@ -3,7 +3,7 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { Input, Button, Card, CardBody, CardHeader } from "@nextui-org/react";
 import { motion } from "framer-motion";
-import toast from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 import AnimatedBackground from "@components/AnimatedBackground";
 import FormValidator from "@utils/formValidator";
 import { AiOutlineEyeInvisible, AiTwotoneEye } from "react-icons/ai";
@@ -12,65 +12,74 @@ import addAdmin from "@lib/admin/addAdmin";
 export default function AddAdmin() {
   const [formValidator] = useState(new FormValidator());
 
-  const [firstname, setFirstName] = useState("");
-  const [lastname, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [formData, setFormData] = useState({
+    firstname: "",
+    lastname: "",
+    email: "",
+    password: "",
+  });
   const [isVisible, setIsVisible] = useState(false);
+  const [isSubmitDisabled, setIsSubmitDisabled] = useState(true);
 
-  const [userData, setUserData] = useState({ email: "", role: "", action: "" });
-  const [loginDisabled, setLoginDisabled] = useState(true);
+  function handleInputChange(e: ChangeEvent<HTMLInputElement>) {
+    const { name, value } = e.target;
+    let error: any = "";
 
-  function handleFirstNameChange(e: ChangeEvent<HTMLInputElement>) {
-    const error = FormValidator.validateName(e.target.value, "firstname");
-    formValidator.setError("firstname", error);
-    setFirstName(e.target.value);
-  }
-  function handleLastNameChange(e: ChangeEvent<HTMLInputElement>) {
-    const error = FormValidator.validateName(e.target.value, "lastname");
-    formValidator.setError("lastname", error);
-    setLastName(e.target.value);
-  }
-  function handleEmailChange(e: ChangeEvent<HTMLInputElement>) {
-    const error = FormValidator.validateEmail(e.target.value);
-    formValidator.setError("email", error);
-    setEmail(e.target.value);
-  }
+    switch (name) {
+      case "firstname":
+      case "lastname":
+        error = FormValidator.validateName(value, name);
+        break;
+      case "email":
+        error = FormValidator.validateEmail(value);
+        break;
+      case "password":
+        error = FormValidator.validatePassword(value);
+        break;
+    }
 
-  function handlePasswordChange(e: ChangeEvent<HTMLInputElement>) {
-    const error = FormValidator.validatePassword(e.target.value);
-    formValidator.setError("password", error);
-    setPassword(e.target.value);
+    formValidator.setError(name, error);
+    setFormData((prevData) => ({ ...prevData, [name]: value }));
   }
 
   const toggleVisibility = () => setIsVisible(!isVisible);
 
   useEffect(() => {
-    setLoginDisabled(formValidator.hasErrors() || !email || !password);
-  }, [email, password]);
+    const hasErrors = formValidator.hasErrors();
+    const allFieldsFilled = Object.values(formData).every(
+      (field) => field !== ""
+    );
+    setIsSubmitDisabled(hasErrors || !allFieldsFilled);
+  }, [formData]);
 
   async function handleFormSubmit(
     e: React.FormEvent<HTMLFormElement>
   ): Promise<void> {
     e.preventDefault();
-    const formData = new FormData(e.currentTarget);
+    const formDataToSend = new FormData(e.currentTarget);
+
+    const toastId = toast.loading("Adding new admin...", {
+      position: "top-center",
+    });
 
     try {
-      toast.loading("Please wait ...", { position: "bottom-center" });
-      const result = await addAdmin(formData);
-      toast.dismiss();
+      const result = await addAdmin(formDataToSend);
 
-      if (result?.failure) {
-        toast.error(
-          "Something went wrong while adding the admin. Please try again."
-        );
+      if (result.error) {
+        toast.error(result.error, { id: toastId, position: "top-center" });
       } else {
-        toast.success("Success! The admin has been added successfully.", {
-          position: "bottom-center",
+        toast.success("Admin added successfully!", { id: toastId });
+        setFormData({
+          firstname: "",
+          lastname: "",
+          email: "",
+          password: "",
         });
       }
     } catch (error) {
-      toast.error("An error occurred. Please try again.");
+      toast.error("An unexpected error occurred. Please try again.", {
+        id: toastId,
+      });
     }
   }
 
@@ -83,7 +92,7 @@ export default function AddAdmin() {
           </h1>
         </CardHeader>
         <CardBody className="p-8 flex flex-col md:flex-row gap-8 scrollbar">
-          {/* Left side - Form */}
+          {/* Left side - Add Admin Form */}
           <div className="flex-1">
             <form onSubmit={handleFormSubmit} className="space-y-6">
               <div className="space-y-2">
@@ -95,8 +104,8 @@ export default function AddAdmin() {
                   type="text"
                   placeholder="John"
                   variant="bordered"
-                  value={firstname}
-                  onChange={handleFirstNameChange}
+                  value={formData.firstname}
+                  onChange={handleInputChange}
                   startContent={
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -126,8 +135,8 @@ export default function AddAdmin() {
                   type="text"
                   placeholder="Doe"
                   variant="bordered"
-                  value={lastname}
-                  onChange={handleLastNameChange}
+                  value={formData.lastname}
+                  onChange={handleInputChange}
                   startContent={
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -158,8 +167,8 @@ export default function AddAdmin() {
                   autoComplete="username"
                   placeholder="johndoe@example.com"
                   variant="bordered"
-                  value={email}
-                  onChange={handleEmailChange}
+                  value={formData.email}
+                  onChange={handleInputChange}
                   startContent={
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -205,8 +214,8 @@ export default function AddAdmin() {
                       />
                     </svg>
                   }
-                  value={password}
-                  onChange={handlePasswordChange}
+                  value={formData.password}
+                  onChange={handleInputChange}
                   endContent={
                     <button
                       className="focus:outline-none"
@@ -228,7 +237,7 @@ export default function AddAdmin() {
 
               <Button
                 type="submit"
-                isDisabled={loginDisabled}
+                isDisabled={isSubmitDisabled}
                 className="w-full bg-blue-600 text-white hover:bg-blue-700 transition-colors"
               >
                 Create Admin Account
@@ -274,6 +283,7 @@ export default function AddAdmin() {
           </div>
         </CardBody>
       </Card>
+      <Toaster />
     </AnimatedBackground>
   );
 }
