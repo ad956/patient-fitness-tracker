@@ -19,7 +19,7 @@ import { TbCurrencyRupee } from "react-icons/tb";
 const SidebarConfig = [
   { title: "Dashboard", uri: "", icon: <FiHome /> },
   { title: "Add Admin", uri: "add-admin", icon: <FiUserPlus /> },
-  { title: "Billing", uri: "billing", icon: <TbCurrencyRupee /> },
+  { title: "Transactions", uri: "transactions", icon: <TbCurrencyRupee /> },
   { title: "Hospitals", uri: "hospitals", icon: <FiHeart /> },
   { title: "Users", uri: "users", icon: <FiUser /> },
   { title: "Reports", uri: "reports", icon: <FiBarChart2 /> },
