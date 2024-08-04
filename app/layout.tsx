@@ -9,6 +9,20 @@ export const metadata: Metadata = {
   title: "Patient Fitness Tracker",
   description:
     "The Patient Fitness Tracker is a modern healthcare platform designed to streamline patient management and monitoring across multiple hospitals.",
+  keywords: [
+    "Patient Fitness Tracker",
+    "Healthcare",
+    "Patient Management",
+    "Fitness Monitoring",
+    "Health Tech",
+  ],
+  authors: [{ name: "Anand Suthar", url: "https://github.com/ad956" }],
+  creator: "Anand Suthar",
+  applicationName: "Patient Fitness Tracker",
+  referrer: "origin-when-cross-origin",
+  generator: "Next.js",
+  publisher: "Anand Suthar",
+  robots: "index, follow",
 };
 
 export default function RootLayout({
