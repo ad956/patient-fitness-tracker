@@ -57,12 +57,10 @@ export default function Admin() {
   const [recentUsers, setRecentUsers] = useState<RecentUser[]>([]);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
-  const [isLoading, setIsLoading] = useState(false);
 
   const observer = useRef<IntersectionObserver | null>(null);
   const lastUserElementRef = useCallback(
     (node: HTMLDivElement | null) => {
-      if (isLoading) return;
       if (observer.current) observer.current.disconnect();
       observer.current = new IntersectionObserver((entries) => {
         if (entries[0].isIntersecting && hasMore) {
@@ -71,7 +69,7 @@ export default function Admin() {
       });
       if (node) observer.current.observe(node);
     },
-    [isLoading, hasMore]
+    [hasMore]
   );
 
   useEffect(() => {
@@ -87,8 +85,8 @@ export default function Admin() {
   }, [page]);
 
   const fetchRecentUsers = async () => {
-    if (isLoading || !hasMore) return;
-    setIsLoading(true);
+    if (!hasMore) return;
+
     try {
       const response = await fetch(
         `/api/admin/dashboard/recent-users?page=${page}&limit=10`
@@ -98,8 +96,6 @@ export default function Admin() {
       setHasMore(data.page < data.totalPages);
     } catch (error) {
       console.error("Error fetching recent users:", error);
-    } finally {
-      setIsLoading(false);
     }
   };
 
@@ -189,11 +185,6 @@ export default function Admin() {
                     <p className="text-sm text-gray-500">{user.timeSince}</p>
                   </div>
                 ))}
-                {isLoading && (
-                  <div className="text-center">
-                    <Spinner size="md" />
-                  </div>
-                )}
               </div>
             </CardBody>
           </Card>
