@@ -11,18 +11,18 @@ import {
   TableCell,
   Input,
   Button,
+  Selection,
   Dropdown,
   DropdownTrigger,
   DropdownMenu,
   DropdownItem,
   Chip,
   Pagination,
-  Spacer,
-  ScrollShadow,
   Card,
   Image,
 } from "@nextui-org/react";
-import { BiDownArrow, BiPlus, BiSearch } from "react-icons/bi";
+import { BiSearch } from "react-icons/bi";
+import { HiChevronDown, HiPlus } from "react-icons/hi2";
 
 const transactions = [
   {
@@ -106,7 +106,9 @@ const statusColorMap: any = {
 
 export default function Transactions() {
   const [filterValue, setFilterValue] = React.useState("");
-  const [statusFilter, setStatusFilter] = React.useState("all");
+  const [statusFilter, setStatusFilter] = React.useState<Selection>(
+    new Set(["all"])
+  );
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [sortDescriptor, setSortDescriptor] = React.useState({
     column: "date",
@@ -127,8 +129,8 @@ export default function Transactions() {
       );
     }
     if (statusFilter !== "all") {
-      filteredTransactions = filteredTransactions.filter(
-        (transaction) => transaction.status === statusFilter
+      filteredTransactions = filteredTransactions.filter((transaction) =>
+        statusFilter.has(transaction.status)
       );
     }
 
@@ -223,7 +225,7 @@ export default function Transactions() {
             <Dropdown>
               <DropdownTrigger className="hidden sm:flex">
                 <Button
-                  endContent={<BiDownArrow className="text-small" />}
+                  endContent={<HiChevronDown className="text-small" />}
                   variant="flat"
                 >
                   Status
@@ -241,7 +243,10 @@ export default function Transactions() {
                 <DropdownItem key="Failed">Failed</DropdownItem>
               </DropdownMenu>
             </Dropdown>
-            <Button color="primary" endContent={<BiPlus />}>
+            <Button
+              className="bg-black text-white hover:bg-gray-800"
+              endContent={<HiPlus />}
+            >
               Add New
             </Button>
           </div>
@@ -279,7 +284,14 @@ export default function Transactions() {
           isCompact
           showControls
           showShadow
-          color="primary"
+          classNames={{
+            wrapper: "gap-0 overflow-visible",
+            item: "w-8 h-8 text-small rounded-none bg-transparent text-black hover:bg-gray-100 focus:outline-none focus:ring-0",
+            cursor: "bg-black text-white font-bold shadow-none",
+            next: "bg-transparent text-black hover:bg-gray-100 focus:outline-none focus:ring-0",
+            prev: "bg-transparent text-black hover:bg-gray-100 focus:outline-none focus:ring-0",
+            base: "shadow-none",
+          }}
           page={page}
           total={pages}
           onChange={setPage}
@@ -307,15 +319,15 @@ export default function Transactions() {
   }, [page, pages]);
 
   return (
-    <div className="container mx-auto p-4 h-screen">
-      <Card className="w-full h-full p-6 shadow-lg border border-gray-200">
+    <div className="container mx-auto p-4 h-screen overflow-y-scroll scrollbar">
+      <Card className="w-full flex-grow p-6 shadow-lg border border-gray-200">
         <h3 className="mb-4 text-xl font-bold text-gray-700">
           Transaction Details
         </h3>
-        <div className="overflow-overflow max-h-[60vh]">
+        <div className="flex flex-col h-full">
           <Table
             aria-label="Transaction Table"
-            className="w-full"
+            className="w-full mb-10"
             bottomContent={bottomContent}
             bottomContentPlacement="outside"
             topContent={topContent}
