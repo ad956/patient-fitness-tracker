@@ -23,6 +23,19 @@ export const metadata: Metadata = {
   generator: "Next.js",
   publisher: "Anand Suthar",
   robots: "index, follow",
+  openGraph: {
+    type: "website",
+    url: "https://patient-fitness-tracker.vercel.app",
+    title: "Patient Fitness Tracker",
+    description:
+      "The Patient Fitness Tracker is a modern healthcare platform designed to streamline patient management and monitoring across multiple hospitals.",
+    siteName: "Patient Fitness Tracker",
+    images: [
+      {
+        url: "https://res.cloudinary.com/dtkfvp2ic/image/upload/v1711037583/patient_yluzvs_bnz9ox.png",
+      },
+    ],
+  },
 };
 
 export default function RootLayout({
