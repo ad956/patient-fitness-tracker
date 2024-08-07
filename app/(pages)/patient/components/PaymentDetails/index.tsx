@@ -93,7 +93,7 @@ export default function PaymentDetails({
   );
 
   return (
-    <Card className="w-full p-4">
+    <Card className="w-full p-4 space-y-5 overflow-auto scrollbar">
       <h2 className="text-2xl font-bold mb-4">Payment History</h2>
       <div className="flex flex-col gap-4">
         <div className="flex justify-between gap-3 items-end">
