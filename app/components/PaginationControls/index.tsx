@@ -21,7 +21,7 @@ export default function PaginationControls({
       <Pagination
         isCompact
         showControls
-        showShadow
+        showShadow={false}
         color="primary"
         page={page}
         total={pages}
