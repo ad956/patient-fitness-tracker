@@ -87,6 +87,7 @@ export default function useFilterTransaction(
   }, []);
 
   const onStatusFilterChange = useCallback((keys: Selection) => {
+    console.log("CALLED ☁️");
     setStatusFilter(keys);
     setPage(1);
   }, []);
