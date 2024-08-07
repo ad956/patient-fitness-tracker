@@ -19,14 +19,15 @@ export default function StatusFilter({
   onStatusFilterChange,
 }: StatusFilterProps) {
   const handleSelectionChange = (keys: Selection) => {
-    if (keys instanceof Set) {
-      if (keys.has("all")) {
-        onStatusFilterChange(new Set(["all"]));
-      } else if (keys.size === 0) {
-        // nothing is selected, default to "all"
+    if (keys === "all") {
+      onStatusFilterChange(new Set(["all"]));
+    } else if (keys instanceof Set) {
+      if (keys.size === 0) {
         onStatusFilterChange(new Set(["all"]));
       } else {
-        onStatusFilterChange(keys);
+        onStatusFilterChange(
+          new Set(Array.from(keys).filter((key) => key !== "all"))
+        );
       }
     }
   };
