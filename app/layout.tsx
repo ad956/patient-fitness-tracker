@@ -23,6 +23,7 @@ export const metadata: Metadata = {
   generator: "Next.js",
   publisher: "Anand Suthar",
   robots: "index, follow",
+  metadataBase: new URL("https://patient-fitness-tracker.vercel.app"),
   openGraph: {
     type: "website",
     url: "https://patient-fitness-tracker.vercel.app",
