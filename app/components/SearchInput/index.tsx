@@ -8,6 +8,7 @@ interface SearchInputProps {
   onValueChange: (value: string) => void;
 }
 
+// usecase : transactions table
 export default function SearchInput({
   value,
   onClear,
@@ -17,7 +18,7 @@ export default function SearchInput({
     <Input
       isClearable
       className="w-full sm:max-w-[44%]"
-      placeholder="Search by hospital name..."
+      placeholder="Search by hospital name"
       startContent={<BiSearch />}
       value={value}
       onClear={onClear}
