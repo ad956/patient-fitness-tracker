@@ -1,23 +1,7 @@
 import { useState, useMemo, useCallback } from "react";
 import { Selection, SortDescriptor } from "@nextui-org/react";
 
-type Hospital = {
-  name: string;
-  profile: string;
-};
-
-type Transaction = {
-  hospital: Hospital;
-  disease: string;
-  description: string;
-  createdAt: string;
-  amount: number;
-  status: "Success" | "Failed";
-};
-
-export default function useFilterTransaction(
-  TransactionHistory: Transaction[]
-) {
+export default function useFilterTransaction<T>(transactionHistory: T[]) {
   const [filterValue, setFilterValue] = useState("");
   const [statusFilter, setStatusFilter] = useState<Selection>(new Set(["all"]));
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -28,14 +12,15 @@ export default function useFilterTransaction(
   });
 
   const filteredItems = useMemo(() => {
-    let filteredTransactions = [...TransactionHistory];
+    let filteredTransactions = [...transactionHistory];
 
     if (filterValue) {
-      filteredTransactions = filteredTransactions.filter((transaction) =>
-        transaction.hospital.name
-          .toLowerCase()
-          .includes(filterValue.toLowerCase())
-      );
+      filteredTransactions = filteredTransactions.filter((transaction) => {
+        const hospitalName = (
+          transaction as any
+        )?.hospital?.name?.toLowerCase();
+        return hospitalName && hospitalName.includes(filterValue.toLowerCase());
+      });
     }
 
     if (
@@ -44,14 +29,16 @@ export default function useFilterTransaction(
       statusFilter.size > 0
     ) {
       filteredTransactions = filteredTransactions.filter((transaction) =>
-        statusFilter.has(transaction.status)
+        statusFilter.has((transaction as any).status)
       );
     }
 
     return filteredTransactions;
-  }, [TransactionHistory, filterValue, statusFilter]);
+  }, [transactionHistory, filterValue, statusFilter]);
 
-  const pages = Math.ceil(filteredItems.length / rowsPerPage);
+  const pages = useMemo(() => {
+    return Math.ceil(filteredItems.length / rowsPerPage);
+  }, [filteredItems, rowsPerPage]);
 
   const items = useMemo(() => {
     const start = (page - 1) * rowsPerPage;
@@ -60,9 +47,9 @@ export default function useFilterTransaction(
   }, [page, filteredItems, rowsPerPage]);
 
   const sortedItems = useMemo(() => {
-    return [...items].sort((a: Transaction, b: Transaction) => {
-      const first = a[sortDescriptor.column as keyof Transaction];
-      const second = b[sortDescriptor.column as keyof Transaction];
+    return [...items].sort((a: T, b: T) => {
+      const first = (a as any)[sortDescriptor.column as keyof T];
+      const second = (b as any)[sortDescriptor.column as keyof T];
       const cmp = first < second ? -1 : first > second ? 1 : 0;
       return sortDescriptor.direction === "descending" ? -cmp : cmp;
     });
