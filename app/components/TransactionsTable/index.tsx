@@ -6,73 +6,107 @@ import {
   TableBody,
   TableRow,
   TableCell,
-  User,
-  Chip,
+  Spacer,
 } from "@nextui-org/react";
-import { getFormattedDate } from "@utils/getDate";
 import { SortDescriptor } from "@nextui-org/react";
+import { MdOutlineNoAccounts } from "react-icons/md";
 
-interface Hospital {
-  name: string;
-  profile: string;
-}
-
-interface Payment {
-  hospital: Hospital;
-  disease: string;
-  description: string;
-  createdAt: string;
-  amount: number;
-  status: "Success" | "Failed";
-}
-
-interface TransactionsTableProps {
-  items: Payment[];
+interface TransactionsTableProps<T> {
+  items: T[];
   sortDescriptor: SortDescriptor;
   onSortChange: (descriptor: SortDescriptor) => void;
-  renderCell: (payment: Payment, columnKey: React.Key) => React.ReactNode;
+  renderCell: (item: T, columnKey: React.Key) => React.ReactNode;
 }
 
-export default function TransactionsTable({
+export default function TransactionsTable<T>({
   items,
   sortDescriptor,
   onSortChange,
   renderCell,
-}: TransactionsTableProps) {
+}: TransactionsTableProps<T>) {
+  if (items.length === 0) {
+    return <NoTransactionsTable />;
+  }
+
+  const columns = Object.keys(items[0] as any);
+
   return (
     <Table
-      aria-label="Payment history table"
+      aria-label="Transactions Table"
       sortDescriptor={sortDescriptor}
       onSortChange={onSortChange}
     >
       <TableHeader>
-        <TableColumn key="hospital" allowsSorting>
-          Hospital
-        </TableColumn>
-        <TableColumn key="disease" allowsSorting>
-          Disease
-        </TableColumn>
-        <TableColumn key="description" allowsSorting>
-          Description
-        </TableColumn>
-        <TableColumn key="createdAt" allowsSorting>
-          Date
-        </TableColumn>
-        <TableColumn key="amount" allowsSorting>
-          Amount
-        </TableColumn>
-        <TableColumn key="status" allowsSorting>
-          Status
-        </TableColumn>
+        {columns.map((key) => (
+          <TableColumn key={key} allowsSorting>
+            {key.replace(/_/g, " ").charAt(0).toUpperCase() +
+              key.replace(/_/g, " ").slice(1)}
+          </TableColumn>
+        ))}
       </TableHeader>
-      <TableBody emptyContent={"No payment history available yet."}>
-        {items.map((payment, index) => (
+      <TableBody>
+        {items.map((item, index) => (
           <TableRow key={index} className="hover:bg-gray-50">
-            {(columnKey) => (
-              <TableCell>{renderCell(payment, columnKey)}</TableCell>
-            )}
+            {columns.map((key) => (
+              <TableCell key={key}>{renderCell(item, key)}</TableCell>
+            ))}
           </TableRow>
         ))}
+      </TableBody>
+    </Table>
+  );
+}
+
+/******************************************************
+ *                                                    *
+ *      ___          _____                           *
+ *     /  /\        /  /::\                          *
+ *    /  /::\      /  /:/\:\                         *
+ *   /  /:/\:\    /  /:/  \:\                        *
+ *  /  /:/~/::\  /__/:/ \__\:|                       *
+ * /__/:/ /:/\:\ \  \:\ /  /:/                       *
+ * \  \:\/:/__\/  \  \:\  /:/                        *
+ *  \  \::/        \  \:\/:/                         *
+ *   \  \:\         \  \::/                          *
+ *    \  \:\         \__\/                           *
+ *     \__\/                                         *
+ *                                                   *
+ *    What am I doing with my life?                  *
+ *    While everyone else is out living it up,       *
+ *    I'm here battling this table component!        *
+ *    Spent 4 hours on it, but hey, it’s finally     *
+ *    working! 🎉                                    *
+ *                                                    *
+ ******************************************************/
+
+function NoTransactionsTable() {
+  return (
+    <Table
+      aria-label="No Transactions Table"
+      style={{ minWidth: "100%", marginTop: "1rem", textAlign: "center" }}
+    >
+      <TableHeader>
+        <TableColumn>No Transactions</TableColumn>
+      </TableHeader>
+      <TableBody>
+        <TableRow>
+          <TableCell
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              padding: "2rem",
+            }}
+          >
+            <MdOutlineNoAccounts size={48} color="gray" />
+            <Spacer y={0.5} />
+            <h4>No transactions found</h4>
+            <p style={{ color: "$accents7" }}>
+              It looks like there are no recent transactions. Please check back
+              later.
+            </p>
+          </TableCell>
+        </TableRow>
       </TableBody>
     </Table>
   );
