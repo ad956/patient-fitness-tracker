@@ -35,7 +35,7 @@ export async function GET(request: Request) {
         },
         disease,
         description,
-        createdAt,
+        date: createdAt,
         amount,
         status,
       })

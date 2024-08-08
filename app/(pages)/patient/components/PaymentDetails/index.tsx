@@ -20,7 +20,7 @@ type Payment = {
   hospital: Hospital;
   disease: string;
   description: string;
-  createdAt: string;
+  date: string;
   amount: number;
   status: "Success" | "Failed";
 };
@@ -81,8 +81,8 @@ export default function PaymentDetails({
               {payment.status}
             </Chip>
           );
-        case "createdAt":
-          return getFormattedDate(new Date(payment.createdAt));
+        case "date":
+          return getFormattedDate(new Date(payment.date));
         case "amount":
           return `₹${payment.amount.toFixed(2)}`; // Format to 2 decimal places
         default:
