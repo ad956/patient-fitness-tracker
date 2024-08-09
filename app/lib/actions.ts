@@ -41,16 +41,16 @@ export async function demoLoginAction(role: string) {
     // Set the session
     await setSession(demoUser.email, role);
 
-    const userLog = {
-      username: demoUser.username,
-      name: `${demoUser.firstname} ${demoUser.lastname}`,
-      email: demoUser.email,
-      role: demoUser.role,
-      action: "demouser-login",
-    };
+    // const userLog = {
+    //   username: demoUser.username,
+    //   name: `${demoUser.firstname} ${demoUser.lastname}`,
+    //   email: demoUser.email,
+    //   role: demoUser.role,
+    //   action: "demouser-login",
+    // };
 
-    // log activity
-    await logDemoUser(userLog);
+    // // log activity
+    // await logDemoUser(userLog);
 
     return { success: true, redirectUrl: `/${role}` };
   } catch (error) {
