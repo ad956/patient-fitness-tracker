@@ -8,9 +8,13 @@ import toast from "react-hot-toast";
 import { loginAction } from "@lib/actions";
 import OtpSection from "@components/OtpSection";
 import FormValidator from "@utils/formValidator";
+import handleDemoLogin from "@/lib/demo-user/handleDemoLogin";
+import { useRouter } from "next/navigation";
 
 export default function LoginForm() {
   const [formValidator] = useState(new FormValidator());
+  const router = useRouter();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isVisible, setIsVisible] = useState(false);
@@ -76,6 +80,10 @@ export default function LoginForm() {
       });
     }
   }
+
+  const handleDemoUserNavigation = (path: string) => {
+    router.replace(path);
+  };
 
   return (
     <Card shadow="lg" className="h4/5 w-full max-w-md p-6">
@@ -146,14 +154,31 @@ export default function LoginForm() {
           Forgot password?
         </Link>
         {showOtp && <OtpSection userData={userData} />}
-        <Button
-          type="submit"
-          size="lg"
-          className="w-full text-white self-center bg-[#161313]"
-          isDisabled={loginDisabled}
-        >
-          Sign in
-        </Button>
+
+        <div className="flex flex-col sm:flex-row sm:items-center w-full gap-3 mt-4">
+          <Button
+            type="submit"
+            size="lg"
+            className="w-full text-white bg-[#161313] py-5 rounded-lg self-center sm:w-2/3"
+            isDisabled={loginDisabled}
+          >
+            Sign in
+          </Button>
+
+          <Button
+            type="button"
+            className="w-full sm:w-1/3 bg-white text-black font-semibold py-5 rounded-lg border-2 border-black transition duration-300 ease-in-out hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50"
+            onClick={() =>
+              handleDemoLogin({
+                isRoleValid: true,
+                role: new Set(["admin"]),
+                handleDemoUserNavigation,
+              })
+            }
+          >
+            Try Demo
+          </Button>
+        </div>
       </form>
     </Card>
   );
