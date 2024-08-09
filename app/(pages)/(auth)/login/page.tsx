@@ -16,9 +16,12 @@ import { MdOutlineKey, MdOutlineAlternateEmail } from "react-icons/md";
 import { loginAction } from "@lib/actions";
 import toast, { Toaster } from "react-hot-toast";
 import FormValidator from "@utils/formValidator";
+import { useRouter } from "next/navigation";
+import handleDemoLogin from "@lib/demo-user/handleDemoLogin";
 
 export default function Login() {
   const [formValidator] = useState(new FormValidator());
+  const router = useRouter();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -96,6 +99,10 @@ export default function Login() {
       );
     }
   }
+
+  const handleDemoUserNavigation = (path: string) => {
+    router.replace(path);
+  };
 
   return (
     <div
@@ -193,14 +200,28 @@ export default function Login() {
           {/* passing the user data to otp section */}
           {showOtp && <OtpSection userData={userData} />}
 
-          <Button
-            type="submit"
-            variant="shadow"
-            className="text-white self-center bg-[#161313] text-sm tracking-wide rounded-lg w-5/6 h-12 my-2"
-            isDisabled={loginDisabled}
-          >
-            Sign in
-          </Button>
+          <div className="flex flex-col sm:flex-row w-full gap-3 mt-4">
+            <Button
+              type="submit"
+              className="w-full sm:w-2/3 bg-black text-white font-semibold py-3 rounded-lg transition duration-300 ease-in-out hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50"
+              isDisabled={loginDisabled}
+            >
+              Sign in
+            </Button>
+            <Button
+              type="button"
+              className="w-full sm:w-1/3 bg-white text-black font-semibold py-3 rounded-lg border-2 border-black transition duration-300 ease-in-out hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50"
+              onClick={() =>
+                handleDemoLogin({
+                  isRoleValid,
+                  role,
+                  handleDemoUserNavigation,
+                })
+              }
+            >
+              Try Demo
+            </Button>
+          </div>
         </form>
 
         <p className="text-gray-500 text-xs text-center">

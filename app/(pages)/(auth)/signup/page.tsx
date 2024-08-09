@@ -300,14 +300,23 @@ export default function Signup() {
               <SelectItem key={roles.value}>{roles.label}</SelectItem>
             )}
           </Select>
-          <Button
-            type="submit"
-            variant="shadow"
-            className="text-white text-lg rounded-lg bg-[#0d0909] h-12 ml-4 my-2"
-            isDisabled={submitDisabled}
-          >
-            Sign up
-          </Button>
+          <div className="flex justify-center gap-5 items-center">
+            <Button
+              type="submit"
+              variant="shadow"
+              className="text-white text-lg rounded-lg bg-[#0d0909] h-12 w-3/5 ml-4 my-2"
+              isDisabled={submitDisabled}
+            >
+              Sign up
+            </Button>
+            <Button
+              as={Link}
+              className="h-12 w-2/5 sm:w-1/3 bg-white text-black font-semibold py-3 rounded-lg border-2 border-black transition duration-300 ease-in-out hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50"
+              href="/login"
+            >
+              Try Demo
+            </Button>
+          </div>
         </form>
 
         {/* passing the user data to otp section */}
