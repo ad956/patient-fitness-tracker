@@ -1,6 +1,7 @@
 import Admin from "./admin";
 import BookedAppointment from "./bookedAppointment";
 import CommonDiseases from "./commonDisease";
+import DemoUser from "./demouser";
 import Doctor from "./doctor";
 import Hospital from "./hospital";
 import MedicalHistory from "./medicalHistory";
@@ -14,6 +15,7 @@ export {
   Admin,
   BookedAppointment,
   CommonDiseases,
+  DemoUser,
   Doctor,
   Hospital,
   CityStateHospital,
