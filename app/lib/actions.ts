@@ -6,6 +6,7 @@ import getBaseUrl from "@utils/getBaseUrl";
 import getModelByRole from "@utils/getModelByRole";
 import logDemoUser from "./demo-user/logDemoUser";
 import DemoUser from "@models/demouser";
+import { dbConfig } from "@/utils";
 
 export async function loginAction(formData: FormData) {
   const email = formData.get("email");
@@ -32,7 +33,29 @@ export async function loginAction(formData: FormData) {
 
 export async function demoLoginAction(role: string) {
   try {
-    const demoUser = await DemoUser.findOne({ role });
+    /******************************************************
+     *                                                    *
+     *      ___          _____                            *
+     *     /  /\        /  /::\                           *
+     *    /  /::\      /  /:/\:\                          *
+     *   /  /:/\:\    /  /:/  \:\                         *
+     *  /  /:/~/::\  /__/:/ \__\:|                        *
+     * /__/:/ /:/\:\ \  \:\ /  /:/                        *
+     * \  \:\/:/__\/  \  \:\  /:/                         *
+     *  \  \::/        \  \:\/:/                          *
+     *   \  \:\         \  \::/                           *
+     *    \  \:\         \__\/                            *
+     *     \__\/                                          *
+     *                                                    *
+     * Note to self: Databases don't configure themselves *
+     * Pro tip: Always dbConfig() before you wreck yo'self*
+     *                                                    *
+     ******************************************************/
+    await dbConfig();
+
+    const demoUser = await DemoUser.findOne({
+      role,
+    });
 
     if (!demoUser) {
       return { success: false, error: "Demo user not found for this role" };
