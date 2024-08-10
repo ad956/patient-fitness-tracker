@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import getBaseUrl from "@utils/getBaseUrl";
 import getModelByRole from "@utils/getModelByRole";
 import logDemoUser from "./demo-user/logDemoUser";
+import DemoUser from "@models/demouser";
 
 export async function loginAction(formData: FormData) {
   const email = formData.get("email");
@@ -31,26 +32,33 @@ export async function loginAction(formData: FormData) {
 
 export async function demoLoginAction(role: string) {
   try {
-    const UserModel = getModelByRole(role);
-    const demoUser = await UserModel.findOne({ demo_user: true });
+    const demoUser = await DemoUser.findOne({ role });
 
     if (!demoUser) {
       return { success: false, error: "Demo user not found for this role" };
     }
 
+    const UserModel = getModelByRole(role);
+
+    const userData = await UserModel.findById(demoUser.referenceId);
+
+    if (!userData) {
+      return { success: false, error: "Demo user data not found" };
+    }
+
     // Set the session
-    await setSession(demoUser.email, role);
+    await setSession(userData.email, role);
 
-    // const userLog = {
-    //   username: demoUser.username,
-    //   name: `${demoUser.firstname} ${demoUser.lastname}`,
-    //   email: demoUser.email,
-    //   role: demoUser.role,
-    //   action: "demouser-login",
-    // };
+    const userLog = {
+      username: userData.username,
+      name: `${userData.firstname} ${userData.lastname}`,
+      email: userData.email,
+      role: userData.role,
+      action: "demouser-login",
+    };
 
-    // // log activity
-    // await logDemoUser(userLog);
+    // log activity
+    await logDemoUser(userLog);
 
     return { success: true, redirectUrl: `/${role}` };
   } catch (error) {
