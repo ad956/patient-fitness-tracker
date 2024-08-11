@@ -15,7 +15,7 @@ import verifyOtp from "@lib/verifyOtp";
 
 type userDataType = {
   userData: {
-    email: string;
+    usernameOrEmail: string;
     role: string;
     action: string;
   };
@@ -78,7 +78,7 @@ export default function OtpSection({ userData }: userDataType) {
   const handleSubmit = async () => {
     const otpString = otp.join("");
     const data = await verifyOtp(
-      userData.email,
+      userData.usernameOrEmail,
       userData.role,
       userData.action,
       otpString
