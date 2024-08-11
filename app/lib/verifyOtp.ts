@@ -1,7 +1,7 @@
 import getBaseUrl from "@utils/getBaseUrl";
 
 export default async function verifyOtp(
-  email: string,
+  usernameOrEmail: string,
   role: string,
   action: string,
   otp: string
@@ -16,7 +16,7 @@ export default async function verifyOtp(
       },
       body: JSON.stringify({
         otp,
-        email,
+        usernameOrEmail,
         role,
         action,
       }),
