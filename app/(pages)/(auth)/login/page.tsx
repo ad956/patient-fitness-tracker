@@ -23,24 +23,43 @@ export default function Login() {
   const [formValidator] = useState(new FormValidator());
   const router = useRouter();
 
-  const [email, setEmail] = useState("");
+  const [usernameOrEmail, setUsernameOrEmail] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState<Selection>(new Set([]));
   const [roleTouched, setRoleTouched] = useState(false);
 
   const [isVisible, setIsVisible] = useState(false);
   const [showOtp, setShowOtp] = useState(false);
-  const [userData, setUserData] = useState({ email: "", role: "", action: "" });
+  const [userData, setUserData] = useState({
+    usernameOrEmail: "",
+    role: "",
+    action: "",
+  });
 
   const isRoleValid = Array.from(role).length > 0;
 
   const [loginDisabled, setLoginDisabled] = useState(true);
   const toggleVisibility = () => setIsVisible(!isVisible);
 
-  function handleEmailChange(e: ChangeEvent<HTMLInputElement>) {
-    const error = FormValidator.validateEmail(e.target.value);
-    formValidator.setError("email", error);
-    setEmail(e.target.value);
+  function handleUsernameOrEmailChange(e: ChangeEvent<HTMLInputElement>) {
+    const value = e.target.value.trim();
+    setUsernameOrEmail(value);
+
+    let error: any;
+
+    if (!value) {
+      error = "Username or email is required";
+    } else {
+      const isEmail = value.includes("@");
+
+      if (isEmail) {
+        error = FormValidator.validateEmail(value);
+      } else {
+        error = FormValidator.validateUsername(value);
+      }
+    }
+
+    formValidator.setError("usernameOrEmail", error);
   }
 
   function handlePasswordChange(e: ChangeEvent<HTMLInputElement>) {
@@ -51,9 +70,9 @@ export default function Login() {
 
   useEffect(() => {
     setLoginDisabled(
-      formValidator.hasErrors() || !email || !password || !isRoleValid
+      formValidator.hasErrors() || !usernameOrEmail || !password || !isRoleValid
     );
-  }, [email, password, role]);
+  }, [usernameOrEmail, password, role]);
 
   async function handleFormSubmit(
     e: React.FormEvent<HTMLFormElement>
@@ -69,11 +88,11 @@ export default function Login() {
       const isValidUser = await loginAction(formData);
       toast.dismiss();
       if (isValidUser?.unauthorized) {
-        toast.error("Invalid email or password. Please try again.");
+        toast.error("Invalid username | email or password. Please try again.");
       } else {
         const userRole = formData.get("role");
         setUserData({
-          email,
+          usernameOrEmail,
           role: userRole?.toString() || "",
           action: "Login",
         });
@@ -84,14 +103,14 @@ export default function Login() {
         setShowOtp(true);
       }
     } catch (error) {
-      toast.error("Invalid email or password. Please try again.");
+      toast.error("Invalid username | email or password. Please try again.");
     }
   }
 
   async function handleForgetPassword() {
-    if (!email || userData.role === "") {
+    if (!usernameOrEmail || userData.role === "") {
       toast.error(
-        "Please enter a valid email address and select a role to continue.",
+        "Please enter a valid username or email address and select a role to continue.",
         {
           position: "bottom-center",
           duration: 2000,
@@ -129,24 +148,24 @@ export default function Login() {
 
         <form className="flex flex-col" onSubmit={handleFormSubmit}>
           <Input
-            name="email"
+            name="usernameOrEmail"
             variant="bordered"
             size="lg"
-            type="email"
-            placeholder="you@example.com"
+            type="text"
+            placeholder="Enter username or email"
             startContent={<MdOutlineAlternateEmail />}
-            value={email}
+            value={usernameOrEmail}
             className="mx-2 my-1"
-            onChange={handleEmailChange}
-            isInvalid={!!formValidator.getError("email")}
-            errorMessage={formValidator.getError("email")}
+            onChange={handleUsernameOrEmailChange}
+            isInvalid={!!formValidator.getError("usernameOrEmail")}
+            errorMessage={formValidator.getError("usernameOrEmail")}
             autoComplete="username"
           />
           <Input
             name="password"
             variant="bordered"
             size="lg"
-            placeholder="Enter your password"
+            placeholder="Enter password"
             startContent={<MdOutlineKey />}
             value={password}
             onChange={handlePasswordChange}
