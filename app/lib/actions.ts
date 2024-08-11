@@ -9,7 +9,7 @@ import DemoUser from "@models/demouser";
 import { dbConfig } from "@/utils";
 
 export async function loginAction(formData: FormData) {
-  const email = formData.get("email");
+  const usernameOrEmail = formData.get("usernameOrEmail");
   const password = formData.get("password");
   const role = formData.get("role");
 
@@ -18,7 +18,7 @@ export async function loginAction(formData: FormData) {
   try {
     const response = await fetch(`${serverUrl}/api/auth/login`, {
       method: "POST",
-      body: JSON.stringify({ email, password, role }),
+      body: JSON.stringify({ usernameOrEmail, password, role }),
     });
 
     const userData = await response.json();
