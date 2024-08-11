@@ -34,7 +34,11 @@ export default function Signup() {
   const [isVisible, setIsVisible] = useState(false);
   const [submitDisabled, setSubmitDisabled] = useState(true);
   const [showOtp, setShowOtp] = useState(false);
-  const [userData, setUserData] = useState({ email: "", role: "", action: "" });
+  const [userData, setUserData] = useState({
+    usernameOrEmail: "",
+    role: "",
+    action: "",
+  });
 
   const isRoleValid = Array.from(role).length > 0;
 
@@ -100,7 +104,7 @@ export default function Signup() {
         const userRole = formData.get("role");
 
         setUserData({
-          email,
+          usernameOrEmail: email,
           role: userRole?.toString() || "",
           action: "Signup",
         });
