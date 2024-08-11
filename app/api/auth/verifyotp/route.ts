@@ -4,7 +4,7 @@ import { allowedRoles } from "@constants/index";
 import logUserActivity from "@lib/logs";
 
 type bodyType = {
-  email: string;
+  usernameOrEmail: string;
   otp: string;
   role: string;
   action: string;
@@ -14,11 +14,17 @@ export async function POST(req: Request) {
   try {
     const body: bodyType = await req.json();
 
-    if (!body || !body.email || !body.role || !body.action || !body.otp) {
+    if (
+      !body ||
+      !body.usernameOrEmail ||
+      !body.role ||
+      !body.action ||
+      !body.otp
+    ) {
       return Response.json(
         {
           error:
-            "Email, OTP, action and role are required fields in the request body.",
+            "Username/Email, OTP, action and role are required fields in the request body.",
         },
         { status: 400 }
       );
@@ -44,22 +50,27 @@ async function checkOTP(body: bodyType, req: Request) {
   const UserModel = getModelByRole(body.role);
 
   const user = await UserModel.findOne(
-    { email: body.email },
-    { _id: 0, username: 1, firstname: 1, lastname: 1, otp: 1 }
+    {
+      $or: [
+        { email: body.usernameOrEmail },
+        { username: body.usernameOrEmail },
+      ],
+    },
+    { _id: 0, username: 1, firstname: 1, lastname: 1, otp: 1, email: 1 }
   );
 
   if (!user || user.otp !== body.otp)
     return Response.json({ error: "OTP Verification Failed" }, { status: 401 });
 
-  await user.updateOne({ email: body.email }, { $set: { otp: "" } });
+  await UserModel.updateOne({ email: user.email }, { $set: { otp: "" } });
 
   // setting session for user (stores jwt token in cookie named session)
-  await setSession(body.email, body.role);
+  await setSession(user.email, body.role);
 
   const userlog = {
     username: user.username,
     name: `${user.firstname} ${user.lastname}`,
-    email: body.email,
+    email: user.email,
     role: body.role,
     action: body.action,
   };

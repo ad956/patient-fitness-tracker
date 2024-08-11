@@ -6,7 +6,7 @@ import { allowedRoles } from "@constants/index";
 import bcrypt from "bcrypt";
 
 type LoginBody = {
-  email: string;
+  usernameOrEmail: string;
   password: string;
   role: string;
 };
@@ -15,11 +15,11 @@ export async function POST(req: Request) {
   try {
     const body: LoginBody = await req.json();
 
-    if (!body || !body.email || !body.password || !body.role) {
+    if (!body || !body.usernameOrEmail || !body.password || !body.role) {
       return Response.json(
         {
           error:
-            "Invalid request body. Please provide email, password, and role.",
+            "Invalid request body. Please provide username or email, password, and role.",
         },
         { status: 400 }
       );
@@ -46,13 +46,18 @@ async function setOTP(loginBody: LoginBody) {
   const UserModel = getModelByRole(loginBody.role);
 
   const user = await UserModel.findOne(
-    { email: loginBody.email },
+    {
+      $or: [
+        { email: loginBody.usernameOrEmail },
+        { username: loginBody.usernameOrEmail },
+      ],
+    },
     { _id: 1, email: 1, firstname: 1, lastname: 1, password: 1 }
   );
 
   if (!user || !(await bcrypt.compare(loginBody.password, user.password))) {
     return Response.json(
-      { error: "Invalid email or password" },
+      { error: "Invalid username/email or password" },
       { status: 401 }
     );
   }
