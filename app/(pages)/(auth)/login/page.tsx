@@ -13,11 +13,10 @@ import {
   Image,
 } from "@nextui-org/react";
 import { MdOutlineKey, MdOutlineAlternateEmail } from "react-icons/md";
-import { loginAction } from "@lib/actions";
+import { demoLoginAction, loginAction } from "@lib/actions";
 import toast, { Toaster } from "react-hot-toast";
 import FormValidator from "@utils/formValidator";
 import { useRouter } from "next/navigation";
-import handleDemoLogin from "@lib/demo-user/handleDemoLogin";
 
 export default function Login() {
   const [formValidator] = useState(new FormValidator());
@@ -119,8 +118,27 @@ export default function Login() {
     }
   }
 
-  const handleDemoUserNavigation = (path: string) => {
-    router.replace(path);
+  const handleDemoUserNavigation = async () => {
+    const selectedRole = Array.from(role)[0] as string;
+
+    try {
+      toast.loading("Logging in...", { id: "demoLogin" });
+      const result = await demoLoginAction(selectedRole);
+      if (result.success) {
+        toast.success("Login successful, redirecting...", { id: "demoLogin" });
+        router.push(`/${selectedRole}`);
+      } else {
+        throw new Error(result.error || "Login failed");
+      }
+    } catch (error) {
+      console.error("Demo login error:", error);
+      toast.error(
+        error instanceof Error
+          ? error.message
+          : "An unexpected error occurred. Please try again.",
+        { id: "demoLogin" }
+      );
+    }
   };
 
   return (
@@ -230,13 +248,7 @@ export default function Login() {
             <Button
               type="button"
               className="w-full sm:w-1/3 bg-white text-black font-semibold py-3 rounded-lg border-2 border-black transition duration-300 ease-in-out hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50"
-              onClick={() =>
-                handleDemoLogin({
-                  isRoleValid,
-                  role,
-                  handleDemoUserNavigation,
-                })
-              }
+              onClick={handleDemoUserNavigation}
             >
               Try Demo
             </Button>

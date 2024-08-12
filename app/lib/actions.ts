@@ -1,12 +1,8 @@
 "use server";
 
-import { logout, setSession } from "@sessions/sessionUtils";
+import { logout } from "@sessions/sessionUtils";
 import { redirect } from "next/navigation";
 import getBaseUrl from "@utils/getBaseUrl";
-import getModelByRole from "@utils/getModelByRole";
-import logDemoUser from "./demo-user/logDemoUser";
-import DemoUser from "@models/demouser";
-import { dbConfig } from "@/utils";
 
 export async function loginAction(formData: FormData) {
   const usernameOrEmail = formData.get("usernameOrEmail");
@@ -32,60 +28,27 @@ export async function loginAction(formData: FormData) {
 }
 
 export async function demoLoginAction(role: string) {
-  try {
-    /******************************************************
-     *                                                    *
-     *      ___          _____                            *
-     *     /  /\        /  /::\                           *
-     *    /  /::\      /  /:/\:\                          *
-     *   /  /:/\:\    /  /:/  \:\                         *
-     *  /  /:/~/::\  /__/:/ \__\:|                        *
-     * /__/:/ /:/\:\ \  \:\ /  /:/                        *
-     * \  \:\/:/__\/  \  \:\  /:/                         *
-     *  \  \::/        \  \:\/:/                          *
-     *   \  \:\         \  \::/                           *
-     *    \  \:\         \__\/                            *
-     *     \__\/                                          *
-     *                                                    *
-     * Note to self: Databases don't configure themselves *
-     * Pro tip: Always dbConfig() before you wreck yo'self*
-     *                                                    *
-     ******************************************************/
-    await dbConfig();
+  const serverUrl = getBaseUrl();
 
-    const demoUser = await DemoUser.findOne({
-      role,
+  try {
+    const response = await fetch(`${serverUrl}/api/demouser`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ role }),
     });
 
-    if (!demoUser) {
-      return { success: false, error: "Demo user not found for this role" };
+    const data = await response.json();
+
+    if (!response.ok) {
+      console.error("Error while demouser login:", data.error);
+      return { success: false, error: data.error };
     }
 
-    const UserModel = getModelByRole(role);
-
-    const userData = await UserModel.findById(demoUser.referenceId);
-
-    if (!userData) {
-      return { success: false, error: "Demo user data not found" };
-    }
-
-    // Set the session
-    await setSession(userData.email, role);
-
-    const userLog = {
-      username: userData.username,
-      name: `${userData.firstname} ${userData.lastname}`,
-      email: userData.email,
-      role: userData.role,
-      action: "demouser-login",
-    };
-
-    // log activity
-    await logDemoUser(userLog);
-
-    return { success: true, redirectUrl: `/${role}` };
+    return data;
   } catch (error) {
-    console.error("Demo login error:", error);
+    console.error("Demouser login error:", error);
     return { success: false, error: "An unexpected error occurred" };
   }
 }
