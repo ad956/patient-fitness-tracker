@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   description: "The page is for doctor related applications.",
 };
 
-export default async function PatientLayout({
+export default async function DoctorLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
