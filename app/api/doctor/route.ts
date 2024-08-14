@@ -1,33 +1,31 @@
 import dbConfig from "@utils/db";
+import { decrypt } from "@sessions/sessionUtils";
 import Doctor from "@models/doctor";
 
-export async function GET(req: Request) {
-  const { searchParams } = new URL(req.url);
-  const email = searchParams.get("email");
+export async function GET(request: Request) {
+  const session = request.headers.get("Authorization");
+  if (!session) {
+    return Response.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
   try {
-    if (!email) {
-      return new Response("Email parameter is missing", {
-        status: 400,
-      });
-    }
+    const token = session.split("Bearer ")[1];
+    const decryptedUser = await decrypt(token);
+    const email = decryptedUser.user.email;
 
     await dbConfig();
 
-    const doctor = await Doctor.findOne({ email });
+    // const projection = {}; { projection }
 
-    if (!doctor) {
-      return new Response(JSON.stringify({ error: "doctor not found" }), {
-        status: 404,
-      });
+    const doctorData = await Doctor.findOne({ email });
+
+    if (!doctorData) {
+      return Response.json({ error: "Doctor not found" }, { status: 404 });
     }
 
-    return new Response(JSON.stringify(doctor), {
-      status: 200,
-    });
+    return Response.json(doctorData);
   } catch (error) {
-    console.error("Error getting appointments:", error);
-    return new Response(JSON.stringify({ error: "Internal Server Error" }), {
-      status: 500,
-    });
+    console.error("Error fetching Doctor data:", error);
+    return Response.json({ error: "Internal Server Error" }, { status: 500 });
   }
 }
