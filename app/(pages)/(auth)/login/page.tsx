@@ -231,10 +231,15 @@ export default function Login() {
               type="button"
               className="w-full sm:w-1/3 bg-white text-black font-semibold py-3 rounded-lg border-2 border-black transition duration-300 ease-in-out hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50"
               onClick={() =>
-                handleDemoUserLogin(
-                  Array.from(role)[0] as string,
-                  redirectDemoUser
-                )
+                !isRoleValid
+                  ? toast.error("Please select a role to try the demo.", {
+                      position: "bottom-center",
+                      duration: 2000,
+                    })
+                  : handleDemoUserLogin(
+                      Array.from(role)[0] as string,
+                      redirectDemoUser
+                    )
               }
             >
               Try Demo
