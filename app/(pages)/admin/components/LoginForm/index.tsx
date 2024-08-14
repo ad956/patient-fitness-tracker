@@ -5,10 +5,11 @@ import { Input, Button, Link, Card, Image } from "@nextui-org/react";
 import { AiOutlineEyeInvisible, AiTwotoneEye } from "react-icons/ai";
 import { MdOutlineAlternateEmail, MdOutlineKey } from "react-icons/md";
 import toast from "react-hot-toast";
-import { demoLoginAction, loginAction } from "@lib/actions";
+import { loginAction } from "@lib/actions";
 import OtpSection from "@components/OtpSection";
 import FormValidator from "@utils/formValidator";
 import { useRouter } from "next/navigation";
+import handleDemoUserLogin from "@lib/demo-user/handleDemoUserLogin";
 
 export default function LoginForm() {
   const [formValidator] = useState(new FormValidator());
@@ -101,25 +102,8 @@ export default function LoginForm() {
     }
   }
 
-  const handleDemoUserNavigation = async () => {
-    try {
-      toast.loading("Logging in...", { id: "demoLogin" });
-      const result = await demoLoginAction("admin");
-      if (result.success) {
-        toast.success("Login successful, redirecting...", { id: "demoLogin" });
-        router.push("/admin");
-      } else {
-        throw new Error(result.error || "Login failed");
-      }
-    } catch (error) {
-      console.error("Demo login error:", error);
-      toast.error(
-        error instanceof Error
-          ? error.message
-          : "An unexpected error occurred. Please try again.",
-        { id: "demoLogin" }
-      );
-    }
+  const redirectDemoUser = (role: string) => {
+    router.push(`/${role}`);
   };
 
   return (
@@ -205,7 +189,7 @@ export default function LoginForm() {
           <Button
             type="button"
             className="w-full sm:w-1/3 bg-white text-black font-semibold py-5 rounded-lg border-2 border-black transition duration-300 ease-in-out hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50"
-            onClick={handleDemoUserNavigation}
+            onClick={() => handleDemoUserLogin("admin", redirectDemoUser)}
           >
             Try Demo
           </Button>
