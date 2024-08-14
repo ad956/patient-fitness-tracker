@@ -27,32 +27,6 @@ export async function loginAction(formData: FormData) {
   }
 }
 
-export async function demoLoginAction(role: string) {
-  const serverUrl = getBaseUrl();
-
-  try {
-    const response = await fetch(`${serverUrl}/api/demouser`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ role }),
-    });
-
-    const data = await response.json();
-
-    if (!response.ok) {
-      console.error("Error while demouser login:", data.error);
-      return { success: false, error: data.error };
-    }
-
-    return data;
-  } catch (error) {
-    console.error("Demouser login error:", error);
-    return { success: false, error: "An unexpected error occurred" };
-  }
-}
-
 export async function signupAction(formData: FormData) {
   const [firstname, lastname, username, email, password, role] = [
     formData.get("firstname"),
