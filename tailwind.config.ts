@@ -13,6 +13,7 @@ const config: Config = {
       animation: {
         "infinite-scroll": "infinite-scroll 25s linear infinite",
         wave: "wave 2.5s infinite",
+        wiggle: "wiggle 0.3s ease-in-out",
       },
       keyframes: {
         "infinite-scroll": {
@@ -28,6 +29,12 @@ const config: Config = {
           "50%": { transform: "rotate(10deg)" },
           "60%": { transform: "rotate(0deg)" },
           "100%": { transform: "rotate(0deg)" },
+        },
+        wiggle: {
+          "0%, 100%": { transform: "rotate(0deg)" },
+          "25%": { transform: "rotate(-10deg)" },
+          "50%": { transform: "rotate(10deg)" },
+          "75%": { transform: "rotate(-5deg)" },
         },
       },
     },
