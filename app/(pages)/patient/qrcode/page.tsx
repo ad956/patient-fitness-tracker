@@ -26,11 +26,11 @@ export default async function QRCodePage() {
 
         <div className="flex flex-col justify-center items-center gap-2 px-5">
           <p className="text-sm font-semibold">
-            Instant Access to Medical Records via QR Codes
+            Quick Patient Verification via QR Code
           </p>
-          <p className="text-xs">
-            Empower patients with personalized QR codes, granting swift access
-            to medical records for seamless interactions at hospitals.
+          <p className="text-xs text-center">
+            Receptionists can scan this code to verify your identity instantly
+            and access your medical records for a smoother check-in process.
           </p>
         </div>
 
