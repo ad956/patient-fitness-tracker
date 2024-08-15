@@ -57,7 +57,10 @@ export type Hospital = User & {};
 export type bookedAppointments = [
   {
     _id: string;
-    timing: string;
+    timing: {
+      startTime: string;
+      endTime: string;
+    };
     state: string;
     city: string;
     hospital: {
