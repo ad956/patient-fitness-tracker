@@ -1,7 +1,10 @@
 import mongoose from "mongoose";
 
 export interface BookedAppointment extends mongoose.Document {
-  timing: string;
+  timing: {
+    startTime: string;
+    endTime: string;
+  };
   state: string;
   city: string;
   hospital: {
@@ -18,7 +21,10 @@ export interface BookedAppointment extends mongoose.Document {
 
 const bookedAppointmentsSchema = new mongoose.Schema(
   {
-    timing: { type: String, required: false },
+    timing: {
+      startTime: { type: String, required: false },
+      endTime: { type: String, required: false },
+    },
     state: { type: String, required: true },
     city: { type: String, required: true },
     hospital: {
