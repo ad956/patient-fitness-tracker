@@ -1,6 +1,7 @@
 "use client";
 
-import { CiBellOn } from "react-icons/ci";
+import { useEffect, useState } from "react";
+import { IoNotificationsOutline } from "react-icons/io5";
 import {
   NovuProvider,
   PopoverNotificationCenter,
@@ -12,7 +13,7 @@ export default function Notifications({ userId }: { userId: string }) {
       subscriberId={userId}
       applicationIdentifier={process.env.NEXT_PUBLIC_NOVU_APP_IDENTIFIER || ""}
     >
-      <PopoverNotificationCenter colorScheme={"light"}>
+      <PopoverNotificationCenter colorScheme="light">
         {({ unseenCount }) => <CustomBellIcon unseenCount={unseenCount} />}
       </PopoverNotificationCenter>
     </NovuProvider>
@@ -24,33 +25,41 @@ const CustomBellIcon = ({
 }: {
   unseenCount: number | undefined;
 }) => {
+  const [prevCount, setPrevCount] = useState(unseenCount);
+
+  useEffect(() => {
+    if (unseenCount > prevCount) {
+      const audio = new Audio("/sounds/bell.mp3");
+      audio.play();
+    }
+    setPrevCount(unseenCount);
+  }, [unseenCount, prevCount]);
+
   return (
-    <CiBellOn
-      size={25}
-      className={`cursor-pointer relative ${
-        unseenCount > 0 ? "animate-bounce text-danger-800" : ""
-      }`}
-      style={{
-        cursor: "pointer",
-      }}
-    >
+    <div className="relative inline-block">
+      {/* Bell Icon with animation */}
+      <div
+        className={`transition-transform duration-300 ${
+          unseenCount > 0 ? "animate-wiggle" : ""
+        }`}
+      >
+        <IoNotificationsOutline
+          size={25}
+          className="text-gray-700 cursor-pointer hover:text-gray-900 transition-colors duration-200"
+        />
+      </div>
+
+      {/* Notification Count */}
       {unseenCount > 0 && (
-        <span
-          style={{
-            position: "absolute",
-            top: "50%",
-            right: "5px",
-            transform: "translateY(-50%)",
-            fontSize: "12px",
-            color: "white",
-            backgroundColor: "red",
-            borderRadius: "50%",
-            padding: "2px",
-          }}
-        >
-          {unseenCount}
-        </span>
+        <div className="absolute -top-2 -right-2 flex items-center justify-center">
+          <span className="relative flex h-5 w-5">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-5 w-5 bg-red-500 text-white text-xs font-bold items-center justify-center">
+              {unseenCount > 99 ? "99+" : unseenCount}
+            </span>
+          </span>
+        </div>
       )}
-    </CiBellOn>
+    </div>
   );
 };
