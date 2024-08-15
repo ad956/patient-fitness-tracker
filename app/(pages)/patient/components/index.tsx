@@ -1,3 +1,4 @@
+import AppointmentDetailsModal from "./AppointmentDetailsModal";
 import BookAppointment from "./BookAppointment";
 import Calendar from "./Calendar";
 import { HealthConditions, WeeklyProgress } from "./Graphs";
@@ -8,6 +9,7 @@ import QRCode from "./QR";
 import CarouselService from "./ServiceCarousel";
 
 export {
+  AppointmentDetailsModal,
   BookAppointment,
   Calendar,
   HealthConditions,
