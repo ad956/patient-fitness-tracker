@@ -1,4 +1,4 @@
-import { dbConfig, getFormattedDate } from "@utils/index";
+import { dbConfig } from "@utils/index";
 import { bookingAppointment } from "@types";
 import { decrypt } from "@sessions/sessionUtils";
 import { Types } from "mongoose";
