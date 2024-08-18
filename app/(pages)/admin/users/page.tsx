@@ -1,16 +1,5 @@
 "use client";
 
-// export default function Users() {
-//   return (
-//     <div>
-//       Patient , Admin , Rcep onlY Search and view user profiles , List all users
-//       (patients, doctors, receptionists, etc.) Create, edit, and deactivate user
-//       accounts Manage user roles and permissions Bulk user operations (e.g.,
-//       import/export)
-//     </div>
-//   );
-// }
-
 import React, { useState, useEffect } from "react";
 import {
   Table,
@@ -18,8 +7,6 @@ import {
   Input,
   Dropdown,
   Modal,
-  DropdownMenu,
-  DropdownItem,
   TableHeader,
   TableColumn,
   TableBody,
@@ -31,6 +18,8 @@ import {
   Pagination,
   User,
   Card,
+  DropdownMenu,
+  DropdownItem,
 } from "@nextui-org/react";
 import {
   AiOutlineSearch as SearchIcon,
@@ -44,6 +33,10 @@ interface UserData {
   role: string;
   username: string;
   profile: string;
+  gender: string;
+  contact: string;
+  city: string;
+  state: string;
 }
 
 interface PaginationMetadata {
@@ -96,11 +89,11 @@ const UserManagement: React.FC = () => {
   };
 
   return (
-    <div className="p-4">
-      <Card className="p-4 w-full mx-auto">
-        <h1 className="text-3xl font-bold mb-8 text-center">User Management</h1>
+    <div className="p-4 max-h-screen overflow-hidden">
+      <Card className="p-6 w-full mx- h-full flex flex-col">
+        {/* <h1 className="text-3xl font-bold mb-8 text-center">Users</h1> */}
 
-        <div className="flex flex-col md:flex-row justify-between mb-6 space-y-4 md:space-y-0">
+        <div className="flex flex-col md:flex-row justify-between mb-6 space-y-4 md:space-y-0 md:space-x-4">
           <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
             <Input
               placeholder="Search users..."
@@ -112,10 +105,12 @@ const UserManagement: React.FC = () => {
               className="w-full md:w-64"
             />
             <Dropdown>
-              <Button variant="bordered">{selectedRole}</Button>
+              <Button variant="flat">{selectedRole}</Button>
               <DropdownMenu
                 aria-label="Role selection"
                 onAction={(key) => setSelectedRole(key as string)}
+                selectedKeys={[selectedRole]}
+                selectionMode="single"
               >
                 <DropdownItem key="All">All</DropdownItem>
                 <DropdownItem key="Patient">Patient</DropdownItem>
@@ -127,23 +122,26 @@ const UserManagement: React.FC = () => {
             </Dropdown>
           </div>
           <Button
-            color="primary"
+            color="danger"
             startContent={<PlusIcon className="w-5 h-5" />}
             onClick={() => {
               setCurrentUser(null);
               setIsModalOpen(true);
             }}
           >
-            Add User
+            Blocked Users
           </Button>
         </div>
 
-        <div className="overflow-x-auto">
-          <Table aria-label="User management table" className="min-w-full">
+        <div className="flex-grow overflow-y-">
+          <Table aria-label="User management table">
             <TableHeader>
               <TableColumn>User</TableColumn>
               <TableColumn>Role</TableColumn>
               <TableColumn>Username</TableColumn>
+              <TableColumn>Gender</TableColumn>
+              <TableColumn>Contact</TableColumn>
+              <TableColumn>Location</TableColumn>
               <TableColumn>Actions</TableColumn>
             </TableHeader>
             <TableBody>
@@ -161,10 +159,12 @@ const UserManagement: React.FC = () => {
                   </TableCell>
                   <TableCell>{user.role}</TableCell>
                   <TableCell>{user.username}</TableCell>
+                  <TableCell>{user.gender}</TableCell>
+                  <TableCell>{user.contact}</TableCell>
+                  <TableCell>{`${user.city}, ${user.state}`}</TableCell>
                   <TableCell>
                     <Button
                       color="danger"
-                      variant="bordered"
                       startContent={<BlockIcon className="w-4 h-4" />}
                       onClick={() => handleBlockUser(user.id)}
                     >
@@ -209,7 +209,7 @@ const UserManagement: React.FC = () => {
               className="mb-4"
             />
             <Dropdown className="mb-4">
-              <Button variant="bordered">Select Role</Button>
+              <Button variant="flat">Select Roledanger</Button>
               <DropdownMenu aria-label="Role selection">
                 <DropdownItem key="Patient">Patient</DropdownItem>
                 <DropdownItem key="Doctor">Doctor</DropdownItem>
@@ -223,17 +223,24 @@ const UserManagement: React.FC = () => {
               placeholder="Enter username"
               className="mb-4"
             />
+            <Input label="Gender" placeholder="Enter gender" className="mb-4" />
+            <Input
+              label="Contact"
+              placeholder="Enter contact number"
+              className="mb-4"
+            />
+            <Input label="City" placeholder="Enter city" className="mb-4" />
+            <Input label="State" placeholder="Enter state" className="mb-4" />
           </ModalBody>
           <ModalFooter>
             <Button
-              color="danger"
               variant="flat"
+              color="danger"
               onClick={() => setIsModalOpen(false)}
             >
               Cancel
             </Button>
             <Button
-              color="primary"
               onClick={() => {
                 setIsModalOpen(false);
               }}
