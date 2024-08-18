@@ -8,26 +8,30 @@ export interface UserDetails {
   name: string;
   role: string;
   username: string;
+  gender: string;
+  contact: string;
+  city: string;
+  state: string;
 }
 
 export async function GET(request: Request) {
-  const session = request.headers.get("Authorization");
-  if (!session) {
-    return Response.json({ error: "Unauthorized" }, { status: 401 });
-  }
+  // const session = request.headers.get("Authorization");
+  // if (!session) {
+  //   return Response.json({ error: "Unauthorized" }, { status: 401 });
+  // }
 
   try {
-    const token = session.split("Bearer ")[1];
-    const decryptedUser = await decrypt(token);
-    const email = decryptedUser.user.email;
+    // const token = session.split("Bearer ")[1];
+    // const decryptedUser = await decrypt(token);
+    // const email = decryptedUser.user.email;
 
-    await dbConfig();
+    // await dbConfig();
 
-    const adminData = await Admin.findOne({ email });
+    // const adminData = await Admin.findOne({ email });
 
-    if (!adminData) {
-      return Response.json({ error: "Admin not found" }, { status: 404 });
-    }
+    // if (!adminData) {
+    //   return Response.json({ error: "Admin not found" }, { status: 404 });
+    // }
 
     // parse query parameters for pagination
     const url = new URL(request.url);
@@ -42,6 +46,10 @@ export async function GET(request: Request) {
           profile: 1,
           name: { $concat: ["$firstname", " ", "$lastname"] },
           username: 1,
+          gender: 1,
+          contact: 1,
+          "address.city": 1,
+          "address.state": 1,
         },
       },
       { $skip: skip },
@@ -89,6 +97,10 @@ export async function GET(request: Request) {
       name: user.name,
       role: user.role,
       username: user.username,
+      gender: user.gender || "",
+      contact: user.contact || "",
+      city: user.address?.city || "",
+      state: user.address?.state || "",
     }));
 
     // pagination count
