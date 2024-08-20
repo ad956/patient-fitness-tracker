@@ -6,15 +6,11 @@ import {
   Button,
   Input,
   Dropdown,
-  Modal,
   TableHeader,
   TableColumn,
   TableBody,
   TableRow,
   TableCell,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
   Pagination,
   User,
   Card,
@@ -26,6 +22,7 @@ import {
   AiOutlinePlus as PlusIcon,
   AiOutlineStop as BlockIcon,
 } from "react-icons/ai";
+import SpinnerLoader from "@/components/SpinnerLoader";
 
 interface UserData {
   id: string;
@@ -48,9 +45,10 @@ interface PaginationMetadata {
 
 const UserManagement: React.FC = () => {
   const [users, setUsers] = useState<UserData[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [selectedRole, setSelectedRole] = useState<string>("All");
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+
   const [currentUser, setCurrentUser] = useState<UserData | null>(null);
   const [pagination, setPagination] = useState<PaginationMetadata>({
     currentPage: 1,
@@ -65,6 +63,7 @@ const UserManagement: React.FC = () => {
 
   const fetchUsers = async () => {
     try {
+      setLoading(true);
       const response = await fetch(
         `/api/admin/users?page=${pagination.currentPage}&limit=${pagination.pageSize}`
       );
@@ -74,6 +73,8 @@ const UserManagement: React.FC = () => {
       setPagination(data.pagination);
     } catch (error) {
       console.error("Error fetching users:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -126,129 +127,78 @@ const UserManagement: React.FC = () => {
             startContent={<PlusIcon className="w-5 h-5" />}
             onClick={() => {
               setCurrentUser(null);
-              setIsModalOpen(true);
             }}
           >
             Blocked Users
           </Button>
         </div>
 
-        <div className="flex-grow overflow-y-">
-          <Table aria-label="User management table">
-            <TableHeader>
-              <TableColumn>User</TableColumn>
-              <TableColumn>Role</TableColumn>
-              <TableColumn>Username</TableColumn>
-              <TableColumn>Gender</TableColumn>
-              <TableColumn>Contact</TableColumn>
-              <TableColumn>Location</TableColumn>
-              <TableColumn>Actions</TableColumn>
-            </TableHeader>
-            <TableBody>
-              {filteredUsers.map((user) => (
-                <TableRow key={user.id}>
-                  <TableCell>
-                    <User
-                      name={user.name}
-                      avatarProps={{
-                        src:
-                          user.profile ||
-                          `https://i.pravatar.cc/150?u=${user.id}`,
-                      }}
-                    />
-                  </TableCell>
-                  <TableCell>{user.role}</TableCell>
-                  <TableCell>{user.username}</TableCell>
-                  <TableCell>{user.gender}</TableCell>
-                  <TableCell>{user.contact}</TableCell>
-                  <TableCell>{`${user.city}, ${user.state}`}</TableCell>
-                  <TableCell>
-                    <Button
-                      color="danger"
-                      startContent={<BlockIcon className="w-4 h-4" />}
-                      onClick={() => handleBlockUser(user.id)}
-                    >
-                      Block
-                    </Button>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </div>
+        {loading ? (
+          <div className="flex justify-center items-center h-full">
+            <SpinnerLoader />
+          </div>
+        ) : (
+          <div className="flex-grow overflow-y-scroll scrollbar">
+            <Table aria-label="User management table">
+              <TableHeader>
+                <TableColumn>User</TableColumn>
+                <TableColumn>Role</TableColumn>
+                <TableColumn>Username</TableColumn>
+                <TableColumn>Gender</TableColumn>
+                <TableColumn>Contact</TableColumn>
+                <TableColumn>Location</TableColumn>
+                <TableColumn>Actions</TableColumn>
+              </TableHeader>
+              <TableBody>
+                {filteredUsers.map((user) => (
+                  <TableRow key={user.id}>
+                    <TableCell>
+                      <User
+                        name={user.name}
+                        avatarProps={{
+                          src:
+                            user.profile ||
+                            `https://i.pravatar.cc/150?u=${user.id}`,
+                        }}
+                      />
+                    </TableCell>
+                    <TableCell>{user.role}</TableCell>
+                    <TableCell>{user.username}</TableCell>
+                    <TableCell>{user.gender}</TableCell>
+                    <TableCell>{user.contact}</TableCell>
+                    <TableCell>{`${user.city}, ${user.state}`}</TableCell>
+                    <TableCell>
+                      <Button
+                        color="danger"
+                        startContent={<BlockIcon className="w-4 h-4" />}
+                        onClick={() => handleBlockUser(user.id)}
+                      >
+                        Block
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
+        )}
 
         <div className="mt-6 flex justify-center">
           <Pagination
+            isCompact
             total={pagination.totalPages}
             initialPage={pagination.currentPage}
             onChange={(page) =>
               setPagination({ ...pagination, currentPage: page })
             }
             showControls
-            showShadow
-            color="primary"
+            showShadow={false}
             page={pagination.currentPage}
+            classNames={{
+              cursor: "bg-foreground text-background",
+            }}
           />
         </div>
-
-        <Modal
-          closeButton
-          aria-labelledby="modal-title"
-          isOpen={isModalOpen}
-          onClose={() => setIsModalOpen(false)}
-        >
-          <ModalHeader>
-            <p id="modal-title" className="text-xl font-semibold">
-              Add User
-            </p>
-          </ModalHeader>
-          <ModalBody>
-            <Input
-              label="Name"
-              placeholder="Enter user's name"
-              className="mb-4"
-            />
-            <Dropdown className="mb-4">
-              <Button variant="flat">Select Roledanger</Button>
-              <DropdownMenu aria-label="Role selection">
-                <DropdownItem key="Patient">Patient</DropdownItem>
-                <DropdownItem key="Doctor">Doctor</DropdownItem>
-                <DropdownItem key="Receptionist">Receptionist</DropdownItem>
-                <DropdownItem key="Hospital">Hospital</DropdownItem>
-                <DropdownItem key="Admin">Admin</DropdownItem>
-              </DropdownMenu>
-            </Dropdown>
-            <Input
-              label="Username"
-              placeholder="Enter username"
-              className="mb-4"
-            />
-            <Input label="Gender" placeholder="Enter gender" className="mb-4" />
-            <Input
-              label="Contact"
-              placeholder="Enter contact number"
-              className="mb-4"
-            />
-            <Input label="City" placeholder="Enter city" className="mb-4" />
-            <Input label="State" placeholder="Enter state" className="mb-4" />
-          </ModalBody>
-          <ModalFooter>
-            <Button
-              variant="flat"
-              color="danger"
-              onClick={() => setIsModalOpen(false)}
-            >
-              Cancel
-            </Button>
-            <Button
-              onClick={() => {
-                setIsModalOpen(false);
-              }}
-            >
-              Add User
-            </Button>
-          </ModalFooter>
-        </Modal>
       </Card>
     </div>
   );
