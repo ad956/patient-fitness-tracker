@@ -4,11 +4,9 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { Image } from "@nextui-org/react";
 import { usePathname } from "next/navigation";
-import getBaseUrl from "@utils/getBaseUrl";
 import {
   FiHome,
   FiUserPlus,
-  FiUser,
   FiBarChart2,
   FiSettings,
   FiHeart,
@@ -21,7 +19,6 @@ const SidebarConfig = [
   { title: "Add Admin", uri: "add-admin", icon: <FiUserPlus /> },
   { title: "Transactions", uri: "transactions", icon: <TbCurrencyRupee /> },
   { title: "Hospitals", uri: "hospitals", icon: <FiHeart /> },
-  { title: "Users", uri: "users", icon: <FiUser /> },
   { title: "Reports", uri: "reports", icon: <FiBarChart2 /> },
   { title: "Settings", uri: "settings", icon: <FiSettings /> },
 ];
