@@ -11,7 +11,9 @@ import {
   RiHospitalLine,
 } from "react-icons/ri";
 import { getTilesData } from "@lib/admin";
+import SpinnerLoader from "@components/SpinnerLoader"; // Import your SpinnerLoader component
 
+// Define types
 type TilesDataProp = {
   totalHospitals: string;
   totalPatients: string;
@@ -57,6 +59,8 @@ export default function Admin() {
   const [recentUsers, setRecentUsers] = useState<RecentUser[]>([]);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
+  const [isLoadingTiles, setIsLoadingTiles] = useState(true);
+  const [isLoadingUsers, setIsLoadingUsers] = useState(true);
 
   const observer = useRef<IntersectionObserver | null>(null);
   const lastUserElementRef = useCallback(
@@ -74,8 +78,12 @@ export default function Admin() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const tiles = await getTilesData();
-      setTilesData(tiles);
+      try {
+        const tiles = await getTilesData();
+        setTilesData(tiles);
+      } finally {
+        setIsLoadingTiles(false);
+      }
     };
     fetchData();
   }, []);
@@ -87,6 +95,8 @@ export default function Admin() {
   const fetchRecentUsers = async () => {
     if (!hasMore) return;
 
+    setIsLoadingUsers(true);
+
     try {
       const response = await fetch(
         `/api/admin/dashboard/recent-users?page=${page}&limit=10`
@@ -96,6 +106,8 @@ export default function Admin() {
       setHasMore(data.page < data.totalPages);
     } catch (error) {
       console.error("Error fetching recent users:", error);
+    } finally {
+      setIsLoadingUsers(false);
     }
   };
 
@@ -124,94 +136,112 @@ export default function Admin() {
       ]
     : [];
 
+  // if both loading states are true
+  const isLoading = isLoadingTiles || isLoadingUsers;
+
   return (
     <div className="flex flex-col overflow-y-scroll scrollbar">
       <main className="flex-grow p-8">
         <div className="max-w-7xl mx-auto space-y-8">
-          {/* Statistics Cards */}
-          <div className="grid grid-cols-4 gap-6">
-            {statisticsCards.map((stat, index) => (
-              <Card
-                key={index}
-                className="bg-white shadow-lg hover:shadow-xl transition-shadow duration-300"
-              >
-                <CardBody className="p-6">
-                  <div className="flex items-center justify-between mb-4">
-                    <p className="text-lg font-semibold text-gray-700">
-                      {stat.title}
-                    </p>
-                    {stat.icon}
-                  </div>
-                  <p className="text-3xl font-bold text-gray-900">
-                    {stat.value}
-                  </p>
-                </CardBody>
-              </Card>
-            ))}
-          </div>
-
-          {/* Recent Activity */}
-          <Card className="bg-white shadow-lg h-[400px]">
-            <CardHeader className="border-b border-gray-200 p-6">
-              <h3 className="text-2xl font-semibold text-gray-800">
-                Recent Activity
-              </h3>
-            </CardHeader>
-            <CardBody className="p-6 overflow-y-auto scrollbar">
-              <div className="space-y-6">
-                {recentUsers.map((user, index) => (
-                  <div
+          {/* Loading Spinner */}
+          {isLoading ? (
+            <div className="flex justify-center items-center h-full">
+              <SpinnerLoader />
+            </div>
+          ) : (
+            <>
+              {/* Statistics Cards */}
+              <div className="grid grid-cols-4 gap-6">
+                {statisticsCards.map((stat, index) => (
+                  <Card
                     key={index}
-                    ref={
-                      index === recentUsers.length - 1
-                        ? lastUserElementRef
-                        : null
-                    }
-                    className="flex items-center gap-4 p-4 bg-gray-50 rounded-lg"
+                    className="bg-white shadow-lg hover:shadow-xl transition-shadow duration-300"
                   >
-                    <div
-                      className={`flex h-12 w-12 items-center justify-center rounded-full ${
-                        activityColors[user.title]
-                      }`}
-                    >
-                      {activityIcons[user.title]}
-                    </div>
-                    <div className="flex-grow">
-                      <p className="font-medium text-gray-900">{user.title}</p>
-                      <p className="text-sm text-gray-600">
-                        {user.description}
+                    <CardBody className="p-6">
+                      <div className="flex items-center justify-between mb-4">
+                        <p className="text-lg font-semibold text-gray-700">
+                          {stat.title}
+                        </p>
+                        {stat.icon}
+                      </div>
+                      <p className="text-3xl font-bold text-gray-900">
+                        {stat.value}
                       </p>
-                    </div>
-                    <p className="text-sm text-gray-500">{user.timeSince}</p>
-                  </div>
+                    </CardBody>
+                  </Card>
                 ))}
               </div>
-            </CardBody>
-          </Card>
 
-          {/* Action Buttons */}
-          <div className="grid grid-cols-3 gap-6">
-            <Button
-              className="bg-blue-600 hover:bg-blue-700 text-white text-lg py-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300"
-              startContent={<RiAddLine className="h-5 w-5" />}
-            >
-              Add Patient
-            </Button>
-            <Button
-              className="bg-white hover:bg-gray-50 text-gray-800 border border-gray-300 text-lg py-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300"
-              startContent={
-                <RiCalendarLine className="h-5 w-5 text-gray-600" />
-              }
-            >
-              Schedule Appointment
-            </Button>
-            <Button
-              className="bg-white hover:bg-gray-50 text-gray-800 border border-gray-300 text-lg py-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300"
-              startContent={<RiCheckLine className="h-5 w-5 text-gray-600" />}
-            >
-              Generate Report
-            </Button>
-          </div>
+              {/* Recent Activity */}
+              <Card className="bg-white shadow-lg h-[400px]">
+                <CardHeader className="border-b border-gray-200 p-6">
+                  <h3 className="text-2xl font-semibold text-gray-800">
+                    Recent Activity
+                  </h3>
+                </CardHeader>
+                <CardBody className="p-6 overflow-y-auto scrollbar">
+                  <div className="space-y-6">
+                    {recentUsers.map((user, index) => (
+                      <div
+                        key={index}
+                        ref={
+                          index === recentUsers.length - 1
+                            ? lastUserElementRef
+                            : null
+                        }
+                        className="flex items-center gap-4 p-4 bg-gray-50 rounded-lg"
+                      >
+                        <div
+                          className={`flex h-12 w-12 items-center justify-center rounded-full ${
+                            activityColors[user.title]
+                          }`}
+                        >
+                          {activityIcons[user.title]}
+                        </div>
+                        <div className="flex-grow">
+                          <p className="font-medium text-gray-900">
+                            {user.title}
+                          </p>
+                          <p className="text-sm text-gray-600">
+                            {user.description}
+                          </p>
+                        </div>
+                        <p className="text-sm text-gray-500">
+                          {user.timeSince}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </CardBody>
+              </Card>
+
+              {/* Action Buttons */}
+              <div className="grid grid-cols-3 gap-6">
+                <Button
+                  className="bg-blue-600 hover:bg-blue-700 text-white text-lg py-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300"
+                  startContent={<RiAddLine className="h-5 w-5" />}
+                >
+                  Add Admin
+                </Button>
+                <Button
+                  className="bg-white hover:bg-gray-50 text-gray-800 border border-gray-300 text-lg py-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300"
+                  startContent={
+                    <RiCalendarLine className="h-5 w-5 text-gray-600" />
+                  }
+                >
+                  Schedule Appointment
+                </Button>
+                <Button
+                  className="bg-white hover:bg-gray-50 text-gray-800 border border-gray-300 text-lg py-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300"
+                  startContent={
+                    <RiCheckLine className="h-5 w-5 text-gray-600" />
+                  }
+                >
+                  Generate Report
+                </Button>
+              </div>
+            </>
+          )}
         </div>
       </main>
     </div>
