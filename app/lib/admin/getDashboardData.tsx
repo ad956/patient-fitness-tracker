@@ -13,7 +13,9 @@ export async function getTilesData() {
   try {
     const res = await fetch(`${serverUrl}/api/admin/dashboard/tiles`, {
       headers,
-      cache: "no-cache",
+      next: {
+        revalidate: 5000,
+      },
     });
 
     if (!res.ok) {
@@ -30,7 +32,7 @@ export async function getTilesData() {
   }
 }
 
-export async function getRecentUsersData() {
+export async function getRecentUsersData(page: number) {
   const session = getSessionToken();
   const serverUrl = getBaseUrl();
 
@@ -38,19 +40,24 @@ export async function getRecentUsersData() {
     Authorization: `Bearer ${session}`,
   };
   try {
-    const res = await fetch(`${serverUrl}/api/admin/dashboard/recent-users`, {
-      headers,
-      cache: "no-cache",
-    });
+    const res = await fetch(
+      `${serverUrl}/api/admin/dashboard/recent-users?page=${page}&limit=10`,
+      {
+        headers,
+        next: {
+          revalidate: 5000,
+        },
+      }
+    );
 
     if (!res.ok) {
       console.error(`Error fetching admin data: ${res.statusText}`);
       throw new Error("fetching admin data");
     }
 
-    const adminData = await res.json();
+    const data = await res.json();
 
-    return adminData;
+    return data;
   } catch (error) {
     console.error("An error occurred while fetching admin data:", error);
     throw error;
