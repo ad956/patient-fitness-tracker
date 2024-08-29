@@ -1,4 +1,4 @@
-import { Patient } from "@types";
+import { Patient } from "@pft-types/index";
 import { getPatientData } from "@lib/patient";
 import ProfileSettings from "@components/ProfileSettings";
 

@@ -1,4 +1,4 @@
-import { Admin } from "@types";
+import { Admin } from "@pft-types/index";
 import getAdminData from "@lib/admin/getAdminData";
 import ProfileSettings from "@components/ProfileSettings";
 

@@ -7,7 +7,7 @@ import {
   BsSearch,
   BsBell,
 } from "react-icons/bs";
-import { Receptionist } from "@types";
+import { Receptionist } from "@pft-types/index";
 import { getReceptionistData, getPendingAppointments } from "@lib/receptionist";
 import {
   MonthlyVisitors,

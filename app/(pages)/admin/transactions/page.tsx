@@ -1,4 +1,4 @@
-import { TransactionDetails } from "@types";
+import { TransactionDetails } from "@pft-types/index";
 import Transactions from "../components/Transactions";
 import getTransactions from "@lib/admin/getTransactions";
 

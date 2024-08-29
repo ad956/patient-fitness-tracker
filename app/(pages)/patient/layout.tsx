@@ -1,6 +1,6 @@
 import Script from "next/script";
 import { Sidebar, Headbar } from "@components/index";
-import { Patient } from "@types";
+import { Patient } from "@pft-types/index";
 import { getPatientData } from "@lib/patient";
 
 import type { Metadata } from "next";

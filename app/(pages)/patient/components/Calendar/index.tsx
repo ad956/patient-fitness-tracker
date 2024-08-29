@@ -4,7 +4,7 @@ import React from "react";
 import { type DateFormatter, DayPicker } from "react-day-picker";
 import { Card, useDisclosure } from "@nextui-org/react";
 import { getFormattedDate } from "@utils/getDate";
-import { bookedAppointments } from "@types";
+import { bookedAppointments } from "@pft-types/index";
 import AppointmentDetailsModal from "../AppointmentDetailsModal";
 
 type upcomingAppointmentsType = {

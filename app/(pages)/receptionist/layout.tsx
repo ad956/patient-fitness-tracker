@@ -1,4 +1,4 @@
-import { Receptionist } from "@types";
+import { Receptionist } from "@pft-types/index";
 import { Sidebar, Headbar } from "@components/index";
 
 import type { Metadata } from "next";

@@ -1,5 +1,5 @@
 "use server";
-import { bookingAppointment } from "@types";
+import { bookingAppointment } from "@pft-types/index";
 import { getSessionToken } from "../sessions/sessionUtils";
 import getBaseUrl from "@utils/getBaseUrl";
 

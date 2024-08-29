@@ -1,5 +1,5 @@
 import { dbConfig } from "@utils/index";
-import { bookingAppointment } from "@types";
+import { bookingAppointment } from "@pft-types/index";
 import { decrypt } from "@sessions/sessionUtils";
 import { Types } from "mongoose";
 import sendEmail from "@lib/sendemail";

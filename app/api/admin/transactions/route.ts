@@ -1,7 +1,7 @@
 import dbConfig from "@utils/db";
 import { decrypt } from "@sessions/sessionUtils";
 import { Admin, Hospital, Patient, Transaction } from "@models/index";
-import { TransactionDetails } from "@types";
+import { TransactionDetails } from "@pft-types/index";
 
 export async function GET(request: Request) {
   const session = request.headers.get("Authorization");

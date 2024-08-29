@@ -1,6 +1,6 @@
 "use client";
 
-import { MedicalHistory } from "@types";
+import { MedicalHistory } from "@pft-types/index";
 import {
   Chip,
   Spinner,

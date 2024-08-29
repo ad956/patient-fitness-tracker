@@ -1,6 +1,6 @@
 import { Sidebar, Headbar } from "@components/index";
 import { getDoctorData } from "@lib/doctor";
-import { Doctor } from "@types";
+import { Doctor } from "@pft-types/index";
 
 import type { Metadata } from "next";
 

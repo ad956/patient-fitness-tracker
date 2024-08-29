@@ -1,4 +1,4 @@
-import { UserLog, bookingAppointment } from "@types";
+import { UserLog, bookingAppointment } from "@pft-types/index";
 import { Html } from "@react-email/html";
 import { getCurrentDateFormatted, getFormattedDate } from "@utils/getDate";
 import React from "react";

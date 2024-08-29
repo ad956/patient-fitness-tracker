@@ -1,5 +1,5 @@
 import dbConfig from "@utils/db";
-import { Transaction as TransactionType } from "@types";
+import { Transaction as TransactionType } from "@pft-types/index";
 import Transaction from "@models/transaction";
 import { Types } from "mongoose";
 

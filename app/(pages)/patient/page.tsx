@@ -5,7 +5,7 @@ import {
   MedicineDetails,
   HealthConditions,
 } from "./components";
-import { Patient, bookedAppointments } from "@types";
+import { Patient, bookedAppointments } from "@pft-types/index";
 import { getPatientData, getUpcomingAppointments } from "@lib/patient";
 
 export default async function PatientPage() {

@@ -4,7 +4,7 @@ import { Divider, User, Button, Image } from "@nextui-org/react";
 import Link from "next/link";
 import Notifications from "@components/Notifications";
 import { logoutAction } from "@lib/actions";
-import { Admin } from "@types";
+import { Admin } from "@pft-types/index";
 import { CiLogin } from "react-icons/ci";
 
 interface HeaderProps {

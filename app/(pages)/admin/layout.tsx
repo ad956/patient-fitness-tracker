@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Sidebar, Header } from "./components";
-import { Admin } from "@types";
+import { Admin } from "@pft-types/index";
 import { getAdminData } from "@lib/admin";
 
 export const metadata: Metadata = {
