@@ -23,3 +23,20 @@ export type PaginatedResponse = {
   totalPages: number;
   totalItems: number;
 };
+
+export type TransactionDetails = {
+  transaction_id: string;
+  patient: {
+    name: string;
+    profile: string;
+  };
+  hospital: {
+    name: string;
+    profile: string;
+  };
+  disease: string;
+  description: string;
+  amount: number;
+  status: "Success" | "Failed";
+  date: string;
+};
