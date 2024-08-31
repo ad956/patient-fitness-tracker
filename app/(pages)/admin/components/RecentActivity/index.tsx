@@ -4,6 +4,7 @@ import {
   RiTeamLine,
   RiCalendarLine,
   RiHospitalLine,
+  RiEmotionSadLine,
 } from "react-icons/ri";
 import { ActivityType, RecentUser } from "@pft-types/index";
 
@@ -39,26 +40,42 @@ export default function RecentActivity({
       </CardHeader>
       <CardBody className="p-6 overflow-y-auto scrollbar">
         <div className="space-y-6">
-          {recentUsers.map((user, index) => (
-            <div
-              key={index}
-              ref={index === recentUsers.length - 1 ? lastUserElementRef : null}
-              className="flex items-center gap-4 p-4 bg-gray-50 rounded-lg"
-            >
-              <div
-                className={`flex h-12 w-12 items-center justify-center rounded-full ${
-                  activityColors[user.title]
-                }`}
-              >
-                {activityIcons[user.title]}
-              </div>
-              <div className="flex-grow">
-                <p className="font-medium text-gray-900">{user.title}</p>
-                <p className="text-sm text-gray-600">{user.description}</p>
-              </div>
-              <p className="text-sm text-gray-500">{user.timeSince}</p>
+          {recentUsers.length > 0 ? (
+            <div className="space-y-6">
+              {recentUsers.map((user, index) => (
+                <div
+                  key={index}
+                  ref={
+                    index === recentUsers.length - 1 ? lastUserElementRef : null
+                  }
+                  className="flex items-center gap-4 p-4 bg-gray-50 rounded-lg"
+                >
+                  <div
+                    className={`flex h-12 w-12 items-center justify-center rounded-full ${
+                      activityColors[user.title]
+                    }`}
+                  >
+                    {activityIcons[user.title]}
+                  </div>
+                  <div className="flex-grow">
+                    <p className="font-medium text-gray-900">{user.title}</p>
+                    <p className="text-sm text-gray-600">{user.description}</p>
+                  </div>
+                  <p className="text-sm text-gray-500">{user.timeSince}</p>
+                </div>
+              ))}
             </div>
-          ))}
+          ) : (
+            <div className="flex flex-col items-center justify-center h-full">
+              <RiEmotionSadLine className="h-16 w-16 text-gray-400 mb-4" />
+              <p className="text-xl font-semibold text-gray-600">
+                No Recent Activity
+              </p>
+              <p className="text-sm text-gray-500 mt-2">
+                There are no recent user activities to display.
+              </p>
+            </div>
+          )}
         </div>
       </CardBody>
     </Card>
