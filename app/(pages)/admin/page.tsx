@@ -1,11 +1,14 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
-import { Button } from "@nextui-org/react";
-import { RiAddLine, RiCheckLine, RiCalendarLine } from "react-icons/ri";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { getRecentUsersData, getTilesData } from "@lib/admin";
 import SpinnerLoader from "@components/SpinnerLoader";
-import { RecentActivity, StatisticsCards } from "./components";
+import {
+  AppointmentGraph,
+  RecentActivity,
+  StatisticsCards,
+  UserDistributionPie,
+} from "./components";
 import { PaginatedResponse, RecentUser, TilesDataProp } from "@pft-types/index";
 
 export default function Admin() {
@@ -65,6 +68,28 @@ export default function Admin() {
 
   const isLoading = isLoadingTiles || isLoadingUsers;
 
+  const appointmentData = [
+    {
+      id: "appointments",
+      color: "hsl(207, 70%, 50%)",
+      data: [
+        { x: "Jan", y: 65 },
+        { x: "Feb", y: 59 },
+        { x: "Mar", y: 80 },
+        { x: "Apr", y: 81 },
+        { x: "May", y: 56 },
+        { x: "Jun", y: 55 },
+      ],
+    },
+  ];
+
+  const userDistributionData = [
+    { id: "patients", label: "Patients", value: 60 },
+    { id: "doctors", label: "Doctors", value: 20 },
+    { id: "receptionists", label: "Receptionists", value: 15 },
+    { id: "hospitals", label: "Hospitals", value: 5 },
+  ];
+
   return (
     <div className="flex flex-col overflow-y-scroll scrollbar">
       <main className="flex-grow p-8">
@@ -75,38 +100,20 @@ export default function Admin() {
             </div>
           ) : (
             <>
-              {/* Statistics Cards */}
+              {/* Statistics Cards*/}
               <StatisticsCards tilesData={tilesData} />
+
+              {/* Graphs */}
+              <div className="grid grid-cols-2 gap-6">
+                <AppointmentGraph data={appointmentData} />
+                <UserDistributionPie data={userDistributionData} />
+              </div>
 
               {/* Recent Activity */}
               <RecentActivity
                 recentUsers={recentUsers}
                 lastUserElementRef={lastUserElementRef}
               />
-
-              {/* Action Buttons */}
-              <div className="grid grid-cols-3 gap-6">
-                <Button
-                  className="bg-blue-600 hover:bg-blue-700 text-white text-lg py-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300"
-                  startContent={<RiAddLine className="h-5 w-5" />}
-                >
-                  Add Admin
-                </Button>
-                <Button
-                  className="bg-white hover:bg-gray-50 text-gray-800 border border-gray-300 text-lg py-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300"
-                  startContent={
-                    <RiCalendarLine className="h-5 w-5 text-gray-600" />
-                  }
-                >
-                  Schedule Appointment
-                </Button>
-                <Button
-                  className="bg-green-600 hover:bg-green-700 text-white text-lg py-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300"
-                  startContent={<RiCheckLine className="h-5 w-5" />}
-                >
-                  Approve Request
-                </Button>
-              </div>
             </>
           )}
         </div>
