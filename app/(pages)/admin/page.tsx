@@ -4,14 +4,14 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 import { getRecentUsersData, getTilesData } from "@lib/admin";
 import SpinnerLoader from "@components/SpinnerLoader";
 import {
-  AppointmentGraph,
+  AppointmentBar,
+  HospitalApprovalList,
+  MonthlyRevenueChart,
   RecentActivity,
   StatisticsCards,
   UserDistributionPie,
 } from "./components";
 import { PaginatedResponse, RecentUser, TilesDataProp } from "@pft-types/index";
-import MonthlyRevenueChart from "./components/MonthlyRevenueChart";
-import HospitalApprovalList from "./components/HospitalApprovalList";
 
 export default function Admin() {
   const [tilesData, setTilesData] = useState<TilesDataProp | null>(null);
@@ -86,10 +86,11 @@ export default function Admin() {
   ];
 
   const userDistributionData = [
-    { id: "patients", label: "Patients", value: 60 },
-    { id: "doctors", label: "Doctors", value: 20 },
-    { id: "receptionists", label: "Receptionists", value: 15 },
-    { id: "hospitals", label: "Hospitals", value: 5 },
+    { id: "patients", label: "Patients", value: 10 },
+    { id: "receptionists", label: "Receptionists", value: 20 },
+    { id: "doctors", label: "Doctors", value: 30 },
+    { id: "hospitals", label: "Hospitals", value: 96 },
+    { id: "admins", label: "Admins", value: 20 },
   ];
 
   const mockNewHospitals = [
@@ -139,7 +140,7 @@ export default function Admin() {
 
               {/* Graphs */}
               <div className="grid grid-cols-2 gap-6">
-                <AppointmentGraph data={appointmentData} />
+                <AppointmentBar data={appointmentData} />
                 <UserDistributionPie data={userDistributionData} />
               </div>
 
