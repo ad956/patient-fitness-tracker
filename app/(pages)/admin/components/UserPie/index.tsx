@@ -6,9 +6,7 @@ import { ResponsivePie } from "@nivo/pie";
 const UserDistributionPie = ({ data }: any) => (
   <Card className="h-[400px]">
     <CardHeader className="border-b border-gray-200 p-6">
-      <h3 className="text-2xl font-semibold text-gray-800">
-        User Distribution
-      </h3>
+      <h3 className="text-2xl font-semibold text-gray-800">Users Overview</h3>
     </CardHeader>
     <CardBody className="p-6">
       <ResponsivePie
@@ -20,12 +18,14 @@ const UserDistributionPie = ({ data }: any) => (
         activeOuterRadiusOffset={8}
         borderWidth={1}
         borderColor={{ from: "color", modifiers: [["darker", 0.2]] }}
-        arcLinkLabelsSkipAngle={10}
+        arcLinkLabelsSkipAngle={0}
         arcLinkLabelsTextColor="#333333"
         arcLinkLabelsThickness={2}
         arcLinkLabelsColor={{ from: "color" }}
-        arcLabelsSkipAngle={10}
-        arcLabelsTextColor={{ from: "color", modifiers: [["darker", 2]] }}
+        arcLabelsRadiusOffset={0.55}
+        arcLabelsSkipAngle={0}
+        arcLabelsTextColor="#ffffff"
+        colors={["#FF6B6B", "#FFA500", "#FFD700", "#9370DB", "#00CED1"]}
         defs={[
           {
             id: "dots",
@@ -42,16 +42,18 @@ const UserDistributionPie = ({ data }: any) => (
             background: "inherit",
             color: "rgba(255, 255, 255, 0.3)",
             rotation: -45,
-            lineWidth: 6,
+            lineWidth: 4,
             spacing: 10,
           },
         ]}
         fill={[
+          { match: { id: "admins" }, id: "lines" },
           { match: { id: "patients" }, id: "dots" },
           { match: { id: "doctors" }, id: "lines" },
           { match: { id: "receptionists" }, id: "dots" },
           { match: { id: "hospitals" }, id: "lines" },
         ]}
+        motionConfig="wobbly"
         legends={[
           {
             anchor: "bottom",
