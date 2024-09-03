@@ -5,10 +5,10 @@ export type ActivityType =
   | "New Receptionist Registered";
 
 export type TilesDataProp = {
-  totalHospitals: string;
-  totalPatients: string;
-  totalDoctors: string;
-  totalReceptionists: string;
+  newHospitals: string;
+  newPatients: string;
+  newDoctors: string;
+  newReceptionists: string;
 };
 
 export type RecentUser = {
