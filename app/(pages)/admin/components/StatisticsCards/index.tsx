@@ -1,17 +1,11 @@
 import { Card, CardBody } from "@nextui-org/react";
+import { TilesDataProp } from "@pft-types/index";
 import {
   RiUserLine,
   RiTeamLine,
-  RiCalendarLine,
   RiHospitalLine,
+  RiShieldUserLine,
 } from "react-icons/ri";
-
-type TilesDataProp = {
-  totalHospitals: string;
-  totalPatients: string;
-  totalDoctors: string;
-  totalReceptionists: string;
-};
 
 type StatisticsCardsProps = {
   tilesData: TilesDataProp | null;
@@ -22,26 +16,26 @@ export default function StatisticsCards({ tilesData }: StatisticsCardsProps) {
 
   const statistics = [
     {
-      title: "Total Patients",
-      value: tilesData.totalPatients,
+      title: "Patients",
+      value: tilesData.newPatients,
       icon: <RiUserLine className="h-8 w-8 text-blue-600" />,
       change: 10,
     },
     {
-      title: "Total Doctors",
-      value: tilesData.totalDoctors,
+      title: "Doctors",
+      value: tilesData.newDoctors,
       icon: <RiTeamLine className="h-8 w-8 text-green-600" />,
       change: 5,
     },
     {
-      title: "Total Receptionists",
-      value: tilesData.totalReceptionists,
-      icon: <RiCalendarLine className="h-8 w-8 text-purple-600" />,
+      title: "Receptionists",
+      value: tilesData.newReceptionists,
+      icon: <RiShieldUserLine className="h-8 w-8 text-purple-600" />,
       change: -2,
     },
     {
-      title: "Total Hospitals",
-      value: tilesData.totalHospitals,
+      title: "Hospitals",
+      value: tilesData.newHospitals,
       icon: <RiHospitalLine className="h-8 w-8 text-red-600" />,
       change: 8,
     },
