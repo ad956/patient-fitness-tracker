@@ -8,10 +8,10 @@ export async function GET(request: Request) {
     const db = mongoose.connection.db;
 
     const [
-      totalHospitals,
-      totalPatients,
-      totalDoctors,
-      totalReceptionists,
+      newHospitals,
+      newPatients,
+      newDoctors,
+      newReceptionists,
       bookedAppointments,
     ] = await Promise.all([
       db.collection("hospital").countDocuments(),
@@ -32,11 +32,11 @@ export async function GET(request: Request) {
     ]);
 
     const result = {
-      totalHospitals,
-      totalPatients,
-      totalDoctors,
-      totalReceptionists,
-      totalBookedAppointments: bookedAppointments[0]?.total || 0,
+      newHospitals,
+      newPatients,
+      newDoctors,
+      newReceptionists,
+      newBookedAppointments: bookedAppointments[0]?.total || 0,
     };
 
     return Response.json(result);
