@@ -8,6 +8,7 @@ import {
   SelectItem,
   Tab,
   Tabs,
+  TimeInput,
 } from "@nextui-org/react";
 import { PointTooltip, ResponsiveLine } from "@nivo/line";
 import { ResponsiveRadialBar } from "@nivo/radial-bar";
@@ -299,14 +300,20 @@ const PatientTabs: React.FC<PatientTabsProps> = ({ pendingAppointments }) => {
     <Tabs aria-label="Patient management">
       <Tab key="pending" title="Pending">
         <Card>
-          <CardBody>
+          <CardBody className="overflow-y-auto scrollbar">
             {pendingAppointments.patientDetails.map(
               (patient: any, index: any) => (
                 <div key={index} className="mb-2">
-                  <p className="font-semibold">{patient.name}</p>
-                  <p className="text-sm text-gray-600">
-                    {patient.appointmentTime}
+                  <p className="font-semibold">
+                    {patient.firstname} {patient.lastname}
                   </p>
+                  <p className="text-sm text-gray-600">{patient.gender}</p>
+                  <TimeInput
+                    label="Time (controlled)"
+                    value={patient.timing}
+                    // onChange={setValue}
+                    hideTimeZone
+                  />
                 </div>
               )
             )}
