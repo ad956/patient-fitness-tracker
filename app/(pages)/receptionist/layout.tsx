@@ -17,7 +17,7 @@ export default async function ReceptionistLayout({
   const receptionist: Receptionist = await getReceptionistData();
 
   return (
-    <main className="h-[100vh] flex">
+    <main className="h-screen flex">
       <Sidebar userType="receptionist" />
       <section className="flex flex-col w-full">
         <Headbar user={receptionist} role="receptionist" />
