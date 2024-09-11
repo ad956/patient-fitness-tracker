@@ -3,6 +3,7 @@ import sendEmail from "../sendemail";
 import { render } from "@react-email/render";
 import { UserActivityTemplate } from "../emails/templates";
 import { UserLog } from "@models/index";
+import { userAgent } from "next/server";
 
 type userlogType = {
   username: string;
@@ -16,13 +17,15 @@ async function logUserActivity(userlog: userlogType, req: Request) {
   await dbConfig();
 
   try {
+    const { os, browser, device } = userAgent(req);
+
     const user_log = {
       username: userlog.username,
       name: userlog.name,
       email: userlog.email,
       action: userlog.action,
       userType: userlog.role,
-      device: req.headers.get("user-agent") || "",
+      device: `${os.name} ${os.version}, ${browser.name} ${browser.version}, ${device.type}`,
       ip: (req.headers.get("x-forwarded-for") ?? "127.0.0.1")
         .split(",")[0]
         .trim(),
