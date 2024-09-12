@@ -96,7 +96,7 @@ export default async function ReceptionistPage() {
             {/* Today's Schedule */}
             <Card>
               <CardHeader className="flex justify-between">
-                <h2 className="text-lg font-semibold">Today's Schedule</h2>
+                <h2 className="text-lg font-semibold">Today&#39;s Schedule</h2>
                 <Button size="sm" color="primary">
                   View All
                 </Button>
@@ -157,7 +157,7 @@ export default async function ReceptionistPage() {
             {/* Today's Progress */}
             <Card>
               <CardHeader>
-                <h2 className="text-lg font-semibold">Today's Progress</h2>
+                <h2 className="text-lg font-semibold">Today&#39;s Progress</h2>
               </CardHeader>
               <CardBody className="space-y-4">
                 <ProgressBar
