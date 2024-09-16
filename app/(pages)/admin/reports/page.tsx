@@ -1,360 +1,275 @@
 "use client";
 
-// export default function Reports() {
-//   return (
-//     <div>
-//       Extract Reports for specific hospital which will shows its total usre s,
-//       doctors , receps, etc
-//     </div>
-//   );
-// }
-
-import React, { useState } from "react";
+import React, { useState, ChangeEvent } from "react";
 import {
+  Select,
+  SelectItem,
   Card,
   CardBody,
   CardHeader,
-  Divider,
-  Select,
-  SelectItem,
-  Button,
   Table,
-  TableHeader,
-  TableColumn,
   TableBody,
-  TableRow,
   TableCell,
-  Input,
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
+  TableColumn,
+  TableHeader,
+  TableRow,
 } from "@nextui-org/react";
+import { ResponsivePie } from "@nivo/pie";
+import { ResponsiveLine } from "@nivo/line";
 
 interface Hospital {
   id: number;
   name: string;
   totalUsers: number;
   doctors: number;
-  nurses: number;
   receptionists: number;
+  nurses: number;
   patients: number;
-  beds: number;
-  occupancyRate: number;
 }
 
-const initialHospitals: Hospital[] = [
+const hospitals: Hospital[] = [
   {
     id: 1,
     name: "Central Hospital",
     totalUsers: 500,
     doctors: 50,
-    nurses: 150,
     receptionists: 20,
+    nurses: 150,
     patients: 280,
-    beds: 300,
-    occupancyRate: 85,
   },
   {
     id: 2,
     name: "City General Hospital",
     totalUsers: 750,
     doctors: 80,
-    nurses: 220,
     receptionists: 30,
+    nurses: 220,
     patients: 420,
-    beds: 450,
-    occupancyRate: 92,
   },
   {
     id: 3,
     name: "Community Health Center",
     totalUsers: 300,
     doctors: 30,
-    nurses: 90,
     receptionists: 15,
+    nurses: 90,
     patients: 165,
-    beds: 180,
-    occupancyRate: 78,
   },
 ];
 
 const Reports: React.FC = () => {
-  const [hospitals, setHospitals] = useState<Hospital[]>(initialHospitals);
   const [selectedHospital, setSelectedHospital] = useState<Hospital | null>(
     null
   );
-  const [compareHospital, setCompareHospital] = useState<Hospital | null>(null);
-  const [isAddHospitalOpen, setIsAddHospitalOpen] = useState<boolean>(false);
-  const [newHospital, setNewHospital] = useState<Omit<Hospital, "id">>({
-    name: "",
-    totalUsers: 0,
-    doctors: 0,
-    nurses: 0,
-    receptionists: 0,
-    patients: 0,
-    beds: 0,
-    occupancyRate: 0,
-  });
 
-  const renderHospitalData = (hospital: Hospital) => (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-      {Object.entries(hospital).map(([key, value]) => {
-        if (key !== "id" && key !== "name") {
-          return (
-            <Card key={key}>
-              <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
-                <p className="text-tiny uppercase font-bold">{key}</p>
-                <h4 className="font-bold text-large">{value}</h4>
-              </CardHeader>
-              <CardBody className="overflow-visible py-2">
-                <Divider />
-              </CardBody>
-            </Card>
-          );
-        }
-        return null;
-      })}
-    </div>
-  );
-
-  const handleAddHospital = () => {
-    const id = Math.max(...hospitals.map((h) => h.id)) + 1;
-    setHospitals([...hospitals, { ...newHospital, id }]);
-    setIsAddHospitalOpen(false);
-    setNewHospital({
-      name: "",
-      totalUsers: 0,
-      doctors: 0,
-      nurses: 0,
-      receptionists: 0,
-      patients: 0,
-      beds: 0,
-      occupancyRate: 0,
-    });
+  const handleSelectionChange = (e: ChangeEvent<HTMLSelectElement>): void => {
+    const hospitalId: number = parseInt(e.target.value, 10);
+    const hospital: Hospital | undefined = hospitals.find(
+      (h) => h.id === hospitalId
+    );
+    setSelectedHospital(hospital || null);
   };
 
-  return (
-    <div className="container mx-auto p-8">
-      <h1 className="text-3xl font-bold mb-6">Hospital Reports Dashboard</h1>
+  const getPieChartData = (hospital: Hospital) => [
+    { id: "doctors", label: "Doctors", value: hospital.doctors },
+    { id: "nurses", label: "Nurses", value: hospital.nurses },
+    {
+      id: "receptionists",
+      label: "Receptionists",
+      value: hospital.receptionists,
+    },
+    { id: "patients", label: "Patients", value: hospital.patients },
+  ];
 
-      <div className="mb-6 flex gap-4">
-        <Select
-          label="Select a hospital"
-          onChange={(e) => {
-            const selected = hospitals.find(
-              (h) => h.id === parseInt(e.target.value)
-            );
-            if (selected) setSelectedHospital(selected);
-          }}
-        >
-          {hospitals.map((hospital) => (
-            <SelectItem key={hospital.id} value={hospital.id.toString()}>
-              {hospital.name}
-            </SelectItem>
-          ))}
-        </Select>
-        <Button
-          onPress={() => setIsAddHospitalOpen(true)}
-          size="sm"
-          variant="light"
-          className="bg-blue-50 text-blue-600 hover:bg-blue-100 rounded-full px-4 py-1 transition-colors duration-200"
-        >
-          Add New Hospital
-        </Button>
-      </div>
+  const getLineChartData = () => [
+    {
+      id: "doctors",
+      data: hospitals.map((h) => ({ x: h.name, y: h.doctors })),
+    },
+    {
+      id: "nurses",
+      data: hospitals.map((h) => ({ x: h.name, y: h.nurses })),
+    },
+    {
+      id: "receptionists",
+      data: hospitals.map((h) => ({ x: h.name, y: h.receptionists })),
+    },
+    {
+      id: "patients",
+      data: hospitals.map((h) => ({ x: h.name, y: h.patients })),
+    },
+  ];
+
+  return (
+    <div className="container mx-auto p-6">
+      <h1 className="text-2xl font-bold mb-6">Hospital Reports Dashboard</h1>
+
+      <Select
+        label="Select a hospital"
+        placeholder="Choose a hospital"
+        className="max-w-xs mb-6"
+        onChange={handleSelectionChange}
+      >
+        {hospitals.map((hospital: Hospital) => (
+          <SelectItem key={hospital.id} value={hospital.id.toString()}>
+            {hospital.name}
+          </SelectItem>
+        ))}
+      </Select>
 
       {selectedHospital && (
         <>
-          <h2 className="text-2xl font-bold mb-4">
+          <h2 className="text-xl font-semibold mb-4">
             {selectedHospital.name} Report
           </h2>
-          {renderHospitalData(selectedHospital)}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+            <Card>
+              <CardHeader>Staff and Patient Distribution</CardHeader>
+              <CardBody className="h-80">
+                <ResponsivePie
+                  data={getPieChartData(selectedHospital)}
+                  margin={{ top: 40, right: 80, bottom: 80, left: 80 }}
+                  innerRadius={0.5}
+                  padAngle={0.7}
+                  cornerRadius={3}
+                  activeOuterRadiusOffset={8}
+                  borderWidth={1}
+                  borderColor={{ from: "color", modifiers: [["darker", 0.2]] }}
+                  arcLinkLabelsSkipAngle={10}
+                  arcLinkLabelsTextColor="#333333"
+                  arcLinkLabelsThickness={2}
+                  arcLinkLabelsColor={{ from: "color" }}
+                  arcLabelsSkipAngle={10}
+                  arcLabelsTextColor={{
+                    from: "color",
+                    modifiers: [["darker", 2]],
+                  }}
+                />
+              </CardBody>
+            </Card>
+            <Card>
+              <CardHeader>Hospital Statistics</CardHeader>
+              <CardBody>
+                <table className="w-full">
+                  <thead>
+                    <tr>
+                      <th className="text-left">Statistic</th>
+                      <th className="text-left">Value</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {Object.entries(selectedHospital).map(([key, value]) => {
+                      if (key !== "id" && key !== "name") {
+                        return (
+                          <tr key={key}>
+                            <td className="py-2">
+                              {key.charAt(0).toUpperCase() + key.slice(1)}
+                            </td>
+                            <td className="py-2">{value}</td>
+                          </tr>
+                        );
+                      }
+                      return null;
+                    })}
+                  </tbody>
+                </table>
+              </CardBody>
+            </Card>
+          </div>
         </>
       )}
 
-      <div className="mt-8">
-        <h2 className="text-2xl font-bold mb-4">Compare Hospitals</h2>
-        <div className="flex gap-4 mb-4">
-          <Select
-            label="Select another hospital to compare"
-            onChange={(e) => {
-              const selected = hospitals.find(
-                (h) => h.id === parseInt(e.target.value)
-              );
-              if (selected) setCompareHospital(selected);
+      <h2 className="text-xl font-semibold mb-4">All Hospitals Overview</h2>
+      <Card className="mb-6">
+        <CardHeader>Hospital Comparison</CardHeader>
+        <CardBody className="h-96">
+          <ResponsiveLine
+            data={getLineChartData()}
+            margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
+            xScale={{ type: "point" }}
+            yScale={{
+              type: "linear",
+              min: "auto",
+              max: "auto",
+              stacked: false,
+              reverse: false,
             }}
-          >
-            {hospitals
-              .filter((h) => h.id !== selectedHospital?.id)
-              .map((hospital) => (
-                <SelectItem key={hospital.id} value={hospital.id.toString()}>
-                  {hospital.name}
-                </SelectItem>
-              ))}
-          </Select>
-          <Button
-            onPress={() => setCompareHospital(null)}
-            isDisabled={!compareHospital}
-            variant="light"
-            className="bg-rose-50 text-rose-600 hover:bg-rose-100 rounded-full px-4 py-1 transition-colors duration-200"
-          >
-            Clear Comparison
-          </Button>
-        </div>
+            axisTop={null}
+            axisRight={null}
+            axisBottom={{
+              tickSize: 5,
+              tickPadding: 5,
+              tickRotation: 0,
+              legend: "Hospital",
+              legendOffset: 36,
+              legendPosition: "middle",
+            }}
+            axisLeft={{
+              tickSize: 5,
+              tickPadding: 5,
+              tickRotation: 0,
+              legend: "Count",
+              legendOffset: -40,
+              legendPosition: "middle",
+            }}
+            pointSize={10}
+            pointColor={{ theme: "background" }}
+            pointBorderWidth={2}
+            pointBorderColor={{ from: "serieColor" }}
+            pointLabelYOffset={-12}
+            useMesh={true}
+            legends={[
+              {
+                anchor: "bottom-right",
+                direction: "column",
+                justify: false,
+                translateX: 100,
+                translateY: 0,
+                itemsSpacing: 0,
+                itemDirection: "left-to-right",
+                itemWidth: 80,
+                itemHeight: 20,
+                itemOpacity: 0.75,
+                symbolSize: 12,
+                symbolShape: "circle",
+                symbolBorderColor: "rgba(0, 0, 0, .5)",
+                effects: [
+                  {
+                    on: "hover",
+                    style: {
+                      itemBackground: "rgba(0, 0, 0, .03)",
+                      itemOpacity: 1,
+                    },
+                  },
+                ],
+              },
+            ]}
+          />
+        </CardBody>
+      </Card>
 
-        {selectedHospital && compareHospital && (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div>
-              <h3 className="text-xl font-bold mb-2">
-                {selectedHospital.name}
-              </h3>
-              {renderHospitalData(selectedHospital)}
-            </div>
-            <div>
-              <h3 className="text-xl font-bold mb-2">{compareHospital.name}</h3>
-              {renderHospitalData(compareHospital)}
-            </div>
-          </div>
-        )}
-      </div>
-
-      <div className="mt-8">
-        <h2 className="text-2xl font-bold mb-4">All Hospitals Overview</h2>
-        <Table aria-label="Hospitals overview table">
-          <TableHeader>
-            <TableColumn>Name</TableColumn>
-            <TableColumn>Total Users</TableColumn>
-            <TableColumn>Doctors</TableColumn>
-            <TableColumn>Nurses</TableColumn>
-            <TableColumn>Patients</TableColumn>
-            <TableColumn>Occupancy Rate</TableColumn>
-          </TableHeader>
-          <TableBody>
-            {hospitals.map((hospital) => (
-              <TableRow key={hospital.id}>
-                <TableCell>{hospital.name}</TableCell>
-                <TableCell>{hospital.totalUsers}</TableCell>
-                <TableCell>{hospital.doctors}</TableCell>
-                <TableCell>{hospital.nurses}</TableCell>
-                <TableCell>{hospital.patients}</TableCell>
-                <TableCell>{hospital.occupancyRate}%</TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </div>
-
-      <Modal
-        isOpen={isAddHospitalOpen}
-        onOpenChange={setIsAddHospitalOpen}
-        placement="top-center"
-      >
-        <ModalContent>
-          <ModalHeader className="flex flex-col gap-1">
-            Add New Hospital
-          </ModalHeader>
-          <ModalBody>
-            <Input
-              label="Hospital Name"
-              value={newHospital.name}
-              onChange={(e) =>
-                setNewHospital({ ...newHospital, name: e.target.value })
-              }
-            />
-            <Input
-              label="Total Users"
-              type="number"
-              value={newHospital.totalUsers.toString()}
-              onChange={(e) =>
-                setNewHospital({
-                  ...newHospital,
-                  totalUsers: parseInt(e.target.value) || 0,
-                })
-              }
-            />
-            <Input
-              label="Doctors"
-              type="number"
-              value={newHospital.doctors.toString()}
-              onChange={(e) =>
-                setNewHospital({
-                  ...newHospital,
-                  doctors: parseInt(e.target.value) || 0,
-                })
-              }
-            />
-            <Input
-              label="Nurses"
-              type="number"
-              value={newHospital.nurses.toString()}
-              onChange={(e) =>
-                setNewHospital({
-                  ...newHospital,
-                  nurses: parseInt(e.target.value) || 0,
-                })
-              }
-            />
-            <Input
-              label="Receptionists"
-              type="number"
-              value={newHospital.receptionists.toString()}
-              onChange={(e) =>
-                setNewHospital({
-                  ...newHospital,
-                  receptionists: parseInt(e.target.value) || 0,
-                })
-              }
-            />
-            <Input
-              label="Patients"
-              type="number"
-              value={newHospital.patients.toString()}
-              onChange={(e) =>
-                setNewHospital({
-                  ...newHospital,
-                  patients: parseInt(e.target.value) || 0,
-                })
-              }
-            />
-            <Input
-              label="Beds"
-              type="number"
-              value={newHospital.beds.toString()}
-              onChange={(e) =>
-                setNewHospital({
-                  ...newHospital,
-                  beds: parseInt(e.target.value) || 0,
-                })
-              }
-            />
-            <Input
-              label="Occupancy Rate"
-              type="number"
-              value={newHospital.occupancyRate.toString()}
-              onChange={(e) =>
-                setNewHospital({
-                  ...newHospital,
-                  occupancyRate: parseFloat(e.target.value) || 0,
-                })
-              }
-            />
-          </ModalBody>
-          <ModalFooter>
-            <Button
-              color="danger"
-              variant="flat"
-              onPress={() => setIsAddHospitalOpen(false)}
-            >
-              Cancel
-            </Button>
-            <Button color="primary" onPress={handleAddHospital}>
-              Add Hospital
-            </Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
+      <Table aria-label="Hospitals overview table">
+        <TableHeader>
+          <TableColumn>NAME</TableColumn>
+          <TableColumn>TOTAL USERS</TableColumn>
+          <TableColumn>DOCTORS</TableColumn>
+          <TableColumn>RECEPTIONISTS</TableColumn>
+          <TableColumn>NURSES</TableColumn>
+          <TableColumn>PATIENTS</TableColumn>
+        </TableHeader>
+        <TableBody>
+          {hospitals.map((hospital: Hospital) => (
+            <TableRow key={hospital.id}>
+              <TableCell>{hospital.name}</TableCell>
+              <TableCell>{hospital.totalUsers}</TableCell>
+              <TableCell>{hospital.doctors}</TableCell>
+              <TableCell>{hospital.receptionists}</TableCell>
+              <TableCell>{hospital.nurses}</TableCell>
+              <TableCell>{hospital.patients}</TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
     </div>
   );
 };
