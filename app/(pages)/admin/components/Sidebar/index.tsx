@@ -4,13 +4,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { Image } from "@nextui-org/react";
 import { usePathname } from "next/navigation";
-import {
-  FiHome,
-  FiUserPlus,
-  FiBarChart2,
-  FiSettings,
-  FiHeart,
-} from "react-icons/fi";
+import { FiHome, FiUserPlus, FiSettings, FiHeart } from "react-icons/fi";
 import { TbCurrencyRupee } from "react-icons/tb";
 
 // Sidebar configuration
