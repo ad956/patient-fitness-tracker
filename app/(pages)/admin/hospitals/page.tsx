@@ -15,9 +15,10 @@ import {
   Card,
 } from "@nextui-org/react";
 import {
-  AiOutlineSearch as SearchIcon,
-  AiOutlineStop as BlockIcon,
-  AiOutlineTeam as UsersIcon,
+  AiOutlineFileDone,
+  AiOutlineSearch,
+  AiOutlineStop,
+  AiOutlineTeam,
 } from "react-icons/ai";
 import SpinnerLoader from "@components/SpinnerLoader";
 import Link from "next/link";
@@ -97,7 +98,7 @@ const HospitalManagement: React.FC = () => {
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
               setSearchTerm(e.target.value)
             }
-            startContent={<SearchIcon className="w-5 h-5 text-gray-400" />}
+            startContent={<AiOutlineSearch className="w-5 h-5 text-gray-400" />}
             className="rounded-full pl-10 pr-4 py-2 max-w-sm focus:outline-none focus:ring-2 focus:ring-purple-300"
           />
         </div>
@@ -149,15 +150,27 @@ const HospitalManagement: React.FC = () => {
                           href={`/admin/hospitals/${hospital.id}`}
                           size="sm"
                           variant="light"
-                          startContent={<UsersIcon className="w-4 h-4" />}
+                          startContent={<AiOutlineTeam className="w-4 h-4" />}
                           className="bg-blue-50 text-blue-600 hover:bg-blue-100 rounded-full px-4 py-1 transition-colors duration-200"
                         >
                           Manage Users
                         </Button>
                         <Button
+                          as={Link}
+                          href={`/admin/hospitals/report/${hospital.id}`}
                           size="sm"
                           variant="light"
-                          startContent={<BlockIcon className="w-4 h-4" />}
+                          startContent={
+                            <AiOutlineFileDone className="w-4 h-4" />
+                          }
+                          className="bg-amber-50 text-amber-600 hover:bg-amber-100 rounded-full px-4 py-1 transition-colors duration-200"
+                        >
+                          Reports
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant="light"
+                          startContent={<AiOutlineStop className="w-4 h-4" />}
                           onClick={() => handleBlockHospital(hospital.id)}
                           className="bg-red-50 text-red-600 hover:bg-red-100 rounded-full px-4 py-1 transition-colors duration-200"
                         >
