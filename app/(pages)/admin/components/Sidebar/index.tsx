@@ -19,7 +19,6 @@ const SidebarConfig = [
   { title: "Add Admin", uri: "add-admin", icon: <FiUserPlus /> },
   { title: "Transactions", uri: "transactions", icon: <TbCurrencyRupee /> },
   { title: "Hospitals", uri: "hospitals", icon: <FiHeart /> },
-  { title: "Reports", uri: "reports", icon: <FiBarChart2 /> },
   { title: "Settings", uri: "settings", icon: <FiSettings /> },
 ];
 
