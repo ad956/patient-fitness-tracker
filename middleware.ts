@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { updateSession } from "@sessions/sessionUtils";
 import {
+  handleApiRoute,
   handleExpiredSession,
   handlePrivateRoute,
   handlePublicRoute,
@@ -37,11 +38,16 @@ export async function middleware(request: NextRequest) {
     return handlePrivateRoute(request, token);
   }
 
+  // handle api routes
+  if (path.startsWith("/api")) {
+    return handleApiRoute(request);
+  }
+
   return NextResponse.next();
 }
 
 export const config = {
   matcher: [
-    "/((?!api|_next/static|_next/image|.*\\.png$|.*\\.svg$|.*\\.gif$|.*\\.ico$|.*\\.jpg$|.*\\.webp$|error).*)",
+    "/((?!_next/static|_next/image|.*\\.png$|.*\\.svg$|.*\\.gif$|.*\\.ico$|.*\\.jpg$|.*\\.webp$|error).*)",
   ],
 };

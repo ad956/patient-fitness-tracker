@@ -4,11 +4,16 @@ export type ActivityType =
   | "New Hospital Registered"
   | "New Receptionist Registered";
 
-export type TilesDataProp = {
-  newHospitals: string;
-  newPatients: string;
-  newDoctors: string;
-  newReceptionists: string;
+type StatisticTile = {
+  count: number;
+  change: number;
+};
+
+export type TilesDataType = {
+  newHospitals: StatisticTile;
+  newPatients: StatisticTile;
+  newDoctors: StatisticTile;
+  newReceptionists: StatisticTile;
 };
 
 export type RecentUser = {

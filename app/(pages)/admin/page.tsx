@@ -11,10 +11,10 @@ import {
   StatisticsCards,
   UserDistributionPie,
 } from "./components";
-import { PaginatedResponse, RecentUser, TilesDataProp } from "@pft-types/index";
+import { PaginatedResponse, RecentUser, TilesDataType } from "@pft-types/index";
 
 export default function Admin() {
-  const [tilesData, setTilesData] = useState<TilesDataProp | null>(null);
+  const [tilesData, setTilesData] = useState<TilesDataType | null>(null);
   const [recentUsers, setRecentUsers] = useState<RecentUser[]>([]);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
