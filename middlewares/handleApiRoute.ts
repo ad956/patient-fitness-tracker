@@ -52,3 +52,7 @@ export default async function handleApiRoute(request: NextRequest) {
     }
   }
 }
+
+export const config = {
+  matcher: ["/((?!api/login|api/signup|api/demouser).*)"],
+};
