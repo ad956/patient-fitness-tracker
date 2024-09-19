@@ -23,14 +23,17 @@ export async function middleware(request: NextRequest) {
   const path = request.nextUrl.pathname;
   const token = request.cookies.get(SESSION_COOKIE)?.value;
 
+  // update session
+  if (token) {
+    const sessionUpdated = await updateSession(request);
+    if (!sessionUpdated) {
+      return handleExpiredSession(request, SESSION_COOKIE, SESSION_EXPIRED_URL);
+    }
+  }
+
   // check if it's a public route
   if (PUBLIC_ROUTES.includes(path)) {
     return handlePublicRoute(request, token);
-  }
-
-  // update session for non-public routes
-  if (token && !(await updateSession(request))) {
-    return handleExpiredSession(request, SESSION_COOKIE, SESSION_EXPIRED_URL);
   }
 
   // handle private routes

@@ -3,6 +3,17 @@ import { decrypt } from "@sessions/sessionUtils";
 import { JWTExpired, JWTInvalid } from "jose/errors";
 
 export default async function handleApiRoute(request: NextRequest) {
+  const path = request.nextUrl.pathname;
+
+  if (
+    path === "/api/login" ||
+    path === "/api/signup" ||
+    path === "/api/demouser"
+  ) {
+    // skipping middleware
+    return NextResponse.next();
+  }
+
   const authHeader = request.headers.get("Authorization");
 
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
@@ -52,7 +63,3 @@ export default async function handleApiRoute(request: NextRequest) {
     }
   }
 }
-
-export const config = {
-  matcher: ["/((?!api/login|api/signup|api/demouser).*)"],
-};
