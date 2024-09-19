@@ -3,6 +3,9 @@ import { Hospital, Patient, Doctor, Receptionist } from "@models/index";
 
 export async function GET(request: Request) {
   try {
+    const role = request.headers.get("x-user-role");
+    const email = request.headers.get("x-user-email");
+
     await dbConfig();
 
     // start of the current month and the previous month
