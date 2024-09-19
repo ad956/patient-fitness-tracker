@@ -1,5 +1,5 @@
 import { SignJWT, jwtVerify } from "jose";
-import { JWTExpired } from "jose/errors";
+import { JWTExpired, JWTInvalid } from "jose/errors";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -28,11 +28,15 @@ export async function decrypt(input: string): Promise<any> {
     return payload;
   } catch (error) {
     if (error instanceof JWTExpired) {
-      console.error("Token has expired :", error.message);
-      return Response.json({ error: "Unauthorized" }, { status: 401 });
+      console.error("Token has expired:", error.message);
+      throw error;
+    }
+    if (error instanceof JWTInvalid) {
+      console.error("Invalid token:", error.message);
+      throw error;
     }
     console.error("Error decrypting session token:", error);
-    return null;
+    throw error;
   }
 }
 
