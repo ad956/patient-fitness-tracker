@@ -10,7 +10,7 @@ export async function encrypt(payload: any) {
   return await new SignJWT(payload)
     .setProtectedHeader({ alg: "HS256" })
     .setIssuedAt()
-    .setExpirationTime("60 minutes from now")
+    .setExpirationTime("30 seconds from now")
     .sign(key);
 }
 
@@ -67,17 +67,26 @@ export async function updateSession(request: NextRequest) {
   const session = request.cookies.get("session")?.value;
   if (!session) return;
 
-  // Refresh the session so it doesn't expire
-  const parsed = await decrypt(session);
-  const expires = new Date(Date.now() + 60 * 60 * 1000);
-  const res = NextResponse.next();
-  res.cookies.set({
-    name: "session",
-    value: await encrypt(parsed),
-    httpOnly: true,
-    expires,
-  });
-  return res;
+  try {
+    const parsed = await decrypt(session);
+
+    // refresh the session so it doesn't expire
+    const expires = new Date(Date.now() + 60 * 60 * 1000);
+    const newSession = await encrypt(parsed);
+
+    const response = NextResponse.next();
+
+    response.cookies.set({
+      name: "session",
+      value: newSession,
+      expires,
+      httpOnly: true,
+      path: "/",
+    });
+    return response;
+  } catch (error) {
+    throw error;
+  }
 }
 
 // Method to get token
