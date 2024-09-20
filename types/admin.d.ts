@@ -45,3 +45,37 @@ export type TransactionDetails = {
   status: "Success" | "Failed";
   date: string;
 };
+
+export interface HospitalDetails {
+  id: string;
+  profile: string;
+  name: string;
+  username: string;
+  contact: string;
+  city: string;
+  state: string;
+}
+
+export type HospitalUserDetails = HospitalDetails & {
+  role: string;
+  gender: string;
+};
+
+export type RecentUserTile = {
+  firstname: string;
+  createdAt: Date;
+  type: string;
+};
+
+export type FormattedRecentUser = {
+  title: string;
+  description: string;
+  timeSince: string;
+};
+
+export type RecentUserPaginatedResponse = {
+  users: FormattedUser[];
+  page: number;
+  totalPages: number;
+  totalItems: number;
+};
