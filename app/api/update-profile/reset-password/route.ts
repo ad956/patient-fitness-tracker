@@ -1,25 +1,21 @@
 import { dbConfig, getModelByRole } from "@utils/index";
-import { decrypt } from "@sessions/sessionUtils";
 import bcrypt from "bcrypt";
-
-type SecurityBody = {
-  currentPassword: string;
-  newPassword: string;
-};
+import { SecurityBody } from "@pft-types/index";
+import { Types } from "mongoose";
 
 export async function PUT(req: Request) {
-  await dbConfig();
-
-  const session = req.headers.get("Authorization");
-  if (!session) {
-    return Response.json({ error: "Unauthorized" }, { status: 401 });
-  }
-
   try {
-    const token = session.split("Bearer ")[1];
-    const decryptedUser = await decrypt(token);
-    const email = decryptedUser.user.email;
-    const userRole = decryptedUser.user.role;
+    const id = req.headers.get("x-user-id");
+    const role = req.headers.get("x-user-role");
+
+    if (!id || !role) {
+      return Response.json(
+        { error: "Missing user ID or role" },
+        { status: 400 }
+      );
+    }
+
+    const user_id = new Types.ObjectId(id);
 
     const { currentPassword, newPassword }: SecurityBody = await req.json();
 
@@ -30,9 +26,11 @@ export async function PUT(req: Request) {
       );
     }
 
-    let UserModel = getModelByRole(userRole);
+    await dbConfig();
 
-    const user = await UserModel.findOne({ email });
+    let UserModel = getModelByRole(role);
+
+    const user = await UserModel.findById(user_id);
 
     if (!user) {
       return Response.json({ error: "User not found" }, { status: 404 });
@@ -52,8 +50,8 @@ export async function PUT(req: Request) {
 
     const hashedNewPassword = await hashPassword(newPassword);
 
-    const updatedUser = await UserModel.findOneAndUpdate(
-      { email },
+    const updatedUser = await UserModel.findByIdAndUpdate(
+      user_id,
       { $set: { password: hashedNewPassword } },
       { new: true }
     );

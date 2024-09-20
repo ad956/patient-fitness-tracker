@@ -1,31 +1,24 @@
 import { dbConfig, getModelByRole } from "@utils/index";
-import { decrypt } from "@sessions/sessionUtils";
-
-type PersonalInfoBody = {
-  firstname?: string;
-  lastname?: string;
-  username?: string;
-  email?: string;
-  dob?: string;
-  gender?: string;
-  contact?: string;
-};
+import { PersonalInfoBody } from "@pft-types/index";
+import { Types } from "mongoose";
 
 export async function PUT(req: Request) {
-  await dbConfig();
-
-  const session = req.headers.get("Authorization");
-  if (!session) {
-    return Response.json({ error: "Unauthorized" }, { status: 401 });
-  }
-
   try {
-    const token = session.split("Bearer ")[1];
-    const decryptedUser = await decrypt(token);
-    const currentEmail = decryptedUser.user.email;
-    const userRole = decryptedUser.user.role;
+    const id = req.headers.get("x-user-id");
+    const role = req.headers.get("x-user-role");
+
+    if (!id || !role) {
+      return Response.json(
+        { error: "Missing user ID or role" },
+        { status: 400 }
+      );
+    }
+
+    const user_id = new Types.ObjectId(id);
 
     const updateData: PersonalInfoBody = await req.json();
+
+    await dbConfig();
 
     // remove undefined fields
     Object.keys(updateData).forEach((key) => {
@@ -34,13 +27,13 @@ export async function PUT(req: Request) {
       }
     });
 
-    let UserModel = getModelByRole(userRole);
+    let UserModel = getModelByRole(role);
 
     // check for uniqueness of username, email, and contact
     if (updateData.username) {
       const existingUsername = await UserModel.findOne({
         username: updateData.username,
-        email: { $ne: currentEmail },
+        _id: { $ne: user_id },
       });
       if (existingUsername) {
         return Response.json(
@@ -54,7 +47,7 @@ export async function PUT(req: Request) {
       const existingEmail = await UserModel.findOne({
         email: updateData.email,
         _id: {
-          $ne: await UserModel.findOne({ email: currentEmail }).select("_id"),
+          $ne: user_id,
         },
       });
       if (existingEmail) {
@@ -68,7 +61,7 @@ export async function PUT(req: Request) {
     if (updateData.contact) {
       const existingContact = await UserModel.findOne({
         contact: updateData.contact,
-        email: { $ne: currentEmail },
+        _id: { $ne: user_id },
       });
       if (existingContact) {
         return Response.json(
@@ -79,14 +72,14 @@ export async function PUT(req: Request) {
     }
 
     //  update the user
-    const updatedUser = await UserModel.findOneAndUpdate(
-      { email: currentEmail },
+    const updatedUser = await UserModel.findByIdAndUpdate(
+      user_id,
       { $set: updateData },
       { new: true }
     );
 
     if (!updatedUser) {
-      return Response.json({ error: `${userRole} not found` }, { status: 404 });
+      return Response.json({ error: `${role} not found` }, { status: 404 });
     }
 
     return Response.json(

@@ -1,30 +1,25 @@
+import { AddressBody } from "@pft-types/index";
 import { dbConfig, getModelByRole } from "@utils/index";
-import { decrypt } from "@sessions/sessionUtils";
-
-type AddressBody = {
-  address_line_1?: string;
-  address_line_2?: string;
-  city?: string;
-  state?: string;
-  zip_code?: string;
-  country?: string;
-};
+import { Types } from "mongoose";
 
 export async function PUT(req: Request) {
-  await dbConfig();
-
-  const session = req.headers.get("Authorization");
-  if (!session) {
-    return Response.json({ error: "Unauthorized" }, { status: 401 });
-  }
-
   try {
-    const token = session.split("Bearer ")[1];
-    const decryptedUser = await decrypt(token);
-    const email = decryptedUser.user.email;
-    const userRole = decryptedUser.user.role;
+    const id = req.headers.get("x-user-id");
+    const role = req.headers.get("x-user-role");
+
+    if (!id || !role) {
+      return Response.json(
+        { error: "Missing user ID or role" },
+        { status: 400 }
+      );
+    }
+
+    // any user of system
+    const user_id = new Types.ObjectId(id);
 
     const addressData: AddressBody = await req.json();
+
+    await dbConfig();
 
     // removing undefined fields
     Object.keys(addressData).forEach((key) => {
@@ -33,12 +28,12 @@ export async function PUT(req: Request) {
       }
     });
 
-    let UserModel = getModelByRole(userRole);
+    let UserModel = getModelByRole(role);
 
-    const user = await UserModel.findOne({ email });
+    const user = await UserModel.findById(user_id);
 
     if (!user) {
-      return Response.json({ error: `${userRole} not found` }, { status: 404 });
+      return Response.json({ error: `${role} not found` }, { status: 404 });
     }
 
     const updatedAddress = {

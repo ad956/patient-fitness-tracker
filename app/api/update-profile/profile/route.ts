@@ -1,28 +1,29 @@
 import { dbConfig, getModelByRole } from "@utils/index";
-import { decrypt } from "@sessions/sessionUtils";
+import { Types } from "mongoose";
 
 export async function PUT(request: Request) {
-  const session = request.headers.get("Authorization");
-  if (!session) {
-    return Response.json({ error: "Unauthorized" }, { status: 401 });
-  }
-
-  const profile_pic = await request.json();
-
   try {
-    const token = session.split("Bearer ")[1];
-    const decryptedUser = await decrypt(token);
-    const patient_email = decryptedUser.user.email;
-    const userRole = decryptedUser.user.role;
+    const profile_pic = await request.json();
+
+    const id = request.headers.get("x-user-id");
+    const role = request.headers.get("x-user-role");
+
+    if (!id || !role) {
+      return Response.json(
+        { error: "Missing user ID or role" },
+        { status: 400 }
+      );
+    }
+
+    const user_id = new Types.ObjectId(id);
 
     await dbConfig();
 
-    let UserModel = getModelByRole(userRole);
+    let UserModel = getModelByRole(role);
 
-    const result = await UserModel.updateOne(
-      { email: patient_email },
-      { $set: { profile: profile_pic } }
-    );
+    const result = await UserModel.findByIdAndUpdate(user_id, {
+      $set: { profile: profile_pic },
+    });
 
     if (!result) {
       return Response.json({ error: "Error updating profile picture" });
