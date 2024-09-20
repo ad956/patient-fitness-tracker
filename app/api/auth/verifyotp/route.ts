@@ -56,7 +56,7 @@ async function checkOTP(body: bodyType, req: Request) {
         { username: body.usernameOrEmail },
       ],
     },
-    { _id: 0, username: 1, firstname: 1, lastname: 1, otp: 1, email: 1 }
+    { _id: 1, username: 1, firstname: 1, lastname: 1, otp: 1, email: 1 }
   );
 
   if (!user || user.otp !== body.otp)
@@ -65,7 +65,7 @@ async function checkOTP(body: bodyType, req: Request) {
   await UserModel.updateOne({ email: user.email }, { $set: { otp: "" } });
 
   // setting session for user (stores jwt token in cookie named session)
-  await setSession(user.email, body.role);
+  await setSession(user._id, body.role);
 
   const userlog = {
     username: user.username,
