@@ -2,15 +2,13 @@ import { NextRequest, NextResponse } from "next/server";
 import { decrypt } from "@sessions/sessionUtils";
 import { JWTExpired, JWTInvalid } from "jose/errors";
 
+const SKIP_PATHS = ["/api/auth", "/api/demouser"];
+
 export default async function handleApiRoute(request: NextRequest) {
   const path = request.nextUrl.pathname;
 
-  if (
-    path === "/api/login" ||
-    path === "/api/signup" ||
-    path === "/api/demouser"
-  ) {
-    // skipping middleware
+  // skipping middleware
+  if (SKIP_PATHS.includes(path)) {
     return NextResponse.next();
   }
 
