@@ -1,17 +1,20 @@
 import dbConfig from "@utils/db";
-import { decrypt } from "@sessions/sessionUtils";
 import Receptionist from "@models/receptionist";
+import { Types } from "mongoose";
 
 export async function GET(request: Request) {
-  const session = request.headers.get("Authorization");
-  if (!session) {
-    return Response.json({ error: "Unauthorized" }, { status: 401 });
-  }
-
   try {
-    const token = session.split("Bearer ")[1];
-    const decryptedUser = await decrypt(token);
-    const email = decryptedUser.user.email;
+    const id = request.headers.get("x-user-id");
+    const role = request.headers.get("x-user-role");
+
+    if (!id || !role) {
+      return Response.json(
+        { error: "Missing user ID or role" },
+        { status: 400 }
+      );
+    }
+
+    const receptionist_id = new Types.ObjectId(id);
 
     await dbConfig();
 
@@ -22,10 +25,9 @@ export async function GET(request: Request) {
       current_hospital: 0,
     };
 
-    const receptionistData = await Receptionist.findOne(
-      { email },
-      { projection }
-    );
+    const receptionistData = await Receptionist.findById(receptionist_id, {
+      projection,
+    });
     if (!receptionistData) {
       return Response.json(
         { error: "receptionist not found" },

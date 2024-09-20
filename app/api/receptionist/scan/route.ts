@@ -15,9 +15,12 @@ export async function POST(req: Request) {
     const patient = await Patient.findOne({ email });
 
     if (!patient) {
-      return new Response(JSON.stringify({ error: "Patient not found" }), {
-        status: 404,
-      });
+      return Response.json(
+        { error: "Patient not found" },
+        {
+          status: 404,
+        }
+      );
     }
 
     const appointment = await BookedAppointment.findOne({
@@ -36,14 +39,17 @@ export async function POST(req: Request) {
 
     // await waitingCollection.insertOne({ patientId });
 
-    return new Response(
-      JSON.stringify({ message: "Successfully scanned QR" }),
+    return Response.json(
+      { message: "Successfully scanned QR" },
       { status: 201 }
     );
   } catch (error) {
     console.error("Error scanning patient qr code:", error);
-    return new Response(JSON.stringify({ error: "Internal Server Error" }), {
-      status: 500,
-    });
+    return Response.json(
+      { error: "Internal Server Error" },
+      {
+        status: 500,
+      }
+    );
   }
 }
