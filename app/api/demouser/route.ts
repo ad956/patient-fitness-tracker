@@ -51,7 +51,7 @@ export async function POST(req: Request) {
     }
 
     // setting session for demouser (stores jwt token in cookie named session)
-    await setSession(userData.email, role);
+    await setSession(userData._id, role);
 
     const userLog = {
       username: userData.username,
