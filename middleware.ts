@@ -25,8 +25,9 @@ export async function middleware(request: NextRequest) {
 
   // update session
   if (token) {
-    const sessionUpdated = await updateSession(request);
-    if (!sessionUpdated) {
+    try {
+      await updateSession(request);
+    } catch (error) {
       return handleExpiredSession(request, SESSION_COOKIE, SESSION_EXPIRED_URL);
     }
   }
