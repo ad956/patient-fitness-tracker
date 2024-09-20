@@ -36,7 +36,7 @@ export default async function handleApiRoute(request: NextRequest) {
     // attach user info to the request
     const requestHeaders = new Headers(request.headers);
     requestHeaders.set("x-user-role", userRole);
-    requestHeaders.set("x-user-email", decryptedToken.user.email);
+    requestHeaders.set("x-user-id", decryptedToken.user.id);
 
     return NextResponse.next({
       request: {
