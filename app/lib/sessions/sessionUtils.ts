@@ -40,8 +40,8 @@ export async function decrypt(input: string): Promise<any> {
   }
 }
 
-export async function setSession(email: string, role: string) {
-  const user = { email, role };
+export async function setSession(id: string, role: string) {
+  const user = { id, role };
 
   // Create the session
   const expires = new Date(Date.now() + 60 * 60 * 1000);
