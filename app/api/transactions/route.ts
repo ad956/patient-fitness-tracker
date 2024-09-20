@@ -5,11 +5,6 @@ import { Types } from "mongoose";
 
 // saving transaction details in db
 export async function POST(req: Request) {
-  const session = req.headers.get("Authorization");
-  if (!session) {
-    return Response.json({ error: "Unauthorized" }, { status: 401 });
-  }
-
   try {
     const {
       transaction_id,
@@ -20,6 +15,16 @@ export async function POST(req: Request) {
       amount,
       status,
     }: TransactionType = await req.json();
+
+    const id = req.headers.get("x-user-id");
+    const role = req.headers.get("x-user-role");
+
+    if (!id || !role) {
+      return Response.json(
+        { error: "Missing user ID or role" },
+        { status: 400 }
+      );
+    }
 
     await dbConfig();
 
