@@ -1,30 +1,31 @@
 "use client";
+
 import React, { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Image } from "@nextui-org/react";
 
-export default function ErrorPage() {
+export default function SessionExpired() {
   const router = useRouter();
-
+  const searchParams = useSearchParams();
   const [secondsRemaining, setSecondsRemaining] = useState(5);
+  const role = searchParams.get("role");
 
   useEffect(() => {
-    const redirectTimer = setTimeout(() => {
-      router.push("/login");
-    }, secondsRemaining * 1000);
+    if (secondsRemaining <= 0) {
+      redirectToLogin();
+      return;
+    }
 
     const timerInterval = setInterval(() => {
-      setSecondsRemaining((prevSeconds) => prevSeconds - 1);
+      setSecondsRemaining((prevSeconds) => Math.max(prevSeconds - 1, 0));
     }, 1000);
 
-    return () => {
-      clearTimeout(redirectTimer);
-      clearInterval(timerInterval);
-    };
-  }, [router, secondsRemaining]);
+    return () => clearInterval(timerInterval);
+  }, [secondsRemaining, role]);
 
   const redirectToLogin = () => {
-    router.push("/login");
+    const loginPath = role === "admin" ? "/admin-login" : "/login";
+    router.push(loginPath);
   };
 
   return (
@@ -37,13 +38,22 @@ export default function ErrorPage() {
         />
       </div>
       <div className="absolute bottom-0 left-0 right-0 text-center p-8 z-10">
-        <p className="text-lg text-gray-600">SESSION_EXPIRED.</p>
+        <p className="text-lg text-gray-600">SESSION EXPIRED</p>
         <p className="mt-4 text-lg text-gray-700 font-bold py-2 px-4 rounded">
-          You will be redirected to the login page in {secondsRemaining}{" "}
-          seconds.{" "}
-          <span className="cursor-pointer" onClick={redirectToLogin}>
+          {secondsRemaining > 0 ? (
+            <>
+              You will be redirected to the login page in {secondsRemaining}{" "}
+              second{secondsRemaining !== 1 ? "s" : ""}.{" "}
+            </>
+          ) : (
+            "Redirecting to login page... "
+          )}
+          <button
+            onClick={redirectToLogin}
+            className="cursor-pointer underline bg-transparent border-none text-inherit font-inherit"
+          >
             Click here
-          </span>{" "}
+          </button>{" "}
           if not redirected.
         </p>
       </div>

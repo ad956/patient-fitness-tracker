@@ -28,7 +28,13 @@ export async function middleware(request: NextRequest) {
     try {
       await updateSession(request);
     } catch (error) {
-      return handleExpiredSession(request, SESSION_COOKIE, SESSION_EXPIRED_URL);
+      const USER_ROLE = path.split("/")[1];
+
+      return handleExpiredSession(
+        request,
+        SESSION_COOKIE,
+        `${SESSION_EXPIRED_URL}?role=${USER_ROLE}`
+      );
     }
   }
 
