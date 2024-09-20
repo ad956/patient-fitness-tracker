@@ -8,7 +8,7 @@ export default async function handleApiRoute(request: NextRequest) {
   const path = request.nextUrl.pathname;
 
   // skipping middleware
-  if (SKIP_PATHS.includes(path)) {
+  if (SKIP_PATHS.some((skipPath) => path.startsWith(skipPath))) {
     return NextResponse.next();
   }
 
