@@ -1,36 +1,37 @@
 import { dbConfig } from "@utils/index";
-import { bookingAppointment } from "@pft-types/index";
-import { decrypt } from "@sessions/sessionUtils";
 import { Types } from "mongoose";
 import sendEmail from "@lib/sendemail";
 import { render } from "@react-email/render";
 import { AppointmentBookedTemplate } from "@lib/emails/templates";
 import sendNotification from "@lib/novu";
 import { Patient, BookedAppointment, Doctor } from "@models/index";
-
-type BookingAppointmentType = bookingAppointment & {
-  transaction_id: string | null;
-  appointment_charge: string;
-};
+import { BookingAppointmentType } from "@pft-types/patient";
 
 // getting patients approved appointments
 export async function GET(request: Request) {
-  const session = request.headers.get("Authorization");
-  if (!session) {
-    return Response.json({ error: "Unauthorized" }, { status: 401 });
-  }
   try {
-    const token = session.split("Bearer ")[1];
-    const decryptedUser = await decrypt(token);
-    const email = decryptedUser.user.email;
+    const id = request.headers.get("x-user-id");
+    const role = request.headers.get("x-user-role");
+
+    if (!id || !role) {
+      return Response.json(
+        { error: "Missing user ID or role" },
+        { status: 400 }
+      );
+    }
+
+    const patient_id = new Types.ObjectId(id);
 
     await dbConfig();
-    const patient = await Patient.findOne({ email });
+    const patient = await Patient.findById(patient_id);
 
     if (!patient) {
-      return new Response(JSON.stringify({ error: "Patient not found" }), {
-        status: 404,
-      });
+      return Response.json(
+        { error: "Patient not found" },
+        {
+          status: 404,
+        }
+      );
     }
 
     let appointments = await BookedAppointment.find({
@@ -61,24 +62,22 @@ export async function GET(request: Request) {
       return appointmentObj;
     });
 
-    return new Response(JSON.stringify(updatedAppointments), {
+    return Response.json(updatedAppointments, {
       status: 200,
     });
   } catch (error) {
     console.error("Error getting appointments:", error);
-    return new Response(JSON.stringify({ error: "Internal Server Error" }), {
-      status: 500,
-    });
+    return Response.json(
+      { error: "Internal Server Error" },
+      {
+        status: 500,
+      }
+    );
   }
 }
 
 // booking an appointment
 export async function POST(req: Request) {
-  const session = req.headers.get("Authorization");
-  if (!session) {
-    return Response.json({ error: "Unauthorized" }, { status: 401 });
-  }
-
   try {
     const {
       state,
@@ -90,13 +89,21 @@ export async function POST(req: Request) {
       appointment_charge,
     }: BookingAppointmentType = await req.json();
 
-    const token = session.split("Bearer ")[1];
-    const decryptedUser = await decrypt(token);
-    const email = decryptedUser.user.email;
+    const id = req.headers.get("x-user-id");
+    const role = req.headers.get("x-user-role");
+
+    if (!id || !role) {
+      return Response.json(
+        { error: "Missing user ID or role" },
+        { status: 400 }
+      );
+    }
+
+    const patient_id = new Types.ObjectId(id);
 
     await dbConfig();
 
-    const patient = await Patient.findOne({ email });
+    const patient = await Patient.findById(patient_id);
 
     if (!patient) {
       return Response.json({ error: "Patient not found" }, { status: 404 });
@@ -136,12 +143,12 @@ export async function POST(req: Request) {
 
     // sending email to patient confirming request
     await sendEmail({
-      to: email || "yourmail@example.com",
+      to: patient.email || "yourmail@example.com",
       subject: `Your Appointment Request Has Been Received`,
       html: render(
         AppointmentBookedTemplate({
           name: `${patient.firstname} ${patient.lastname}`,
-          email,
+          email: patient.email,
           bookedAppointmentData,
           transaction_id,
           appointment_charge,

@@ -1,17 +1,21 @@
 import { Patient, Doctor, MedicalHistory, Hospital } from "@models/index";
-import { decrypt } from "@sessions/sessionUtils";
+import { Types } from "mongoose";
 
 export async function GET(request: Request) {
-  const session = request.headers.get("Authorization");
-  if (!session) {
-    return Response.json({ error: "Unauthorized" }, { status: 401 });
-  }
   try {
-    const token = session.split("Bearer ")[1];
-    const decryptedUser = await decrypt(token);
-    const email = decryptedUser.user.email;
+    const id = request.headers.get("x-user-id");
+    const role = request.headers.get("x-user-role");
 
-    const patient = await Patient.findOne({ email }, { _id: 1 }).exec();
+    if (!id || !role) {
+      return Response.json(
+        { error: "Missing user ID or role" },
+        { status: 400 }
+      );
+    }
+
+    const patient_id = new Types.ObjectId(id);
+
+    const patient = await Patient.findById(patient_id, { _id: 1 }).exec();
     if (!patient) {
       return Response.json({ error: "Patient not found" }, { status: 404 });
     }

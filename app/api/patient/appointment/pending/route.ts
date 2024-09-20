@@ -1,24 +1,26 @@
 import dbConfig from "@utils/db";
-import { decrypt } from "@sessions/sessionUtils";
 import { Patient, BookedAppointment } from "@models/index";
 import { Types } from "mongoose";
 
 export async function POST(req: Request) {
-  const session = req.headers.get("Authorization");
-  if (!session) {
-    return Response.json({ error: "Unauthorized" }, { status: 401 });
-  }
-
   try {
     const { hospital_id }: { hospital_id: string } = await req.json();
 
-    const token = session.split("Bearer ")[1];
-    const decryptedUser = await decrypt(token);
-    const email = decryptedUser.user.email;
+    const id = req.headers.get("x-user-id");
+    const role = req.headers.get("x-user-role");
+
+    if (!id || !role) {
+      return Response.json(
+        { error: "Missing user ID or role" },
+        { status: 400 }
+      );
+    }
+
+    const patient_id = new Types.ObjectId(id);
 
     await dbConfig();
 
-    const patient = await Patient.findOne({ email });
+    const patient = await Patient.findById(patient_id);
 
     if (!patient) {
       return Response.json({ error: "Patient not found" }, { status: 404 });
