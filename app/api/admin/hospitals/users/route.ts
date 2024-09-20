@@ -1,42 +1,21 @@
 import dbConfig from "@utils/db";
-import { decrypt } from "@sessions/sessionUtils";
 import { Patient, Receptionist, Hospital, Doctor } from "@models/index";
-import { ObjectId } from "mongodb";
-
-export interface UserDetails {
-  id: string;
-  profile: string;
-  name: string;
-  role: string;
-  username: string;
-  gender: string;
-  contact: string;
-  city: string;
-  state: string;
-}
+import { HospitalUserDetails } from "@pft-types/admin";
+import { Types } from "mongoose";
 
 export async function GET(request: Request) {
-  const session = request.headers.get("Authorization");
-  if (!session) {
-    return Response.json({ error: "Unauthorized" }, { status: 401 });
-  }
-
   try {
-    const token = session.split("Bearer ")[1];
-    const decryptedUser = await decrypt(token);
-    const role = decryptedUser.user.role;
+    const id = request.headers.get("x-user-id");
+    const role = request.headers.get("x-user-role");
 
-    await dbConfig();
-
-    if (role !== "admin") {
+    if (!id || !role) {
       return Response.json(
-        {
-          error:
-            "Forbidden: You do not have the necessary permissions to access this resource.",
-        },
-        { status: 403 }
+        { error: "Missing user ID or role" },
+        { status: 400 }
       );
     }
+
+    await dbConfig();
 
     // parse query parameters for pagination
     const url = new URL(request.url);
@@ -54,7 +33,7 @@ export async function GET(request: Request) {
     }
 
     // Convert hospitalId to ObjectId
-    const hospitalObjectId = new ObjectId(hospitalId);
+    const hospitalObjectId = new Types.ObjectId(hospitalId);
 
     // Count total users before applying skip and limit
     const [patientCount, receptionistCount, doctorCount] = await Promise.all([
@@ -65,7 +44,7 @@ export async function GET(request: Request) {
 
     const totalUsers = patientCount + receptionistCount + doctorCount;
 
-    let userDetails: UserDetails[] = [];
+    let userDetails: HospitalUserDetails[] = [];
 
     if (skip < totalUsers) {
       // base aggregation pipeline

@@ -3,8 +3,15 @@ import { Hospital, Patient, Doctor, Receptionist } from "@models/index";
 
 export async function GET(request: Request) {
   try {
+    const id = request.headers.get("x-user-id");
     const role = request.headers.get("x-user-role");
-    const email = request.headers.get("x-user-email");
+
+    if (!id || !role) {
+      return Response.json(
+        { error: "Missing user ID or role" },
+        { status: 400 }
+      );
+    }
 
     await dbConfig();
 

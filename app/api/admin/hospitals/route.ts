@@ -1,37 +1,21 @@
 import dbConfig from "@utils/db";
-import { decrypt } from "@sessions/sessionUtils";
 import Hospital from "@models/hospital";
-
-export interface HospitalDetails {
-  id: string;
-  profile: string;
-  name: string;
-  username: string;
-  contact: string;
-  city: string;
-  state: string;
-}
+import { HospitalDetails } from "@pft-types/admin";
+import { Types } from "mongoose";
 
 export async function GET(request: Request) {
-  const session = request.headers.get("Authorization");
-  if (!session) {
-    return Response.json({ error: "Unauthorized" }, { status: 401 });
-  }
-
   try {
-    const token = session.split("Bearer ")[1];
-    const decryptedUser = await decrypt(token);
-    const role = decryptedUser.user.role;
+    const id = request.headers.get("x-user-id");
+    const role = request.headers.get("x-user-role");
 
-    if (role !== "admin") {
+    if (!id || !role) {
       return Response.json(
-        {
-          error:
-            "Forbidden: You do not have the necessary permissions to access this resource.",
-        },
-        { status: 403 }
+        { error: "Missing user ID or role" },
+        { status: 400 }
       );
     }
+
+    const admin_id = new Types.ObjectId(id);
 
     await dbConfig();
 

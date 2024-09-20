@@ -1,27 +1,19 @@
 import dbConfig from "@utils/db";
-import { decrypt } from "@sessions/sessionUtils";
 import mongoose from "mongoose";
-
-interface User {
-  firstname: string;
-  createdAt: Date;
-  type: string;
-}
-
-interface FormattedUser {
-  title: string;
-  description: string;
-  timeSince: string;
-}
-
-interface PaginatedResponse {
-  users: FormattedUser[];
-  page: number;
-  totalPages: number;
-  totalItems: number;
-}
+import {
+  FormattedRecentUser,
+  RecentUserTile,
+  RecentUserPaginatedResponse,
+} from "@pft-types/admin";
 
 export async function GET(request: Request): Promise<Response> {
+  const id = request.headers.get("x-user-id");
+  const role = request.headers.get("x-user-role");
+
+  if (!id || !role) {
+    return Response.json({ error: "Missing user ID or role" }, { status: 400 });
+  }
+
   const url = new URL(request.url);
   const page = parseInt(url.searchParams.get("page") || "1");
   const limit = parseInt(url.searchParams.get("limit") || "10");
@@ -33,12 +25,12 @@ export async function GET(request: Request): Promise<Response> {
     oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
 
     const collections = ["hospital", "patient", "doctor", "receptionist"];
-    let allNewUsers: User[] = [];
+    let allNewUsers: RecentUserTile[] = [];
 
     for (const collection of collections) {
       const users = await mongoose.connection.db
         .collection(collection)
-        .find<User>(
+        .find<RecentUserTile>(
           { createdAt: { $gte: oneMonthAgo } },
           {
             projection: {
@@ -60,7 +52,7 @@ export async function GET(request: Request): Promise<Response> {
     const totalPages = Math.ceil(totalItems / limit);
     const skip = (page - 1) * limit;
 
-    const paginatedUsers: FormattedUser[] = allNewUsers
+    const paginatedUsers: FormattedRecentUser[] = allNewUsers
       .slice(skip, skip + limit)
       .map((user) => {
         const timeSince = getTimeSince(user.createdAt);
@@ -77,7 +69,7 @@ export async function GET(request: Request): Promise<Response> {
         };
       });
 
-    const response: PaginatedResponse = {
+    const response: RecentUserPaginatedResponse = {
       users: paginatedUsers,
       page,
       totalPages,

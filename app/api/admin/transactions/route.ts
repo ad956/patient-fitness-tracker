@@ -1,22 +1,24 @@
 import dbConfig from "@utils/db";
-import { decrypt } from "@sessions/sessionUtils";
 import { Admin, Hospital, Patient, Transaction } from "@models/index";
 import { TransactionDetails } from "@pft-types/index";
+import { Types } from "mongoose";
 
 export async function GET(request: Request) {
-  const session = request.headers.get("Authorization");
-  if (!session) {
-    return Response.json({ error: "Unauthorized" }, { status: 401 });
-  }
-
   try {
-    const token = session.split("Bearer ")[1];
-    const decryptedUser = await decrypt(token);
-    const email = decryptedUser.user.email;
+    const id = request.headers.get("x-user-id");
+    const role = request.headers.get("x-user-role");
+
+    if (!id || !role) {
+      return Response.json(
+        { error: "Missing user ID or role" },
+        { status: 400 }
+      );
+    }
 
     await dbConfig();
 
-    const adminData = await Admin.findOne({ email });
+    const admin_id = new Types.ObjectId(id);
+    const adminData = await Admin.findById(admin_id);
 
     if (!adminData) {
       return Response.json({ error: "Admin not found" }, { status: 404 });

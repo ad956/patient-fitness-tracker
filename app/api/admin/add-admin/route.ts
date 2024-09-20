@@ -1,38 +1,23 @@
 import dbConfig from "@utils/db";
-import { decrypt } from "@sessions/sessionUtils";
 import Admin from "@models/admin";
-import hashPassword from "@/utils/hashPassword";
+import hashPassword from "@utils/hashPassword";
 import { NewAdminTemplate } from "@lib/emails/templates";
 import { render } from "@react-email/render";
 import sendEmail from "@lib/sendemail";
 
 export async function POST(request: Request) {
-  const session = request.headers.get("Authorization");
-  if (!session) {
-    return Response.json({ error: "Unauthorized" }, { status: 401 });
-  }
-
   try {
-    const token = session.split("Bearer ")[1];
-    const decryptedUser = await decrypt(token);
-    const adminEmail = decryptedUser.user.email;
-    const sessionRole = decryptedUser.user.role;
+    const id = request.headers.get("x-user-id");
+    const role = request.headers.get("x-user-role");
 
-    await dbConfig();
-
-    // verify if requester is an admin
-    const requestingUser = await Admin.findOne({ email: adminEmail });
-
-    if (
-      !requestingUser ||
-      requestingUser.role !== "admin" ||
-      sessionRole !== "admin"
-    ) {
+    if (!id || !role) {
       return Response.json(
-        { error: "Unauthorized. Admin privileges required." },
-        { status: 403 }
+        { error: "Missing user ID or role" },
+        { status: 400 }
       );
     }
+
+    await dbConfig();
 
     const formData = await request.json();
     const { firstname, lastname, email, password } = formData;
