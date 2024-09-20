@@ -84,3 +84,8 @@ export interface Transaction {
   amount: string;
   status: string;
 }
+
+export type BookingAppointmentType = bookingAppointment & {
+  transaction_id: string | null;
+  appointment_charge: string;
+};

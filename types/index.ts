@@ -62,6 +62,30 @@ export type PatientDetails = User & {
   timing: string; // createdAt
 };
 
+export type PersonalInfoBody = {
+  firstname?: string;
+  lastname?: string;
+  username?: string;
+  email?: string;
+  dob?: string;
+  gender?: string;
+  contact?: string;
+};
+
+export type AddressBody = {
+  address_line_1?: string;
+  address_line_2?: string;
+  city?: string;
+  state?: string;
+  zip_code?: string;
+  country?: string;
+};
+
+export type SecurityBody = {
+  currentPassword: string;
+  newPassword: string;
+};
+
 export * from "./admin";
 export * from "./patient";
 // export * from "./receptionist";
