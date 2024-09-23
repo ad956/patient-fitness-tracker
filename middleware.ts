@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { updateSession } from "@sessions/sessionUtils";
 import {
-  handleApiRoute,
   handleExpiredSession,
   handlePrivateRoute,
   handlePublicRoute,
@@ -46,11 +45,6 @@ export async function middleware(request: NextRequest) {
   // handle private routes
   if (PRIVATE_ROUTES.includes(`/${path.split("/")[1]}`)) {
     return handlePrivateRoute(request, token);
-  }
-
-  // handle api routes
-  if (path.startsWith("/api")) {
-    return handleApiRoute(request);
   }
 
   return NextResponse.next();
