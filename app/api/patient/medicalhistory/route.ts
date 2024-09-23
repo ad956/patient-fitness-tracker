@@ -1,5 +1,7 @@
-import { Patient, Doctor, MedicalHistory, Hospital } from "@models/index";
+import { Patient, MedicalHistory } from "@models/index";
 import { Types } from "mongoose";
+import { dbConfig, errorHandler, STATUS_CODES } from "@utils/index";
+import { NextResponse } from "next/server";
 
 export async function GET(request: Request) {
   try {
@@ -7,17 +9,18 @@ export async function GET(request: Request) {
     const role = request.headers.get("x-user-role");
 
     if (!id || !role) {
-      return Response.json(
-        { error: "Missing user ID or role" },
-        { status: 400 }
+      return errorHandler(
+        "Missing user ID or role",
+        STATUS_CODES.VALIDATION_ERROR
       );
     }
 
     const patient_id = new Types.ObjectId(id);
+    await dbConfig();
 
     const patient = await Patient.findById(patient_id, { _id: 1 }).exec();
     if (!patient) {
-      return Response.json({ error: "Patient not found" }, { status: 404 });
+      return errorHandler("Patient not found", STATUS_CODES.NOT_FOUND);
     }
 
     const medicalHistory = await MedicalHistory.find(
@@ -50,12 +53,12 @@ export async function GET(request: Request) {
       disease: history.disease,
     }));
 
-    return Response.json(formattedMedicalHistory);
-  } catch (error) {
-    console.error("Error fetching medical history of patient : ", error);
-    return Response.json(
-      { error: "Failed to fetch medical history" },
-      { status: 500 }
+    return NextResponse.json(formattedMedicalHistory, { status: 200 });
+  } catch (error: any) {
+    console.error("Error fetching medical history of patient:", error);
+    return errorHandler(
+      error.message || "Failed to fetch medical history",
+      STATUS_CODES.SERVER_ERROR
     );
   }
 }

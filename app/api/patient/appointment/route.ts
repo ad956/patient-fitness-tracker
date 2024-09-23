@@ -1,4 +1,5 @@
-import { dbConfig } from "@utils/index";
+import { authenticateUser } from "@lib/auth/authenticateUser";
+import { dbConfig, errorHandler, STATUS_CODES } from "@utils/index";
 import { Types } from "mongoose";
 import sendEmail from "@lib/sendemail";
 import { render } from "@react-email/render";
@@ -6,41 +7,35 @@ import { AppointmentBookedTemplate } from "@lib/emails/templates";
 import sendNotification from "@lib/novu";
 import { Patient, BookedAppointment, Doctor } from "@models/index";
 import { BookingAppointmentType } from "@pft-types/patient";
+import { NextResponse } from "next/server";
 
-// getting patients approved appointments
+// getting patient's approved appointments
 export async function GET(request: Request) {
   try {
-    const id = request.headers.get("x-user-id");
-    const role = request.headers.get("x-user-role");
+    const authHeader = request.headers.get("Authorization");
+    const { id, role } = await authenticateUser(authHeader);
 
     if (!id || !role) {
-      return Response.json(
-        { error: "Missing user ID or role" },
-        { status: 400 }
+      return errorHandler(
+        "Missing user ID or role",
+        STATUS_CODES.VALIDATION_ERROR
       );
     }
 
     const patient_id = new Types.ObjectId(id);
-
     await dbConfig();
-    const patient = await Patient.findById(patient_id);
 
+    const patient = await Patient.findById(patient_id);
     if (!patient) {
-      return Response.json(
-        { error: "Patient not found" },
-        {
-          status: 404,
-        }
-      );
+      return errorHandler("Patient not found", STATUS_CODES.NOT_FOUND);
     }
 
-    let appointments = await BookedAppointment.find({
+    const appointments = await BookedAppointment.find({
       patient_id: patient._id,
       approved: "approved",
     });
 
     const doctorIds = appointments.map((appointment) => appointment.doctor_id);
-
     const doctors = await Doctor.find(
       { _id: { $in: doctorIds } },
       { firstname: 1, lastname: 1, specialty: 1, profile: 1 }
@@ -62,16 +57,12 @@ export async function GET(request: Request) {
       return appointmentObj;
     });
 
-    return Response.json(updatedAppointments, {
-      status: 200,
-    });
-  } catch (error) {
+    return NextResponse.json(updatedAppointments, { status: 200 });
+  } catch (error: any) {
     console.error("Error getting appointments:", error);
-    return Response.json(
-      { error: "Internal Server Error" },
-      {
-        status: 500,
-      }
+    return errorHandler(
+      error.message || "Internal Server Error",
+      STATUS_CODES.SERVER_ERROR
     );
   }
 }
@@ -89,24 +80,22 @@ export async function POST(req: Request) {
       appointment_charge,
     }: BookingAppointmentType = await req.json();
 
-    const id = req.headers.get("x-user-id");
-    const role = req.headers.get("x-user-role");
+    const authHeader = req.headers.get("Authorization");
+    const { id, role } = await authenticateUser(authHeader);
 
     if (!id || !role) {
-      return Response.json(
-        { error: "Missing user ID or role" },
-        { status: 400 }
+      return errorHandler(
+        "Missing user ID or role",
+        STATUS_CODES.VALIDATION_ERROR
       );
     }
 
     const patient_id = new Types.ObjectId(id);
-
     await dbConfig();
 
     const patient = await Patient.findById(patient_id);
-
     if (!patient) {
-      return Response.json({ error: "Patient not found" }, { status: 404 });
+      return errorHandler("Patient not found", STATUS_CODES.NOT_FOUND);
     }
 
     const appointmentData = {
@@ -125,11 +114,12 @@ export async function POST(req: Request) {
     };
 
     const res = await BookedAppointment.create(appointmentData);
-
-    if (!res)
-      return Response.json({
-        error: "Error saving appointment info",
-      });
+    if (!res) {
+      return errorHandler(
+        "Error saving appointment info",
+        STATUS_CODES.SERVER_ERROR
+      );
+    }
 
     const bookedAppointmentData = {
       state,
@@ -167,14 +157,15 @@ export async function POST(req: Request) {
       "appointment-request"
     );
 
-    return Response.json(
-      {
-        msg: "Appointment request added successfully",
-      },
+    return NextResponse.json(
+      { msg: "Appointment request added successfully" },
       { status: 200 }
     );
-  } catch (error) {
+  } catch (error: any) {
     console.error("Error adding appointment request:", error);
-    return Response.json({ error: "Internal Server Error" }, { status: 500 });
+    return errorHandler(
+      error.message || "Internal Server Error",
+      STATUS_CODES.SERVER_ERROR
+    );
   }
 }
