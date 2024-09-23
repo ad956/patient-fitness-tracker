@@ -2,7 +2,7 @@ import { AppError, STATUS_CODES } from "@utils/index";
 import { decrypt } from "@sessions/sessionUtils";
 import { JWTExpired, JWTInvalid } from "jose/errors";
 
-export async function authenticateUser(
+export default async function authenticateUser(
   authHeader: string | null
 ): Promise<{ id: string; role: string }> {
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
