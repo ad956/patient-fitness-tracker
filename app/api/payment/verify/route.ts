@@ -1,5 +1,6 @@
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import crypto from "crypto";
+import { errorHandler, STATUS_CODES } from "@utils/index";
 
 const generatedSignature = (
   razorpayOrderId: string,
@@ -11,26 +12,34 @@ const generatedSignature = (
       "Razorpay key secret is not defined in environment variables."
     );
   }
-  const sig = crypto
+  return crypto
     .createHmac("sha256", keySecret)
-    .update(razorpayOrderId + "|" + razorpayPaymentId)
+    .update(`${razorpayOrderId}|${razorpayPaymentId}`)
     .digest("hex");
-  return sig;
 };
 
 export async function POST(request: NextRequest) {
-  const { orderCreationId, razorpayPaymentId, razorpaySignature } =
-    await request.json();
+  try {
+    const { orderCreationId, razorpayPaymentId, razorpaySignature } =
+      await request.json();
 
-  const signature = generatedSignature(orderCreationId, razorpayPaymentId);
-  if (signature !== razorpaySignature) {
-    return Response.json(
-      { message: "payment verification failed", isOk: false },
-      { status: 400 }
+    const signature = generatedSignature(orderCreationId, razorpayPaymentId);
+    if (signature !== razorpaySignature) {
+      return errorHandler(
+        "Payment verification failed",
+        STATUS_CODES.BAD_REQUEST
+      );
+    }
+
+    return NextResponse.json(
+      { message: "Payment verified successfully", isOk: true },
+      { status: 200 }
+    );
+  } catch (error: any) {
+    console.error("Error during payment verification:", error);
+    return errorHandler(
+      error.message || "Internal Server Error",
+      STATUS_CODES.SERVER_ERROR
     );
   }
-  return Response.json(
-    { message: "payment verified successfully", isOk: true },
-    { status: 200 }
-  );
 }

@@ -1,5 +1,6 @@
+import { NextResponse } from "next/server";
 import CommonDiseases from "@models/commonDisease";
-import dbConfig from "@utils/db";
+import { dbConfig, errorHandler, STATUS_CODES } from "@/utils";
 
 export async function GET() {
   try {
@@ -8,17 +9,17 @@ export async function GET() {
     const result = await CommonDiseases.findOne();
 
     if (!result) {
-      return Response.json(
-        { error: "error no common diseases found" },
-        { status: 200 }
+      return errorHandler(
+        "error no common diseases found",
+        STATUS_CODES.BAD_REQUEST
       );
     }
 
     const commonDiseases = result.commonDiseases;
 
-    return Response.json(commonDiseases, { status: 200 });
+    return NextResponse.json(commonDiseases, { status: 200 });
   } catch (error) {
     console.error("Error while getting common diseases:", error);
-    return new Response("Internal Server Error", { status: 500 });
+    return new NextResponse("Internal Server Error", { status: 500 });
   }
 }
