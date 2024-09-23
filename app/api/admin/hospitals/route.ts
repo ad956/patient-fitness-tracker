@@ -2,16 +2,19 @@ import dbConfig from "@utils/db";
 import Hospital from "@models/hospital";
 import { HospitalDetails } from "@pft-types/admin";
 import { Types } from "mongoose";
+import { NextResponse } from "next/server";
+import { errorHandler, STATUS_CODES } from "@utils/index";
+import { authenticateUser } from "@lib/auth/authenticateUser";
 
 export async function GET(request: Request) {
   try {
-    const id = request.headers.get("x-user-id");
-    const role = request.headers.get("x-user-role");
+    const authHeader = request.headers.get("Authorization");
+    const { id, role } = await authenticateUser(authHeader);
 
     if (!id || !role) {
-      return Response.json(
-        { error: "Missing user ID or role" },
-        { status: 400 }
+      return errorHandler(
+        "Missing user ID or role",
+        STATUS_CODES.VALIDATION_ERROR
       );
     }
 
@@ -19,7 +22,7 @@ export async function GET(request: Request) {
 
     await dbConfig();
 
-    // parse query parameters for pagination
+    // Parse query parameters for pagination
     const url = new URL(request.url);
     const page = parseInt(url.searchParams.get("page") || "1");
     const limit = parseInt(url.searchParams.get("limit") || "10");
@@ -28,6 +31,7 @@ export async function GET(request: Request) {
     // Count total hospitals before applying skip and limit
     const totalHospitals = await Hospital.countDocuments();
     let hospitals = [];
+
     if (skip < totalHospitals) {
       const hospitalsPipeline = [
         {
@@ -66,12 +70,16 @@ export async function GET(request: Request) {
       totalPages: totalPages,
       totalCount: totalHospitals,
     };
-    return Response.json({
+
+    return NextResponse.json({
       hospitals: hospitalDetails,
       pagination: paginationMetadata,
     });
-  } catch (error) {
+  } catch (error: any) {
     console.error("Error fetching Hospital data:", error);
-    return Response.json({ error: "Internal Server Error" }, { status: 500 });
+    return errorHandler(
+      error.message || "Internal Server Error",
+      STATUS_CODES.SERVER_ERROR
+    );
   }
 }

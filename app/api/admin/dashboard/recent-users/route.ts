@@ -1,24 +1,30 @@
-import dbConfig from "@utils/db";
+import { authenticateUser } from "@lib/auth/authenticateUser";
 import mongoose from "mongoose";
 import {
   FormattedRecentUser,
   RecentUserTile,
   RecentUserPaginatedResponse,
 } from "@pft-types/admin";
+import { dbConfig, errorHandler, STATUS_CODES } from "@utils/index";
+import { NextResponse } from "next/server";
 
 export async function GET(request: Request): Promise<Response> {
-  const id = request.headers.get("x-user-id");
-  const role = request.headers.get("x-user-role");
-
-  if (!id || !role) {
-    return Response.json({ error: "Missing user ID or role" }, { status: 400 });
-  }
-
-  const url = new URL(request.url);
-  const page = parseInt(url.searchParams.get("page") || "1");
-  const limit = parseInt(url.searchParams.get("limit") || "10");
+  const authHeader = request.headers.get("Authorization");
 
   try {
+    const { id, role } = await authenticateUser(authHeader);
+
+    if (!id || !role) {
+      return errorHandler(
+        "Missing user ID or role",
+        STATUS_CODES.VALIDATION_ERROR
+      );
+    }
+
+    const url = new URL(request.url);
+    const page = parseInt(url.searchParams.get("page") || "1");
+    const limit = parseInt(url.searchParams.get("limit") || "10");
+
     await dbConfig();
 
     const oneMonthAgo = new Date();
@@ -76,10 +82,13 @@ export async function GET(request: Request): Promise<Response> {
       totalItems,
     };
 
-    return Response.json(response);
-  } catch (error) {
+    return NextResponse.json(response, { status: 200 });
+  } catch (error: any) {
     console.error("Error fetching new users:", error);
-    return Response.json({ error: "Internal Server Error" }, { status: 500 });
+    return errorHandler(
+      error.message || "Internal Server Error",
+      STATUS_CODES.SERVER_ERROR
+    );
   }
 }
 

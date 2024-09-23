@@ -1,21 +1,25 @@
 import dbConfig from "@utils/db";
 import { Hospital, Patient, Doctor, Receptionist } from "@models/index";
+import { authenticateUser } from "@lib/auth/authenticateUser";
+import { NextResponse } from "next/server";
+import { errorHandler, STATUS_CODES } from "@utils/index";
 
 export async function GET(request: Request) {
+  const authHeader = request.headers.get("Authorization");
+
   try {
-    const id = request.headers.get("x-user-id");
-    const role = request.headers.get("x-user-role");
+    const { id, role } = await authenticateUser(authHeader);
 
     if (!id || !role) {
-      return Response.json(
-        { error: "Missing user ID or role" },
-        { status: 400 }
+      return errorHandler(
+        "Missing user ID or role",
+        STATUS_CODES.VALIDATION_ERROR
       );
     }
 
     await dbConfig();
 
-    // start of the current month and the previous month
+    // Start of the current month and the previous month
     const now = new Date();
     const startOfCurrentMonth = new Date(now.getFullYear(), now.getMonth(), 1);
     const startOfPreviousMonth = new Date(
@@ -82,9 +86,12 @@ export async function GET(request: Request) {
       },
     };
 
-    return Response.json(result);
-  } catch (error) {
-    console.error("Error fetching tiles data :", error);
-    return Response.json({ error: "Internal Server Error" }, { status: 500 });
+    return NextResponse.json(result, { status: 200 });
+  } catch (error: any) {
+    console.error("Error fetching tiles data:", error);
+    return errorHandler(
+      error.message || "Internal Server Error",
+      STATUS_CODES.SERVER_ERROR
+    );
   }
 }

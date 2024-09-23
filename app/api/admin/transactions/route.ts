@@ -2,16 +2,19 @@ import dbConfig from "@utils/db";
 import { Admin, Hospital, Patient, Transaction } from "@models/index";
 import { TransactionDetails } from "@pft-types/index";
 import { Types } from "mongoose";
+import { NextResponse } from "next/server";
+import { errorHandler, STATUS_CODES } from "@utils/index";
+import { authenticateUser } from "@lib/auth/authenticateUser";
 
 export async function GET(request: Request) {
   try {
-    const id = request.headers.get("x-user-id");
-    const role = request.headers.get("x-user-role");
+    const authHeader = request.headers.get("Authorization");
+    const { id, role } = await authenticateUser(authHeader);
 
     if (!id || !role) {
-      return Response.json(
-        { error: "Missing user ID or role" },
-        { status: 400 }
+      return errorHandler(
+        "Missing user ID or role",
+        STATUS_CODES.VALIDATION_ERROR
       );
     }
 
@@ -21,7 +24,7 @@ export async function GET(request: Request) {
     const adminData = await Admin.findById(admin_id);
 
     if (!adminData) {
-      return Response.json({ error: "Admin not found" }, { status: 404 });
+      return errorHandler("Admin not found", STATUS_CODES.NOT_FOUND);
     }
 
     const transactions = await Transaction.find({}).sort({ createdAt: -1 });
@@ -37,7 +40,6 @@ export async function GET(request: Request) {
             name: `${patient?.firstname} ${patient?.lastname}` || "",
             profile: patient?.profile || "",
           },
-
           hospital: {
             name: `${hospital?.firstname} ${hospital?.lastname}` || "",
             profile: hospital?.profile || "",
@@ -51,9 +53,12 @@ export async function GET(request: Request) {
       })
     );
 
-    return Response.json(transactionDetails);
-  } catch (error) {
+    return NextResponse.json(transactionDetails, { status: 200 });
+  } catch (error: any) {
     console.error("Error fetching Transaction data:", error);
-    return Response.json({ error: "Internal Server Error" }, { status: 500 });
+    return errorHandler(
+      error.message || "Internal Server Error",
+      STATUS_CODES.SERVER_ERROR
+    );
   }
 }

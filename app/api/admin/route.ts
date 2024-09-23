@@ -1,34 +1,34 @@
-import dbConfig from "@utils/db";
+import { authenticateUser } from "@lib/auth/authenticateUser";
 import Admin from "@models/admin";
+import { dbConfig, errorHandler, STATUS_CODES } from "@utils/index";
 import { Types } from "mongoose";
+import { NextResponse } from "next/server";
 
 export async function GET(request: Request) {
+  const authHeader = request.headers.get("Authorization");
+
   try {
-    const id = request.headers.get("x-user-id");
-    const role = request.headers.get("x-user-role");
+    const { id, role } = await authenticateUser(authHeader);
 
     if (!id || !role) {
-      return Response.json(
-        { error: "Missing user ID or role" },
-        { status: 400 }
+      return errorHandler(
+        "Missing user ID or role",
+        STATUS_CODES.VALIDATION_ERROR
       );
     }
 
     const admin_id = new Types.ObjectId(id);
-
     await dbConfig();
-
-    // const projection = {}; { projection }
 
     const adminData = await Admin.findById(admin_id);
 
     if (!adminData) {
-      return Response.json({ error: "Admin not found" }, { status: 404 });
+      return errorHandler("Admin not found", STATUS_CODES.NOT_FOUND);
     }
 
-    return Response.json(adminData);
-  } catch (error) {
-    console.error("Error fetching Admin data:", error);
-    return Response.json({ error: "Internal Server Error" }, { status: 500 });
+    return NextResponse.json(adminData, { status: 200 });
+  } catch (error: any) {
+    console.error("Error fetching Admin data route:", error);
+    return errorHandler(error, STATUS_CODES.SERVER_ERROR);
   }
 }

@@ -1,19 +1,22 @@
-import dbConfig from "@utils/db";
+import { authenticateUser } from "@lib/auth/authenticateUser";
 import Admin from "@models/admin";
+import { dbConfig, errorHandler, STATUS_CODES } from "@utils/index";
 import hashPassword from "@utils/hashPassword";
 import { NewAdminTemplate } from "@lib/emails/templates";
 import { render } from "@react-email/render";
 import sendEmail from "@lib/sendemail";
+import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
+  const authHeader = request.headers.get("Authorization");
+
   try {
-    const id = request.headers.get("x-user-id");
-    const role = request.headers.get("x-user-role");
+    const { id, role } = await authenticateUser(authHeader);
 
     if (!id || !role) {
-      return Response.json(
-        { error: "Missing user ID or role" },
-        { status: 400 }
+      return errorHandler(
+        "Missing user ID or role",
+        STATUS_CODES.VALIDATION_ERROR
       );
     }
 
@@ -22,13 +25,13 @@ export async function POST(request: Request) {
     const formData = await request.json();
     const { firstname, lastname, email, password } = formData;
 
-    // check if admin exists
+    // Check if admin exists
     const existingAdmin = await Admin.findOne({ email });
     if (existingAdmin) {
-      return Response.json({ error: "Admin already exists" }, { status: 409 });
+      return errorHandler("Admin already exists", STATUS_CODES.CONFLICT);
     }
 
-    // generate a username
+    // Generate a username
     let username = `${firstname.toLowerCase()}.${lastname.toLowerCase()}`;
     let usernameSuffix = 0;
     let usernameExists = true;
@@ -43,10 +46,10 @@ export async function POST(request: Request) {
       }
     }
 
-    // hashing password
+    // Hashing password
     const hashedPassword = await hashPassword(password);
 
-    // new admin
+    // New admin
     const newAdmin = new Admin({
       firstname,
       lastname,
@@ -70,7 +73,7 @@ export async function POST(request: Request) {
       },
     });
 
-    // save new admin
+    // Save new admin
     await newAdmin.save();
 
     const mailsent = await sendEmail({
@@ -95,15 +98,18 @@ export async function POST(request: Request) {
       console.error("Failed to send welcome email to new admin");
     }
 
-    return Response.json(
+    return NextResponse.json(
       {
         success: true,
         message: "Admin added successfully",
       },
       { status: 200 }
     );
-  } catch (error) {
+  } catch (error: any) {
     console.error("Error adding admin:", error);
-    return Response.json({ error: "Internal Server Error" }, { status: 500 });
+    return errorHandler(
+      error.message || "Internal Server Error",
+      STATUS_CODES.SERVER_ERROR
+    );
   }
 }

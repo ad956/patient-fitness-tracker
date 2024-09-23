@@ -2,22 +2,25 @@ import dbConfig from "@utils/db";
 import { Patient, Receptionist, Hospital, Doctor } from "@models/index";
 import { HospitalUserDetails } from "@pft-types/admin";
 import { Types } from "mongoose";
+import { NextResponse } from "next/server";
+import { errorHandler, STATUS_CODES } from "@utils/index";
+import { authenticateUser } from "@lib/auth/authenticateUser";
 
 export async function GET(request: Request) {
   try {
-    const id = request.headers.get("x-user-id");
-    const role = request.headers.get("x-user-role");
+    const authHeader = request.headers.get("Authorization");
+    const { id, role } = await authenticateUser(authHeader);
 
     if (!id || !role) {
-      return Response.json(
-        { error: "Missing user ID or role" },
-        { status: 400 }
+      return errorHandler(
+        "Missing user ID or role",
+        STATUS_CODES.VALIDATION_ERROR
       );
     }
 
     await dbConfig();
 
-    // parse query parameters for pagination
+    // Parse query parameters for pagination
     const url = new URL(request.url);
     const page = parseInt(url.searchParams.get("page") || "1");
     const limit = parseInt(url.searchParams.get("limit") || "10");
@@ -26,9 +29,9 @@ export async function GET(request: Request) {
     const hospitalId = url.searchParams.get("hospitalId");
 
     if (!hospitalId) {
-      return Response.json(
-        { error: "hospitalId is required" },
-        { status: 400 }
+      return errorHandler(
+        "hospitalId is required",
+        STATUS_CODES.VALIDATION_ERROR
       );
     }
 
@@ -47,7 +50,7 @@ export async function GET(request: Request) {
     let userDetails: HospitalUserDetails[] = [];
 
     if (skip < totalUsers) {
-      // base aggregation pipeline
+      // Base aggregation pipeline
       const baseAggregationPipeline = [
         {
           $match: {
@@ -70,14 +73,14 @@ export async function GET(request: Request) {
         { $limit: limit },
       ];
 
-      // create role-specific pipeline
+      // Create role-specific pipeline
       const createPipelineWithRole = (pipeline: any[], role: string) => [
         ...pipeline.slice(0, 1),
         { $addFields: { role: role } },
         ...pipeline.slice(1),
       ];
 
-      // create role-specific pipelines
+      // Create role-specific pipelines
       const patientsPipeline = createPipelineWithRole(
         baseAggregationPipeline,
         "Patient"
@@ -91,14 +94,14 @@ export async function GET(request: Request) {
         "Doctor"
       );
 
-      // fetch users from each model
+      // Fetch users from each model
       const [patients, receptionists, doctors] = await Promise.all([
         Patient.aggregate(patientsPipeline),
         Receptionist.aggregate(receptionistsPipeline),
         Doctor.aggregate(doctorsPipeline),
       ]);
 
-      // combine and map results
+      // Combine and map results
       const allUsers = [...patients, ...receptionists, ...doctors];
       userDetails = allUsers.map((user) => ({
         id: user._id.toString(),
@@ -122,12 +125,15 @@ export async function GET(request: Request) {
       totalCount: totalUsers,
     };
 
-    return Response.json({
+    return NextResponse.json({
       users: userDetails,
       pagination: paginationMetadata,
     });
-  } catch (error) {
+  } catch (error: any) {
     console.error("Error fetching Users data:", error);
-    return Response.json({ error: "Internal Server Error" }, { status: 500 });
+    return errorHandler(
+      error.message || "Internal Server Error",
+      STATUS_CODES.SERVER_ERROR
+    );
   }
 }
