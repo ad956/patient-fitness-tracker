@@ -1,29 +1,30 @@
-import dbConfig from "@utils/db";
 import { Patient, BookedAppointment } from "@models/index";
+import { dbConfig, errorHandler, STATUS_CODES } from "@utils/index";
+import { authenticateUser } from "@lib/auth/authenticateUser";
 import { Types } from "mongoose";
+import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
   try {
     const { hospital_id }: { hospital_id: string } = await req.json();
+    const authHeader = req.headers.get("Authorization");
 
-    const id = req.headers.get("x-user-id");
-    const role = req.headers.get("x-user-role");
+    const { id, role } = await authenticateUser(authHeader);
 
     if (!id || !role) {
-      return Response.json(
-        { error: "Missing user ID or role" },
-        { status: 400 }
+      return errorHandler(
+        "Missing user ID or role",
+        STATUS_CODES.VALIDATION_ERROR
       );
     }
 
     const patient_id = new Types.ObjectId(id);
-
     await dbConfig();
 
     const patient = await Patient.findById(patient_id);
 
     if (!patient) {
-      return Response.json({ error: "Patient not found" }, { status: 404 });
+      return errorHandler("Patient not found", STATUS_CODES.NOT_FOUND);
     }
 
     // Checking if a pending appointment request exists with the hospital
@@ -34,12 +35,18 @@ export async function POST(req: Request) {
     });
 
     if (alreadyBookedAppointment) {
-      return Response.json({ hasPendingAppointment: true }, { status: 200 });
+      return NextResponse.json(
+        { hasPendingAppointment: true },
+        { status: 200 }
+      );
     }
 
-    return Response.json({ hasPendingAppointment: false }, { status: 200 });
-  } catch (error) {
+    return NextResponse.json({ hasPendingAppointment: false }, { status: 200 });
+  } catch (error: any) {
     console.error("Error checking pending appointments:", error);
-    return Response.json({ error: "Internal Server Error" }, { status: 500 });
+    return errorHandler(
+      error.message || "Internal Server Error",
+      STATUS_CODES.SERVER_ERROR
+    );
   }
 }

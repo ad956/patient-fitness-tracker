@@ -1,6 +1,7 @@
-import dbConfig from "@utils/db";
-import { Patient, Hospital, Transaction } from "@models/index";
+import { dbConfig, errorHandler, STATUS_CODES } from "@utils/index";
+import { Patient, Transaction } from "@models/index";
 import { Types } from "mongoose";
+import { NextResponse } from "next/server";
 
 export async function GET(request: Request) {
   try {
@@ -8,22 +9,21 @@ export async function GET(request: Request) {
     const role = request.headers.get("x-user-role");
 
     if (!id || !role) {
-      return Response.json(
-        { error: "Missing user ID or role" },
-        { status: 400 }
+      return errorHandler(
+        "Missing user ID or role",
+        STATUS_CODES.VALIDATION_ERROR
       );
     }
 
     const patient_id = new Types.ObjectId(id);
-
     await dbConfig();
 
     const patient = await Patient.findById(patient_id);
     if (!patient) {
-      return Response.json({ error: "Patient not found" }, { status: 404 });
+      return errorHandler("Patient not found", STATUS_CODES.NOT_FOUND);
     }
 
-    // get all transactions where patient id matches
+    // get all transactions where patient ID matches
     const transactions = await Transaction.find({
       patient: patient._id,
     })
@@ -45,9 +45,12 @@ export async function GET(request: Request) {
       })
     );
 
-    return Response.json(formattedTransactions, { status: 200 });
-  } catch (error) {
+    return NextResponse.json(formattedTransactions, { status: 200 });
+  } catch (error: any) {
     console.error("Error fetching payment data:", error);
-    return Response.json({ error: "Internal Server Error" }, { status: 500 });
+    return errorHandler(
+      error.message || "Internal Server Error",
+      STATUS_CODES.SERVER_ERROR
+    );
   }
 }
