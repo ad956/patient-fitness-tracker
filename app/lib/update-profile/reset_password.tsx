@@ -1,31 +1,20 @@
-import getBaseUrl from "@utils/getBaseUrl";
-import { getSessionToken } from "../sessions/sessionUtils";
+import fetchHandler from "@utils/fetchHandler";
 
 export default async function resetPassword(
   currentPassword: string,
   newPassword: string
 ) {
-  const session = getSessionToken();
-  const serverUrl = getBaseUrl();
-
-  const headers = {
-    Authorization: `Bearer ${session}`,
-  };
+  const endpoint = "/api/update-profile/reset-password";
 
   try {
-    const response = await fetch(
-      `${serverUrl}/api/update-profile/reset-password`,
-      {
-        method: "PUT",
-        headers,
-        body: JSON.stringify({ currentPassword, newPassword }),
-      }
-    );
-
-    const result = await response.json();
+    const result = await fetchHandler(endpoint, {
+      method: "PUT",
+      body: JSON.stringify({ currentPassword, newPassword }),
+    });
 
     return result;
   } catch (error) {
-    console.error("Error updating password :", error);
+    console.error("Error updating password:", error);
+    throw error;
   }
 }
