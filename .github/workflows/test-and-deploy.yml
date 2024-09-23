@@ -2,9 +2,9 @@ name: CI/CD Pipeline For Playwright Tests and Vercel Deployment
 
 on:
   push:
-    branches: [main, "feature/**"]
+    branches: [main, "feature/**", "fix-**"]
   pull_request:
-    branches: [main, "feature/**"]
+    branches: [main, "feature/**", "fix-**"]
 
 jobs:
   test:
@@ -43,7 +43,7 @@ jobs:
 
   deploy-preview:
     needs: test
-    if: github.event_name == 'push' && (startsWith(github.ref, 'refs/heads/feature/'))
+    if: github.event_name == 'push' && (startsWith(github.ref, 'refs/heads/feature/') || startsWith(github.ref, 'refs/heads/fix-'))
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
