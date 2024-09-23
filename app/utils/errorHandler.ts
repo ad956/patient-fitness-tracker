@@ -18,7 +18,7 @@ function createErrorResponse(err: AppError) {
 
 function getErrorTitle(statusCode: number): string {
   const titles: Record<number, string> = {
-    [STATUS_CODES.VALIDATION_ERROR]: "VALIDATION_ERROR",
+    [STATUS_CODES.BAD_REQUEST]: "BAD_REQUEST",
     [STATUS_CODES.UNAUTHORIZED]: "UNAUTHORIZED",
     [STATUS_CODES.FORBIDDEN]: "FORBIDDEN",
     [STATUS_CODES.NOT_FOUND]: "NOT_FOUND",
