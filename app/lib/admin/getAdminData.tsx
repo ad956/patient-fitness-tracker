@@ -1,26 +1,12 @@
-"use server";
-import { getSessionToken } from "../sessions/sessionUtils";
-import getBaseUrl from "@utils/getBaseUrl";
+import fetchHandler from "@utils/customFetch";
 
 export default async function getAdminData() {
-  const session = getSessionToken();
-  const serverUrl = getBaseUrl();
+  const endpoint = "/api/admin";
 
-  const headers = {
-    Authorization: `Bearer ${session}`,
-  };
   try {
-    const res = await fetch(`${serverUrl}/api/admin`, {
-      headers,
+    const adminData = await fetchHandler(endpoint, {
       cache: "no-cache",
     });
-
-    if (!res.ok) {
-      console.error(`Error fetching admin data: ${res.statusText}`);
-      throw new Error("fetching admin data");
-    }
-
-    const adminData = await res.json();
 
     return adminData;
   } catch (error) {

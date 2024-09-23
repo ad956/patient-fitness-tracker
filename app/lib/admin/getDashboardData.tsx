@@ -1,29 +1,14 @@
-"use server";
-
-import { getSessionToken } from "../sessions/sessionUtils";
-import getBaseUrl from "@utils/getBaseUrl";
+import fetchHandler from "@utils/customFetch";
 
 export async function getTilesData() {
-  const session = getSessionToken();
-  const serverUrl = getBaseUrl();
+  const endpoint = "/api/admin/dashboard/tiles";
 
-  const headers = {
-    Authorization: `Bearer ${session}`,
-  };
   try {
-    const res = await fetch(`${serverUrl}/api/admin/dashboard/tiles`, {
-      headers,
+    const adminData = await fetchHandler(endpoint, {
       next: {
         revalidate: 5000,
       },
     });
-
-    if (!res.ok) {
-      console.error(`Error fetching admin data: ${res.statusText}`);
-      throw new Error("fetching admin data");
-    }
-
-    const adminData = await res.json();
 
     return adminData;
   } catch (error) {
@@ -33,29 +18,14 @@ export async function getTilesData() {
 }
 
 export async function getRecentUsersData(page: number) {
-  const session = getSessionToken();
-  const serverUrl = getBaseUrl();
+  const endpoint = `/api/admin/dashboard/recent-users?page=${page}&limit=10`;
 
-  const headers = {
-    Authorization: `Bearer ${session}`,
-  };
   try {
-    const res = await fetch(
-      `${serverUrl}/api/admin/dashboard/recent-users?page=${page}&limit=10`,
-      {
-        headers,
-        next: {
-          revalidate: 5000,
-        },
-      }
-    );
-
-    if (!res.ok) {
-      console.error(`Error fetching admin data: ${res.statusText}`);
-      throw new Error("fetching admin data");
-    }
-
-    const data = await res.json();
+    const data = await fetchHandler(endpoint, {
+      next: {
+        revalidate: 5000,
+      },
+    });
 
     return data;
   } catch (error) {

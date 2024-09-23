@@ -1,26 +1,10 @@
-"use server";
-import { getSessionToken } from "../sessions/sessionUtils";
-import getBaseUrl from "@utils/getBaseUrl";
+import fetchHandler from "@utils/customFetch";
 
 export default async function getTransactions() {
-  const session = getSessionToken();
-  const serverUrl = getBaseUrl();
+  const endpoint = "/api/admin/transactions";
 
-  const headers = {
-    Authorization: `Bearer ${session}`,
-  };
   try {
-    const res = await fetch(`${serverUrl}/api/admin/transactions`, {
-      headers,
-      //   cache: "no-cache",
-    });
-
-    if (!res.ok) {
-      console.error(`Error fetching transactions data: ${res.statusText}`);
-      throw new Error("fetching transactions data");
-    }
-
-    const transactionsData = await res.json();
+    const transactionsData = await fetchHandler(endpoint);
 
     return transactionsData;
   } catch (error) {
