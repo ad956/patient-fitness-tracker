@@ -1,8 +1,8 @@
+import { NextResponse } from "next/server";
 import { Patient, BookedAppointment } from "@models/index";
 import { dbConfig, errorHandler, STATUS_CODES } from "@utils/index";
-import { authenticateUser } from "@lib/auth/authenticateUser";
+import { authenticateUser } from "@lib/auth";
 import { Types } from "mongoose";
-import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
   try {

@@ -1,13 +1,12 @@
+import { NextResponse } from "next/server";
 import Patient from "@models/patient";
 import { dbConfig, errorHandler, STATUS_CODES } from "@utils/index";
-import { authenticateUser } from "@lib/auth/authenticateUser";
+import { authenticateUser } from "@lib/auth";
 import { Types } from "mongoose";
-import { NextResponse } from "next/server";
 
 export async function GET(request: Request) {
-  const authHeader = request.headers.get("Authorization");
-
   try {
+    const authHeader = request.headers.get("Authorization");
     const { id, role } = await authenticateUser(authHeader);
 
     if (!id || !role) {

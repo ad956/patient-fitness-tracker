@@ -1,13 +1,15 @@
-import { authenticateUser } from "@lib/auth/authenticateUser";
+import { NextResponse } from "next/server";
 import { dbConfig, errorHandler, STATUS_CODES } from "@utils/index";
 import { Types } from "mongoose";
-import sendEmail from "@lib/sendemail";
 import { render } from "@react-email/render";
-import { AppointmentBookedTemplate } from "@lib/emails/templates";
-import sendNotification from "@lib/novu";
+import {
+  authenticateUser,
+  AppointmentBookedTemplate,
+  sendEmail,
+  sendNotification,
+} from "@lib/index";
 import { Patient, BookedAppointment, Doctor } from "@models/index";
 import { BookingAppointmentType } from "@pft-types/patient";
-import { NextResponse } from "next/server";
 
 // getting patient's approved appointments
 export async function GET(request: Request) {
@@ -152,7 +154,7 @@ export async function POST(req: Request) {
     );
 
     return NextResponse.json(
-      { msg: "Appointment request added successfully" },
+      { message: "Appointment request added successfully" },
       { status: 200 }
     );
   } catch (error: any) {
