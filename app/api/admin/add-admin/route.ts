@@ -1,11 +1,13 @@
-import { authenticateUser } from "@lib/auth/authenticateUser";
-import Admin from "@models/admin";
-import { dbConfig, errorHandler, STATUS_CODES } from "@utils/index";
-import hashPassword from "@utils/hashPassword";
-import { NewAdminTemplate } from "@lib/emails/templates";
-import { render } from "@react-email/render";
-import sendEmail from "@lib/sendemail";
 import { NextResponse } from "next/server";
+import Admin from "@models/admin";
+import {
+  dbConfig,
+  errorHandler,
+  hashPassword,
+  STATUS_CODES,
+} from "@utils/index";
+import { authenticateUser, NewAdminTemplate, sendEmail } from "@lib/index";
+import { render } from "@react-email/render";
 
 export async function POST(request: Request) {
   const authHeader = request.headers.get("Authorization");

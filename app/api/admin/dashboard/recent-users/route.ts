@@ -1,12 +1,12 @@
-import { authenticateUser } from "@lib/auth/authenticateUser";
+import { NextResponse } from "next/server";
 import mongoose from "mongoose";
+import authenticateUser from "@lib/auth/authenticateUser";
 import {
   FormattedRecentUser,
   RecentUserTile,
   RecentUserPaginatedResponse,
 } from "@pft-types/admin";
 import { dbConfig, errorHandler, STATUS_CODES } from "@utils/index";
-import { NextResponse } from "next/server";
 
 export async function GET(request: Request): Promise<Response> {
   const authHeader = request.headers.get("Authorization");

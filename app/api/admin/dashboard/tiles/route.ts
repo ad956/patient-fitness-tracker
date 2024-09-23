@@ -1,8 +1,7 @@
-import dbConfig from "@utils/db";
 import { Hospital, Patient, Doctor, Receptionist } from "@models/index";
-import { authenticateUser } from "@lib/auth/authenticateUser";
+import authenticateUser from "@lib/auth/authenticateUser";
 import { NextResponse } from "next/server";
-import { errorHandler, STATUS_CODES } from "@utils/index";
+import { dbConfig, errorHandler, STATUS_CODES } from "@utils/index";
 
 export async function GET(request: Request) {
   const authHeader = request.headers.get("Authorization");
