@@ -1,5 +1,5 @@
 "use server";
-import fetchHandler from "@utils/customFetch";
+import fetchHandler from "@utils/fetchHandler";
 
 export default async function addAdmin(formData: FormData) {
   const endpoint = "/api/admin/add-admin";

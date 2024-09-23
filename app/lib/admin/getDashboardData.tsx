@@ -1,4 +1,4 @@
-import fetchHandler from "@utils/customFetch";
+import fetchHandler from "@utils/fetchHandler";
 
 export async function getTilesData() {
   const endpoint = "/api/admin/dashboard/tiles";

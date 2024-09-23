@@ -1,4 +1,4 @@
-import fetchHandler from "@utils/customFetch";
+import fetchHandler from "@utils/fetchHandler";
 
 export default async function getTransactions() {
   const endpoint = "/api/admin/transactions";

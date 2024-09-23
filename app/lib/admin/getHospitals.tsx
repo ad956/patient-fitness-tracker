@@ -1,4 +1,4 @@
-import fetchHandler from "@utils/customFetch";
+import fetchHandler from "@utils/fetchHandler";
 
 export async function getHospitalsList(
   currentPage: number = 1,
