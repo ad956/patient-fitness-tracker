@@ -9,10 +9,7 @@ export async function GET(request: Request) {
     const role = request.headers.get("x-user-role");
 
     if (!id || !role) {
-      return errorHandler(
-        "Missing user ID or role",
-        STATUS_CODES.VALIDATION_ERROR
-      );
+      return errorHandler("Missing user ID or role", STATUS_CODES.BAD_REQUEST);
     }
 
     const patient_id = new Types.ObjectId(id);

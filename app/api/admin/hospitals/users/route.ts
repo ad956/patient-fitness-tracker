@@ -12,10 +12,7 @@ export async function GET(request: Request) {
     const { id, role } = await authenticateUser(authHeader);
 
     if (!id || !role) {
-      return errorHandler(
-        "Missing user ID or role",
-        STATUS_CODES.VALIDATION_ERROR
-      );
+      return errorHandler("Missing user ID or role", STATUS_CODES.BAD_REQUEST);
     }
 
     await dbConfig();
@@ -29,10 +26,7 @@ export async function GET(request: Request) {
     const hospitalId = url.searchParams.get("hospitalId");
 
     if (!hospitalId) {
-      return errorHandler(
-        "hospitalId is required",
-        STATUS_CODES.VALIDATION_ERROR
-      );
+      return errorHandler("hospitalId is required", STATUS_CODES.BAD_REQUEST);
     }
 
     // Convert hospitalId to ObjectId

@@ -12,10 +12,7 @@ export async function GET(request: Request) {
     const { id, role } = await authenticateUser(authHeader);
 
     if (!id || !role) {
-      return errorHandler(
-        "Missing user ID or role",
-        STATUS_CODES.VALIDATION_ERROR
-      );
+      return errorHandler("Missing user ID or role", STATUS_CODES.BAD_REQUEST);
     }
 
     const admin_id = new Types.ObjectId(id);
