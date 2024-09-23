@@ -1,11 +1,10 @@
-import dbConfig from "@utils/db";
+import { NextResponse } from "next/server";
 import { BookedAppointment, Receptionist } from "@models/index";
 import { Types } from "mongoose";
-import { authenticateUser } from "@lib/auth/authenticateUser";
-import { NextResponse } from "next/server";
-import { errorHandler, STATUS_CODES } from "@utils/index";
+import { authenticateUser } from "@lib/auth";
+import { dbConfig, errorHandler, STATUS_CODES } from "@utils/index";
 
-// Get approved appointments
+// get approved appointments
 export async function GET(request: Request) {
   try {
     const authHeader = request.headers.get("Authorization");
@@ -39,7 +38,7 @@ export async function GET(request: Request) {
   }
 }
 
-// Approving appointments
+// approving appointments
 export async function POST(request: Request) {
   try {
     const { patient_id } = await request.json();

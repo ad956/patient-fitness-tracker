@@ -1,8 +1,8 @@
-import { authenticateUser } from "@lib/auth/authenticateUser";
+import { NextResponse } from "next/server";
+import authenticateUser from "@lib/auth/authenticateUser";
 import { dbConfig, errorHandler, STATUS_CODES } from "@utils/index";
 import Receptionist from "@models/receptionist";
 import { Types } from "mongoose";
-import { NextResponse } from "next/server";
 
 export async function GET(request: Request) {
   try {
