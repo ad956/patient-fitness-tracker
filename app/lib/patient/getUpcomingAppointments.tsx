@@ -1,29 +1,14 @@
 "use server";
-
-import { getSessionToken } from "../sessions/sessionUtils";
-import getBaseUrl from "@utils/getBaseUrl";
+import fetchHandler from "@utils/fetchHandler";
 
 export default async function getUpcomingAppointments() {
-  const session = getSessionToken();
-  const serverUrl = getBaseUrl();
+  const endpoint = "/api/patient/appointment";
 
   try {
-    const res = await fetch(`${serverUrl}/api/patient/appointment`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${session}`,
-      },
-      // next: { revalidate: 10 },
-    });
+    const upcomingAppointments = await fetchHandler(endpoint);
+    // next: { revalidate: 10 },
 
-    if (!res.ok) {
-      throw new Error(
-        `Failed to fetch upcoming appointments: ${res.statusText}`
-      );
-    }
-
-    return res.json();
+    return upcomingAppointments;
   } catch (error) {
     console.error("Error fetching upcoming appointments:", error);
     throw error;

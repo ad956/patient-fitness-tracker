@@ -1,6 +1,4 @@
-"use server";
-import { getSessionToken } from "../sessions/sessionUtils";
-import getBaseUrl from "@utils/getBaseUrl";
+import fetchHandler from "@utils/fetchHandler";
 
 export default async function saveAppointmentTransaction(
   transaction_id: string | null,
@@ -21,20 +19,14 @@ export default async function saveAppointmentTransaction(
     status,
   };
 
-  const session = getSessionToken();
-  const serverUrl = getBaseUrl();
-
-  const headers = {
-    Authorization: `Bearer ${session}`,
-  };
+  const endpoint = "/api/transactions";
 
   try {
-    await fetch(`${serverUrl}/api/transactions`, {
+    await fetchHandler(endpoint, {
       method: "POST",
       body: JSON.stringify(transactionData),
-      headers,
     });
   } catch (error) {
-    console.error("Error recording appointment transaction :", error);
+    console.error("Error recording appointment transaction:", error);
   }
 }

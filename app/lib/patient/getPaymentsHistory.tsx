@@ -1,26 +1,12 @@
-"use server";
-
-import { getSessionToken } from "../sessions/sessionUtils";
-import getBaseUrl from "@utils/getBaseUrl";
+import fetchHandler from "@utils/fetchHandler";
 
 export default async function getPaymentsHistory() {
-  const session = getSessionToken();
-  const serverUrl = getBaseUrl();
+  const endpoint = "/api/patient/paymenthistory";
 
-  const headers = {
-    Authorization: `Bearer ${session}`,
-  };
   try {
-    const response = await fetch(`${serverUrl}/api/patient/paymenthistory`, {
-      headers,
-    });
+    const paymentsHistory = await fetchHandler(endpoint);
 
-    if (!response.ok) {
-      throw new Error(`Failed to fetch payments: ${response.statusText}`);
-    }
-
-    const res = await response.json();
-    return res;
+    return paymentsHistory;
   } catch (error) {
     console.error("Error fetching payments:", error);
     throw error;

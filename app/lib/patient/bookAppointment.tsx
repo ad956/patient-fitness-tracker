@@ -1,22 +1,16 @@
-"use server";
+import fetchHandler from "@utils/fetchHandler";
 import { bookingAppointment } from "@pft-types/index";
-import { getSessionToken } from "../sessions/sessionUtils";
-import getBaseUrl from "@utils/getBaseUrl";
 
 export default async function bookAppointment(
   bookAppointmentData: bookingAppointment,
   transaction_id: string | null,
   appointment_charge: string
 ) {
-  const session = getSessionToken();
-  const serverUrl = getBaseUrl();
+  const endpoint = "/api/patient/appointment";
+
   try {
-    const response = await fetch(`${serverUrl}/api/patient/appointment`, {
+    const response = await fetchHandler(endpoint, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${session}`,
-      },
       body: JSON.stringify({
         ...bookAppointmentData,
         transaction_id,
@@ -24,14 +18,12 @@ export default async function bookAppointment(
       }),
     });
 
-    if (!response.ok) {
-      console.error(`Error booking appointments: ${response.statusText}`);
-      const res = await response.json();
-      return { error: res.error };
+    if (!response) {
+      console.error("Error booking appointments");
+      return { error: "Failed to book appointment" };
     }
 
-    const res = await response.json();
-    return res;
+    return response;
   } catch (error) {
     console.error("Error booking appointment:", error);
     throw error;

@@ -1,32 +1,20 @@
-"use server";
-
-import { getSessionToken } from "../sessions/sessionUtils";
-import getBaseUrl from "@utils/getBaseUrl";
+import fetchHandler from "@utils/fetchHandler";
 
 export default async function pendingAppointmentsRequest(hospital_id: string) {
-  const session = getSessionToken();
-  const serverUrl = getBaseUrl();
+  const endpoint = "/api/patient/appointment/pending";
 
-  const headers = {
-    Authorization: `Bearer ${session}`,
-  };
   try {
-    const res = await fetch(`${serverUrl}/api/patient/appointment/pending`, {
+    const data = await fetchHandler(endpoint, {
       method: "POST",
       body: JSON.stringify({ hospital_id }),
-      headers,
     });
-
-    if (!res.ok) {
-      throw new Error(
-        `fetching pending appointment request : ${res.statusText}`
-      );
-    }
-
-    const data = await res.json();
 
     return data;
   } catch (error) {
-    console.error("An error occurred while :", error);
+    console.error(
+      "An error occurred while fetching pending appointment requests:",
+      error
+    );
+    throw error;
   }
 }

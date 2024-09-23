@@ -1,21 +1,14 @@
-"use server";
-
-import getBaseUrl from "@utils/getBaseUrl";
+import fetchHandler from "@utils/fetchHandler";
 
 export default async function getCities(selectedState: string) {
-  const serverUrl = getBaseUrl();
+  const endpoint = `/api/city/?state=${selectedState}`;
 
   try {
-    const response = await fetch(
-      `${serverUrl}/api/city/?state=${selectedState}`
-    );
-    if (!response.ok) {
-      throw new Error("Failed to fetch cities");
-    }
-    const data = await response.json();
+    const data = await fetchHandler(endpoint);
+
     return data;
   } catch (error) {
-    console.error("Error fetching cities :", error);
+    console.error("Error fetching cities:", error);
     throw error;
   }
 }

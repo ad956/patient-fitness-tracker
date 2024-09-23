@@ -1,28 +1,12 @@
-"use server";
-
-import { getSessionToken } from "../sessions/sessionUtils";
-import getBaseUrl from "@utils/getBaseUrl";
+import fetchHandler from "@utils/fetchHandler";
 
 export default async function getPatientMedicalHistory() {
-  const session = getSessionToken();
-  const serverUrl = getBaseUrl();
+  const endpoint = "/api/patient/medicalhistory";
 
-  const headers = {
-    Authorization: `Bearer ${session}`,
-  };
   try {
-    const response = await fetch(`${serverUrl}/api/patient/medicalhistory`, {
-      headers,
-    });
+    const medicalHistory = await fetchHandler(endpoint);
 
-    if (!response.ok) {
-      throw new Error(
-        `Failed to fetch patient medical history: ${response.statusText}`
-      );
-    }
-
-    const res = await response.json();
-    return res;
+    return medicalHistory;
   } catch (error) {
     console.error("Error fetching patient medical history:", error);
     throw error;
