@@ -1,4 +1,4 @@
-import getBaseUrl from "@utils/getBaseUrl";
+import fetchHandler from "@utils/fetchHandler";
 
 export default async function verifyOtp(
   usernameOrEmail: string,
@@ -6,14 +6,11 @@ export default async function verifyOtp(
   action: string,
   otp: string
 ) {
-  const serverUrl = getBaseUrl();
+  const endpoint = "/api/auth/verifyotp";
 
   try {
-    const response = await fetch(`${serverUrl}/api/auth/verifyotp`, {
+    const result = await fetchHandler(endpoint, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
       body: JSON.stringify({
         otp,
         usernameOrEmail,
@@ -21,9 +18,10 @@ export default async function verifyOtp(
         action,
       }),
     });
-    const data = await response.json();
-    return data;
+
+    return result;
   } catch (error) {
-    console.error("Error:", error);
+    console.error("Error verifying OTP:", error);
+    throw error;
   }
 }
