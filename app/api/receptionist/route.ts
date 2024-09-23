@@ -1,21 +1,19 @@
-import dbConfig from "@utils/db";
+import { authenticateUser } from "@lib/auth/authenticateUser";
+import { dbConfig, errorHandler, STATUS_CODES } from "@utils/index";
 import Receptionist from "@models/receptionist";
 import { Types } from "mongoose";
+import { NextResponse } from "next/server";
 
 export async function GET(request: Request) {
   try {
-    const id = request.headers.get("x-user-id");
-    const role = request.headers.get("x-user-role");
+    const authHeader = request.headers.get("Authorization");
+    const { id, role } = await authenticateUser(authHeader);
 
     if (!id || !role) {
-      return Response.json(
-        { error: "Missing user ID or role" },
-        { status: 400 }
-      );
+      return errorHandler("Missing user ID or role", STATUS_CODES.BAD_REQUEST);
     }
 
     const receptionist_id = new Types.ObjectId(id);
-
     await dbConfig();
 
     const projection = {
@@ -25,19 +23,20 @@ export async function GET(request: Request) {
       current_hospital: 0,
     };
 
-    const receptionistData = await Receptionist.findById(receptionist_id, {
-      projection,
-    });
+    const receptionistData = await Receptionist.findById(
+      receptionist_id,
+      projection
+    );
     if (!receptionistData) {
-      return Response.json(
-        { error: "receptionist not found" },
-        { status: 404 }
-      );
+      return errorHandler("Receptionist not found", STATUS_CODES.NOT_FOUND);
     }
 
-    return Response.json(receptionistData, { status: 200 });
-  } catch (error) {
+    return NextResponse.json(receptionistData, { status: 200 });
+  } catch (error: any) {
     console.error("Error fetching receptionist data:", error);
-    return Response.json({ error: "Internal Server Error" }, { status: 500 });
+    return errorHandler(
+      error.message || "Internal Server Error",
+      STATUS_CODES.SERVER_ERROR
+    );
   }
 }

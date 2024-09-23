@@ -1,26 +1,28 @@
 import dbConfig from "@utils/db";
-import { BookedAppointment, Patient, Receptionist } from "@models/index";
+import { BookedAppointment, Patient } from "@models/index";
+import { authenticateUser } from "@lib/auth/authenticateUser";
 import { Types } from "mongoose";
+import { NextResponse } from "next/server";
+import { errorHandler, STATUS_CODES } from "@utils/index";
 
 export async function POST(req: Request) {
   try {
-    const { email } = await req.json();
+    const authHeader = req.headers.get("Authorization");
+    const { id, role } = await authenticateUser(authHeader);
 
+    if (!id || !role) {
+      return errorHandler("Missing user ID or role", STATUS_CODES.BAD_REQUEST);
+    }
+
+    const { email } = await req.json();
     console.log(email);
 
     await dbConfig();
 
-    // const waitingCollection = db.collection("waiting");
-
     const patient = await Patient.findOne({ email });
 
     if (!patient) {
-      return Response.json(
-        { error: "Patient not found" },
-        {
-          status: 404,
-        }
-      );
+      return errorHandler("Patient not found", STATUS_CODES.NOT_FOUND);
     }
 
     const appointment = await BookedAppointment.findOne({
@@ -35,21 +37,12 @@ export async function POST(req: Request) {
       );
     }
 
-    // const patientId = patient._id;
-
-    // await waitingCollection.insertOne({ patientId });
-
-    return Response.json(
+    return NextResponse.json(
       { message: "Successfully scanned QR" },
       { status: 201 }
     );
-  } catch (error) {
-    console.error("Error scanning patient qr code:", error);
-    return Response.json(
-      { error: "Internal Server Error" },
-      {
-        status: 500,
-      }
-    );
+  } catch (error: any) {
+    console.error("Error scanning patient QR code:", error);
+    return errorHandler("Internal Server Error", STATUS_CODES.SERVER_ERROR);
   }
 }

@@ -1,17 +1,17 @@
 import dbConfig from "@utils/db";
 import { Patient, BookedAppointment, Receptionist } from "@models/index";
 import { Types } from "mongoose";
+import { authenticateUser } from "@lib/auth/authenticateUser";
+import { NextResponse } from "next/server";
+import { errorHandler, STATUS_CODES } from "@utils/index";
 
 export async function GET(request: Request) {
   try {
-    const id = request.headers.get("x-user-id");
-    const role = request.headers.get("x-user-role");
+    const authHeader = request.headers.get("Authorization");
+    const { id, role } = await authenticateUser(authHeader);
 
     if (!id || !role) {
-      return Response.json(
-        { error: "Missing user ID or role" },
-        { status: 400 }
-      );
+      return errorHandler("Missing user ID or role", STATUS_CODES.BAD_REQUEST);
     }
 
     const receptionist_id = new Types.ObjectId(id);
@@ -23,11 +23,12 @@ export async function GET(request: Request) {
     });
 
     if (!currentHospitalResult) {
-      return Response.json(
-        { error: "Receptionist hospital isn't selected" },
-        { status: 404 }
+      return errorHandler(
+        "Receptionist hospital isn't selected",
+        STATUS_CODES.NOT_FOUND
       );
     }
+
     const currentHospitalId = currentHospitalResult.current_hospital;
 
     const pendingAppointments = await BookedAppointment.find({
@@ -35,14 +36,8 @@ export async function GET(request: Request) {
       "hospital.id": currentHospitalId,
     });
 
-    // Empty array returned if appointments are not found
     if (pendingAppointments.length === 0) {
-      return Response.json(
-        { patientDetails: [] },
-        {
-          status: 200,
-        }
-      );
+      return NextResponse.json({ patientDetails: [] }, { status: 200 });
     }
 
     const patientIds = pendingAppointments.map(
@@ -63,7 +58,6 @@ export async function GET(request: Request) {
       }
     );
 
-    // Adding disease, note, date, and timing to each patient detail
     const patientDetailsWithAdditionalInfo = patientDetails.map((patient) => {
       const appointment = pendingAppointments.find(
         (appointment) =>
@@ -81,17 +75,12 @@ export async function GET(request: Request) {
       return patient.toObject();
     });
 
-    return Response.json(
+    return NextResponse.json(
       { patientDetails: patientDetailsWithAdditionalInfo },
       { status: 200 }
     );
   } catch (error) {
     console.error("Error fetching pending patient appointments:", error);
-    return Response.json(
-      { error: "Internal Server Error" },
-      {
-        status: 500,
-      }
-    );
+    return errorHandler("Internal Server Error", STATUS_CODES.SERVER_ERROR);
   }
 }
