@@ -1,26 +1,12 @@
-"use server";
-import { getSessionToken } from "../sessions/sessionUtils";
-import getBaseUrl from "@utils/getBaseUrl";
+import fetchHandler from "@utils/fetchHandler";
 
 export default async function getDoctorData() {
-  const session = getSessionToken();
-  const serverUrl = getBaseUrl();
+  const endpoint = "/api/doctor";
 
-  const headers = {
-    Authorization: `Bearer ${session}`,
-  };
   try {
-    const res = await fetch(`${serverUrl}/api/doctor`, {
-      headers,
+    const doctorData = await fetchHandler(endpoint, {
       cache: "no-cache",
     });
-
-    if (!res.ok) {
-      console.error(`Error fetching doctor data: ${res.statusText}`);
-      throw new Error("fetching doctor data");
-    }
-
-    const doctorData = await res.json();
 
     return doctorData;
   } catch (error) {
