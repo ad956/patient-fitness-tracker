@@ -1,44 +1,47 @@
-import { dbConfig, getModelByRole } from "@utils/index";
+import { NextResponse } from "next/server";
+import {
+  dbConfig,
+  getModelByRole,
+  errorHandler,
+  STATUS_CODES,
+} from "@utils/index";
 import { PersonalInfoBody } from "@pft-types/index";
 import { Types } from "mongoose";
+import { authenticateUser } from "@lib/auth";
 
 export async function PUT(req: Request) {
   try {
-    const id = req.headers.get("x-user-id");
-    const role = req.headers.get("x-user-role");
+    const authHeader = req.headers.get("Authorization");
+    const { id, role } = await authenticateUser(authHeader);
 
     if (!id || !role) {
-      return Response.json(
-        { error: "Missing user ID or role" },
-        { status: 400 }
-      );
+      return errorHandler("Missing user ID or role", STATUS_CODES.BAD_REQUEST);
     }
 
     const user_id = new Types.ObjectId(id);
-
     const updateData: PersonalInfoBody = await req.json();
 
     await dbConfig();
 
-    // remove undefined fields
+    // Remove undefined fields
     Object.keys(updateData).forEach((key) => {
       if (updateData[key as keyof PersonalInfoBody] === undefined) {
         delete updateData[key as keyof PersonalInfoBody];
       }
     });
 
-    let UserModel = getModelByRole(role);
+    const UserModel = getModelByRole(role);
 
-    // check for uniqueness of username, email, and contact
+    // Check for uniqueness of username, email, and contact
     if (updateData.username) {
       const existingUsername = await UserModel.findOne({
         username: updateData.username,
         _id: { $ne: user_id },
       });
       if (existingUsername) {
-        return Response.json(
-          { error: "Username already exists" },
-          { status: 400 }
+        return errorHandler(
+          "Username already exists",
+          STATUS_CODES.BAD_REQUEST
         );
       }
     }
@@ -46,15 +49,10 @@ export async function PUT(req: Request) {
     if (updateData.email) {
       const existingEmail = await UserModel.findOne({
         email: updateData.email,
-        _id: {
-          $ne: user_id,
-        },
+        _id: { $ne: user_id },
       });
       if (existingEmail) {
-        return Response.json(
-          { error: "Email already exists" },
-          { status: 400 }
-        );
+        return errorHandler("Email already exists", STATUS_CODES.BAD_REQUEST);
       }
     }
 
@@ -64,14 +62,14 @@ export async function PUT(req: Request) {
         _id: { $ne: user_id },
       });
       if (existingContact) {
-        return Response.json(
-          { error: "Contact number already exists" },
-          { status: 400 }
+        return errorHandler(
+          "Contact number already exists",
+          STATUS_CODES.BAD_REQUEST
         );
       }
     }
 
-    //  update the user
+    // Update the user
     const updatedUser = await UserModel.findByIdAndUpdate(
       user_id,
       { $set: updateData },
@@ -79,18 +77,18 @@ export async function PUT(req: Request) {
     );
 
     if (!updatedUser) {
-      return Response.json({ error: `${role} not found` }, { status: 404 });
+      return errorHandler(`${role} not found`, STATUS_CODES.NOT_FOUND);
     }
 
-    return Response.json(
-      { msg: "Profile updated successfully" },
+    return NextResponse.json(
+      { message: "Profile updated successfully" },
       { status: 200 }
     );
-  } catch (error) {
+  } catch (error: any) {
     console.error("Error updating personal information:", error);
-    return Response.json(
-      { error: "Failed to update personal information" },
-      { status: 500 }
+    return errorHandler(
+      error.message || "Failed to update personal information",
+      STATUS_CODES.SERVER_ERROR
     );
   }
 }

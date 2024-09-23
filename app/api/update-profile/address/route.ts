@@ -1,39 +1,40 @@
+import { NextResponse } from "next/server";
 import { AddressBody } from "@pft-types/index";
-import { dbConfig, getModelByRole } from "@utils/index";
+import {
+  dbConfig,
+  getModelByRole,
+  errorHandler,
+  STATUS_CODES,
+} from "@utils/index";
 import { Types } from "mongoose";
+import { authenticateUser } from "@lib/auth";
 
 export async function PUT(req: Request) {
   try {
-    const id = req.headers.get("x-user-id");
-    const role = req.headers.get("x-user-role");
+    const authHeader = req.headers.get("Authorization");
+    const { id, role } = await authenticateUser(authHeader);
 
     if (!id || !role) {
-      return Response.json(
-        { error: "Missing user ID or role" },
-        { status: 400 }
-      );
+      return errorHandler("Missing user ID or role", STATUS_CODES.BAD_REQUEST);
     }
 
-    // any user of system
     const user_id = new Types.ObjectId(id);
-
     const addressData: AddressBody = await req.json();
 
     await dbConfig();
 
-    // removing undefined fields
+    // remove undefined fields
     Object.keys(addressData).forEach((key) => {
       if (addressData[key as keyof AddressBody] === undefined) {
         delete addressData[key as keyof AddressBody];
       }
     });
 
-    let UserModel = getModelByRole(role);
-
+    const UserModel = getModelByRole(role);
     const user = await UserModel.findById(user_id);
 
     if (!user) {
-      return Response.json({ error: `${role} not found` }, { status: 404 });
+      return errorHandler(`${role} not found`, STATUS_CODES.NOT_FOUND);
     }
 
     const updatedAddress = {
@@ -47,12 +48,14 @@ export async function PUT(req: Request) {
     };
 
     user.address = updatedAddress;
-
     await user.save();
 
-    return Response.json({ msg: "ok" }, { status: 200 });
-  } catch (error) {
+    return NextResponse.json({ message: "ok" }, { status: 200 });
+  } catch (error: any) {
     console.error("Error updating address:", error);
-    return Response.json({ error: "Error updating address" }, { status: 500 });
+    return errorHandler(
+      error.message || "Error updating address",
+      STATUS_CODES.SERVER_ERROR
+    );
   }
 }
