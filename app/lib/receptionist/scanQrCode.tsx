@@ -14,8 +14,8 @@ export default async function scanQRCode(email: string) {
       },
     });
 
-    const msg = await res.json();
-    return msg;
+    const message = await res.json();
+    return message;
   } catch (error) {
     console.error("Error fetching data:", error);
   }

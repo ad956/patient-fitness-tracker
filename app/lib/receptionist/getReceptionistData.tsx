@@ -1,28 +1,12 @@
-"use server";
-
-import getBaseUrl from "@utils/getBaseUrl";
-import { getSessionToken } from "../sessions/sessionUtils";
+import fetchHandler from "@utils/fetchHandler";
 
 export default async function getReceptionistData() {
-  const session = getSessionToken();
-  const serverUrl = getBaseUrl();
+  const endpoint = "/api/receptionist";
 
-  const headers = {
-    Authorization: `Bearer ${session}`,
-  };
   try {
-    const res = await fetch(`${serverUrl}/api/receptionist`, {
-      headers,
+    const receptionistData = await fetchHandler(endpoint, {
       cache: "no-cache",
     });
-
-    if (!res.ok) {
-      throw new Error(
-        `Failed to fetch receptionist data: ${res.status} - ${res.statusText}`
-      );
-    }
-
-    const receptionistData = await res.json();
 
     return receptionistData;
   } catch (error) {
