@@ -1,7 +1,13 @@
+import { NextResponse } from "next/server";
 import { setSession } from "@sessions/sessionUtils";
-import { dbConfig, getModelByRole } from "@utils/index";
-import { allowedRoles } from "@constants/index";
 import logUserActivity from "@lib/logs";
+import {
+  allowedRoles,
+  dbConfig,
+  errorHandler,
+  getModelByRole,
+  STATUS_CODES,
+} from "@utils/index";
 
 type bodyType = {
   usernameOrEmail: string;
@@ -21,29 +27,24 @@ export async function POST(req: Request) {
       !body.action ||
       !body.otp
     ) {
-      return Response.json(
-        {
-          error:
-            "Username/Email, OTP, action and role are required fields in the request body.",
-        },
-        { status: 400 }
+      return errorHandler(
+        "Username/Email, OTP, action, and role are required fields in the request body.",
+        STATUS_CODES.BAD_REQUEST
       );
     }
 
     if (!allowedRoles.includes(body.role)) {
-      return Response.json(
-        { error: "User role isn't valid." },
-        { status: 400 }
-      );
+      return errorHandler("User role isn't valid.", STATUS_CODES.BAD_REQUEST);
     }
 
     const result = await checkOTP(body, req);
     return result;
   } catch (error) {
-    console.error("Error during otp verification:", error);
-    return Response.json({ error: "Internal Server Error" }, { status: 500 });
+    console.error("Error during OTP verification:", error);
+    return errorHandler("Internal Server Error", STATUS_CODES.SERVER_ERROR);
   }
 }
+
 async function checkOTP(body: bodyType, req: Request) {
   await dbConfig();
 
@@ -59,8 +60,9 @@ async function checkOTP(body: bodyType, req: Request) {
     { _id: 1, username: 1, firstname: 1, lastname: 1, otp: 1, email: 1 }
   );
 
-  if (!user || user.otp !== body.otp)
-    return Response.json({ error: "OTP Verification Failed" }, { status: 401 });
+  if (!user || user.otp !== body.otp) {
+    return errorHandler("OTP Verification Failed", STATUS_CODES.UNAUTHORIZED);
+  }
 
   await UserModel.updateOne({ email: user.email }, { $set: { otp: "" } });
 
@@ -78,5 +80,5 @@ async function checkOTP(body: bodyType, req: Request) {
   // storing user logs in db
   await logUserActivity(userlog, req);
 
-  return Response.json({ message: "ok" }, { status: 200 });
+  return NextResponse.json({ message: "ok" }, { status: 200 });
 }
