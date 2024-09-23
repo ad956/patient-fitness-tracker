@@ -99,7 +99,7 @@ export default function Signup() {
       toast.dismiss();
 
       if (signUpSuccess.failure) {
-        toast.error(signUpSuccess.msg);
+        toast.error(signUpSuccess.message);
       } else {
         const userRole = formData.get("role");
 

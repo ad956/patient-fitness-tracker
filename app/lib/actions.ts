@@ -20,7 +20,7 @@ export async function loginAction(formData: FormData) {
     const userData = await response.json();
 
     if (!response.ok) {
-      return { msg: userData.error, unauthorized: true };
+      return { message: userData.error, unauthorized: true };
     } else return userData;
   } catch (error) {
     console.error("Login failed:", error);
@@ -49,7 +49,7 @@ export async function signupAction(formData: FormData) {
     const userData = await response.json();
 
     if (!response.ok) {
-      return { msg: userData.error, failure: true };
+      return { message: userData.error, failure: true };
     } else return userData;
   } catch (error) {
     console.error("Signup failed:", error);

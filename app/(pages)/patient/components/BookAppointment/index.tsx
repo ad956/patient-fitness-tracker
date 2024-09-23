@@ -255,7 +255,7 @@ export default function BookAppointment({
       return;
     }
     clearSelected();
-    toast.success(response.msg);
+    toast.success(response.message);
   }
 
   function clearSelected() {
