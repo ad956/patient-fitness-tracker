@@ -1,7 +1,6 @@
 import dbConfig from "@utils/db";
-import sendEmail from "../sendemail";
 import { render } from "@react-email/render";
-import { UserActivityTemplate } from "../emails/templates";
+import { sendEmail, UserActivityTemplate } from "../index";
 import { UserLog } from "@models/index";
 import { userAgent } from "next/server";
 
@@ -47,7 +46,9 @@ async function logUserActivity(userlog: userlogType, req: Request) {
       },
     });
   } catch (error: any) {
-    console.error(`While logging user activities got an error : ${error.msg}`);
+    console.error(
+      `While logging user activities got an error : ${error.message}`
+    );
   }
 }
 
