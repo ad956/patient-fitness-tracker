@@ -1,6 +1,5 @@
 import { Sidebar, Headbar } from "@components/index";
 import { getHospitalData } from "@lib/hospital";
-import { Hospital } from "@pft-types/index";
 
 import type { Metadata } from "next";
 
@@ -14,7 +13,7 @@ export default async function HospitalLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const hospital: Hospital = await getHospitalData();
+  const hospital = await getHospitalData();
 
   return (
     <main className="h-screen flex">

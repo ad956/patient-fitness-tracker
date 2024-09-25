@@ -69,11 +69,12 @@ export default function LoginForm() {
 
     try {
       toast.loading("Please wait ...", { position: "bottom-center" });
-      const isValidUser = await loginAction(formData);
+
+      const response = await loginAction(formData);
       toast.dismiss();
 
-      if (isValidUser?.unauthorized) {
-        toast.error("Invalid username or email & password. Please try again.");
+      if (response.error) {
+        toast.error(`${response.error.message}`);
       } else {
         setUserData({
           usernameOrEmail,
@@ -86,7 +87,9 @@ export default function LoginForm() {
         setShowOtp(true);
       }
     } catch (error) {
-      toast.error("An error occurred. Please try again.");
+      toast.dismiss();
+      console.error("Admin Login failed:", error);
+      toast.error("An unexpected error occurred. Please try again later.");
     }
   }
 

@@ -17,7 +17,6 @@ import {
   BsClock,
   BsCalendarCheck,
 } from "react-icons/bs";
-import { Receptionist } from "@pft-types/index";
 import { getReceptionistData, getPendingAppointments } from "@lib/receptionist";
 import {
   MonthlyVisitors,
@@ -28,22 +27,8 @@ import {
 } from "./components/Graphs";
 
 export default async function ReceptionistPage() {
-  interface PatientDetail {
-    id: string;
-    name: string;
-    appointmentTime: string;
-    reason: string;
-    contactNumber: string;
-    email?: string;
-  }
-
-  interface PendingPatients {
-    patientDetails: PatientDetail[];
-    totalCount: number;
-  }
-
-  const receptionist: Receptionist = await getReceptionistData();
-  const pendingPatients: PendingPatients = await getPendingAppointments();
+  const receptionist = await getReceptionistData();
+  const pendingPatients = await getPendingAppointments();
 
   const pendingAppointments = pendingPatients.patientDetails.length;
   const approvedAppointments = receptionist.dailyCount.approved;

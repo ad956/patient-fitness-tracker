@@ -29,18 +29,10 @@ import {
   getHospitals,
   getStates,
 } from "@lib/patient/misc";
-
-type Hospital = {
-  hospital_id: string;
-  hospital_name: string;
-  appointment_charge: string;
-};
-
-type BookAppointmentProps = {
-  patientId: string;
-  name: string;
-  email: string;
-};
+import {
+  BookAppointmentHospital,
+  BookAppointmentProps,
+} from "@pft-types/patient";
 
 export default function BookAppointment({
   patientId,
@@ -51,11 +43,12 @@ export default function BookAppointment({
   const [selectedState, setSelectedState] = useState("");
   const [cities, setCities] = useState<string[]>([]);
   const [selectedCity, setSelectedCity] = useState("");
-  const [selectedHospital, setSelectedHospital] = useState<Hospital>({
-    hospital_id: "",
-    hospital_name: "",
-    appointment_charge: "",
-  });
+  const [selectedHospital, setSelectedHospital] =
+    useState<BookAppointmentHospital>({
+      hospital_id: "",
+      hospital_name: "",
+      appointment_charge: "",
+    });
   const [selectedDisease, setSelectedDisease] = useState("");
   const [loadingStates, setLoadingStates] = useState(false);
   const [loadingCities, setLoadingCities] = useState(false);
@@ -64,9 +57,7 @@ export default function BookAppointment({
   const [isOpenPopover, setIsOpenPopover] = useState(false);
   const [isOpenHospitalPopover, setIsOpenHospitalPopover] = useState(false);
   const [isOpenDiseasePopover, setIsOpenDiseasePopover] = useState(false);
-  const [hospitals, setHospitals] = useState<
-    { hospital_id: string; hospital_name: string; appointment_charge: string }[]
-  >([]);
+  const [hospitals, setHospitals] = useState<BookAppointmentHospital[]>([]);
   const [diseases, setDiseases] = useState<string[]>([]);
   const [additionalNote, setAdditionalNote] = useState("");
   const [noteError, setNoteError] = useState("");
@@ -171,9 +162,8 @@ export default function BookAppointment({
   function handleHospitalChange(e: ChangeEvent<HTMLSelectElement>): void {
     const selectedId = e.target.value;
 
-    const selectedHospitalObj: Hospital | undefined = hospitals.find(
-      (hospital) => hospital.hospital_id === selectedId
-    );
+    const selectedHospitalObj: BookAppointmentHospital | undefined =
+      hospitals.find((hospital) => hospital.hospital_id === selectedId);
 
     if (selectedHospitalObj) {
       setSelectedHospital({
