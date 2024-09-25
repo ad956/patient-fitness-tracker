@@ -79,3 +79,32 @@ export type RecentUserPaginatedResponse = {
   totalPages: number;
   totalItems: number;
 };
+
+export interface HospitalData {
+  id: string;
+  name: string;
+  username: string;
+  profile: string;
+  contact: string;
+  city: string;
+  state: string;
+}
+
+export interface HospitalUserData {
+  id: string;
+  name: string;
+  role: string;
+  username: string;
+  profile: string;
+  gender: string;
+  contact: string;
+  city: string;
+  state: string;
+}
+
+export interface PaginationMetadata {
+  currentPage: number;
+  pageSize: number;
+  totalPages: number;
+  totalCount: number;
+}
