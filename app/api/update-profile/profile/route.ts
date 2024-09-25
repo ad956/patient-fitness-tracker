@@ -9,10 +9,10 @@ import { Types } from "mongoose";
 import { authenticateUser } from "@lib/auth";
 
 export async function PUT(request: Request) {
+  const authHeader = request.headers.get("Authorization");
   try {
     const profile_pic = await request.json();
 
-    const authHeader = request.headers.get("Authorization");
     const { id, role } = await authenticateUser(authHeader);
 
     // check for missing user ID or role

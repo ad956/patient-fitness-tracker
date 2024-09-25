@@ -13,8 +13,8 @@ import { BookingAppointmentType } from "@pft-types/patient";
 
 // getting patient's approved appointments
 export async function GET(request: Request) {
+  const authHeader = request.headers.get("Authorization");
   try {
-    const authHeader = request.headers.get("Authorization");
     const { id, role } = await authenticateUser(authHeader);
 
     if (!id || !role) {
@@ -68,6 +68,8 @@ export async function GET(request: Request) {
 
 // booking an appointment
 export async function POST(req: Request) {
+  const authHeader = req.headers.get("Authorization");
+
   try {
     const {
       state,
@@ -79,7 +81,6 @@ export async function POST(req: Request) {
       appointment_charge,
     }: BookingAppointmentType = await req.json();
 
-    const authHeader = req.headers.get("Authorization");
     const { id, role } = await authenticateUser(authHeader);
 
     if (!id || !role) {

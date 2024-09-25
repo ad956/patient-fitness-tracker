@@ -5,8 +5,8 @@ import Receptionist from "@models/receptionist";
 import { Types } from "mongoose";
 
 export async function GET(request: Request) {
+  const authHeader = request.headers.get("Authorization");
   try {
-    const authHeader = request.headers.get("Authorization");
     const { id, role } = await authenticateUser(authHeader);
 
     if (!id || !role) {
@@ -33,7 +33,7 @@ export async function GET(request: Request) {
 
     return NextResponse.json(receptionistData, { status: 200 });
   } catch (error: any) {
-    console.error("Error fetching receptionist data:", error);
+    console.error("Error fetching receptionist data route:", error);
     return errorHandler(
       error.message || "Internal Server Error",
       STATUS_CODES.SERVER_ERROR

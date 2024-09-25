@@ -5,8 +5,9 @@ import { authenticateUser } from "@lib/auth";
 import { Types } from "mongoose";
 
 export async function GET(request: Request) {
+  const authHeader = request.headers.get("Authorization");
+
   try {
-    const authHeader = request.headers.get("Authorization");
     const { id, role } = await authenticateUser(authHeader);
 
     if (!id || !role) {

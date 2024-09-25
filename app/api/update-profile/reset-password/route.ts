@@ -12,8 +12,8 @@ import { Types } from "mongoose";
 import { authenticateUser } from "@lib/auth";
 
 export async function PUT(req: Request) {
+  const authHeader = req.headers.get("Authorization");
   try {
-    const authHeader = req.headers.get("Authorization");
     const { id, role } = await authenticateUser(authHeader);
 
     if (!id || !role) {

@@ -11,16 +11,16 @@ import { dbConfig, errorHandler, STATUS_CODES } from "@utils/index";
 export async function GET(request: Request): Promise<Response> {
   const authHeader = request.headers.get("Authorization");
 
+  const url = new URL(request.url);
+  const page = parseInt(url.searchParams.get("page") || "1");
+  const limit = parseInt(url.searchParams.get("limit") || "10");
+
   try {
     const { id, role } = await authenticateUser(authHeader);
 
     if (!id || !role) {
       return errorHandler("Missing user ID or role", STATUS_CODES.BAD_REQUEST);
     }
-
-    const url = new URL(request.url);
-    const page = parseInt(url.searchParams.get("page") || "1");
-    const limit = parseInt(url.searchParams.get("limit") || "10");
 
     await dbConfig();
 

@@ -5,9 +5,9 @@ import { authenticateUser } from "@lib/auth";
 import { Types } from "mongoose";
 
 export async function POST(req: Request) {
+  const authHeader = req.headers.get("Authorization");
   try {
     const { hospital_id }: { hospital_id: string } = await req.json();
-    const authHeader = req.headers.get("Authorization");
 
     const { id, role } = await authenticateUser(authHeader);
 

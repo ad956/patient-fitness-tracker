@@ -3,9 +3,11 @@ import { dbConfig, errorHandler, STATUS_CODES } from "@utils/index";
 import { Transaction as TransactionType } from "@pft-types/index";
 import Transaction from "@models/transaction";
 import { Types } from "mongoose";
+import authenticateUser from "@lib/auth/authenticateUser";
 
 // saving transaction details in db
 export async function POST(req: Request) {
+  const authHeader = req.headers.get("Authorization");
   try {
     const {
       transaction_id,
@@ -17,8 +19,7 @@ export async function POST(req: Request) {
       status,
     }: TransactionType = await req.json();
 
-    const id = req.headers.get("x-user-id");
-    const role = req.headers.get("x-user-role");
+    const { id, role } = await authenticateUser(authHeader);
 
     if (!id || !role) {
       return errorHandler("Missing user ID or role", STATUS_CODES.BAD_REQUEST);
