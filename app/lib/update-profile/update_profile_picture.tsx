@@ -1,15 +1,25 @@
-import fetchHandler from "@utils/fetchHandler";
+"use server";
 
-async function updateProfilePicture(profile_url: string) {
+import fetchHandler from "@utils/fetchHandler";
+import { getSessionToken } from "../sessions/sessionUtils";
+
+async function updateProfilePicture(profile_url: string): Promise<any> {
   const endpoint = "/api/update-profile/profile";
+  const session = getSessionToken();
 
   try {
-    const result = await fetchHandler(endpoint, {
-      method: "PUT",
-      body: JSON.stringify(profile_url),
-    });
+    const response = await fetchHandler<any>(
+      endpoint,
+      {
+        method: "PUT",
+        body: JSON.stringify(profile_url),
+      },
+      session!
+    );
 
-    return result;
+    if (response.error) return { error: response.error.message };
+
+    return response.data!;
   } catch (error) {
     console.error("Error updating profile picture:", error);
     throw error;
