@@ -1,10 +1,13 @@
-import dbConfig from "@utils/db";
+import { NextResponse } from "next/server";
+import { dbConfig, errorHandler, STATUS_CODES } from "@utils/index";
 import { Transaction as TransactionType } from "@pft-types/index";
 import Transaction from "@models/transaction";
 import { Types } from "mongoose";
+import authenticateUser from "@lib/auth/authenticateUser";
 
 // saving transaction details in db
 export async function POST(req: Request) {
+  const authHeader = req.headers.get("Authorization");
   try {
     const {
       transaction_id,
@@ -16,14 +19,10 @@ export async function POST(req: Request) {
       status,
     }: TransactionType = await req.json();
 
-    const id = req.headers.get("x-user-id");
-    const role = req.headers.get("x-user-role");
+    const { id, role } = await authenticateUser(authHeader);
 
     if (!id || !role) {
-      return Response.json(
-        { error: "Missing user ID or role" },
-        { status: 400 }
-      );
+      return errorHandler("Missing user ID or role", STATUS_CODES.BAD_REQUEST);
     }
 
     await dbConfig();
@@ -40,14 +39,19 @@ export async function POST(req: Request) {
 
     const res = await Transaction.create(transactionData);
 
-    if (!res)
-      return Response.json({
-        error: "Error saving transaction details",
-      });
+    if (!res) {
+      return errorHandler(
+        "Error saving transaction details",
+        STATUS_CODES.SERVER_ERROR
+      );
+    }
 
-    return Response.json({ status: 200 });
-  } catch (error) {
-    console.error("Error saving transaction :", error);
-    return Response.json({ error: "Internal Server Error" }, { status: 500 });
+    return NextResponse.json({ status: 200 });
+  } catch (error: any) {
+    console.error("Error saving transaction:", error);
+    return errorHandler(
+      error.message || "Internal Server Error",
+      STATUS_CODES.SERVER_ERROR
+    );
   }
 }

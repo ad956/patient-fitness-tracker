@@ -5,14 +5,12 @@ import {
   MedicineDetails,
   HealthConditions,
 } from "./components";
-import { Patient, bookedAppointments } from "@pft-types/index";
 import { getPatientData, getUpcomingAppointments } from "@lib/patient";
 
 export default async function PatientPage() {
-  const patient: Patient = await getPatientData();
+  const patient = await getPatientData();
 
-  const upcomingAppointments: bookedAppointments =
-    await getUpcomingAppointments();
+  const upcomingAppointments = await getUpcomingAppointments();
 
   return (
     <section className="bg-[#f3f6fd] p-2 overflow-y-auto">

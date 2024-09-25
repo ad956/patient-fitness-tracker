@@ -1,6 +1,5 @@
 import Script from "next/script";
 import { Sidebar, Headbar } from "@components/index";
-import { Patient } from "@pft-types/index";
 import { getPatientData } from "@lib/patient";
 
 import type { Metadata } from "next";
@@ -15,7 +14,7 @@ export default async function PatientLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const patient: Patient = await getPatientData();
+  const patient = await getPatientData();
 
   return (
     <main className="h-screen flex">

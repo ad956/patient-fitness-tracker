@@ -10,24 +10,7 @@ import {
   TransactionsTable,
 } from "@components/index";
 import useFilterTransaction from "@hooks/useFilterTransaction";
-
-type Hospital = {
-  name: string;
-  profile: string;
-};
-
-type Payment = {
-  hospital: Hospital;
-  disease: string;
-  description: string;
-  date: string;
-  amount: number;
-  status: "Success" | "Failed";
-};
-
-type PaymentDetailsProps = {
-  paymentHistory: Payment[];
-};
+import { Payment, PaymentDetailsProps } from "@pft-types/patient";
 
 const statusColorMap: any = {
   Failed: "danger",

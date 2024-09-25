@@ -1,14 +1,17 @@
-import dbConfig from "@utils/db";
+import { NextResponse } from "next/server";
 import { BookedAppointment, Receptionist } from "@models/index";
 import { Types } from "mongoose";
-import { authenticateUser } from "@lib/auth/authenticateUser";
-import { NextResponse } from "next/server";
-import { errorHandler, STATUS_CODES } from "@utils/index";
+import { authenticateUser } from "@lib/auth";
+import { dbConfig, errorHandler, STATUS_CODES } from "@utils/index";
 
-// Get approved appointments
+// get approved appointments
 export async function GET(request: Request) {
+  const authHeader = request.headers.get("Authorization");
+
+  const { searchParams } = new URL(request.url);
+  const patient_id = searchParams.get("patient_id");
+
   try {
-    const authHeader = request.headers.get("Authorization");
     const { id, role } = await authenticateUser(authHeader);
 
     if (!id || !role) {
@@ -16,8 +19,6 @@ export async function GET(request: Request) {
     }
 
     const receptionist_id = new Types.ObjectId(id);
-    const { searchParams } = new URL(request.url);
-    const patient_id = searchParams.get("patient_id");
 
     if (!patient_id) {
       return errorHandler("Patient ID is required", STATUS_CODES.BAD_REQUEST);
@@ -39,11 +40,12 @@ export async function GET(request: Request) {
   }
 }
 
-// Approving appointments
+// approving appointments
 export async function POST(request: Request) {
+  const authHeader = request.headers.get("Authorization");
+
   try {
     const { patient_id } = await request.json();
-    const authHeader = request.headers.get("Authorization");
     const { id, role } = await authenticateUser(authHeader);
 
     if (!id || !role) {

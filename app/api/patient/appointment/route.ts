@@ -1,18 +1,20 @@
-import { authenticateUser } from "@lib/auth/authenticateUser";
+import { NextResponse } from "next/server";
 import { dbConfig, errorHandler, STATUS_CODES } from "@utils/index";
 import { Types } from "mongoose";
-import sendEmail from "@lib/sendemail";
 import { render } from "@react-email/render";
-import { AppointmentBookedTemplate } from "@lib/emails/templates";
-import sendNotification from "@lib/novu";
+import {
+  authenticateUser,
+  AppointmentBookedTemplate,
+  sendEmail,
+  sendNotification,
+} from "@lib/index";
 import { Patient, BookedAppointment, Doctor } from "@models/index";
 import { BookingAppointmentType } from "@pft-types/patient";
-import { NextResponse } from "next/server";
 
 // getting patient's approved appointments
 export async function GET(request: Request) {
+  const authHeader = request.headers.get("Authorization");
   try {
-    const authHeader = request.headers.get("Authorization");
     const { id, role } = await authenticateUser(authHeader);
 
     if (!id || !role) {
@@ -66,6 +68,8 @@ export async function GET(request: Request) {
 
 // booking an appointment
 export async function POST(req: Request) {
+  const authHeader = req.headers.get("Authorization");
+
   try {
     const {
       state,
@@ -77,7 +81,6 @@ export async function POST(req: Request) {
       appointment_charge,
     }: BookingAppointmentType = await req.json();
 
-    const authHeader = req.headers.get("Authorization");
     const { id, role } = await authenticateUser(authHeader);
 
     if (!id || !role) {
@@ -152,7 +155,7 @@ export async function POST(req: Request) {
     );
 
     return NextResponse.json(
-      { msg: "Appointment request added successfully" },
+      { message: "Appointment request added successfully" },
       { status: 200 }
     );
   } catch (error: any) {

@@ -23,35 +23,17 @@ import {
   AiOutlineStop as BlockIcon,
 } from "react-icons/ai";
 import SpinnerLoader from "@components/SpinnerLoader";
-import { getHospitalDetails } from "@/lib/admin";
+import { getHospitalDetails } from "@lib/admin";
 import { FaExclamationCircle } from "react-icons/fa";
-
-interface UserData {
-  id: string;
-  name: string;
-  role: string;
-  username: string;
-  profile: string;
-  gender: string;
-  contact: string;
-  city: string;
-  state: string;
-}
-
-interface PaginationMetadata {
-  currentPage: number;
-  pageSize: number;
-  totalPages: number;
-  totalCount: number;
-}
+import { HospitalUserData, PaginationMetadata } from "@pft-types/admin";
 
 function UserManagement({ params }: { params: { id: string } }) {
-  const [users, setUsers] = useState<UserData[]>([]);
+  const [users, setUsers] = useState<HospitalUserData[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [selectedRole, setSelectedRole] = useState<string>("All");
 
-  const [currentUser, setCurrentUser] = useState<UserData | null>(null);
+  const [currentUser, setCurrentUser] = useState<HospitalUserData | null>(null);
   const [pagination, setPagination] = useState<PaginationMetadata>({
     currentPage: 1,
     pageSize: 10,

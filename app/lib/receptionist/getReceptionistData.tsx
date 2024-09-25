@@ -1,30 +1,25 @@
 "use server";
 
-import getBaseUrl from "@utils/getBaseUrl";
+import fetchHandler from "@utils/fetchHandler";
 import { getSessionToken } from "../sessions/sessionUtils";
+import { Receptionist } from "@pft-types/index";
 
-export default async function getReceptionistData() {
+export default async function getReceptionistData(): Promise<Receptionist> {
+  const endpoint = "/api/receptionist";
   const session = getSessionToken();
-  const serverUrl = getBaseUrl();
 
-  const headers = {
-    Authorization: `Bearer ${session}`,
-  };
   try {
-    const res = await fetch(`${serverUrl}/api/receptionist`, {
-      headers,
-      cache: "no-cache",
-    });
+    const response = await fetchHandler<Receptionist>(
+      endpoint,
+      {
+        cache: "no-cache",
+      },
+      session!
+    );
 
-    if (!res.ok) {
-      throw new Error(
-        `Failed to fetch receptionist data: ${res.status} - ${res.statusText}`
-      );
-    }
+    if (response.error) throw new Error(response.error.message);
 
-    const receptionistData = await res.json();
-
-    return receptionistData;
+    return response.data!;
   } catch (error) {
     console.error("Error fetching receptionist data:", error);
     throw error;

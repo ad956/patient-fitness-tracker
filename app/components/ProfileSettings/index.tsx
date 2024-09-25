@@ -193,7 +193,7 @@ export default function ProfileSettings({ user }: ProfileSettingsProps) {
 
         toast.dismiss();
 
-        if (response.msg) {
+        if (response.message) {
           toast.success("Personal information updated successfully");
         } else {
           toast.error("Failed to update personal information");
@@ -239,7 +239,7 @@ export default function ProfileSettings({ user }: ProfileSettingsProps) {
 
         toast.dismiss();
 
-        if (response.msg) {
+        if (response.message) {
           toast.success("Address information updated successfully");
         } else {
           toast.error("Failed to update address information");
@@ -263,7 +263,7 @@ export default function ProfileSettings({ user }: ProfileSettingsProps) {
 
         toast.dismiss();
 
-        if (response.msg) {
+        if (response.message) {
           toast.success("Password updated successfully");
           setCurrentPassword("");
           setNewPassword("");

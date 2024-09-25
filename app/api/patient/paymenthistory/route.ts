@@ -1,12 +1,13 @@
+import { NextResponse } from "next/server";
 import { dbConfig, errorHandler, STATUS_CODES } from "@utils/index";
 import { Patient, Transaction } from "@models/index";
 import { Types } from "mongoose";
-import { NextResponse } from "next/server";
+import { authenticateUser } from "@lib/auth";
 
 export async function GET(request: Request) {
+  const authHeader = request.headers.get("Authorization");
   try {
-    const id = request.headers.get("x-user-id");
-    const role = request.headers.get("x-user-role");
+    const { id, role } = await authenticateUser(authHeader);
 
     if (!id || !role) {
       return errorHandler("Missing user ID or role", STATUS_CODES.BAD_REQUEST);

@@ -1,33 +1,27 @@
 "use server";
 
+import fetchHandler from "@utils/fetchHandler";
 import { getSessionToken } from "../sessions/sessionUtils";
-import getBaseUrl from "@utils/getBaseUrl";
 
-export default async function approveAppointment(patientId: string) {
+export default async function approveAppointment(
+  patientId: string
+): Promise<any> {
+  const endpoint = "/api/receptionist/appointments/approve";
   const session = getSessionToken();
-  const serverUrl = getBaseUrl();
 
-  const headers = {
-    Authorization: `Bearer ${session}`,
-  };
   try {
-    const response = await fetch(
-      `${serverUrl}/api/receptionist/appointments/approve`,
+    const response = await fetchHandler<any>(
+      endpoint,
       {
         method: "POST",
-        headers,
         body: JSON.stringify({ patient_id: patientId }),
-      }
+      },
+      session!
     );
 
-    if (!response.ok) {
-      throw new Error(
-        `Failed to approve appointment: ${response.status} - ${response.statusText}`
-      );
-    }
+    if (response.error) throw new Error(response.error.message);
 
-    const res = await response.json();
-    return res;
+    return response.data!;
   } catch (error) {
     console.error("Error approving appointment:", error);
     throw error;

@@ -1,28 +1,27 @@
 "use server";
+
+import fetchHandler from "@utils/fetchHandler";
 import { getSessionToken } from "../sessions/sessionUtils";
-import getBaseUrl from "@utils/getBaseUrl";
+import { Hospital } from "@pft-types/index";
 
-export default async function getHospitalData() {
+export default async function getHospitalData(): Promise<Hospital> {
+  const endpoint = "/api/hospital";
   const session = getSessionToken();
-  const serverUrl = getBaseUrl();
 
-  const headers = {
-    Authorization: `Bearer ${session}`,
-  };
   try {
-    const res = await fetch(`${serverUrl}/api/hospital`, {
-      headers,
-      cache: "no-cache",
-    });
+    const response = await fetchHandler<Hospital>(
+      endpoint,
+      {
+        cache: "no-cache",
+      },
+      session!
+    );
 
-    if (!res.ok) {
-      console.error(`Error fetching hospital data: ${res.statusText}`);
-      throw new Error("fetching hospital data");
+    if (response.error) {
+      throw new Error(response.error.message);
     }
 
-    const hospitalData = await res.json();
-
-    return hospitalData;
+    return response.data!;
   } catch (error) {
     console.error("An error occurred while fetching hospital data:", error);
     throw error;

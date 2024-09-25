@@ -38,6 +38,22 @@ export type bookingAppointment = {
   note: string;
 };
 
+export type BookAppointmentHospital = {
+  hospital_id: string;
+  hospital_name: string;
+  appointment_charge: string;
+};
+
+export type BookAppointmentProps = {
+  patientId: string;
+  name: string;
+  email: string;
+};
+
+export type MedicalDetailsProps = {
+  medicalDetails: MedicalHistory[];
+};
+
 export interface PaymentHistory {
   hospital: {
     name: string;
@@ -88,4 +104,20 @@ export interface Transaction {
 export type BookingAppointmentType = bookingAppointment & {
   transaction_id: string | null;
   appointment_charge: string;
+};
+
+export type Payment = {
+  hospital: {
+    name: string;
+    profile: string;
+  };
+  disease: string;
+  description: string;
+  date: string;
+  amount: number;
+  status: "Success" | "Failed";
+};
+
+export type PaymentDetailsProps = {
+  paymentHistory: Payment[];
 };

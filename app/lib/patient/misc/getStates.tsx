@@ -1,19 +1,17 @@
-"use server";
+import fetchHandler from "@utils/fetchHandler";
 
-import getBaseUrl from "@utils/getBaseUrl";
-
-export default async function getStates() {
-  const serverUrl = getBaseUrl();
+export default async function getStates(): Promise<[string]> {
+  const endpoint = "/api/states";
 
   try {
-    const response = await fetch(`${serverUrl}/api/states`);
-    if (!response.ok) {
-      throw new Error("Failed to fetch states");
+    const response = await fetchHandler<[string]>(endpoint);
+
+    if (response.error) {
+      throw new Error(response.error.message);
     }
-    const data = await response.json();
-    return data;
+    return response.data!;
   } catch (error) {
-    console.error("Error fetching states :", error);
+    console.error("Error fetching states:", error);
     throw error;
   }
 }

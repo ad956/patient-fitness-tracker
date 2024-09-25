@@ -54,11 +54,9 @@ export default function PatientTabs({ pendingAppointments }: PatientTabsProps) {
     try {
       const response = await approveAppointment(selectedPatient?._id ?? "");
 
-      if (response.error) {
-        throw new Error(response.error);
+      if (response) {
+        toast.success("Appointment approved successfully");
       }
-
-      toast.success("Appointment approved successfully");
     } catch (error) {
       console.error("Error approving appointment:", error);
     }

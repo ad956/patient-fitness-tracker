@@ -1,8 +1,13 @@
-import dbConfig from "@utils/db";
-import logUserActivity from "@lib/logs";
+import { NextResponse } from "next/server";
 import DemoUser from "@models/demouser";
-import getModelByRole from "@utils/getModelByRole";
 import { setSession } from "@sessions/sessionUtils";
+import logUserActivity from "@lib/logs";
+import {
+  dbConfig,
+  errorHandler,
+  getModelByRole,
+  STATUS_CODES,
+} from "@utils/index";
 
 export async function POST(req: Request) {
   await dbConfig();
@@ -10,14 +15,11 @@ export async function POST(req: Request) {
   try {
     const { role } = await req.json();
 
-    // Validate the incoming body
+    // validate the incoming body
     if (!role || typeof role !== "string") {
-      return Response.json(
-        {
-          success: false,
-          error: "Invalid request body. Please provide a valid role.",
-        },
-        { status: 400 }
+      return errorHandler(
+        "Invalid request body. Please provide a valid role.",
+        STATUS_CODES.BAD_REQUEST
       );
     }
 
@@ -25,32 +27,23 @@ export async function POST(req: Request) {
     const demoUser = await DemoUser.findOne({ role });
 
     if (!demoUser) {
-      return Response.json(
-        {
-          success: false,
-          error: "Demo user not found for this role",
-        },
-        { status: 404 }
+      return errorHandler(
+        "Demo user not found for this role",
+        STATUS_CODES.NOT_FOUND
       );
     }
 
-    // get a usermodel with matching role
+    // get a user model with matching role
     const UserModel = getModelByRole(role);
 
-    // find a user which have same ObjectId as demousers
+    // find a user which has the same ObjectId as demo users
     const userData = await UserModel.findById(demoUser.referenceId);
 
     if (!userData) {
-      return Response.json(
-        {
-          success: false,
-          error: "Demo user data not found",
-        },
-        { status: 404 }
-      );
+      return errorHandler("Demo user data not found", STATUS_CODES.NOT_FOUND);
     }
 
-    // setting session for demouser (stores jwt token in cookie named session)
+    // setting session for demo user (stores jwt token in cookie named session)
     await setSession(userData._id, role);
 
     const userLog = {
@@ -64,7 +57,7 @@ export async function POST(req: Request) {
     // log activity
     await logUserActivity(userLog, req);
 
-    return Response.json(
+    return NextResponse.json(
       {
         success: true,
         message: "Demo User logged in successfully.",
@@ -73,12 +66,6 @@ export async function POST(req: Request) {
     );
   } catch (error) {
     console.error("Error during login: ", error);
-    return Response.json(
-      {
-        success: false,
-        error: "Internal Server Error",
-      },
-      { status: 500 }
-    );
+    return errorHandler("Internal Server Error", STATUS_CODES.SERVER_ERROR);
   }
 }

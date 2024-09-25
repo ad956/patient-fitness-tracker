@@ -1,19 +1,18 @@
-"use server";
+import fetchHandler from "@utils/fetchHandler";
 
-import getBaseUrl from "@utils/getBaseUrl";
-
-export default async function getDiseases() {
-  const serverUrl = getBaseUrl();
+export default async function getDiseases(): Promise<[string]> {
+  const endpoint = `/api/gethospitals/disease/`;
 
   try {
-    const response = await fetch(`${serverUrl}/api/gethospitals/disease/`);
-    if (!response.ok) {
-      throw new Error("Failed to fetch diseases");
+    const response = await fetchHandler<[string]>(endpoint);
+
+    if (response.error) {
+      throw new Error(response.error.message);
     }
-    const data = await response.json();
-    return data;
+
+    return response.data!;
   } catch (error) {
-    console.error("Error fetching diseases :", error);
+    console.error("Error fetching diseases:", error);
     throw error;
   }
 }

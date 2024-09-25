@@ -85,10 +85,11 @@ export default function Login() {
         position: "bottom-center",
       });
 
-      const isValidUser = await loginAction(formData);
+      const response = await loginAction(formData);
       toast.dismiss();
-      if (isValidUser?.unauthorized) {
-        toast.error("Invalid username | email or password. Please try again.");
+
+      if (response.error) {
+        toast.error(`${response.error.message}`);
       } else {
         const userRole = formData.get("role");
         setUserData({
@@ -103,7 +104,9 @@ export default function Login() {
         setShowOtp(true);
       }
     } catch (error) {
-      toast.error("Invalid username | email or password. Please try again.");
+      toast.dismiss();
+      console.error("Login failed:", error);
+      toast.error("An unexpected error occurred. Please try again later.");
     }
   }
 

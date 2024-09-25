@@ -1,25 +1,27 @@
-import getBaseUrl from "@utils/getBaseUrl";
+"use server";
+
+import fetchHandler from "@utils/fetchHandler";
 import { getSessionToken } from "../sessions/sessionUtils";
 
-export default async function updateAddress(filteredFields: any) {
+export default async function updateAddress(filteredFields: any): Promise<any> {
+  const endpoint = "/api/update-profile/address";
   const session = getSessionToken();
-  const serverUrl = getBaseUrl();
-
-  const headers = {
-    Authorization: `Bearer ${session}`,
-  };
 
   try {
-    const response = await fetch(`${serverUrl}/api/update-profile/address`, {
-      method: "PUT",
-      headers,
-      body: JSON.stringify(filteredFields),
-    });
+    const response = await fetchHandler<any>(
+      endpoint,
+      {
+        method: "PUT",
+        body: JSON.stringify(filteredFields),
+      },
+      session!
+    );
 
-    const result = await response.json();
+    if (response.error) return { error: response.error.message };
 
-    return result;
+    return response.data!;
   } catch (error) {
     console.error("Error updating address information:", error);
+    throw error;
   }
 }

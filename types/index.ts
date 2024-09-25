@@ -88,4 +88,4 @@ export type SecurityBody = {
 
 export * from "./admin";
 export * from "./patient";
-// export * from "./receptionist";
+export * from "./receptionist";

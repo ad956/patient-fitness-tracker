@@ -95,11 +95,11 @@ export default function Signup() {
         position: "bottom-center",
       });
 
-      const signUpSuccess = await signupAction(formData);
+      const response = await signupAction(formData);
       toast.dismiss();
 
-      if (signUpSuccess.failure) {
-        toast.error(signUpSuccess.msg);
+      if (response.error) {
+        toast.error(`${response.error.message}`);
       } else {
         const userRole = formData.get("role");
 
@@ -119,8 +119,9 @@ export default function Signup() {
         setShowOtp(true);
       }
     } catch (error) {
-      console.error("Error signing up");
-      toast.error("Error signing up. Please try again!");
+      toast.dismiss();
+      console.error("Signup failed:", error);
+      toast.error("An unexpected error occurred. Please try again later.");
     }
   }
 

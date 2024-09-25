@@ -1,25 +1,29 @@
-import getBaseUrl from "@utils/getBaseUrl";
+"use server";
+
+import fetchHandler from "@utils/fetchHandler";
 import { getSessionToken } from "../sessions/sessionUtils";
 
-export default async function updatePersonal(filteredFields: any) {
+export default async function updatePersonal(
+  filteredFields: any
+): Promise<any> {
+  const endpoint = "/api/update-profile/personal";
   const session = getSessionToken();
-  const serverUrl = getBaseUrl();
-
-  const headers = {
-    Authorization: `Bearer ${session}`,
-  };
 
   try {
-    const response = await fetch(`${serverUrl}/api/update-profile/personal`, {
-      method: "PUT",
-      headers,
-      body: JSON.stringify(filteredFields),
-    });
+    const response = await fetchHandler<any>(
+      endpoint,
+      {
+        method: "PUT",
+        body: JSON.stringify(filteredFields),
+      },
+      session!
+    );
 
-    const result = await response.json();
+    if (response.error) return { error: response.error.message };
 
-    return result;
+    return response.data!;
   } catch (error) {
     console.error("Error updating personal information:", error);
+    throw error;
   }
 }

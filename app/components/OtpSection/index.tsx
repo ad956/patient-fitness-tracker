@@ -77,15 +77,15 @@ export default function OtpSection({ userData }: userDataType) {
 
   const handleSubmit = async () => {
     const otpString = otp.join("");
-    const data = await verifyOtp(
+    const response = await verifyOtp(
       userData.usernameOrEmail,
       userData.role,
       userData.action,
       otpString
     );
 
-    if (data.error) {
-      setShowError(data.error);
+    if (response.error) {
+      setShowError(response.error);
       resetOtpInputs();
     } else {
       setShowError("");

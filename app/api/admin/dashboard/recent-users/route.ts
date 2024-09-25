@@ -1,15 +1,19 @@
-import { authenticateUser } from "@lib/auth/authenticateUser";
+import { NextResponse } from "next/server";
 import mongoose from "mongoose";
+import authenticateUser from "@lib/auth/authenticateUser";
 import {
   FormattedRecentUser,
   RecentUserTile,
   RecentUserPaginatedResponse,
 } from "@pft-types/admin";
 import { dbConfig, errorHandler, STATUS_CODES } from "@utils/index";
-import { NextResponse } from "next/server";
 
 export async function GET(request: Request): Promise<Response> {
   const authHeader = request.headers.get("Authorization");
+
+  const url = new URL(request.url);
+  const page = parseInt(url.searchParams.get("page") || "1");
+  const limit = parseInt(url.searchParams.get("limit") || "10");
 
   try {
     const { id, role } = await authenticateUser(authHeader);
@@ -17,10 +21,6 @@ export async function GET(request: Request): Promise<Response> {
     if (!id || !role) {
       return errorHandler("Missing user ID or role", STATUS_CODES.BAD_REQUEST);
     }
-
-    const url = new URL(request.url);
-    const page = parseInt(url.searchParams.get("page") || "1");
-    const limit = parseInt(url.searchParams.get("limit") || "10");
 
     await dbConfig();
 
