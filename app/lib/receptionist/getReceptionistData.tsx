@@ -1,14 +1,25 @@
-import fetchHandler from "@utils/fetchHandler";
+"use server";
 
-export default async function getReceptionistData() {
+import fetchHandler from "@utils/fetchHandler";
+import { getSessionToken } from "../sessions/sessionUtils";
+import { Receptionist } from "@pft-types/index";
+
+export default async function getReceptionistData(): Promise<Receptionist> {
   const endpoint = "/api/receptionist";
+  const session = getSessionToken();
 
   try {
-    const receptionistData = await fetchHandler(endpoint, {
-      cache: "no-cache",
-    });
+    const response = await fetchHandler<Receptionist>(
+      endpoint,
+      {
+        cache: "no-cache",
+      },
+      session!
+    );
 
-    return receptionistData;
+    if (response.error) throw new Error(response.error.message);
+
+    return response.data!;
   } catch (error) {
     console.error("Error fetching receptionist data:", error);
     throw error;
