@@ -15,6 +15,8 @@ type userlogType = {
 async function logUserActivity(userlog: userlogType, req: Request) {
   await dbConfig();
 
+  const ip_addr = req.headers.get("x-forwarded-for") ?? "127.0.0.1";
+
   try {
     const { os, browser, device } = userAgent(req);
 
@@ -25,9 +27,7 @@ async function logUserActivity(userlog: userlogType, req: Request) {
       action: userlog.action,
       userType: userlog.role,
       device: `${os.name} ${os.version}, ${browser.name} ${browser.version}, ${device.type}`,
-      ip: (req.headers.get("x-forwarded-for") ?? "127.0.0.1")
-        .split(",")[0]
-        .trim(),
+      ip: ip_addr.split(",")[0].trim(),
       location: await fetchLocationByIP(),
     };
 
@@ -46,9 +46,7 @@ async function logUserActivity(userlog: userlogType, req: Request) {
       },
     });
   } catch (error: any) {
-    console.error(
-      `While logging user activities got an error : ${error.message}`
-    );
+    console.error(`While logging user activities got an error`);
   }
 }
 
