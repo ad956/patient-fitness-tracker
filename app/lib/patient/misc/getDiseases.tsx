@@ -1,12 +1,16 @@
 import fetchHandler from "@utils/fetchHandler";
 
-export default async function getDiseases() {
+export default async function getDiseases(): Promise<[string]> {
   const endpoint = `/api/gethospitals/disease/`;
 
   try {
-    const data = await fetchHandler(endpoint);
+    const response = await fetchHandler<[string]>(endpoint);
 
-    return data;
+    if (response.error) {
+      throw new Error(response.error.message);
+    }
+
+    return response.data!;
   } catch (error) {
     console.error("Error fetching diseases:", error);
     throw error;

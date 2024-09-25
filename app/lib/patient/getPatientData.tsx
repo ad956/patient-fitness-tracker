@@ -1,14 +1,27 @@
-import fetchHandler from "@utils/fetchHandler";
+"use server";
 
-export default async function getPatientData() {
+import fetchHandler from "@utils/fetchHandler";
+import { getSessionToken } from "../sessions/sessionUtils";
+import { Patient } from "@pft-types/index";
+
+export default async function getresponse(): Promise<Patient> {
   const endpoint = "/api/patient";
+  const session = getSessionToken();
 
   try {
-    const patientData = await fetchHandler(endpoint, {
-      cache: "no-cache",
-    });
+    const response = await fetchHandler<Patient>(
+      endpoint,
+      {
+        cache: "no-cache",
+      },
+      session!
+    );
 
-    return patientData;
+    if (response.error) {
+      throw new Error(response.error.message);
+    }
+
+    return response.data!;
   } catch (error) {
     console.error("An error occurred while fetching patient data:", error);
     throw error;

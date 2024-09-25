@@ -1,12 +1,18 @@
 import fetchHandler from "@utils/fetchHandler";
 
-export default async function getCities(selectedState: string) {
+export default async function getCities(
+  selectedState: string
+): Promise<[string]> {
   const endpoint = `/api/city/?state=${selectedState}`;
 
   try {
-    const data = await fetchHandler(endpoint);
+    const response = await fetchHandler<[string]>(endpoint);
 
-    return data;
+    if (response.error) {
+      throw new Error(response.error.message);
+    }
+
+    return response.data!;
   } catch (error) {
     console.error("Error fetching cities:", error);
     throw error;
