@@ -25,25 +25,7 @@ import {
 import SpinnerLoader from "@components/SpinnerLoader";
 import { getHospitalDetails } from "@/lib/admin";
 import { FaExclamationCircle } from "react-icons/fa";
-
-interface UserData {
-  id: string;
-  name: string;
-  role: string;
-  username: string;
-  profile: string;
-  gender: string;
-  contact: string;
-  city: string;
-  state: string;
-}
-
-interface PaginationMetadata {
-  currentPage: number;
-  pageSize: number;
-  totalPages: number;
-  totalCount: number;
-}
+import { PaginationMetadata, UserData } from "@pft-types/admin";
 
 function UserManagement({ params }: { params: { id: string } }) {
   const [users, setUsers] = useState<UserData[]>([]);

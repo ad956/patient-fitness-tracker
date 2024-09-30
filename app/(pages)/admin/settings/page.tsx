@@ -1,9 +1,8 @@
-import { Admin } from "@pft-types/index";
 import getAdminData from "@lib/admin/getAdminData";
 import ProfileSettings from "@components/ProfileSettings";
 
 export default async function Settings() {
-  const admin: Admin = await getAdminData();
+  const admin = await getAdminData();
 
   return (
     <section className="h-screen w-full flex flex-col">

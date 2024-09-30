@@ -24,26 +24,10 @@ import SpinnerLoader from "@components/SpinnerLoader";
 import Link from "next/link";
 import { getHospitalsList } from "@lib/admin/getHospitals";
 import { FaExclamationCircle } from "react-icons/fa";
-
-interface HospitalData {
-  id: string;
-  name: string;
-  username: string;
-  profile: string;
-  contact: string;
-  city: string;
-  state: string;
-}
-
-interface PaginationMetadata {
-  currentPage: number;
-  pageSize: number;
-  totalPages: number;
-  totalCount: number;
-}
+import { HospitalDetails, PaginationMetadata } from "@pft-types/admin";
 
 const HospitalManagement: React.FC = () => {
-  const [hospitals, setHospitals] = useState<HospitalData[]>([]);
+  const [hospitals, setHospitals] = useState<HospitalDetails[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [searchTerm, setSearchTerm] = useState<string>("");
 

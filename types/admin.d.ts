@@ -56,6 +56,18 @@ export interface HospitalDetails {
   state: string;
 }
 
+export interface UserData {
+  id: string;
+  name: string;
+  role: string;
+  username: string;
+  profile: string;
+  gender: string;
+  contact: string;
+  city: string;
+  state: string;
+}
+
 export type HospitalUserDetails = HospitalDetails & {
   role: string;
   gender: string;
@@ -79,3 +91,11 @@ export type RecentUserPaginatedResponse = {
   totalPages: number;
   totalItems: number;
 };
+
+// for /hospitals
+interface PaginationMetadata {
+  currentPage: number;
+  pageSize: number;
+  totalPages: number;
+  totalCount: number;
+}
