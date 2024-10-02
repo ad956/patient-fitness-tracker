@@ -25,11 +25,7 @@ import {
 import SpinnerLoader from "@components/SpinnerLoader";
 import { getHospitalDetails } from "@lib/admin";
 import { FaExclamationCircle } from "react-icons/fa";
-<<<<<<< HEAD
-import { PaginationMetadata, UserData } from "@pft-types/admin";
-=======
 import { HospitalUserData, PaginationMetadata } from "@pft-types/admin";
->>>>>>> main
 
 function UserManagement({ params }: { params: { id: string } }) {
   const [users, setUsers] = useState<HospitalUserData[]>([]);

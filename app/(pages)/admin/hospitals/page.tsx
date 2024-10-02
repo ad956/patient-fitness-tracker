@@ -24,11 +24,7 @@ import SpinnerLoader from "@components/SpinnerLoader";
 import Link from "next/link";
 import { getHospitalsList } from "@lib/admin/getHospitals";
 import { FaExclamationCircle } from "react-icons/fa";
-<<<<<<< HEAD
 import { HospitalDetails, PaginationMetadata } from "@pft-types/admin";
-=======
-import { HospitalData, PaginationMetadata } from "@pft-types/admin";
->>>>>>> main
 
 const HospitalManagement: React.FC = () => {
   const [hospitals, setHospitals] = useState<HospitalDetails[]>([]);
