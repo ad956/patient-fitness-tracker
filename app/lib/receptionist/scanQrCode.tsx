@@ -1,22 +1,27 @@
 "use server";
 
-import getBaseUrl from "@utils/getBaseUrl";
+import fetchHandler from "@utils/fetchHandler";
+import { getSessionToken } from "../sessions/sessionUtils";
 
-export default async function scanQRCode(email: string) {
-  const serverUrl = getBaseUrl();
+export default async function scanQRCode(
+  email: string
+): Promise<{ message: string }> {
+  const endpoint = "/api/receptionist/scan";
+  const session = getSessionToken();
 
   try {
-    const res = await fetch(`${serverUrl}/api/receptionist/scan`, {
-      method: "POST",
-      body: JSON.stringify({ email }),
-      headers: {
-        "Content-Type": "application/json",
+    const result = await fetchHandler<{ message: string }>(
+      endpoint,
+      {
+        method: "POST",
+        body: JSON.stringify({ email }),
       },
-    });
+      session!
+    );
 
-    const msg = await res.json();
-    return msg;
+    return result.data!;
   } catch (error) {
     console.error("Error fetching data:", error);
+    throw error;
   }
 }

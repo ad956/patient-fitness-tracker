@@ -66,7 +66,10 @@ export default function AddAdmin() {
       const result = await addAdmin(formDataToSend);
 
       if (result.error) {
-        toast.error(result.error, { id: toastId, position: "top-center" });
+        toast.error(result.error.message, {
+          id: toastId,
+          position: "top-center",
+        });
       } else {
         toast.success("Admin added successfully!", { id: toastId });
         setFormData({

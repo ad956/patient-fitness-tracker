@@ -1,5 +1,5 @@
-import { OtpTemplate } from "@lib/emails/templates";
-import sendEmail from "@lib/sendemail";
+import { NextResponse } from "next/server";
+import { OtpTemplate, sendEmail } from "@lib/index";
 import { render } from "@react-email/render";
 import {
   allowedRoles,
@@ -13,6 +13,8 @@ import {
   generateSecureOTP,
   getModelByRole,
   hashPassword,
+  STATUS_CODES,
+  errorHandler,
 } from "@utils/index";
 
 type SignupBody = {
@@ -29,24 +31,21 @@ export async function POST(req: Request) {
     const body: SignupBody = await req.json();
 
     if (checkMissingElements(body)) {
-      return Response.json(
-        { error: "Missing required fields in the request body" },
-        { status: 400 }
+      return errorHandler(
+        "Missing required fields in the request body",
+        STATUS_CODES.BAD_REQUEST
       );
     }
 
     if (!allowedRoles.includes(body.role)) {
-      return Response.json(
-        { error: "User role isn't valid." },
-        { status: 400 }
-      );
+      return errorHandler("User role isn't valid.", STATUS_CODES.BAD_REQUEST);
     }
 
     const result = await createAccount(body);
     return result;
-  } catch (error) {
+  } catch (error: any) {
     console.error("Error during signup:", error);
-    return Response.json({ error: "Internal Server Error" }, { status: 500 });
+    return errorHandler("Internal Server Error", STATUS_CODES.SERVER_ERROR);
   }
 }
 
@@ -61,20 +60,15 @@ async function createAccount(signupBody: SignupBody) {
 
   if (existingUser) {
     if (existingUser.email === signupBody.email) {
-      return Response.json({ error: "Email already exists" }, { status: 409 });
+      return errorHandler("Email already exists", STATUS_CODES.CONFLICT);
     }
 
     if (existingUser.username === signupBody.username) {
-      return Response.json(
-        { error: "Username already exists" },
-        { status: 409 }
-      );
+      return errorHandler("Username already exists", STATUS_CODES.CONFLICT);
     }
   }
 
-  // gets the additional details based on the user's role
-  let additionalDetails = getAdditionalDetails(signupBody.role);
-
+  const additionalDetails = getAdditionalDetails(signupBody.role);
   const hashedPassword = await hashPassword(signupBody.password);
 
   const newUser = new UserModel({
@@ -84,7 +78,6 @@ async function createAccount(signupBody: SignupBody) {
   });
 
   const savedUser = await newUser.save();
-
   const generatedOTP = generateSecureOTP();
 
   await savedUser.updateOne(
@@ -92,7 +85,7 @@ async function createAccount(signupBody: SignupBody) {
     { $set: { otp: generatedOTP } }
   );
 
-  const mailsent = await sendEmail({
+  const mailSent = await sendEmail({
     to: savedUser.email,
     subject: "Verification of OTP for Account Creation",
     html: render(OtpTemplate(savedUser.firstname, generatedOTP)),
@@ -102,8 +95,14 @@ async function createAccount(signupBody: SignupBody) {
     },
   });
 
-  if (!mailsent) return Response.json({ error: "Signup email sending failed" });
-  return Response.json(
+  if (!mailSent) {
+    return errorHandler(
+      "Signup email sending failed",
+      STATUS_CODES.SERVER_ERROR
+    );
+  }
+
+  return NextResponse.json(
     { message: "Account created successfully" },
     { status: 201 }
   );
@@ -133,5 +132,7 @@ function getAdditionalDetails(role: string) {
       return doctoradditionalDetails;
     case "hospital":
       return hospitaladditionalDetails;
+    default:
+      return {};
   }
 }

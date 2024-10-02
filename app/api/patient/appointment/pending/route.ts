@@ -1,13 +1,13 @@
+import { NextResponse } from "next/server";
 import { Patient, BookedAppointment } from "@models/index";
 import { dbConfig, errorHandler, STATUS_CODES } from "@utils/index";
-import { authenticateUser } from "@lib/auth/authenticateUser";
+import { authenticateUser } from "@lib/auth";
 import { Types } from "mongoose";
-import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
+  const authHeader = req.headers.get("Authorization");
   try {
     const { hospital_id }: { hospital_id: string } = await req.json();
-    const authHeader = req.headers.get("Authorization");
 
     const { id, role } = await authenticateUser(authHeader);
 

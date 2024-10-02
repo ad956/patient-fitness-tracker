@@ -1,13 +1,12 @@
-import dbConfig from "@utils/db";
-import { BookedAppointment, Patient } from "@models/index";
-import { authenticateUser } from "@lib/auth/authenticateUser";
-import { Types } from "mongoose";
 import { NextResponse } from "next/server";
-import { errorHandler, STATUS_CODES } from "@utils/index";
+import { BookedAppointment, Patient } from "@models/index";
+import { authenticateUser } from "@lib/auth";
+import { Types } from "mongoose";
+import { dbConfig, errorHandler, STATUS_CODES } from "@utils/index";
 
 export async function POST(req: Request) {
+  const authHeader = req.headers.get("Authorization");
   try {
-    const authHeader = req.headers.get("Authorization");
     const { id, role } = await authenticateUser(authHeader);
 
     if (!id || !role) {

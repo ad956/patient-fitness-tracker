@@ -1,55 +1,55 @@
-import { dbConfig, getModelByRole } from "@utils/index";
+import { NextResponse } from "next/server";
+import {
+  dbConfig,
+  getModelByRole,
+  errorHandler,
+  STATUS_CODES,
+  hashPassword,
+} from "@utils/index";
 import bcrypt from "bcrypt";
 import { SecurityBody } from "@pft-types/index";
 import { Types } from "mongoose";
+import { authenticateUser } from "@lib/auth";
 
 export async function PUT(req: Request) {
+  const authHeader = req.headers.get("Authorization");
   try {
-    const id = req.headers.get("x-user-id");
-    const role = req.headers.get("x-user-role");
+    const { id, role } = await authenticateUser(authHeader);
 
     if (!id || !role) {
-      return Response.json(
-        { error: "Missing user ID or role" },
-        { status: 400 }
-      );
+      return errorHandler("Missing user ID or role", STATUS_CODES.BAD_REQUEST);
     }
 
     const user_id = new Types.ObjectId(id);
-
     const { currentPassword, newPassword }: SecurityBody = await req.json();
 
     if (!currentPassword || !newPassword) {
-      return Response.json(
-        { error: "Current password and new password are required" },
-        { status: 400 }
+      return errorHandler(
+        "Current password and new password are required",
+        STATUS_CODES.BAD_REQUEST
       );
     }
 
     await dbConfig();
-
-    let UserModel = getModelByRole(role);
+    const UserModel = getModelByRole(role);
 
     const user = await UserModel.findById(user_id);
-
     if (!user) {
-      return Response.json({ error: "User not found" }, { status: 404 });
+      return errorHandler("User not found", STATUS_CODES.NOT_FOUND);
     }
 
     const isPasswordValid = await bcrypt.compare(
       currentPassword,
       user.password
     );
-
     if (!isPasswordValid) {
-      return Response.json(
-        { error: "Current password is incorrect" },
-        { status: 400 }
+      return errorHandler(
+        "Current password is incorrect",
+        STATUS_CODES.BAD_REQUEST
       );
     }
 
     const hashedNewPassword = await hashPassword(newPassword);
-
     const updatedUser = await UserModel.findByIdAndUpdate(
       user_id,
       { $set: { password: hashedNewPassword } },
@@ -57,24 +57,15 @@ export async function PUT(req: Request) {
     );
 
     if (!updatedUser) {
-      return Response.json(
-        { error: "Error updating password" },
-        { status: 500 }
-      );
+      return errorHandler("Error updating password", STATUS_CODES.SERVER_ERROR);
     }
 
-    return Response.json(
-      { msg: "Password updated successfully" },
+    return NextResponse.json(
+      { message: "Password updated successfully" },
       { status: 200 }
     );
   } catch (error) {
-    return Response.json({ error: "Error updating password" }, { status: 500 });
+    console.error("Error updating password:", error);
+    return errorHandler("Error updating password", STATUS_CODES.SERVER_ERROR);
   }
-}
-
-// hashing the password
-async function hashPassword(password: string) {
-  const saltRounds = parseInt(process.env.BCRYPT_SALT_ROUNDS || "10");
-  const hashedPassword = await bcrypt.hash(password, saltRounds);
-  return hashedPassword;
 }

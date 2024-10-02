@@ -1,14 +1,20 @@
-import dbConfig from "@utils/db";
+import { NextResponse } from "next/server";
 import Hospital from "@models/hospital";
 import { HospitalDetails } from "@pft-types/admin";
 import { Types } from "mongoose";
-import { NextResponse } from "next/server";
-import { errorHandler, STATUS_CODES } from "@utils/index";
-import { authenticateUser } from "@lib/auth/authenticateUser";
+import { dbConfig, errorHandler, STATUS_CODES } from "@utils/index";
+import authenticateUser from "@lib/auth/authenticateUser";
 
 export async function GET(request: Request) {
+  const authHeader = request.headers.get("Authorization");
+
+  // parse query parameters for pagination
+  const url = new URL(request.url);
+  const page = parseInt(url.searchParams.get("page") || "1");
+  const limit = parseInt(url.searchParams.get("limit") || "10");
+  const skip = (page - 1) * limit;
+
   try {
-    const authHeader = request.headers.get("Authorization");
     const { id, role } = await authenticateUser(authHeader);
 
     if (!id || !role) {
@@ -18,12 +24,6 @@ export async function GET(request: Request) {
     const admin_id = new Types.ObjectId(id);
 
     await dbConfig();
-
-    // Parse query parameters for pagination
-    const url = new URL(request.url);
-    const page = parseInt(url.searchParams.get("page") || "1");
-    const limit = parseInt(url.searchParams.get("limit") || "10");
-    const skip = (page - 1) * limit;
 
     // Count total hospitals before applying skip and limit
     const totalHospitals = await Hospital.countDocuments();

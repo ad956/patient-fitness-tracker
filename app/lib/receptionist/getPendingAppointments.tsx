@@ -1,32 +1,23 @@
 "use server";
 
+import fetchHandler from "@utils/fetchHandler";
 import { getSessionToken } from "../sessions/sessionUtils";
-import getBaseUrl from "@utils/getBaseUrl";
+import { PendingPatients } from "@pft-types/receptionist";
 
-export default async function getPendingAppointments() {
+export default async function getPendingAppointments(): Promise<PendingPatients> {
+  const endpoint = "/api/receptionist/appointments/pending";
   const session = getSessionToken();
-  const serverUrl = getBaseUrl();
 
-  const headers = {
-    Authorization: `Bearer ${session}`,
-  };
   try {
-    const res = await fetch(
-      `${serverUrl}/api/receptionist/appointments/pending`,
-      {
-        headers,
-      }
+    const response = await fetchHandler<PendingPatients>(
+      endpoint,
+      {},
+      session!
     );
 
-    if (!res.ok) {
-      throw new Error(
-        `Failed to fetch pending appointments: ${res.status} - ${res.statusText}`
-      );
-    }
+    if (response.error) throw new Error(response.error.message);
 
-    const receptionistData = await res.json();
-
-    return receptionistData;
+    return response.data!;
   } catch (error) {
     console.error("Error fetching pending appointments:", error);
     throw error;

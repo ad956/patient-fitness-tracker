@@ -1,10 +1,9 @@
 import { getPatientData } from "@lib/patient";
-import { Patient } from "@pft-types/index";
 import { Card, Link, User } from "@nextui-org/react";
 import { QRCode } from "../components";
 
 export default async function QRCodePage() {
-  const patient: Patient = await getPatientData();
+  const patient = await getPatientData();
 
   return (
     <Card

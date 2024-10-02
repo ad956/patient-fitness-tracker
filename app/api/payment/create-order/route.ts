@@ -1,4 +1,4 @@
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { razorpay } from "@lib/razorpay";
 
 export async function POST(request: NextRequest) {
@@ -13,5 +13,5 @@ export async function POST(request: NextRequest) {
     receipt: "rcp1",
   };
   const order = await razorpay.orders.create(options);
-  return Response.json({ orderId: order.id }, { status: 200 });
+  return NextResponse.json({ orderId: order.id }, { status: 200 });
 }

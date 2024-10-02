@@ -1,8 +1,14 @@
-import { OtpTemplate } from "@lib/emails/templates";
-import sendEmail from "@lib/sendemail";
+import { NextResponse } from "next/server";
+import { OtpTemplate, sendEmail } from "@lib/index";
 import { render } from "@react-email/render";
-import { dbConfig, generateSecureOTP, getModelByRole } from "@utils/index";
-import { allowedRoles } from "@constants/index";
+import {
+  dbConfig,
+  errorHandler,
+  generateSecureOTP,
+  getModelByRole,
+  STATUS_CODES,
+  allowedRoles,
+} from "@utils/index";
 import bcrypt from "bcrypt";
 
 type LoginBody = {
@@ -12,31 +18,25 @@ type LoginBody = {
 };
 
 export async function POST(req: Request) {
+  const body: LoginBody = await req.json();
+
+  if (!body || !body.usernameOrEmail || !body.password || !body.role) {
+    return errorHandler(
+      "Invalid request body. Please provide username or email, password, and role.",
+      STATUS_CODES.BAD_REQUEST
+    );
+  }
+
+  if (!allowedRoles.includes(body.role)) {
+    return errorHandler("User role isn't valid.", STATUS_CODES.BAD_REQUEST);
+  }
+
   try {
-    const body: LoginBody = await req.json();
-
-    if (!body || !body.usernameOrEmail || !body.password || !body.role) {
-      return Response.json(
-        {
-          error:
-            "Invalid request body. Please provide username or email, password, and role.",
-        },
-        { status: 400 }
-      );
-    }
-
-    if (!allowedRoles.includes(body.role)) {
-      return Response.json(
-        { error: "User role isn't valid." },
-        { status: 400 }
-      );
-    }
-
     const result = await setOTP(body);
     return result;
-  } catch (error) {
+  } catch (error: any) {
     console.error("Error during login: ", error);
-    return Response.json({ error: "Internal Server Error" }, { status: 500 });
+    return errorHandler("Internal Server Error", STATUS_CODES.SERVER_ERROR);
   }
 }
 
@@ -56,18 +56,17 @@ async function setOTP(loginBody: LoginBody) {
   );
 
   if (!user || !(await bcrypt.compare(loginBody.password, user.password))) {
-    return Response.json(
-      { error: "Invalid username/email or password" },
-      { status: 401 }
+    return errorHandler(
+      "Invalid username/email or password",
+      STATUS_CODES.UNAUTHORIZED
     );
   }
 
   const generatedOTP = generateSecureOTP();
-
   user.otp = generatedOTP;
   await user.save();
 
-  const mailsent = await sendEmail({
+  const mailSent = await sendEmail({
     to: user.email,
     subject: "OTP Verification",
     html: render(OtpTemplate(user.firstname, generatedOTP)),
@@ -77,6 +76,9 @@ async function setOTP(loginBody: LoginBody) {
     },
   });
 
-  if (!mailsent) return Response.json({ error: "Email Sending Failed" });
-  return Response.json({ message: "ok" }, { status: 201 });
+  if (!mailSent) {
+    return errorHandler("Email Sending Failed", STATUS_CODES.SERVER_ERROR);
+  }
+
+  return NextResponse.json({ message: "ok" }, { status: 201 });
 }

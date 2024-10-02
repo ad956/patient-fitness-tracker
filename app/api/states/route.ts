@@ -1,5 +1,6 @@
+import { NextResponse } from "next/server";
+import { dbConfig, errorHandler, STATUS_CODES } from "@utils/index";
 import CityStateHospital from "@models/citystate_hospitals";
-import dbConfig from "@utils/db";
 
 export async function GET(req: Request) {
   try {
@@ -8,16 +9,19 @@ export async function GET(req: Request) {
     const statesArray = await CityStateHospital.find({}, { _id: 0 });
 
     if (!statesArray || statesArray.length === 0) {
-      return Response.json("States not found", { status: 404 });
+      return errorHandler("States not found", STATUS_CODES.NOT_FOUND);
     }
 
     const stateNames = statesArray
       .flatMap((state) => Object.keys(state.toObject()))
       .filter((key) => key !== "cities");
 
-    return Response.json(stateNames, { status: 200 });
-  } catch (error) {
+    return NextResponse.json(stateNames, { status: 200 });
+  } catch (error: any) {
     console.error("Error fetching state data:", error);
-    return Response.json("Internal Server Error", { status: 500 });
+    return errorHandler(
+      error.message || "Internal Server Error",
+      STATUS_CODES.SERVER_ERROR
+    );
   }
 }

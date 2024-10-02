@@ -2,7 +2,7 @@ import { Novu } from "@novu/node";
 
 export default async function sendNotification(
   subscriberId: string,
-  msg: string,
+  message: string,
   type: string
 ) {
   try {
@@ -15,7 +15,7 @@ export default async function sendNotification(
         subscriberId,
       },
       payload: {
-        msg,
+        message,
         type,
       },
     });

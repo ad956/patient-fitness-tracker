@@ -1,6 +1,6 @@
 "use client";
 
-import { MedicalHistory } from "@pft-types/index";
+import { MedicalDetailsProps } from "@pft-types/index";
 import {
   Chip,
   Spinner,
@@ -13,10 +13,6 @@ import {
   User,
 } from "@nextui-org/react";
 import { getFormattedDate } from "@utils/getDate";
-
-type MedicalDetailsProps = {
-  medicalDetails: MedicalHistory[];
-};
 
 export default function MedicalDetails({
   medicalDetails,

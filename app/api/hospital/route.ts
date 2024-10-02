@@ -1,34 +1,32 @@
-import dbConfig from "@utils/db";
+import { NextResponse } from "next/server";
 import Hospital from "@models/hospital";
 import { Types } from "mongoose";
+import { dbConfig, errorHandler, STATUS_CODES } from "@utils/index";
+import { authenticateUser } from "@lib/auth";
 
 export async function GET(request: Request) {
+  const authHeader = request.headers.get("Authorization");
+
   try {
-    const id = request.headers.get("x-user-id");
-    const role = request.headers.get("x-user-role");
+    const { id, role } = await authenticateUser(authHeader);
 
     if (!id || !role) {
-      return Response.json(
-        { error: "Missing user ID or role" },
-        { status: 400 }
-      );
+      return errorHandler("Missing user ID or role", STATUS_CODES.BAD_REQUEST);
     }
 
     const hospital_id = new Types.ObjectId(id);
 
     await dbConfig();
 
-    // const projection = {}; { projection }
-
     const hospitalData = await Hospital.findById(hospital_id);
 
     if (!hospitalData) {
-      return Response.json({ error: "Hospital not found" }, { status: 404 });
+      return errorHandler("Hospital not found", STATUS_CODES.NOT_FOUND);
     }
 
-    return Response.json(hospitalData);
+    return NextResponse.json(hospitalData, { status: 200 });
   } catch (error) {
     console.error("Error fetching Hospital data:", error);
-    return Response.json({ error: "Internal Server Error" }, { status: 500 });
+    return errorHandler("Internal Server Error", STATUS_CODES.SERVER_ERROR);
   }
 }

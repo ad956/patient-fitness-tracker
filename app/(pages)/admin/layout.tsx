@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Sidebar, Header } from "./components";
-import { Admin } from "@pft-types/index";
 import { getAdminData } from "@lib/admin";
 
 export const metadata: Metadata = {
@@ -13,7 +12,7 @@ export default async function AdminLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const admin: Admin = await getAdminData();
+  const admin = await getAdminData();
 
   return (
     <main className="h-screen flex flex-row">
