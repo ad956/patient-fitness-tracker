@@ -1,5 +1,3 @@
-import React from "react";
-import { Image } from "@nextui-org/react";
 import { UserLog, bookingAppointment } from "@pft-types/index";
 import { Html } from "@react-email/html";
 import { getCurrentDateFormatted, getFormattedDate } from "@utils/getDate";
@@ -36,7 +34,7 @@ function Layout({ children }: { children: React.ReactNode }) {
                     alignItems: "center",
                   }}
                 >
-                  <Image
+                  <img
                     alt="patient-fitness-tracker-logo"
                     src="https://res.cloudinary.com/dtkfvp2ic/image/upload/v1711037583/patient_yluzvs_bnz9ox.png"
                     height="30px"
@@ -94,7 +92,7 @@ function Layout({ children }: { children: React.ReactNode }) {
           </p>
           <div style={{ margin: "0", marginTop: "16px" }}>
             <a href="" target="_blank" style={{ display: "inline-block" }}>
-              <Image
+              <img
                 width="36px"
                 alt="Facebook"
                 src="https://archisketch-resources.s3.ap-northeast-2.amazonaws.com/vrstyler/1661502815169_682499/email-template-icon-facebook"
@@ -105,7 +103,7 @@ function Layout({ children }: { children: React.ReactNode }) {
               target="_blank"
               style={{ display: "inline-block", marginLeft: "8px" }}
             >
-              <Image
+              <img
                 width="36px"
                 alt="Instagram"
                 src="https://archisketch-resources.s3.ap-northeast-2.amazonaws.com/vrstyler/1661504218208_684135/email-template-icon-instagram"
@@ -116,7 +114,7 @@ function Layout({ children }: { children: React.ReactNode }) {
               target="_blank"
               style={{ display: "inline-block", marginLeft: "8px" }}
             >
-              <Image
+              <img
                 width="36px"
                 alt="Twitter"
                 src="https://archisketch-resources.s3.ap-northeast-2.amazonaws.com/vrstyler/1661503043040_372004/email-template-icon-twitter"
@@ -127,7 +125,7 @@ function Layout({ children }: { children: React.ReactNode }) {
               target="_blank"
               style={{ display: "inline-block", marginLeft: "8px" }}
             >
-              <Image
+              <img
                 width="36px"
                 alt="Youtube"
                 src="https://archisketch-resources.s3.ap-northeast-2.amazonaws.com/vrstyler/1661503195931_210869/email-template-icon-youtube"

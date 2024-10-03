@@ -31,7 +31,7 @@ async function logUserActivity(userlog: userlogType, req: Request) {
       location: await fetchLocationByIP(),
     };
 
-    //stores in user_logs
+    // stores in user_logs
     const logs = new UserLog(user_log);
 
     await logs.save();
@@ -46,7 +46,9 @@ async function logUserActivity(userlog: userlogType, req: Request) {
       },
     });
   } catch (error: any) {
-    console.error(`While logging user activities got an error`);
+    console.error(
+      `While logging user activities got an error : ` + error.message
+    );
   }
 }
 
