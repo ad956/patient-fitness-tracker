@@ -26,7 +26,7 @@ async function logUserActivity(userlog: userlogType, req: Request) {
       email: userlog.email,
       action: userlog.action,
       userType: userlog.role,
-      device: `${os.name} ${os.version}, ${browser.name} ${browser.version}, ${device.type}`,
+      device: `${os.name} ${os.version}, ${browser.name} ${browser.version}, ${device.vendor} ${device.model}`,
       ip: ip_addr.split(",")[0].trim(),
       location: await fetchLocationByIP(),
     };
