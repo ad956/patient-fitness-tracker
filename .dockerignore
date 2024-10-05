@@ -1,6 +1,7 @@
 node_modules
 .next
 .vercel
+.git
 
 todo.md
 /test-results/
@@ -10,3 +11,4 @@ todo.md
 /playwright/.cache/
 
 .env.local
+README.md
