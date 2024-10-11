@@ -59,7 +59,7 @@ jobs:
           cache-to: type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/pft:buildcache,mode=max
 
   deploy:
-    needs: [test, build-and-push-docker]
+    needs: [test] #, build-and-push-docker]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
