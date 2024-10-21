@@ -126,11 +126,12 @@ export default async function ReceptionistPage() {
                 </CardBody>
               </Card>
 
-              {/* Today's Schedule */}
               <Card>
                 <CardHeader className="flex justify-between">
                   <div>
-                    <h2 className="text-lg font-semibold">Today's Schedule</h2>
+                    <h2 className="text-lg font-semibold">
+                      Today&apos;s Schedule
+                    </h2>
                     <p className="text-sm text-gray-500">
                       {new Date().toLocaleDateString("en-US", {
                         weekday: "long",
@@ -254,10 +255,11 @@ export default async function ReceptionistPage() {
                 </CardBody>
               </Card>
 
-              {/* Today's Progress */}
               <Card>
                 <CardHeader>
-                  <h2 className="text-lg font-semibold">Today's Progress</h2>
+                  <h2 className="text-lg font-semibold">
+                    Today&apos;s Progress
+                  </h2>
                 </CardHeader>
                 <CardBody className="space-y-4">
                   <ProgressBar
