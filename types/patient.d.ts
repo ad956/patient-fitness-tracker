@@ -121,3 +121,30 @@ export type Payment = {
 export type PaymentDetailsProps = {
   paymentHistory: Payment[];
 };
+
+export interface PendingBill {
+  id: string;
+  date: string;
+  service: string;
+  amount: number;
+}
+
+export interface DoctorChat {
+  id: number;
+  name: string;
+  specialty: string;
+  avatar: string;
+  status: "online" | "offline";
+  lastMessage: string;
+  lastMessageTime: string;
+}
+
+export interface LabResult {
+  id: string;
+  test: string;
+  date: string;
+  status: "Completed" | "Pending" | "Processing";
+  result: string;
+}
+
+export type PatientTabsKey = "bills" | "doctors" | "lab";
