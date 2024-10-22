@@ -1,22 +1,28 @@
 "use client";
 
-import React from "react";
-import {
-  Tabs,
-  Tab,
-  Table,
-  TableHeader,
-  TableColumn,
-  TableBody,
-  TableRow,
-  TableCell,
-  Avatar,
-  Button,
-} from "@nextui-org/react";
-import { FiFileText, FiMessageCircle, FiYoutube } from "react-icons/fi";
+import React, { useState } from "react";
+import { Tabs, Tab, Card } from "@nextui-org/react";
+import { FaFileLines, FaMessage, FaFlask } from "react-icons/fa6";
+import { DoctorChat, LabResult, PatientTabsKey } from "@pft-types/patient";
+import SpinnerLoader from "@components/SpinnerLoader";
+import ChatView, { DoctorsList } from "../DoctorChat";
+import PendingBills from "../PendingBills";
+import LabResults from "../LabResults";
 
-const PatientTabs = () => {
-  const bills = [
+const PatientTabs: React.FC = () => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [activeTab, setActiveTab] = useState<PatientTabsKey>("bills");
+  const [message, setMessage] = useState<string>("");
+  const [selectedDoctor, setSelectedDoctor] = useState<DoctorChat | null>(null);
+
+  const handleTabChange = (key: any) => {
+    setIsLoading(true);
+    setActiveTab(key);
+    setSelectedDoctor(null);
+    setTimeout(() => setIsLoading(false), Math.random() * 1000 + 500);
+  };
+
+  const bills: any = [
     {
       id: "BL-001",
       date: "2024-10-15",
@@ -27,204 +33,126 @@ const PatientTabs = () => {
     { id: "BL-003", date: "2024-10-16", service: "X-Ray", amount: 200 },
   ];
 
-  const doctors = [
+  const doctors: DoctorChat[] = [
     {
       id: 1,
       name: "Dr. Sarah Wilson",
       specialty: "Cardiologist",
-      avatar: "https://i.pravatar.cc/150?u=a042581f4e29026024d",
+      avatar:
+        "https://www.sketchappsources.com/resources/source-image/doctor-illustration-hamamzai.png",
       status: "online",
+      lastMessage: "Your heart readings look normal. Keep up the good work!",
+      lastMessageTime: "10:30 AM",
     },
     {
       id: 2,
       name: "Dr. James Miller",
       specialty: "Neurologist",
-      avatar: "https://i.pravatar.cc/150?u=a042581f4e29026024d",
+      avatar:
+        "https://images.apollo247.in/doctors/noimagefemale.png?tr=q-80,f-auto,w-100,dpr-2.5,c-at_max%20250w",
       status: "offline",
+      lastMessage: "We'll discuss your test results in our next appointment.",
+      lastMessageTime: "Yesterday",
     },
   ];
 
-  const labResults = [
+  const labResults: LabResult[] = [
     {
       id: "LR-001",
       test: "Complete Blood Count",
       date: "2024-10-14",
       status: "Completed",
+      result: "Normal",
     },
     {
       id: "LR-002",
       test: "Lipid Profile",
       date: "2024-10-15",
       status: "Pending",
+      result: "Awaiting",
     },
     {
       id: "LR-003",
       test: "Thyroid Function",
       date: "2024-10-16",
       status: "Processing",
+      result: "In Progress",
     },
   ];
 
+  const renderContent = () => {
+    if (isLoading) {
+      return <SpinnerLoader />;
+    }
+
+    switch (activeTab) {
+      case "bills":
+        return <PendingBills bills={bills} />;
+      case "doctors":
+        return selectedDoctor ? (
+          <ChatView
+            doctor={selectedDoctor}
+            message={message}
+            onMessageChange={setMessage}
+            onBack={() => setSelectedDoctor(null)}
+          />
+        ) : (
+          <DoctorsList doctors={doctors} onSelectDoctor={setSelectedDoctor} />
+        );
+      case "lab":
+        return <LabResults results={labResults} />;
+      default:
+        return null;
+    }
+  };
+
   return (
-    <div className="w-full h-full rounded-lg shadow-sm">
+    <Card className="w-full p-4">
       <Tabs
         aria-label="Patient Services"
         color="primary"
-        variant="light"
+        variant="underlined"
+        selectedKey={activeTab}
+        onSelectionChange={handleTabChange}
         classNames={{
-          base: "w-full h-full",
-          tabList: "gap-6 relative rounded-none p-0 border-b border-divider",
-          cursor: "w-full bg-primary/20",
-          tab: "max-w-fit px-4 h-12",
-          tabContent: "group-data-[selected=true]:text-primary font-medium",
+          tabList:
+            "gap-6 w-full relative rounded-none p-0 border-b border-divider",
+          cursor: "w-full",
+          tab: "max-w-fit px-0 h-12",
+          tabContent: "group-data-[selected=true]:text-primary",
         }}
       >
         <Tab
           key="bills"
           title={
             <div className="flex items-center gap-2">
-              <FiFileText className="text-primary" size={18} />
-              <span>Bills</span>
+              <FaFileLines className="w-4 h-4" />
+              <span className="hidden sm:inline">Bills & Payments</span>
             </div>
           }
-        >
-          <div className="p-4">
-            <Table
-              aria-label="Recent Bills"
-              classNames={{
-                wrapper: "shadow-none",
-                // th: "bg-transparent text-xs text-default-500 font-medium",
-                td: "py-3 text-sm",
-              }}
-            >
-              <TableHeader>
-                <TableColumn>BILL ID</TableColumn>
-                <TableColumn>DATE</TableColumn>
-                <TableColumn>SERVICE</TableColumn>
-                <TableColumn>AMOUNT</TableColumn>
-              </TableHeader>
-              <TableBody>
-                {bills.map((bill) => (
-                  <TableRow key={bill.id}>
-                    <TableCell className="font-medium">{bill.id}</TableCell>
-                    <TableCell>{bill.date}</TableCell>
-                    <TableCell>{bill.service}</TableCell>
-                    <TableCell className="text-primary font-medium">
-                      ${bill.amount}
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </div>
-        </Tab>
-
+        />
         <Tab
           key="doctors"
           title={
             <div className="flex items-center gap-2">
-              <FiMessageCircle className="text-primary" size={18} />
-              <span>Doctors</span>
+              <FaMessage className="w-4 h-4" />
+              <span className="hidden sm:inline">My Doctors</span>
             </div>
           }
-        >
-          <div className="flex flex-col gap-3 p-4">
-            {doctors.map((doctor) => (
-              <div
-                key={doctor.id}
-                className="flex items-center justify-between p-4 bg-default-50 rounded-lg hover:bg-default-100 transition-colors"
-              >
-                <div className="flex items-center gap-4">
-                  <Avatar
-                    src={doctor.avatar}
-                    className="ring-2 ring-primary/20"
-                    size="md"
-                  />
-                  <div>
-                    <p className="text-sm font-semibold">{doctor.name}</p>
-                    <p className="text-xs text-default-500">
-                      {doctor.specialty}
-                    </p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-3">
-                  <div className="flex items-center gap-1.5">
-                    <div
-                      className={`w-2 h-2 rounded-full ${
-                        doctor.status === "online"
-                          ? "bg-success"
-                          : "bg-default-300"
-                      }`}
-                    />
-                    <span className="text-xs text-default-500">
-                      {doctor.status}
-                    </span>
-                  </div>
-                  <Button
-                    size="sm"
-                    color="primary"
-                    variant="flat"
-                    className="font-medium"
-                  >
-                    Chat
-                  </Button>
-                </div>
-              </div>
-            ))}
-          </div>
-        </Tab>
-
+        />
         <Tab
           key="lab"
           title={
             <div className="flex items-center gap-2">
-              <FiYoutube className="text-primary" size={18} />
-              <span>Lab Results</span>
+              <FaFlask className="w-4 h-4" />
+              <span className="hidden sm:inline">Lab Results</span>
             </div>
           }
-        >
-          <div className="p-4">
-            <Table
-              aria-label="Lab Results"
-              classNames={{
-                wrapper: "shadow-none",
-                th: "bg-transparent text-xs text-default-500 font-medium",
-                td: "py-3 text-sm",
-              }}
-            >
-              <TableHeader>
-                <TableColumn>TEST ID</TableColumn>
-                <TableColumn>TEST NAME</TableColumn>
-                <TableColumn>DATE</TableColumn>
-                <TableColumn>STATUS</TableColumn>
-              </TableHeader>
-              <TableBody>
-                {labResults.map((result) => (
-                  <TableRow key={result.id}>
-                    <TableCell className="font-medium">{result.id}</TableCell>
-                    <TableCell>{result.test}</TableCell>
-                    <TableCell>{result.date}</TableCell>
-                    <TableCell>
-                      <span
-                        className={`px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                          result.status === "Completed"
-                            ? "bg-success-50 text-success-600"
-                            : result.status === "Pending"
-                            ? "bg-warning-50 text-warning-600"
-                            : "bg-primary-50 text-primary-600"
-                        }`}
-                      >
-                        {result.status}
-                      </span>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </div>
-        </Tab>
+        />
       </Tabs>
-    </div>
+
+      <div className="mt-4 h-[400px]">{renderContent()}</div>
+    </Card>
   );
 };
 
