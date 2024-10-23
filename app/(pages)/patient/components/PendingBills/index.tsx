@@ -1,49 +1,164 @@
 "use client";
 
-import {
-  Table,
-  TableHeader,
-  TableColumn,
-  TableBody,
-  TableRow,
-  TableCell,
-} from "@nextui-org/react";
-import { PendingBill } from "@pft-types/patient";
-
-interface PendingBillsProps {
-  bills: PendingBill[];
+declare global {
+  interface Window {
+    Razorpay: any;
+  }
 }
 
-const PendingBills: React.FC<PendingBillsProps> = ({ bills }) => (
-  <div className="h-full overflow-y-auto">
-    <Table
-      aria-label="Recent Bills"
-      classNames={{
-        wrapper: "shadow-none",
-        th: "bg-default-100/50 text-default-600 font-medium",
-        td: "py-4",
-      }}
-    >
-      <TableHeader>
-        <TableColumn>BILL ID</TableColumn>
-        <TableColumn className="hidden sm:table-cell">DATE</TableColumn>
-        <TableColumn>SERVICE</TableColumn>
-        <TableColumn align="end">AMOUNT</TableColumn>
-      </TableHeader>
-      <TableBody>
-        {bills.map((bill) => (
-          <TableRow key={bill.id} className="hover:bg-default-100/50">
-            <TableCell className="font-medium">{bill.id}</TableCell>
-            <TableCell className="hidden sm:table-cell">{bill.date}</TableCell>
-            <TableCell>{bill.service}</TableCell>
-            <TableCell className="text-primary font-medium text-right">
-              ${bill.amount}
-            </TableCell>
-          </TableRow>
+import { Image, Avatar } from "@nextui-org/react";
+import { useEffect, useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
+import { PendingBill } from "@pft-types/patient";
+import SpinnerLoader from "@components/SpinnerLoader";
+import getPendingBills from "@lib/patient/getPendingBills";
+import { motion } from "framer-motion";
+import { getFormattedDate } from "@utils/getDate";
+import { BiChevronRight } from "react-icons/bi";
+import processPayment from "@lib/razorpay/processPayment";
+import savePendingBillTransaction from "@lib/patient/savePendingBillTransaction";
+
+const PendingBills = () => {
+  const [bills, setBills] = useState<PendingBill[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchPendingBills = async () => {
+      try {
+        const data = await getPendingBills();
+        setBills(data);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : "An error occurred");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchPendingBills();
+  }, []);
+
+  if (isLoading) {
+    return <SpinnerLoader />;
+  }
+
+  if (error || !bills.length) {
+    return (
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1.5, ease: "easeOut" }}
+        className="flex justify-center items-center h-full w-full p-4 text-default-600"
+      >
+        <Image
+          src="/images/no_pending_bills.png"
+          width={200}
+          height={100}
+          alt="no-pending-bills"
+        />
+
+        {error ? (
+          <p className="ml-4 text-md font-medium text-red-500">{error}</p>
+        ) : (
+          <p className="ml-4 text-md font-medium text-gray-500">
+            No pending bills found.
+          </p>
+        )}
+      </motion.div>
+    );
+  }
+
+  async function handlePendingBillPayment(bill: PendingBill) {
+    try {
+      toast.loading("Please wait ...", { duration: 1000 });
+
+      const paymentResult = await processPayment(
+        "name",
+        "email",
+        `Pending bill payment for ${bill.hospital.name}`,
+        bill.amount.toString()
+      );
+
+      toast.dismiss();
+
+      if (!paymentResult.success) {
+        toast.error(paymentResult.message, {
+          duration: 3000,
+          position: "bottom-center",
+        });
+
+        await savePendingBillTransaction(
+          paymentResult.transaction_id,
+          "Failed"
+        );
+        return;
+      }
+
+      await savePendingBillTransaction(paymentResult.transaction_id, "Success");
+
+      toast.success("Payment successful!");
+    } catch (error: any) {
+      console.log("Error : " + error.message);
+      toast.error("Pending Bill Payment Failed !!");
+    }
+  }
+
+  return (
+    <div className="w-full bg-white rounded-xl p-2 border-2">
+      <div className="px-4 py-2 flex justify-between items-center border-b">
+        <h2 className="text-sm font-semibold text-gray-700">Recent Bills</h2>
+        <span className="text-xs bg-blue-50 text-blue-600 px-2 py-1 rounded-full">
+          {bills.length} pending
+        </span>
+      </div>
+
+      <div
+        className={`h-[120px] space-y-1 p-2 ${
+          bills.length <= 2 ? "overflow-y-hidden" : "overflow-y-auto scrollbar"
+        }`}
+      >
+        {bills.map((bill, index) => (
+          <motion.div
+            key={index}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: "easeIn" }}
+            className="group flex items-center justify-between p-2 rounded-lg hover:bg-gray-50 transition-all cursor-pointer"
+            onClick={() => handlePendingBillPayment(bill)}
+          >
+            {/* left: hospital info */}
+            <div className="flex items-center gap-3 flex-1">
+              <Avatar
+                className="w-8 h-8 border-2 border-white shadow-sm"
+                src={bill.hospital.profile || "/api/placeholder/32/32"}
+                fallback={bill.hospital.name[0]}
+              />
+              <div>
+                <h3 className="text-sm font-medium text-gray-800 group-hover:text-blue-600 transition-colors">
+                  {bill.hospital.name}
+                </h3>
+                <p className="text-xs text-gray-500">
+                  {getFormattedDate(new Date(bill.date))}
+                </p>
+              </div>
+            </div>
+
+            {/* right: amount & arrow */}
+            <div className="flex items-center gap-3">
+              <div className="text-right">
+                <p className="text-sm font-semibold text-red-500">
+                  ₹{bill.amount.toFixed(2)}
+                </p>
+                <p className="text-xs text-gray-400">Due soon</p>
+              </div>
+              <BiChevronRight className="w-4 h-4 text-gray-300 group-hover:text-blue-500 transition-colors" />
+            </div>
+          </motion.div>
         ))}
-      </TableBody>
-    </Table>
-  </div>
-);
+      </div>
+      <Toaster />
+    </div>
+  );
+};
 
 export default PendingBills;
