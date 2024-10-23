@@ -22,17 +22,6 @@ const PatientTabs: React.FC = () => {
     setTimeout(() => setIsLoading(false), Math.random() * 1000 + 500);
   };
 
-  const bills: any = [
-    {
-      id: "BL-001",
-      date: "2024-10-15",
-      service: "General Consultation",
-      amount: 150,
-    },
-    { id: "BL-002", date: "2024-10-15", service: "Blood Test", amount: 75 },
-    { id: "BL-003", date: "2024-10-16", service: "X-Ray", amount: 200 },
-  ];
-
   const doctors: DoctorChat[] = [
     {
       id: 1,
@@ -87,7 +76,7 @@ const PatientTabs: React.FC = () => {
 
     switch (activeTab) {
       case "bills":
-        return <PendingBills bills={bills} />;
+        return <PendingBills />;
       case "doctors":
         return selectedDoctor ? (
           <ChatView
@@ -107,7 +96,7 @@ const PatientTabs: React.FC = () => {
   };
 
   return (
-    <Card className="w-full p-4">
+    <Card className="h-[95%] w-full px-4 py-2">
       <Tabs
         aria-label="Patient Services"
         color="primary"
@@ -127,7 +116,7 @@ const PatientTabs: React.FC = () => {
           title={
             <div className="flex items-center gap-2">
               <FaFileLines className="w-4 h-4" />
-              <span className="hidden sm:inline">Bills & Payments</span>
+              <span className="hidden sm:inline">Pending Bills</span>
             </div>
           }
         />
