@@ -123,9 +123,11 @@ export type PaymentDetailsProps = {
 };
 
 export interface PendingBill {
-  id: string;
+  hospital: {
+    name: string;
+    profile: string;
+  };
   date: string;
-  service: string;
   amount: number;
 }
 
