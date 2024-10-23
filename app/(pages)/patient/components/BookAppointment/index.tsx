@@ -33,6 +33,7 @@ import {
   BookAppointmentHospital,
   BookAppointmentProps,
 } from "@pft-types/patient";
+import processPayment from "@lib/razorpay/processPayment";
 
 export default function BookAppointment({
   patientId,
@@ -197,9 +198,10 @@ export default function BookAppointment({
     toast.dismiss();
     // razorpay payment processing
     const paymentResult = await processPayment(
-      selectedHospital.appointment_charge,
       name,
-      email
+      email,
+      "Payment for appointment booking",
+      selectedHospital.appointment_charge
     );
 
     toast.loading("Please wait");
@@ -457,112 +459,3 @@ export default function BookAppointment({
     </div>
   );
 }
-
-async function processPayment(
-  amount: string,
-  name: string,
-  email: string
-): Promise<{
-  success: boolean;
-  message: string;
-  transaction_id: string | null;
-}> {
-  try {
-    const orderId: string = await createOrderId(amount);
-    return new Promise((resolve, reject) => {
-      const options = {
-        key: process.env.RAZORPAY_KEY_ID,
-        amount: parseFloat(amount) * 100,
-        currency: "INR",
-        name,
-        description: "Payment for appointment booking",
-        order_id: orderId,
-        handler: async function (response: any) {
-          const data = {
-            orderCreationId: orderId,
-            razorpayPaymentId: response.razorpay_payment_id,
-            razorpayOrderId: response.razorpay_order_id,
-            razorpaySignature: response.razorpay_signature,
-          };
-
-          try {
-            const result = await fetch("/api/payment/verify", {
-              method: "POST",
-              body: JSON.stringify(data),
-              headers: { "Content-Type": "application/json" },
-            });
-            const res = await result.json();
-            if (res.isOk) {
-              resolve({
-                success: true,
-                message: res.message,
-                transaction_id: response.razorpay_payment_id,
-              });
-            } else {
-              reject({
-                success: false,
-                message: res.message,
-                transaction_id: response.razorpay_payment_id,
-              });
-            }
-          } catch (error) {
-            reject({
-              success: false,
-              message: "Payment verification failed",
-              transaction_id: response.razorpay_payment_id,
-            });
-          }
-        },
-        prefill: {
-          name,
-          email,
-        },
-        theme: {
-          color: "#3399cc",
-        },
-      };
-      const paymentObject = new window.Razorpay(options);
-      paymentObject.on("payment.failed", function (response: any) {
-        paymentObject.close();
-        console.log("is it failing");
-        reject({
-          success: false,
-          message: response.error.description,
-          transaction_id: response.razorpay_payment_id,
-        });
-      });
-      paymentObject.open();
-    });
-  } catch (error) {
-    return {
-      success: false,
-      message: "Payment Failed",
-      transaction_id: null,
-    };
-  }
-}
-
-const createOrderId = async (amount: string) => {
-  try {
-    const response = await fetch("/api/payment/create-order", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        amount: parseFloat(amount) * 100,
-        currency: "INR",
-      }),
-    });
-
-    if (!response.ok) {
-      throw new Error("Order id creation response was not ok");
-    }
-
-    const data = await response.json();
-    return data.orderId;
-  } catch (error) {
-    console.error("There was a problem with creating order id: ", error);
-    toast.error("Order id creation failed");
-  }
-};
