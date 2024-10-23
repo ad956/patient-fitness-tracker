@@ -7,6 +7,10 @@ import { authenticateUser } from "@lib/auth";
 export async function GET(request: Request) {
   const authHeader = request.headers.get("Authorization");
   try {
+    const url = new URL(request.url);
+    const status = url.searchParams.get("status");
+    const isPending = status === "pending";
+
     const { id, role } = await authenticateUser(authHeader);
 
     if (!id || !role) {
@@ -21,27 +25,43 @@ export async function GET(request: Request) {
       return errorHandler("Patient not found", STATUS_CODES.NOT_FOUND);
     }
 
+    // build query
+    const query: any = { patient: patient._id };
+    if (status) {
+      query.status = "Pending";
+    }
+
     // get all transactions where patient ID matches
-    const transactions = await Transaction.find({
-      patient: patient._id,
-    })
+    const transactions = await Transaction.find(query)
       .populate("hospital", "firstname lastname profile")
-      .select("hospital disease description createdAt amount status")
+      .select(
+        isPending
+          ? "hospital createdAt amount"
+          : "hospital disease description createdAt amount status"
+      )
       .sort({ createdAt: -1 });
 
-    const formattedTransactions = transactions.map(
-      ({ hospital, disease, description, createdAt, amount, status }) => ({
+    const formattedTransactions = transactions.map((transaction) => {
+      const formattedData = {
         hospital: {
-          name: `${hospital.firstname} ${hospital.lastname}`,
-          profile: hospital.profile,
+          name: `${transaction.hospital.firstname} ${transaction.hospital.lastname}`,
+          profile: transaction.hospital.profile,
         },
-        disease,
-        description,
-        date: createdAt,
-        amount,
-        status,
-      })
-    );
+        date: transaction.createdAt,
+        amount: transaction.amount,
+      };
+
+      if (!isPending) {
+        return {
+          ...formattedData,
+          disease: transaction.disease,
+          description: transaction.description,
+          status: transaction.status,
+        };
+      }
+
+      return formattedData;
+    });
 
     return NextResponse.json(formattedTransactions, { status: 200 });
   } catch (error: any) {
