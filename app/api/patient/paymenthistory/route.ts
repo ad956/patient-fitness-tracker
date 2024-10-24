@@ -44,6 +44,7 @@ export async function GET(request: Request) {
     const formattedTransactions = transactions.map((transaction) => {
       const formattedData = {
         hospital: {
+          _id: transaction.hospital._id,
           name: `${transaction.hospital.firstname} ${transaction.hospital.lastname}`,
           profile: transaction.hospital.profile,
         },
