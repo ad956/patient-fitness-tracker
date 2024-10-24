@@ -5,6 +5,12 @@ import Transaction from "@models/transaction";
 import { Types } from "mongoose";
 import authenticateUser from "@lib/auth/authenticateUser";
 
+interface pendingTransactionReqBody {
+  txnDocumentId: string;
+  transaction_id: string;
+  status: string;
+}
+
 // saving transaction details in db
 export async function POST(req: Request) {
   const authHeader = req.headers.get("Authorization");
@@ -61,11 +67,12 @@ export async function PUT(req: Request) {
   const authHeader = req.headers.get("Authorization");
 
   try {
-    const { transaction_id, status } = await req.json();
+    const { txnDocumentId, transaction_id, status }: pendingTransactionReqBody =
+      await req.json();
 
-    if (!transaction_id || !status) {
+    if (!txnDocumentId || !transaction_id || !status) {
       return errorHandler(
-        "Transaction ID and status are required",
+        "TxnDocumentId, Transaction ID and status are required",
         STATUS_CODES.BAD_REQUEST
       );
     }
@@ -78,18 +85,54 @@ export async function PUT(req: Request) {
 
     await dbConfig();
 
-    // find and update the transaction
-    const updatedTransaction = await Transaction.findOneAndUpdate(
-      { transaction_id: transaction_id },
-      { status: status },
-      { new: true }
-    );
+    if (status === "Success") {
+      // find and update the transaction if status is "Success"
+      const updatedTransaction = await Transaction.findOneAndUpdate(
+        {
+          _id: new Types.ObjectId(txnDocumentId),
+          status: "Pending",
+        },
+        { transaction_id: transaction_id, status: status },
+        { new: true }
+      );
 
-    if (!updatedTransaction) {
-      return errorHandler("Transaction not found", STATUS_CODES.NOT_FOUND);
+      if (!updatedTransaction) {
+        return errorHandler(
+          "Failed to update transaction details",
+          STATUS_CODES.NOT_FOUND
+        );
+      }
+
+      return NextResponse.json({ status: 200 });
+    } else if (status === "Failed") {
+      // find the existing pending transaction
+      const existingTransaction = await Transaction.findOne({
+        _id: new Types.ObjectId(txnDocumentId),
+        status: "Pending",
+      });
+
+      if (!existingTransaction) {
+        return errorHandler(
+          "No pending transaction found",
+          STATUS_CODES.NOT_FOUND
+        );
+      }
+
+      // new transaction based on the existing one
+      const newTransaction = new Transaction({
+        ...existingTransaction.toObject(),
+        transaction_id: transaction_id,
+        status: "Failed",
+      });
+
+      await newTransaction.save();
+
+      return NextResponse.json({
+        status: 201,
+      });
+    } else {
+      return errorHandler("Invalid status value", STATUS_CODES.BAD_REQUEST);
     }
-
-    return NextResponse.json({ status: 200 });
   } catch (error: any) {
     console.error("Error updating transaction:", error);
     return errorHandler(
