@@ -8,8 +8,14 @@ import SpinnerLoader from "@components/SpinnerLoader";
 import ChatView, { DoctorsList } from "../DoctorChat";
 import PendingBills from "../PendingBills";
 import LabResults from "../LabResults";
+import { Toaster } from "react-hot-toast";
+import { Patient } from "@pft-types/index";
 
-const PatientTabs: React.FC = () => {
+interface PatientTabsProps {
+  patient: Patient;
+}
+
+export default function PatientTabs({ patient }: PatientTabsProps) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [activeTab, setActiveTab] = useState<PatientTabsKey>("bills");
   const [message, setMessage] = useState<string>("");
@@ -20,6 +26,12 @@ const PatientTabs: React.FC = () => {
     setActiveTab(key);
     setSelectedDoctor(null);
     setTimeout(() => setIsLoading(false), Math.random() * 1000 + 500);
+  };
+
+  const patientInfo = {
+    name: `${patient.firstname} ${patient.lastname}`,
+    email: patient.email,
+    contact: patient.contact,
   };
 
   const doctors: DoctorChat[] = [
@@ -76,7 +88,7 @@ const PatientTabs: React.FC = () => {
 
     switch (activeTab) {
       case "bills":
-        return <PendingBills />;
+        return <PendingBills patient={patientInfo} />;
       case "doctors":
         return selectedDoctor ? (
           <ChatView
@@ -141,8 +153,7 @@ const PatientTabs: React.FC = () => {
       </Tabs>
 
       <div className="mt-4 h-[400px]">{renderContent()}</div>
+      <Toaster />
     </Card>
   );
-};
-
-export default PatientTabs;
+}
