@@ -55,6 +55,7 @@ export type MedicalDetailsProps = {
 };
 
 export interface PaymentHistory {
+  _id: string;
   hospital: {
     name: string;
     profile: string;
@@ -124,6 +125,7 @@ export type PaymentDetailsProps = {
 
 export interface PendingBill {
   hospital: {
+    _id: string;
     name: string;
     profile: string;
   };
