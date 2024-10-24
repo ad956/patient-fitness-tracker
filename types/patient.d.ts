@@ -124,8 +124,8 @@ export type PaymentDetailsProps = {
 };
 
 export interface PendingBill {
+  txnDocumentId: string; // _id of each transaction document
   hospital: {
-    _id: string;
     name: string;
     profile: string;
   };
