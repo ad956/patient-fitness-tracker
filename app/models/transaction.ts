@@ -12,16 +12,18 @@ export interface Transaction extends mongoose.Document {
 
 const transactionSchema = new mongoose.Schema(
   {
-    transaction_id: { type: String, required: true, unique: true },
+    transaction_id: { type: String, required: true, unique: true, index: true },
     patient: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Patient",
       required: true,
+      index: true,
     },
     hospital: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Hospital",
       required: true,
+      index: true,
     },
     disease: { type: String, required: true },
     description: { type: String, required: true },
