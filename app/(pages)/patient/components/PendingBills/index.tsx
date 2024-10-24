@@ -8,7 +8,7 @@ declare global {
 
 import { Image, Avatar } from "@nextui-org/react";
 import { useEffect, useState } from "react";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import { PendingBill } from "@pft-types/patient";
 import SpinnerLoader from "@components/SpinnerLoader";
 import getPendingBills from "@lib/patient/getPendingBills";
@@ -18,7 +18,15 @@ import { BiChevronRight } from "react-icons/bi";
 import processPayment from "@lib/razorpay/processPayment";
 import savePendingBillTransaction from "@lib/patient/savePendingBillTransaction";
 
-const PendingBills = () => {
+interface PendingBillProps {
+  patient: {
+    name: string;
+    email: string;
+    contact: string;
+  };
+}
+
+const PendingBills = ({ patient }: PendingBillProps) => {
   const [bills, setBills] = useState<PendingBill[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -70,36 +78,45 @@ const PendingBills = () => {
 
   async function handlePendingBillPayment(bill: PendingBill) {
     try {
-      toast.loading("Please wait ...", { duration: 1000 });
+      toast.loading("Please wait ...", { duration: 1500 });
 
       const paymentResult = await processPayment(
-        "name",
-        "email",
+        patient.name,
+        patient.email,
         `Pending bill payment for ${bill.hospital.name}`,
         bill.amount.toString()
       );
 
       toast.dismiss();
 
+      const status = paymentResult.success ? "Success" : "Failed";
+
       if (!paymentResult.success) {
         toast.error(paymentResult.message, {
-          duration: 3000,
+          duration: 2000,
           position: "bottom-center",
         });
+      } else {
+        toast.success("Your bill has been paid successfully 💸", {
+          id: "payment-success",
+          duration: 2000,
+          position: "top-center",
+        });
 
-        await savePendingBillTransaction(
-          paymentResult.transaction_id,
-          "Failed"
-        );
-        return;
+        setBills(bills.filter((item) => item !== bill));
       }
 
-      await savePendingBillTransaction(paymentResult.transaction_id, "Success");
-
-      toast.success("Payment successful!");
+      await savePendingBillTransaction(
+        bill.txnDocumentId,
+        paymentResult.transaction_id,
+        status
+      );
     } catch (error: any) {
       console.log("Error : " + error.message);
-      toast.error("Pending Bill Payment Failed !!");
+      toast.error(error.message || "Pending Bill Payment Failed !!", {
+        position: "top-right",
+        duration: 2000,
+      });
     }
   }
 
@@ -156,7 +173,6 @@ const PendingBills = () => {
           </motion.div>
         ))}
       </div>
-      <Toaster />
     </div>
   );
 };

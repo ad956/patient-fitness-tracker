@@ -4,6 +4,7 @@ import fetchHandler from "@utils/fetchHandler";
 import { getSessionToken } from "../sessions/sessionUtils";
 
 export default async function savePendingBillTransaction(
+  txnDocumentId: string | null,
   transaction_id: string | null,
   status: "Success" | "Failed"
 ): Promise<any> {
@@ -16,6 +17,7 @@ export default async function savePendingBillTransaction(
       {
         method: "PUT",
         body: JSON.stringify({
+          txnDocumentId,
           transaction_id,
           status,
         }),

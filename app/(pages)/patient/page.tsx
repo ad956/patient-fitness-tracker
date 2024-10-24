@@ -108,7 +108,7 @@ export default async function PatientPage() {
         </Card>
         <Card className="h-screen md:h-auto row-span-5 col-span-2 flex flex-col gap-5 justify-center items-center p-5 w-full">
           <Calendar upcomingAppointments={upcomingAppointments} />
-          <PatientTabs />
+          <PatientTabs patient={patient} />
         </Card>
         <Card className="col-span-2 row-span-2 flex flex-col items-center">
           <p className="text-sm font-semibold self-start m-4 pt-2">Medicines</p>

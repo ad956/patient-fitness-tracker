@@ -43,6 +43,7 @@ export async function GET(request: Request) {
 
     const formattedTransactions = transactions.map((transaction) => {
       const formattedData = {
+        txnDocumentId: transaction._id,
         hospital: {
           name: `${transaction.hospital.firstname} ${transaction.hospital.lastname}`,
           profile: transaction.hospital.profile,

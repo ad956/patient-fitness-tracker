@@ -55,6 +55,7 @@ export type MedicalDetailsProps = {
 };
 
 export interface PaymentHistory {
+  _id: string;
   hospital: {
     name: string;
     profile: string;
@@ -123,6 +124,7 @@ export type PaymentDetailsProps = {
 };
 
 export interface PendingBill {
+  txnDocumentId: string; // _id of each transaction document
   hospital: {
     name: string;
     profile: string;
