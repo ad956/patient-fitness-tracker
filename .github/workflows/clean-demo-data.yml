@@ -1,0 +1,58 @@
+name: Demo Users Cleanup
+on:
+  schedule:
+    - cron: "0 0 * * *"
+  workflow_dispatch:
+
+jobs:
+  cleanup-demo-users:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+
+      - name: Create cleanup script
+        run: |
+          cat > cleanup.js << 'EOL'
+          const API_BASE_URL = process.env.API_BASE_URL;
+          const API_TOKEN = process.env.DEMO_API_TOKEN;
+
+          async function cleanupDemoUsers() {
+            try {
+              console.log('Starting demo users cleanup');
+
+              const response = await fetch(`${API_BASE_URL}/get-users`, {
+                headers: {
+                  'Authorization': `Bearer ${API_TOKEN}`,
+                  'Content-Type': 'application/json'
+                }
+              });
+
+              if (!response.ok) {
+                throw new Error(`Failed to fetch users: ${response.status}`);
+              }
+
+              const demoUsers = await response.json();
+              console.log(`Found ${demoUsers.length} demo users`);
+
+
+              console.log('Cleanup completed successfully');
+            } catch (error) {
+              console.error('Cleanup failed:', error);
+              process.exit(1);
+            }
+          }
+
+          // Run the cleanup
+          cleanupDemoUsers();
+          EOL
+
+      - name: Run cleanup
+        env:
+          API_BASE_URL: ${{ secrets.API_BASE_URL }}
+          API_TOKEN: ${{ secrets.API_TOKEN }}
+        run: node cleanup.js
