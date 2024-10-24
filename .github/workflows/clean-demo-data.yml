@@ -26,6 +26,7 @@ jobs:
               console.log('Starting demo users cleanup');
 
               const response = await fetch(`${API_BASE_URL}/get-users`, {
+                method: 'POST',
                 headers: {
                   'Authorization': `Bearer ${API_TOKEN}`,
                   'Content-Type': 'application/json'
