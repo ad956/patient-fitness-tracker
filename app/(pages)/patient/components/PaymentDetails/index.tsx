@@ -15,6 +15,7 @@ import { Payment, PaymentDetailsProps } from "@pft-types/patient";
 const statusColorMap: any = {
   Failed: "danger",
   Success: "success",
+  Pending: "warning",
 };
 
 export default function PaymentDetails({
