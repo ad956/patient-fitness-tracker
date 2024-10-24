@@ -2,14 +2,16 @@
 
 import React, { useState } from "react";
 import { Tabs, Tab, Card } from "@nextui-org/react";
-import { FaFileLines, FaMessage, FaFlask } from "react-icons/fa6";
 import { DoctorChat, LabResult, PatientTabsKey } from "@pft-types/patient";
+import { Patient } from "@pft-types/index";
 import SpinnerLoader from "@components/SpinnerLoader";
 import ChatView, { DoctorsList } from "../DoctorChat";
 import PendingBills from "../PendingBills";
 import LabResults from "../LabResults";
 import { Toaster } from "react-hot-toast";
-import { Patient } from "@pft-types/index";
+import { IoFlaskOutline } from "react-icons/io5";
+import { RiStethoscopeLine } from "react-icons/ri";
+import { MdReceiptLong } from "react-icons/md";
 
 interface PatientTabsProps {
   patient: Patient;
@@ -117,36 +119,42 @@ export default function PatientTabs({ patient }: PatientTabsProps) {
         onSelectionChange={handleTabChange}
         classNames={{
           tabList:
-            "gap-6 w-full relative rounded-none p-0 border-b border-divider",
-          cursor: "w-full",
-          tab: "max-w-fit px-0 h-12",
-          tabContent: "group-data-[selected=true]:text-primary",
+            "gap-8 w-full relative rounded-none p-0 border-b border-gray-200",
+          cursor: "w-full bg-gradient-to-r from-pink-500 to-indigo-600 h-0.5",
+          tab: "max-w-fit px-2 h-12 transition-all duration-200",
+          tabContent: "group-data-[selected=true]:text-pink-600 text-gray-500",
         }}
       >
         <Tab
           key="bills"
           title={
-            <div className="flex items-center gap-2">
-              <FaFileLines className="w-4 h-4" />
-              <span className="hidden sm:inline">Pending Bills</span>
+            <div className="flex items-center gap-3 py-1 group">
+              <MdReceiptLong className="w-5 h-5 group-hover:text-indigo-500 transition-colors" />
+              <span className="hidden sm:inline text-sm group-hover:text-indigo-500 transition-colors">
+                Pending Bills
+              </span>
             </div>
           }
         />
         <Tab
           key="doctors"
           title={
-            <div className="flex items-center gap-2">
-              <FaMessage className="w-4 h-4" />
-              <span className="hidden sm:inline">My Doctors</span>
+            <div className="flex items-center gap-3 py-1 group">
+              <RiStethoscopeLine className="w-5 h-5 group-hover:text-indigo-500 transition-colors" />
+              <span className="hidden sm:inline text-sm group-hover:text-indigo-500 transition-colors">
+                My Doctors
+              </span>
             </div>
           }
         />
         <Tab
           key="lab"
           title={
-            <div className="flex items-center gap-2">
-              <FaFlask className="w-4 h-4" />
-              <span className="hidden sm:inline">Lab Results</span>
+            <div className="flex items-center gap-3 py-1 group">
+              <IoFlaskOutline className="w-5 h-5 group-hover:text-indigo-500 transition-colors" />
+              <span className="hidden sm:inline text-sm group-hover:text-indigo-500 transition-colors">
+                Lab Results
+              </span>
             </div>
           }
         />
