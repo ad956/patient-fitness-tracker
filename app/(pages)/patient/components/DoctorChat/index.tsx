@@ -116,13 +116,13 @@ export const DoctorsList: React.FC<DoctorsListProps> = ({
           <div className="flex-1 min-w-0">
             <div className="flex items-center justify-between">
               <p className="font-semibold text-small truncate">{doctor.name}</p>
-              <Badge
+              {/* <Badge
                 color={getStatusColor(doctor.status)}
                 variant="flat"
                 size="sm"
               >
                 {doctor.status}
-              </Badge>
+              </Badge> */}
             </div>
             <p className="text-tiny text-default-500">{doctor.specialty}</p>
             <p className="text-tiny text-default-400 truncate mt-1">
