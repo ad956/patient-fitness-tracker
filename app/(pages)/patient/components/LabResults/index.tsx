@@ -16,7 +16,7 @@ interface LabResults {
 }
 
 const LabResults: React.FC<LabResults> = ({ results }) => (
-  <div className="h-full overflow-y-auto">
+  <div className="h-[178px] border-2 rounded-xl p-2 overflow-y-auto scrollbar">
     <Table
       aria-label="Lab Results"
       classNames={{
