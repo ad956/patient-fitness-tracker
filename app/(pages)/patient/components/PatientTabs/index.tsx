@@ -57,6 +57,26 @@ export default function PatientTabs({ patient }: PatientTabsProps) {
       lastMessage: "We'll discuss your test results in our next appointment.",
       lastMessageTime: "Yesterday",
     },
+    {
+      id: 3,
+      name: "Dr. Sarah Wilson",
+      specialty: "Cardiologist",
+      avatar:
+        "https://www.sketchappsources.com/resources/source-image/doctor-illustration-hamamzai.png",
+      status: "online",
+      lastMessage: "Your heart readings look normal. Keep up the good work!",
+      lastMessageTime: "10:30 AM",
+    },
+    {
+      id: 4,
+      name: "Dr. James Miller",
+      specialty: "Neurologist",
+      avatar:
+        "https://images.apollo247.in/doctors/noimagefemale.png?tr=q-80,f-auto,w-100,dpr-2.5,c-at_max%20250w",
+      status: "offline",
+      lastMessage: "We'll discuss your test results in our next appointment.",
+      lastMessageTime: "Yesterday",
+    },
   ];
 
   const labResults: LabResult[] = [
