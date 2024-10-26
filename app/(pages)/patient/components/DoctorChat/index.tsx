@@ -100,7 +100,7 @@ export const DoctorsList: React.FC<DoctorsListProps> = ({
   doctors,
   onSelectDoctor,
 }) => (
-  <div className="h-full overflow-y-auto">
+  <div className="h-[178px] border-2 rounded-xl p-2 overflow-y-auto scrollbar">
     {doctors.map((doctor) => (
       <div
         key={doctor.id}
