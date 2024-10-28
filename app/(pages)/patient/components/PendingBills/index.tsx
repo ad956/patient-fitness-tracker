@@ -1,22 +1,14 @@
-"use client";
-
-declare global {
-  interface Window {
-    Razorpay: any;
-  }
-}
-
 import { Image, Avatar } from "@nextui-org/react";
-import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { PendingBill } from "@pft-types/patient";
 import SpinnerLoader from "@components/SpinnerLoader";
-import getPendingBills from "@lib/patient/getPendingBills";
 import { motion } from "framer-motion";
 import { getFormattedDate } from "@utils/getDate";
 import { BiChevronRight } from "react-icons/bi";
 import processPayment from "@lib/razorpay/processPayment";
-import savePendingBillTransaction from "@lib/patient/savePendingBillTransaction";
+import { getPendingBills, savePendingBillTransaction } from "@lib/patient";
+import useQuery from "@hooks/useQuery";
+import { LiaRedoAltSolid } from "react-icons/lia";
 
 interface PendingBillProps {
   patient: {
@@ -27,30 +19,18 @@ interface PendingBillProps {
 }
 
 const PendingBills = ({ patient }: PendingBillProps) => {
-  const [bills, setBills] = useState<PendingBill[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    const fetchPendingBills = async () => {
-      try {
-        const data = await getPendingBills();
-        setBills(data);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : "An error occurred");
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchPendingBills();
-  }, []);
+  const {
+    data: bills,
+    isLoading,
+    error,
+    refetch,
+  } = useQuery<PendingBill[]>(getPendingBills, []);
 
   if (isLoading) {
     return <SpinnerLoader />;
   }
 
-  if (error || !bills.length) {
+  if (error || !bills?.length) {
     return (
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -66,11 +46,23 @@ const PendingBills = ({ patient }: PendingBillProps) => {
         />
 
         {error ? (
-          <p className="ml-4 text-md font-medium text-red-500">{error}</p>
+          <div className="ml-4 flex items-center gap-1">
+            <p className="text-md font-medium text-red-500">{error}</p>
+            <LiaRedoAltSolid
+              className="cursor-pointer h-5 w-5 text-red-500 hover:text-red-600"
+              onClick={refetch}
+            />
+          </div>
         ) : (
-          <p className="ml-4 text-md font-medium text-gray-500">
-            No pending bills found.
-          </p>
+          <div className="ml-4 flex items-center gap-1">
+            <p className="text-md font-medium text-gray-500">
+              No pending bills found.
+            </p>
+            <LiaRedoAltSolid
+              className="cursor-pointer h-5 w-5 text-gray-500 hover:text-gray-600"
+              onClick={refetch}
+            />
+          </div>
         )}
       </motion.div>
     );
@@ -103,7 +95,7 @@ const PendingBills = ({ patient }: PendingBillProps) => {
           position: "top-center",
         });
 
-        setBills(bills.filter((item) => item !== bill));
+        bills?.filter((item) => item !== bill);
       }
 
       await savePendingBillTransaction(
