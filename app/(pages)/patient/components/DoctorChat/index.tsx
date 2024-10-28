@@ -12,6 +12,9 @@ import {
   useDisclosure,
 } from "@nextui-org/react";
 import { FaPaperPlane } from "react-icons/fa6";
+import useQuery from "@/hooks/useQuery";
+import getDoctorsChatList from "@/lib/patient/getDoctorsChatList";
+import { SpinnerLoader } from "@/components";
 
 interface DoctorChat {
   id: number;
@@ -22,49 +25,6 @@ interface DoctorChat {
   lastMessage: string;
   lastMessageTime: string;
 }
-
-const MOCK_DOCTORS: DoctorChat[] = [
-  {
-    id: 1,
-    name: "Dr. Sarah Wilson",
-    specialty: "Cardiologist",
-    avatar:
-      "https://www.sketchappsources.com/resources/source-image/doctor-illustration-hamamzai.png",
-    status: "online",
-    lastMessage: "Your heart readings look normal. Keep up the good work!",
-    lastMessageTime: "10:30 AM",
-  },
-  {
-    id: 2,
-    name: "Dr. James Miller",
-    specialty: "Neurologist",
-    avatar:
-      "https://images.apollo247.in/doctors/noimagefemale.png?tr=q-80,f-auto,w-100,dpr-2.5,c-at_max%20250w",
-    status: "offline",
-    lastMessage: "We'll discuss your test results in our next appointment.",
-    lastMessageTime: "Yesterday",
-  },
-  {
-    id: 3,
-    name: "Dr. Emma Thompson",
-    specialty: "Dermatologist",
-    avatar:
-      "https://www.sketchappsources.com/resources/source-image/doctor-illustration-hamamzai.png",
-    status: "online",
-    lastMessage: "Remember to apply the prescribed cream twice daily.",
-    lastMessageTime: "2:15 PM",
-  },
-  {
-    id: 4,
-    name: "Dr. Michael Chen",
-    specialty: "Pediatrician",
-    avatar:
-      "https://images.apollo247.in/doctors/noimagefemale.png?tr=q-80,f-auto,w-100,dpr-2.5,c-at_max%20250w",
-    status: "online",
-    lastMessage: "The vaccination schedule looks good.",
-    lastMessageTime: "11:45 AM",
-  },
-];
 
 // Chat Messages Component
 const ChatMessages: React.FC<{ doctor: DoctorChat }> = ({ doctor }) => (
@@ -117,14 +77,19 @@ const ChatInput: React.FC<{
 
 // DoctorChat Component
 const DoctorChat: React.FC = () => {
-  const [doctors, setDoctors] = useState<DoctorChat[]>(MOCK_DOCTORS);
+  const {
+    data: doctors,
+    isLoading,
+    error,
+    refetch,
+  } = useQuery<DoctorChat[]>(getDoctorsChatList, []);
   const [selectedDoctor, setSelectedDoctor] = useState<DoctorChat | null>(null);
   const [message, setMessage] = useState<string>("");
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   // simulate sending a message
   const handleSendMessage = (messageText: string) => {
-    if (!selectedDoctor) return;
+    if (!selectedDoctor || !doctors) return;
 
     const newMessage = {
       text: messageText,
@@ -134,7 +99,7 @@ const DoctorChat: React.FC = () => {
       }),
     };
 
-    // update the doctor's last message in the list
+    // Create a new array with the updated doctor
     const updatedDoctors = doctors.map((doctor) =>
       doctor.id === selectedDoctor.id
         ? {
@@ -145,14 +110,35 @@ const DoctorChat: React.FC = () => {
         : doctor
     );
 
-    setDoctors(updatedDoctors);
-    setMessage(""); // clear input
-
-    // update selected doctor
-    setSelectedDoctor(
-      updatedDoctors.find((d) => d.id === selectedDoctor.id) || null
-    );
+    // Find the updated doctor
+    const updatedSelectedDoctor =
+      updatedDoctors.find((d) => d.id === selectedDoctor.id) || null;
+    setSelectedDoctor(updatedSelectedDoctor);
+    setMessage("");
   };
+
+  if (isLoading) {
+    return <SpinnerLoader />;
+  }
+
+  if (error) {
+    return (
+      <div className="h-[178px] border-2 rounded-xl p-2 flex flex-col items-center justify-center gap-2">
+        <p className="text-danger">Error: {error}</p>
+        <Button size="sm" onClick={refetch}>
+          Retry
+        </Button>
+      </div>
+    );
+  }
+
+  if (!doctors || doctors.length === 0) {
+    return (
+      <div className="h-[178px] border-2 rounded-xl p-2 flex items-center justify-center">
+        <p>No doctors available</p>
+      </div>
+    );
+  }
 
   return (
     <div className="h-[178px] border-2 rounded-xl p-2 overflow-y-auto scrollbar">
