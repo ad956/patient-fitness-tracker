@@ -13,9 +13,9 @@ import {
   Image,
 } from "@nextui-org/react";
 import { FaPaperPlane } from "react-icons/fa6";
-import useQuery from "@/hooks/useQuery";
-import getDoctorsChatList from "@/lib/patient/getDoctorsChatList";
-import { SpinnerLoader } from "@/components";
+import useQuery from "@hooks/useQuery";
+import getDoctorsChatList from "@lib/patient/getDoctorsChatList";
+import SpinnerLoader from "@components/SpinnerLoader";
 import { motion } from "framer-motion";
 import { LiaRedoAltSolid } from "react-icons/lia";
 
