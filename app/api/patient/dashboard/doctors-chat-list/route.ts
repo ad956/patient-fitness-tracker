@@ -67,7 +67,7 @@ export async function GET(request: Request) {
 
     return NextResponse.json(MOCK_DOCTORS, { status: 200 });
   } catch (error: any) {
-    console.error("Error fetching payment data:", error);
+    console.error("Error fetching doctor's chat list:", error);
     return errorHandler(
       error.message || "Internal Server Error",
       STATUS_CODES.SERVER_ERROR
