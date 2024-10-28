@@ -11,11 +11,31 @@ import {
 } from "@nextui-org/react";
 import { LabResult } from "@pft-types/patient";
 
-interface LabResults {
-  results: LabResult[];
-}
+const labResults: LabResult[] = [
+  {
+    id: "LR-001",
+    test: "Complete Blood Count",
+    date: "2024-10-14",
+    status: "Completed",
+    result: "Normal",
+  },
+  {
+    id: "LR-002",
+    test: "Lipid Profile",
+    date: "2024-10-15",
+    status: "Pending",
+    result: "Awaiting",
+  },
+  {
+    id: "LR-003",
+    test: "Thyroid Function",
+    date: "2024-10-16",
+    status: "Processing",
+    result: "In Progress",
+  },
+];
 
-const LabResults: React.FC<LabResults> = ({ results }) => (
+const LabResults: React.FC = () => (
   <div className="h-[178px] border-2 rounded-xl p-2 overflow-y-auto scrollbar">
     <Table
       aria-label="Lab Results"
@@ -33,7 +53,7 @@ const LabResults: React.FC<LabResults> = ({ results }) => (
         <TableColumn className="hidden sm:table-cell">RESULT</TableColumn>
       </TableHeader>
       <TableBody>
-        {results.map((result) => (
+        {labResults.map((result) => (
           <TableRow key={result.id} className="hover:bg-default-100/50">
             <TableCell className="font-medium">{result.id}</TableCell>
             <TableCell>{result.test}</TableCell>
