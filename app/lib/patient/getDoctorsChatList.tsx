@@ -27,7 +27,7 @@ export default async function getDoctorsChatList(): Promise<DoctorChat[]> {
     return MOCK_DOCTORS;
   } catch (error) {
     console.error(
-      "An error occurred while fetching pending bills of patient : ",
+      "An error occurred while fetching doctor's chat list for patient: ",
       error
     );
     throw error;
