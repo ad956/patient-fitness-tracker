@@ -10,11 +10,14 @@ import {
   ModalHeader,
   ModalBody,
   useDisclosure,
+  Image,
 } from "@nextui-org/react";
 import { FaPaperPlane } from "react-icons/fa6";
 import useQuery from "@/hooks/useQuery";
 import getDoctorsChatList from "@/lib/patient/getDoctorsChatList";
 import { SpinnerLoader } from "@/components";
+import { motion } from "framer-motion";
+import { LiaRedoAltSolid } from "react-icons/lia";
 
 interface DoctorChat {
   id: number;
@@ -121,22 +124,39 @@ const DoctorChat: React.FC = () => {
     return <SpinnerLoader />;
   }
 
-  if (error) {
+  if (error || !doctors?.length) {
     return (
-      <div className="h-[178px] border-2 rounded-xl p-2 flex flex-col items-center justify-center gap-2">
-        <p className="text-danger">Error: {error}</p>
-        <Button size="sm" onClick={refetch}>
-          Retry
-        </Button>
-      </div>
-    );
-  }
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1.5, ease: "easeOut" }}
+        className="flex justify-center items-center h-full w-full p-4 text-default-600"
+      >
+        <Image
+          src="/images/404.jpg"
+          width={200}
+          height={100}
+          alt="no-doctors-chat-list"
+        />
 
-  if (!doctors || doctors.length === 0) {
-    return (
-      <div className="h-[178px] border-2 rounded-xl p-2 flex items-center justify-center">
-        <p>No doctors available</p>
-      </div>
+        {error ? (
+          <div className="ml-4 flex items-center gap-1">
+            <p className="text-md font-medium text-red-500">{error}</p>
+            <LiaRedoAltSolid
+              className="cursor-pointer h-5 w-5 text-red-500 hover:text-red-600"
+              onClick={refetch}
+            />
+          </div>
+        ) : (
+          <div className="ml-4 flex items-center gap-1">
+            <p className="text-md font-medium text-gray-500">No chats found.</p>
+            <LiaRedoAltSolid
+              className="cursor-pointer h-5 w-5 text-gray-500 hover:text-gray-600"
+              onClick={refetch}
+            />
+          </div>
+        )}
+      </motion.div>
     );
   }
 
