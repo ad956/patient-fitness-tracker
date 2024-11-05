@@ -6,6 +6,7 @@ import {
   NovuProvider,
   PopoverNotificationCenter,
 } from "@novu/notification-center";
+import { TbBell } from "react-icons/tb";
 
 export default function Notifications({ userId }: { userId: string }) {
   return (
@@ -43,7 +44,7 @@ const CustomBellIcon = ({
           unseenCount > 0 ? "animate-wiggle" : ""
         }`}
       >
-        <IoNotificationsOutline
+        <TbBell
           size={25}
           className="text-gray-700 cursor-pointer hover:text-gray-900 transition-colors duration-200"
         />
