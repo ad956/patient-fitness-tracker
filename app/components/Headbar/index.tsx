@@ -11,6 +11,8 @@ type HeadbarProps = {
   role: string;
 };
 
+const USERS_WITH_ADD_BUTTON = ["patient", "receptionist"];
+
 export default async function Headbar({ user, role }: HeadbarProps) {
   return (
     <div className="bg-[#f3f6fd] p-4 flex flex-row justify-between">
@@ -21,17 +23,19 @@ export default async function Headbar({ user, role }: HeadbarProps) {
       </div>
 
       <div className="flex justify-center items-center gap-2">
-        <Button
-          as={Link}
-          isIconOnly
-          radius="full"
-          variant="shadow"
-          size="sm"
-          className=""
-          href={`/${role}/appointments`}
-        >
-          <GoPlus size={20} />
-        </Button>
+        {USERS_WITH_ADD_BUTTON.includes(role) ?? (
+          <Button
+            as={Link}
+            isIconOnly
+            radius="full"
+            variant="shadow"
+            size="sm"
+            className=""
+            href={`/${role}/appointments`}
+          >
+            <GoPlus size={20} />
+          </Button>
+        )}
         <Notifications userId={user._id} />
         <Divider orientation="vertical" className="h-8" />
 
