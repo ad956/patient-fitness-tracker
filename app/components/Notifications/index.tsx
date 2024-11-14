@@ -1,12 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { IoNotificationsOutline } from "react-icons/io5";
 import {
   NovuProvider,
   PopoverNotificationCenter,
 } from "@novu/notification-center";
-import { TbBell } from "react-icons/tb";
 import Image from "next/image";
 
 export default function Notifications({ userId }: { userId: string }) {
