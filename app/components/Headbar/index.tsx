@@ -5,6 +5,7 @@ import { GoPlus } from "react-icons/go";
 import { User as UserType } from "@pft-types/index";
 import { logoutAction } from "@lib/actions";
 import Notifications from "../Notifications";
+import Image from "next/image";
 
 type HeadbarProps = {
   user: UserType;
@@ -23,18 +24,15 @@ export default async function Headbar({ user, role }: HeadbarProps) {
       </div>
 
       <div className="flex justify-center items-center gap-2">
-        {USERS_WITH_ADD_BUTTON.includes(role) ?? (
-          <Button
-            as={Link}
-            isIconOnly
-            radius="full"
-            variant="shadow"
-            size="sm"
-            className=""
-            href={`/${role}/appointments`}
-          >
-            <GoPlus size={20} />
-          </Button>
+        {USERS_WITH_ADD_BUTTON.includes(role) && (
+          <Link className="" href={`/${role}/appointments`}>
+            <Image
+              src="/icons/add-appointment.png"
+              alt="add-appointment-icon"
+              height={35}
+              width={35}
+            />
+          </Link>
         )}
         <Notifications userId={user._id} />
         <Divider orientation="vertical" className="h-8" />
