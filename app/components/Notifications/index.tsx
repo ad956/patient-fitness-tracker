@@ -7,6 +7,7 @@ import {
   PopoverNotificationCenter,
 } from "@novu/notification-center";
 import { TbBell } from "react-icons/tb";
+import Image from "next/image";
 
 export default function Notifications({ userId }: { userId: string }) {
   return (
@@ -44,9 +45,12 @@ const CustomBellIcon = ({
           unseenCount > 0 ? "animate-wiggle" : ""
         }`}
       >
-        <TbBell
-          size={25}
-          className="text-gray-700 cursor-pointer hover:text-gray-900 transition-colors duration-200"
+        <Image
+          height={45}
+          width={45}
+          className="cursor-pointer hover:animate-pulse"
+          src="/icons/bell-icon.png"
+          alt={"notification-bell"}
         />
       </div>
 
