@@ -9,8 +9,8 @@ import {
   Badge,
   Image,
 } from "@nextui-org/react";
-import useQuery from "@/hooks/useQuery";
-import getLabResults from "@/lib/patient/getLabResults";
+import useQuery from "@hooks/useQuery";
+import getLabResults from "@lib/patient/getLabResults";
 import SpinnerLoader from "@components/SpinnerLoader";
 import { LiaRedoAltSolid } from "react-icons/lia";
 import { motion } from "framer-motion";
