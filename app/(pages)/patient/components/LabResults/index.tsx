@@ -14,14 +14,7 @@ import getLabResults from "@lib/patient/getLabResults";
 import SpinnerLoader from "@components/SpinnerLoader";
 import { LiaRedoAltSolid } from "react-icons/lia";
 import { motion } from "framer-motion";
-
-interface LabResult {
-  id: string;
-  test: string;
-  date: string;
-  status: string;
-  result: string;
-}
+import { LabResult } from "@pft-types/patient";
 
 const LabResults: React.FC = () => {
   const {
