@@ -47,7 +47,7 @@ export default async function ReceptionistPage() {
   const waitingPatients = receptionist.dailyCount.waiting;
 
   return (
-    <div className="bg-white bg[#f3f6fd] border-2 border-purple-600 ">
+    <section className="bg-white bg[#f3f6fd] overflow-y-auto scrollbar">
       <section className="mx-auto p-6 ">
         {/* Quick Actions */}
         <div className="mb-6 flex gap-4 flex-wrap">
@@ -340,6 +340,6 @@ export default async function ReceptionistPage() {
           </div>
         </div>
       </section>
-    </div>
+    </section>
   );
 }
