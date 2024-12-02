@@ -47,7 +47,7 @@ export default async function ReceptionistPage() {
   const waitingPatients = receptionist.dailyCount.waiting;
 
   return (
-    <div className="min-h-screen bg-[#f3f6fd]">
+    <div className="bg-white bg[#f3f6fd]">
       <section className="p-6 overflow-y-auto scrollbar">
         <div className="mx-auto">
           {/* Quick Actions */}
@@ -212,20 +212,23 @@ export default async function ReceptionistPage() {
                     />
                   </CardBody>
                 </Card>
+                {/* Pending Appointments */}
                 <Card>
-                  <CardHeader>
-                    <h2 className="text-lg font-semibold">Room Utilization</h2>
+                  <CardHeader className="flex justify-between">
+                    <h2 className="text-lg font-semibold">
+                      Pending Appointments
+                    </h2>
+                    <Badge color="danger">{pendingAppointments}</Badge>
                   </CardHeader>
                   <CardBody>
-                    {/* <RoomUtilization /> */}
-                    Room Utilisatioin
+                    <PatientTabs pendingAppointments={pendingPatients} />
                   </CardBody>
                 </Card>
               </div>
             </div>
 
             {/* Right Column */}
-            <div className="space-y-6">
+            <div className="space-y-6 grid-rows-3">
               {/* Doctor Availability */}
               <Card>
                 <CardHeader>
@@ -302,19 +305,6 @@ export default async function ReceptionistPage() {
                     }
                     color="bg-gray-400"
                   />
-                </CardBody>
-              </Card>
-
-              {/* Pending Appointments */}
-              <Card>
-                <CardHeader className="flex justify-between">
-                  <h2 className="text-lg font-semibold">
-                    Pending Appointments
-                  </h2>
-                  <Badge color="danger">{pendingAppointments}</Badge>
-                </CardHeader>
-                <CardBody>
-                  <PatientTabs pendingAppointments={pendingPatients} />
                 </CardBody>
               </Card>
             </div>
