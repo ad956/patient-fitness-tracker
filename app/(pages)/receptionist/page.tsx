@@ -220,7 +220,7 @@ export default async function ReceptionistPage() {
                   </h2>
                   <Badge color="danger">{pendingAppointments}</Badge>
                 </CardHeader>
-                <CardBody className="h-full overflow-auto">
+                <CardBody className="h-full overflow-auto scrollbar">
                   <PatientTabs pendingAppointments={pendingPatients} />
                 </CardBody>
               </Card>
