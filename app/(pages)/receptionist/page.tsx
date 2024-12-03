@@ -283,7 +283,7 @@ export default async function ReceptionistPage() {
             </Card>
 
             {/* Waiting Room Status */}
-            <Card>
+            <Card className="h-[250px]">
               <CardHeader className="flex justify-between">
                 <h2 className="text-lg font-semibold">Waiting Room Status</h2>
                 <Tooltip content="Current capacity: 80%">
