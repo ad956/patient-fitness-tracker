@@ -255,7 +255,7 @@ const WaitingRoomStatus: React.FC<WaitingRoomStatusProps> = ({
   const occupancyPercentage = (waitingPatients / maxCapacity) * 100;
 
   return (
-    <Card className="w-full p-4">
+    <Card className="w-full p-4 h-full">
       <h3 className="text-lg font-semibold mb-2">Waiting Room Occupancy</h3>
       <Progress
         size="md"
