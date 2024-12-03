@@ -200,7 +200,7 @@ export default async function ReceptionistPage() {
 
             {/* Analytics Section */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <Card className="h-[300px]">
+              <Card className="">
                 <CardHeader>
                   <h2 className="text-lg font-semibold">Monthly Visitors</h2>
                 </CardHeader>
@@ -213,7 +213,7 @@ export default async function ReceptionistPage() {
                 </CardBody>
               </Card>
               {/* Pending Appointments */}
-              <Card className="h-[300px]">
+              <Card className="h-[400px]">
                 <CardHeader className="flex justify-between">
                   <h2 className="text-lg font-semibold">
                     Pending Appointments
