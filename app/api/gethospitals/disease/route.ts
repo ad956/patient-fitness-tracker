@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import CommonDiseases from "@models/commonDisease";
-import { dbConfig, errorHandler, STATUS_CODES } from "@/utils";
+import { dbConfig, errorHandler, STATUS_CODES } from "@utils/index";
 
 export async function GET() {
   try {
