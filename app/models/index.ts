@@ -5,6 +5,7 @@ import DemoUser from "./demouser";
 import Doctor from "./doctor";
 import Hospital from "./hospital";
 import MedicalHistory from "./medicalHistory";
+import Message from "./message";
 import CityStateHospital from "./citystate_hospitals";
 import Patient from "./patient";
 import Receptionist from "./receptionist";
@@ -20,6 +21,7 @@ export {
   Hospital,
   CityStateHospital,
   MedicalHistory,
+  Message,
   Patient,
   Receptionist,
   Transaction,
