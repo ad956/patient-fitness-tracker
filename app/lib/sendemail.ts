@@ -25,10 +25,6 @@ const sendEmail = async (data: EmailPayload) => {
     ...smtpOptions,
   });
 
-  if (process.env.NODE_ENV != "production") {
-    return "IN_DEVELOPMENT";
-  }
-
   return await transporter.sendMail({
     ...data,
   });
