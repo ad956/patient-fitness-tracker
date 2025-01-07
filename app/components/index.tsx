@@ -1,6 +1,7 @@
 import AnimatedBackground from "./AnimatedBackground";
 import BrandLogo from "./BrandLogo";
 import Carousel from "./Carousel";
+import ChatScreen from "./ChatScreen";
 import ErrorBoundary from "./ErrorBoundary";
 import Headbar from "./Headbar";
 import OtpSection from "./OtpSection";
@@ -16,6 +17,7 @@ export {
   AnimatedBackground,
   BrandLogo,
   Carousel,
+  ChatScreen,
   ErrorBoundary,
   Headbar,
   OtpSection,
