@@ -7,6 +7,7 @@ import {
 } from "@utils/index";
 import { Types } from "mongoose";
 import { authenticateUser } from "@lib/auth";
+import { revalidateTag } from "next/cache";
 
 export async function PUT(request: Request) {
   const authHeader = request.headers.get("Authorization");
@@ -37,6 +38,8 @@ export async function PUT(request: Request) {
         STATUS_CODES.NOT_FOUND
       );
     }
+
+    revalidateTag("profile");
 
     return NextResponse.json({ message: "ok" }, { status: 200 });
   } catch (error) {

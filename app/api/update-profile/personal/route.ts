@@ -8,6 +8,7 @@ import {
 import { PersonalInfoBody } from "@pft-types/index";
 import { Types } from "mongoose";
 import { authenticateUser } from "@lib/auth";
+import { revalidateTag } from "next/cache";
 
 export async function PUT(req: Request) {
   const authHeader = req.headers.get("Authorization");
@@ -79,6 +80,8 @@ export async function PUT(req: Request) {
     if (!updatedUser) {
       return errorHandler(`${role} not found`, STATUS_CODES.NOT_FOUND);
     }
+
+    revalidateTag("profile");
 
     return NextResponse.json(
       { message: "Profile updated successfully" },
