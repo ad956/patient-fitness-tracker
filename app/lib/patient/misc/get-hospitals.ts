@@ -5,7 +5,7 @@ export default async function getHospitals(
   selectedState: string,
   selectedCity: string
 ): Promise<[BookAppointmentHospital]> {
-  const endpoint = `/api/gethospitals/?state=${selectedState}&city=${selectedCity}`;
+  const endpoint = `/api/get-hospitals/?state=${selectedState}&city=${selectedCity}`;
 
   try {
     const response = await fetchHandler<[BookAppointmentHospital]>(endpoint);

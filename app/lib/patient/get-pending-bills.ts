@@ -5,7 +5,7 @@ import { getSessionToken } from "../session";
 import { PendingBill } from "@pft-types/patient";
 
 export default async function getPendingBills(): Promise<[PendingBill]> {
-  const endpoint = "/api/patient/paymenthistory?status=pending";
+  const endpoint = "/api/patient/payment-history?status=pending";
   const session = getSessionToken();
 
   try {

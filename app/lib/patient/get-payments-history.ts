@@ -5,7 +5,7 @@ import { getSessionToken } from "../session";
 import { Payment } from "@pft-types/patient";
 
 export default async function getPaymentsHistory(): Promise<[Payment]> {
-  const endpoint = "/api/patient/paymenthistory";
+  const endpoint = "/api/patient/payment-history";
   const session = getSessionToken();
 
   try {

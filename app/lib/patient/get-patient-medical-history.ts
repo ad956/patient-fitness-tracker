@@ -7,7 +7,7 @@ import { MedicalHistory } from "@pft-types/patient";
 export default async function getPatientMedicalHistory(): Promise<
   [MedicalHistory]
 > {
-  const endpoint = "/api/patient/medicalhistory";
+  const endpoint = "/api/patient/medical-history";
   const session = getSessionToken();
 
   try {

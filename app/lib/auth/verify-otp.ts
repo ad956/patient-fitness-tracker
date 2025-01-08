@@ -6,7 +6,7 @@ export default async function verifyOtp(
   action: string,
   otp: string
 ): Promise<any> {
-  const endpoint = "/api/auth/verifyotp";
+  const endpoint = "/api/auth/verify-otp";
 
   try {
     const response = await fetchHandler<any>(endpoint, {

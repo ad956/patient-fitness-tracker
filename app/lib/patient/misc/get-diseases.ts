@@ -1,7 +1,7 @@
 import fetchHandler from "@utils/fetch-handler";
 
 export default async function getDiseases(): Promise<[string]> {
-  const endpoint = `/api/gethospitals/disease/`;
+  const endpoint = `/api/get-hospitals/disease/`;
 
   try {
     const response = await fetchHandler<[string]>(endpoint);
