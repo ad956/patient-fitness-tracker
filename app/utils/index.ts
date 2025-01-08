@@ -1,12 +1,12 @@
-import { AppError, errorHandler } from "./errorHandler";
+import { AppError, errorHandler } from "./error-handler";
 import dbConfig from "./db";
-import fetchHandler from "./fetchHandler";
-import FormValidator from "./formValidator";
-import { generateOTP, generateSecureOTP } from "./generateOtp";
-import getBaseUrl from "./getBaseUrl";
-import { getCurrentDateFormatted, getFormattedDate } from "./getDate";
-import getModelByRole from "./getModelByRole";
-import hashPassword from "./hashPassword";
+import fetchHandler from "./fetch-handler";
+import FormValidator from "./form-validator";
+import { generateOTP, generateSecureOTP } from "./generate-otp";
+import getBaseUrl from "./get-base-url";
+import { getCurrentDateFormatted, getFormattedDate } from "./get-date";
+import getModelByRole from "./get-model-by-role";
+import hashPassword from "./hash-password";
 
 export * from "./constants";
 export {

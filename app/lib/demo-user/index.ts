@@ -1,2 +1,2 @@
-import handleDemoUserLogin from "./handleDemoUserLogin";
+import handleDemoUserLogin from "./handle-demo-user-login";
 export { handleDemoUserLogin };

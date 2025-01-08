@@ -1,3 +1,3 @@
-import getHospitalData from "./getHospitalData";
+import getHospitalData from "./get-hospital-data";
 
 export { getHospitalData };

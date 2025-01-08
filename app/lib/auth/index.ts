@@ -1,3 +1,4 @@
-import authenticateUser from "./authenticateUser";
+import authenticateUser from "./authenticate-user";
+import verifyOtp from "./verify-otp";
 
-export { authenticateUser };
+export { authenticateUser, verifyOtp };

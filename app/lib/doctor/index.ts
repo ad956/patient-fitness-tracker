@@ -1,2 +1,2 @@
-import getDoctorData from "./getDoctorData";
+import getDoctorData from "./get-doctor-data";
 export { getDoctorData };

@@ -1,6 +1,6 @@
-import updateAddress from "./update_address";
-import updatePersonal from "./update_personal_info";
-import resetPassword from "./reset_password";
-import updateProfilePicture from "./update_profile_picture";
+import updateAddress from "./update-address";
+import updatePersonal from "./update-personal-info";
+import resetPassword from "./reset-password";
+import updateProfilePicture from "./update-profile-picture";
 
 export { updateAddress, updatePersonal, resetPassword, updateProfilePicture };

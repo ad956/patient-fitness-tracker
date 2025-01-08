@@ -1,6 +1,6 @@
 import { UserLog, bookingAppointment } from "@pft-types/index";
 import { Html } from "@react-email/html";
-import { getCurrentDateFormatted, getFormattedDate } from "@utils/getDate";
+import { getCurrentDateFormatted, getFormattedDate } from "@utils/get-date";
 
 function Layout({ children }: { children: React.ReactNode }) {
   return (
