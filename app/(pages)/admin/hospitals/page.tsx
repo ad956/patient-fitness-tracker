@@ -22,7 +22,7 @@ import {
 } from "react-icons/ai";
 import SpinnerLoader from "@components/SpinnerLoader";
 import Link from "next/link";
-import { getHospitalsList } from "@lib/admin/getHospitals";
+import { getHospitalsList } from "@lib/admin/get-hospitals";
 import { FaExclamationCircle } from "react-icons/fa";
 import { HospitalDetails, PaginationMetadata } from "@pft-types/admin";
 

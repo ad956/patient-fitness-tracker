@@ -1,4 +1,4 @@
-import getAdminData from "@lib/admin/getAdminData";
+import getAdminData from "@lib/admin/get-admin-data";
 import ProfileSettings from "@components/ProfileSettings";
 
 export default async function Settings() {
