@@ -62,7 +62,7 @@ export async function POST(request: Request) {
       gender: "Male",
       contact: "",
       profile:
-        "https://res.cloudinary.com/dtkfvp2ic/image/upload/v1715082439/110505291-heart-shape-illustration-health-medicine-concept-people-running-for-exercise-awareness-or-sport_eyu2iw.jpg",
+        "https://res.cloudinary.com/doahnjt5z/image/upload/v1736261729/assets/xeqy76eccywusabkdkjc.png",
       address: {
         address_line_1: "",
         address_line_2: "",

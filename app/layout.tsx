@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     siteName: "Patient Fitness Tracker",
     images: [
       {
-        url: "https://res.cloudinary.com/dtkfvp2ic/image/upload/v1711037583/patient_yluzvs_bnz9ox.png",
+        url: "https://res.cloudinary.com/doahnjt5z/image/upload/v1736323154/pft/pft_png_logo.png",
       },
     ],
   },

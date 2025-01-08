@@ -4,7 +4,7 @@ import fetchHandler from "@utils/fetch-handler";
 import { getSessionToken } from "../session";
 
 async function updateProfilePicture(profile_url: string): Promise<any> {
-  const endpoint = "/api/update-profile/profile";
+  const endpoint = "/api/update-profile/picture";
   const session = getSessionToken();
 
   try {
