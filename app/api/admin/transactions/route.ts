@@ -3,7 +3,7 @@ import { Admin, Hospital, Patient, Transaction } from "@models/index";
 import { TransactionDetails } from "@pft-types/index";
 import { Types } from "mongoose";
 import { dbConfig, errorHandler, STATUS_CODES } from "@utils/index";
-import authenticateUser from "@lib/auth/authenticateUser";
+import { authenticateUser } from "@lib/auth";
 
 export async function GET(request: Request) {
   const authHeader = request.headers.get("Authorization");

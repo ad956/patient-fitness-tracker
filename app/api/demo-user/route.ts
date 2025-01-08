@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import DemoUser from "@models/demouser";
-import { setSession } from "@sessions/sessionUtils";
+import DemoUser from "@models/demo-user";
+import { setSession } from "@session";
 import logUserActivity from "@lib/logs";
 import {
   dbConfig,

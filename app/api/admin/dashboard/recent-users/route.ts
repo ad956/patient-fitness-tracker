@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import mongoose from "mongoose";
-import authenticateUser from "@lib/auth/authenticateUser";
+import { authenticateUser } from "@lib/auth";
 import {
   FormattedRecentUser,
   RecentUserTile,

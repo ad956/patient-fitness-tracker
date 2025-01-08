@@ -3,7 +3,7 @@ import { HospitalUserDetails } from "@pft-types/admin";
 import { Types } from "mongoose";
 import { NextResponse } from "next/server";
 import { dbConfig, errorHandler, STATUS_CODES } from "@utils/index";
-import authenticateUser from "@lib/auth/authenticateUser";
+import { authenticateUser } from "@lib/auth";
 
 export async function GET(request: Request) {
   const authHeader = request.headers.get("Authorization");

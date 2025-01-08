@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import CityStateHospital from "@models/citystate_hospitals";
+import CityStateHospital from "@models/city-state-hospitals";
 import { dbConfig, errorHandler, STATUS_CODES } from "@utils/index";
 
 export async function GET(req: Request) {

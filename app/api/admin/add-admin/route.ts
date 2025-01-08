@@ -6,7 +6,8 @@ import {
   hashPassword,
   STATUS_CODES,
 } from "@utils/index";
-import { authenticateUser, NewAdminTemplate, sendEmail } from "@lib/index";
+import { authenticateUser } from "@lib/auth";
+import { NewAdminTemplate, sendEmail } from "@lib/emails";
 import { render } from "@react-email/render";
 
 export async function POST(request: Request) {

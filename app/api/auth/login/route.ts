@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { OtpTemplate, sendEmail } from "@lib/index";
+import { OtpTemplate, sendEmail } from "@lib/emails";
 import { render } from "@react-email/render";
 import {
   dbConfig,

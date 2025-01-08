@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { setSession } from "@sessions/sessionUtils";
+import { setSession } from "@session";
 import logUserActivity from "@lib/logs";
 import {
   allowedRoles,

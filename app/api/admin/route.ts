@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import authenticateUser from "@lib/auth/authenticateUser";
+import { authenticateUser } from "@lib/auth";
 import Admin from "@models/admin";
 import { dbConfig, errorHandler, STATUS_CODES } from "@utils/index";
 import { Types } from "mongoose";

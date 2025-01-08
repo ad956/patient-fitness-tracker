@@ -1,5 +1,5 @@
 import { Hospital, Patient, Doctor, Receptionist } from "@models/index";
-import authenticateUser from "@lib/auth/authenticateUser";
+import { authenticateUser } from "@lib/auth";
 import { NextResponse } from "next/server";
 import { dbConfig, errorHandler, STATUS_CODES } from "@utils/index";
 
