@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { updateSession } from "@sessions/sessionUtils";
+import { updateSession } from "@session";
 import {
   handleExpiredSession,
   handlePrivateRoute,

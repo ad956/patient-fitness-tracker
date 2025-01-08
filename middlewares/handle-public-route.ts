@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { decrypt } from "@sessions/sessionUtils";
+import { decrypt } from "@session";
 
 export default async function handlePublicRoute(
   request: NextRequest,
