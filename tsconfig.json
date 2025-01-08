@@ -29,7 +29,7 @@
       "@receptionist/*": ["./app/(pages)/receptionist/*"],
       "@models/*": ["./app/models/*"],
       "@lib/*": ["./app/lib/*"],
-      "@sessions/*": ["./app/lib/sessions/*"],
+      "@session": ["./app/lib/session/index.ts"],
       "@middlewares/*": ["./middlewares/*"]
     }
   },
