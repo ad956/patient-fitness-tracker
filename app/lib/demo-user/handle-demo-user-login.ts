@@ -5,7 +5,7 @@ const handleDemoUserLogin = async (
   role: string,
   redirectDemoUser: (role: string) => void
 ) => {
-  const endpoint = "/api/demouser";
+  const endpoint = "/api/demo-user";
 
   try {
     toast.loading("Logging in...", { id: "demoLogin" });
