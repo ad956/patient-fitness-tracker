@@ -33,7 +33,7 @@ import {
   BookAppointmentHospital,
   BookAppointmentProps,
 } from "@pft-types/patient";
-import processPayment from "@lib/razorpay/processPayment";
+import processPayment from "@lib/razorpay/process-payment";
 
 export default function BookAppointment({
   patientId,

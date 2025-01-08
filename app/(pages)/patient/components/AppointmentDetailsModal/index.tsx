@@ -7,7 +7,7 @@ import {
   Avatar,
 } from "@nextui-org/react";
 import { LuCalendarClock } from "react-icons/lu";
-import { getFormattedDate } from "@utils/getDate";
+import { getFormattedDate } from "@utils/get-date";
 
 const AppointmentDetailsModal = ({
   isOpen,

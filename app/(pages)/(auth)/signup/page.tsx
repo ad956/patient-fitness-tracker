@@ -17,7 +17,7 @@ import { MdAlternateEmail, MdOutlineKey } from "react-icons/md";
 import { PiUserCircleDuotone } from "react-icons/pi";
 import { IoPersonCircleOutline } from "react-icons/io5";
 import { signupAction } from "@lib/actions";
-import FormValidator from "@utils/formValidator";
+import FormValidator from "@utils/form-validator";
 
 export default function Signup() {
   const [formValidator] = useState(new FormValidator());

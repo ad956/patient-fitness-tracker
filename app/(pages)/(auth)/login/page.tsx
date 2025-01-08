@@ -15,9 +15,9 @@ import {
 import { MdOutlineKey, MdOutlineAlternateEmail } from "react-icons/md";
 import { loginAction } from "@lib/actions";
 import toast, { Toaster } from "react-hot-toast";
-import FormValidator from "@utils/formValidator";
+import FormValidator from "@utils/form-validator";
 import { useRouter } from "next/navigation";
-import handleDemoUserLogin from "@lib/demo-user/handleDemoUserLogin";
+import { handleDemoUserLogin } from "@lib/demo-user";
 
 export default function Login() {
   const [formValidator] = useState(new FormValidator());

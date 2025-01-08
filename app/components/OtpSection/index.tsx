@@ -11,7 +11,7 @@ import {
 import { useRouter } from "next/navigation";
 import React, { useRef, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
-import verifyOtp from "@lib/verifyOtp";
+import verifyOtp from "@lib/auth/verify-otp";
 
 type userDataType = {
   userData: {

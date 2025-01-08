@@ -25,7 +25,7 @@ import {
   updateAddress,
   resetPassword,
 } from "@lib/update-profile";
-import FormValidator from "@utils/formValidator";
+import FormValidator from "@utils/form-validator";
 
 type ProfileSettingsProps = {
   user: User;

@@ -5,7 +5,7 @@ import { Button, Image } from "@nextui-org/react";
 import { useState } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import getBaseUrl from "@utils/getBaseUrl";
+import getBaseUrl from "@utils/get-base-url";
 import { IoQrCodeOutline, IoSettingsOutline } from "react-icons/io5";
 import {
   MdOutlineCurrencyRupee,

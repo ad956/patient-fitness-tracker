@@ -5,9 +5,9 @@ import { Input, Button, Card, CardBody, CardHeader } from "@nextui-org/react";
 import { motion } from "framer-motion";
 import toast, { Toaster } from "react-hot-toast";
 import AnimatedBackground from "@components/AnimatedBackground";
-import FormValidator from "@utils/formValidator";
+import FormValidator from "@utils/form-validator";
 import { AiOutlineEyeInvisible, AiTwotoneEye } from "react-icons/ai";
-import addAdmin from "@lib/admin/addAdmin";
+import addAdmin from "@lib/admin/add-admin";
 
 export default function AddAdmin() {
   const [formValidator] = useState(new FormValidator());

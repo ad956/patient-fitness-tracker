@@ -10,7 +10,7 @@ import { Toaster } from "react-hot-toast";
 import { IoFlaskOutline } from "react-icons/io5";
 import { RiStethoscopeLine } from "react-icons/ri";
 import { MdReceiptLong } from "react-icons/md";
-import ChatScreen from "@/components/ChatScreen";
+import ChatScreen from "@components/ChatScreen";
 
 interface PatientTabsProps {
   patient: Patient;

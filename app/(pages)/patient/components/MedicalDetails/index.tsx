@@ -12,7 +12,7 @@ import {
   TableRow,
   User,
 } from "@nextui-org/react";
-import { getFormattedDate } from "@utils/getDate";
+import { getFormattedDate } from "@utils/get-date";
 
 export default function MedicalDetails({
   medicalDetails,

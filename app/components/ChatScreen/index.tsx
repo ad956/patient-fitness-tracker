@@ -14,7 +14,7 @@ import {
 } from "@nextui-org/react";
 import { FaPaperPlane } from "react-icons/fa6";
 import { motion } from "framer-motion";
-import getRoomId from "@utils/getRoomId";
+import getRoomId from "@utils/get-room-id";
 
 interface User {
   id: string;

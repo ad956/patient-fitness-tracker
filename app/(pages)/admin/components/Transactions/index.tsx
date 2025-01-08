@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { getFormattedDate } from "@utils/getDate";
+import { getFormattedDate } from "@utils/get-date";
 import { Chip, Card, Image } from "@nextui-org/react";
 import {
   PaginationControls,
