@@ -2,12 +2,10 @@ import { NextResponse } from "next/server";
 import { dbConfig, errorHandler, STATUS_CODES } from "@utils/index";
 import { Types } from "mongoose";
 import { render } from "@react-email/render";
-import {
-  authenticateUser,
-  AppointmentBookedTemplate,
-  sendEmail,
-  sendNotification,
-} from "@lib/index";
+import { AppointmentBookedTemplate, sendEmail } from "@lib/emails";
+
+import { authenticateUser } from "@lib/auth";
+import sendNotification from "@lib/novu";
 import { Patient, BookedAppointment, Doctor } from "@models/index";
 import { BookingAppointmentType } from "@pft-types/patient";
 
