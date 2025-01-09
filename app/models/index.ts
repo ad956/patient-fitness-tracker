@@ -5,7 +5,7 @@ import DemoUser from "./demo-user";
 import Doctor from "./doctor";
 import Hospital from "./hospital";
 import MedicalHistory from "./medical-history";
-import Message from "./message";
+import { Message, Room } from "./chat";
 import CityStateHospital from "./city-state-hospitals";
 import Patient from "./patient";
 import Receptionist from "./receptionist";
@@ -22,6 +22,7 @@ export {
   CityStateHospital,
   MedicalHistory,
   Message,
+  Room,
   Patient,
   Receptionist,
   Transaction,
