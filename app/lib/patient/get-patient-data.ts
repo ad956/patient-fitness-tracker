@@ -13,6 +13,7 @@ export default async function getresponse(): Promise<Patient> {
       endpoint,
       {
         cache: "no-cache",
+        next: { tags: ["profile"] },
       },
       session!
     );
