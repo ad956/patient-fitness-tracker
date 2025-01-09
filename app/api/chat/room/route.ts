@@ -2,19 +2,27 @@ import { NextResponse } from "next/server";
 import dbConfig from "@utils/db";
 import { Room } from "@models/chat";
 import { Types } from "mongoose";
+import { errorHandler, STATUS_CODES } from "@utils/index";
 
 export async function GET(req: Request) {
   try {
+    const authHeader = req.headers.get("Authorization");
+
+    // Authorization check
+    if (!authHeader) {
+      return errorHandler(
+        "Authorization header is missing",
+        STATUS_CODES.UNAUTHORIZED
+      );
+    }
+
     await dbConfig();
     const { searchParams } = new URL(req.url);
     const userId = searchParams.get("userId");
     const role = searchParams.get("role");
 
     if (!userId || !role) {
-      return NextResponse.json(
-        { error: "Missing userId or role" },
-        { status: 400 }
-      );
+      return errorHandler("Missing userId or role", STATUS_CODES.BAD_REQUEST);
     }
 
     // find all rooms where the user is a participant
@@ -39,22 +47,32 @@ export async function GET(req: Request) {
     return NextResponse.json(rooms);
   } catch (error) {
     console.error("Error fetching chat rooms:", error);
-    return NextResponse.json(
-      { error: "Failed to fetch chat rooms" },
-      { status: 500 }
+    return errorHandler(
+      "Failed to fetch chat rooms",
+      STATUS_CODES.SERVER_ERROR
     );
   }
 }
 
 export async function POST(req: Request) {
   try {
+    const authHeader = req.headers.get("Authorization");
+
+    // Authorization check
+    if (!authHeader) {
+      return errorHandler(
+        "Authorization header is missing",
+        STATUS_CODES.UNAUTHORIZED
+      );
+    }
+
     await dbConfig();
     const { patientId, doctorId } = await req.json();
 
     if (!patientId || !doctorId) {
-      return NextResponse.json(
-        { error: "Both patientId and doctorId are required" },
-        { status: 400 }
+      return errorHandler(
+        "Both patientId and doctorId are required",
+        STATUS_CODES.BAD_REQUEST
       );
     }
 
@@ -93,9 +111,9 @@ export async function POST(req: Request) {
     return NextResponse.json(room);
   } catch (error) {
     console.error("Error creating chat room:", error);
-    return NextResponse.json(
-      { error: "Failed to create chat room" },
-      { status: 500 }
+    return errorHandler(
+      "Failed to create chat room",
+      STATUS_CODES.SERVER_ERROR
     );
   }
 }

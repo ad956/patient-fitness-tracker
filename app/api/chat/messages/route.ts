@@ -3,9 +3,20 @@ import { NextResponse } from "next/server";
 import { Patient, Doctor, Message, Room } from "@models/index";
 import { pusherServer } from "@lib/pusher";
 import { Types } from "mongoose";
+import { errorHandler, STATUS_CODES } from "@utils/index";
 
 export async function GET(req: Request) {
   try {
+    const authHeader = req.headers.get("Authorization");
+
+    // Authorization check
+    if (!authHeader) {
+      return errorHandler(
+        "Authorization header is missing",
+        STATUS_CODES.UNAUTHORIZED
+      );
+    }
+
     await dbConfig();
     const { searchParams } = new URL(req.url);
     const roomId = searchParams.get("roomId");
@@ -13,10 +24,7 @@ export async function GET(req: Request) {
     const limit = parseInt(searchParams.get("limit") || "50");
 
     if (!roomId) {
-      return NextResponse.json(
-        { error: "roomId is required" },
-        { status: 400 }
-      );
+      return errorHandler("roomId is required", STATUS_CODES.BAD_REQUEST);
     }
 
     const messages = await Message.find({ roomId: new Types.ObjectId(roomId) })
@@ -29,28 +37,27 @@ export async function GET(req: Request) {
     return NextResponse.json(messages);
   } catch (error) {
     console.error("Error fetching messages:", error);
-    return NextResponse.json(
-      { error: "Failed to fetch messages" },
-      { status: 500 }
-    );
+    return errorHandler("Failed to fetch messages", STATUS_CODES.SERVER_ERROR);
   }
 }
 
 export async function POST(req: Request) {
   try {
+    const authHeader = req.headers.get("Authorization");
+
+    // Authorization check
+    if (!authHeader) {
+      return errorHandler(
+        "Authorization header is missing",
+        STATUS_CODES.UNAUTHORIZED
+      );
+    }
+
     await dbConfig();
     const { roomId, senderId, senderRole, message } = await req.json();
 
-    console.log(roomId);
-    console.log(senderId);
-    console.log(senderRole);
-    console.log(message);
-
     if (!roomId || !senderId || !senderRole || !message) {
-      return NextResponse.json(
-        { error: "Missing required fields" },
-        { status: 400 }
-      );
+      return errorHandler("Missing required fields", STATUS_CODES.BAD_REQUEST);
     }
 
     const newMessage = await Message.create({
@@ -72,9 +79,6 @@ export async function POST(req: Request) {
     return NextResponse.json(newMessage);
   } catch (error) {
     console.error("Error sending message:", error);
-    return NextResponse.json(
-      { error: "Failed to send message" },
-      { status: 500 }
-    );
+    return errorHandler("Failed to send message", STATUS_CODES.SERVER_ERROR);
   }
 }

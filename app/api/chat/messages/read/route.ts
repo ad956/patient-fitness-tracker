@@ -2,16 +2,27 @@ import dbConfig from "@utils/db";
 import { NextResponse } from "next/server";
 import { Message } from "@models/index";
 import { Types } from "mongoose";
+import { errorHandler, STATUS_CODES } from "@utils/index";
 
 export async function POST(req: Request) {
   try {
+    const authHeader = req.headers.get("Authorization");
+
+    // Authorization check
+    if (!authHeader) {
+      return errorHandler(
+        "Authorization header is missing",
+        STATUS_CODES.UNAUTHORIZED
+      );
+    }
+
     await dbConfig();
     const { roomId, userId } = await req.json();
 
     if (!roomId || !userId) {
-      return NextResponse.json(
-        { error: "roomId and userId are required" },
-        { status: 400 }
+      return errorHandler(
+        "roomId and userId are required",
+        STATUS_CODES.BAD_REQUEST
       );
     }
 
@@ -30,9 +41,9 @@ export async function POST(req: Request) {
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error("Error marking messages as read:", error);
-    return NextResponse.json(
-      { error: "Failed to mark messages as read" },
-      { status: 500 }
+    return errorHandler(
+      "Failed to mark messages as read",
+      STATUS_CODES.SERVER_ERROR
     );
   }
 }
