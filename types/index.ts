@@ -86,23 +86,6 @@ export type SecurityBody = {
   newPassword: string;
 };
 
-export interface ChatProps {
-  currentUser: {
-    id: string;
-    role: "patient" | "doctor";
-    firstname: string;
-    lastname: string;
-    profile?: string;
-  };
-  chatList: Array<{
-    id: string;
-    role: "patient" | "doctor";
-    firstname: string;
-    lastname: string;
-    profile?: string;
-  }>;
-}
-
 export * from "./admin";
 export * from "./patient";
 export * from "./receptionist";
