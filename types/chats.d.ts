@@ -14,6 +14,7 @@ interface Message {
   senderRole: "Patient" | "Doctor";
   createdAt: string;
   isRead: boolean;
+  status: "sending" | "failed";
 }
 
 interface Room {
