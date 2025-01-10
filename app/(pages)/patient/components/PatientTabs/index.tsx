@@ -30,7 +30,7 @@ export default function PatientTabs({ patient }: PatientTabsProps) {
   };
 
   return (
-    <Card className="h-[95%] w-full px-4 py-2">
+    <Card className="h-full w-full px-4 py-2">
       <Tabs
         aria-label="Patient Services"
         color="primary"
@@ -47,6 +47,7 @@ export default function PatientTabs({ patient }: PatientTabsProps) {
       >
         <Tab
           key="bills"
+          className="h-full"
           title={
             <div className="flex items-center gap-3 py-1 group">
               <MdReceiptLong className="w-5 h-5 group-hover:text-indigo-500 transition-colors" />
@@ -61,6 +62,7 @@ export default function PatientTabs({ patient }: PatientTabsProps) {
 
         <Tab
           key="doctors"
+          className="h-full"
           title={
             <div className="flex items-center gap-3 py-1 group">
               <RiStethoscopeLine className="w-5 h-5 group-hover:text-indigo-500 transition-colors" />
@@ -84,6 +86,7 @@ export default function PatientTabs({ patient }: PatientTabsProps) {
 
         <Tab
           key="lab"
+          className="h-full"
           title={
             <div className="flex items-center gap-3 py-1 group">
               <IoFlaskOutline className="w-5 h-5 group-hover:text-indigo-500 transition-colors" />

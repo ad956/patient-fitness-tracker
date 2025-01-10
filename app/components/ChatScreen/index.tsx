@@ -330,7 +330,7 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ currentUser }) => {
   }
 
   return (
-    <div className="h-[178px] border-2 rounded-xl p-2 overflow-y-auto scrollbar">
+    <div className="h-full border-2 rounded-xl p-2 overflow-y-auto scrollbar">
       <div className="px-4 py-2 flex justify-between items-center border-b">
         <h2 className="text-sm font-semibold text-gray-700">Recent Chats</h2>
         <span className="text-xs bg-blue-50 text-blue-600 px-2 py-1 rounded-full">
