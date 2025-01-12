@@ -1,16 +1,9 @@
-import { motion } from "framer-motion";
 import React from "react";
+import { motion } from "framer-motion";
+import { MessageComponentProps } from "@pft-types/chats";
 
 const MessageComponent = React.memo(
-  ({
-    message,
-    currentUserId,
-    onResend,
-  }: {
-    message: Message;
-    currentUserId: string;
-    onResend: (message: Message) => void;
-  }) => {
+  ({ message, currentUserId, onResend }: MessageComponentProps) => {
     const isOwn = message.senderId._id === currentUserId;
     const isPending = message.status === "sending";
     const isFailed = message.status === "failed";
@@ -40,7 +33,7 @@ const MessageComponent = React.memo(
             )}
             {isFailed && (
               <button
-                onClick={() => onResend(message)}
+                onClick={onResend}
                 className="text-tiny text-red-500 hover:text-red-600"
               >
                 Retry
