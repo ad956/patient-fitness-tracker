@@ -21,28 +21,30 @@ const ChatInput = React.memo(
     };
 
     return (
-      <Input
-        placeholder="Type a message..."
-        value={newMessage}
-        onChange={(e) => setNewMessage(e.target.value)}
-        onKeyPress={(e) => {
-          if (e.key === "Enter") {
-            handleSend();
+      <div className="p-4 border-t">
+        <Input
+          placeholder="Type a message..."
+          value={newMessage}
+          onChange={(e) => setNewMessage(e.target.value)}
+          onKeyPress={(e) => {
+            if (e.key === "Enter") {
+              handleSend();
+            }
+          }}
+          endContent={
+            <Button
+              isIconOnly
+              size="sm"
+              variant="flat"
+              color="primary"
+              onClick={handleSend}
+              disabled={disabled}
+            >
+              <FaPaperPlane className="h-4 w-4" />
+            </Button>
           }
-        }}
-        endContent={
-          <Button
-            isIconOnly
-            size="sm"
-            variant="flat"
-            color="primary"
-            onClick={handleSend}
-            disabled={disabled}
-          >
-            <FaPaperPlane className="h-4 w-4" />
-          </Button>
-        }
-      />
+        />
+      </div>
     );
   }
 );
