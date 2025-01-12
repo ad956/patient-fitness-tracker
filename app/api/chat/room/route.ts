@@ -2,40 +2,35 @@ import { NextResponse } from "next/server";
 import dbConfig from "@utils/db";
 import { Room } from "@models/chat";
 import { Types } from "mongoose";
-import { errorHandler, STATUS_CODES } from "@utils/index";
+import { capitalizedRole, errorHandler, STATUS_CODES } from "@utils/index";
+import authenticateUser from "@lib/auth/authenticate-user";
 
+// get all rooms AKA chat-list
 export async function GET(req: Request) {
   try {
     const authHeader = req.headers.get("Authorization");
+    let { id, role } = await authenticateUser(authHeader);
 
-    // Authorization check
-    if (!authHeader) {
-      return errorHandler(
-        "Authorization header is missing",
-        STATUS_CODES.UNAUTHORIZED
-      );
+    if (!id || !role) {
+      return errorHandler("Missing user ID or role", STATUS_CODES.BAD_REQUEST);
     }
+
+    const _id = new Types.ObjectId(id);
+    role = capitalizedRole(role);
 
     await dbConfig();
-    const { searchParams } = new URL(req.url);
-    const userId = searchParams.get("userId");
-    const role = searchParams.get("role");
-
-    if (!userId || !role) {
-      return errorHandler("Missing userId or role", STATUS_CODES.BAD_REQUEST);
-    }
 
     // find all rooms where the user is a participant
     const rooms = await Room.find({
       participants: {
-        $elemMatch: { userId: new Types.ObjectId(userId), role },
+        $elemMatch: { userId: _id, role },
       },
     })
       .populate([
         {
           path: "participants.userId",
           match: { role: { $ne: role } }, // get the other participant's info
-          select: "firstname lastname profile specialty",
+          select: "firstname lastname profile",
         },
         {
           path: "lastMessage",
@@ -54,27 +49,29 @@ export async function GET(req: Request) {
   }
 }
 
+// create a room AKA chat
 export async function POST(req: Request) {
   try {
     const authHeader = req.headers.get("Authorization");
+    const { id, role } = await authenticateUser(authHeader);
 
-    // Authorization check
-    if (!authHeader) {
-      return errorHandler(
-        "Authorization header is missing",
-        STATUS_CODES.UNAUTHORIZED
-      );
+    if (!id || !role) {
+      return errorHandler("Missing user ID or role", STATUS_CODES.BAD_REQUEST);
     }
 
+    const senderId = new Types.ObjectId(id); // Sender (logged-in user) ID
     await dbConfig();
-    const { patientId, doctorId } = await req.json();
 
-    if (!patientId || !doctorId) {
-      return errorHandler(
-        "Both patientId and doctorId are required",
-        STATUS_CODES.BAD_REQUEST
-      );
+    const { receiverId } = await req.json();
+
+    if (!receiverId) {
+      return errorHandler("Receiver ID is required", STATUS_CODES.BAD_REQUEST);
     }
+
+    const receiverObjectId = new Types.ObjectId(receiverId);
+
+    const senderRole = role === "patient" ? "Patient" : "Doctor";
+    const receiverRole = role === "patient" ? "Doctor" : "Patient";
 
     // check if room already exists
     const existingRoom = await Room.findOne({
@@ -82,14 +79,14 @@ export async function POST(req: Request) {
         $all: [
           {
             $elemMatch: {
-              userId: new Types.ObjectId(patientId),
-              role: "Patient",
+              userId: senderId,
+              role: senderRole,
             },
           },
           {
             $elemMatch: {
-              userId: new Types.ObjectId(doctorId),
-              role: "Doctor",
+              userId: receiverObjectId,
+              role: receiverRole,
             },
           },
         ],
@@ -103,8 +100,8 @@ export async function POST(req: Request) {
     // create new room
     const room = await Room.create({
       participants: [
-        { userId: patientId, role: "Patient" },
-        { userId: doctorId, role: "Doctor" },
+        { userId: senderId, role: senderRole },
+        { userId: receiverObjectId, role: receiverRole },
       ],
     });
 

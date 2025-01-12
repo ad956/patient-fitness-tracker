@@ -3,34 +3,31 @@ import { NextResponse } from "next/server";
 import { Message } from "@models/index";
 import { Types } from "mongoose";
 import { errorHandler, STATUS_CODES } from "@utils/index";
+import authenticateUser from "@lib/auth/authenticate-user";
 
 export async function POST(req: Request) {
   try {
     const authHeader = req.headers.get("Authorization");
+    const { id, role } = await authenticateUser(authHeader);
 
-    // Authorization check
-    if (!authHeader) {
-      return errorHandler(
-        "Authorization header is missing",
-        STATUS_CODES.UNAUTHORIZED
-      );
+    if (!id || !role) {
+      return errorHandler("Missing user ID or role", STATUS_CODES.BAD_REQUEST);
     }
 
-    await dbConfig();
-    const { roomId, userId } = await req.json();
+    const _id = new Types.ObjectId(id);
 
-    if (!roomId || !userId) {
-      return errorHandler(
-        "roomId and userId are required",
-        STATUS_CODES.BAD_REQUEST
-      );
+    await dbConfig();
+    const { roomId } = await req.json();
+
+    if (!roomId) {
+      return errorHandler("roomId is required", STATUS_CODES.BAD_REQUEST);
     }
 
     // mark all unread messages in the room as read
     await Message.updateMany(
       {
         roomId: new Types.ObjectId(roomId),
-        senderId: { $ne: new Types.ObjectId(userId) },
+        senderId: { $ne: _id },
         isRead: false,
       },
       {
