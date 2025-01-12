@@ -3,14 +3,8 @@
 import { getSessionToken } from "../session";
 import fetchHandler from "@utils/fetch-handler";
 
-export default async function sendMessage({
-  roomId,
-  message,
-}: {
-  roomId: string;
-  message: string;
-}): Promise<any> {
-  const endpoint = `/api/chat/messages`;
+export default async function createChatRoom(receiverId: string): Promise<any> {
+  const endpoint = `/api/chat/room`;
   const session = getSessionToken();
 
   try {
@@ -19,15 +13,12 @@ export default async function sendMessage({
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          roomId,
-          message,
-        }),
+        body: JSON.stringify({ receiverId }),
       },
       session!
     );
 
-    if (Array.isArray(result.data)) return result.data;
+    return result.data;
   } catch (error) {
     console.error("An error occurred while adding admin:", error);
     throw error;

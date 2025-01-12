@@ -3,11 +3,8 @@
 import { getSessionToken } from "../session";
 import fetchHandler from "@utils/fetch-handler";
 
-export default async function fetchRooms(user: {
-  id: string;
-  role: string;
-}): Promise<any> {
-  const endpoint = `/api/chat/room?userId=${user.id}&role=${user.role}`;
+export default async function fetchRooms(): Promise<any> {
+  const endpoint = `/api/chat/room`;
   const session = getSessionToken();
 
   try {
