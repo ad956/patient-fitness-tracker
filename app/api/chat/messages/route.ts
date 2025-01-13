@@ -3,21 +3,20 @@ import { NextResponse } from "next/server";
 import { Patient, Doctor, Message, Room } from "@models/index";
 import { pusherServer } from "@lib/pusher";
 import { Types } from "mongoose";
-import { errorHandler, STATUS_CODES } from "@utils/index";
+import { capitalizedRole, errorHandler, STATUS_CODES } from "@utils/index";
+import authenticateUser from "@lib/auth/authenticate-user";
 
 export async function GET(req: Request) {
   try {
     const authHeader = req.headers.get("Authorization");
+    const { id, role } = await authenticateUser(authHeader);
 
-    // Authorization check
-    if (!authHeader) {
-      return errorHandler(
-        "Authorization header is missing",
-        STATUS_CODES.UNAUTHORIZED
-      );
+    if (!id || !role) {
+      return errorHandler("Missing user ID or role", STATUS_CODES.BAD_REQUEST);
     }
 
     await dbConfig();
+
     const { searchParams } = new URL(req.url);
     const roomId = searchParams.get("roomId");
     const page = parseInt(searchParams.get("page") || "1");
@@ -44,26 +43,24 @@ export async function GET(req: Request) {
 export async function POST(req: Request) {
   try {
     const authHeader = req.headers.get("Authorization");
+    const { id, role } = await authenticateUser(authHeader);
 
-    // Authorization check
-    if (!authHeader) {
-      return errorHandler(
-        "Authorization header is missing",
-        STATUS_CODES.UNAUTHORIZED
-      );
+    if (!id || !role) {
+      return errorHandler("Missing user ID or role", STATUS_CODES.BAD_REQUEST);
     }
+    const _id = new Types.ObjectId(id);
 
     await dbConfig();
-    const { roomId, senderId, senderRole, message } = await req.json();
+    const { roomId, message } = await req.json();
 
-    if (!roomId || !senderId || !senderRole || !message) {
+    if (!roomId || !message) {
       return errorHandler("Missing required fields", STATUS_CODES.BAD_REQUEST);
     }
 
     const newMessage = await Message.create({
       roomId: new Types.ObjectId(roomId),
-      senderId: new Types.ObjectId(senderId),
-      senderRole,
+      senderId: _id,
+      senderRole: capitalizedRole(role),
       message,
     });
 

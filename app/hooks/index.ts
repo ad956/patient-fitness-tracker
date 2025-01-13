@@ -1,4 +1,5 @@
+import useChat from "./useChat";
 import useFilterTransaction from "./useFilterTransaction";
 import useQuery from "./useQuery";
 
-export { useFilterTransaction, useQuery };
+export { useChat, useFilterTransaction, useQuery };

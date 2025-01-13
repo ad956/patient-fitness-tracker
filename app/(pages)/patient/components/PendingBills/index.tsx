@@ -113,7 +113,7 @@ const PendingBills = ({ patient }: PendingBillProps) => {
   }
 
   return (
-    <div className="w-full bg-white rounded-xl p-2 border-2">
+    <div className="h-full w-full bg-white rounded-xl p-2 border-2">
       <div className="px-4 py-2 flex justify-between items-center border-b">
         <h2 className="text-sm font-semibold text-gray-700">Recent Bills</h2>
         <span className="text-xs bg-blue-50 text-blue-600 px-2 py-1 rounded-full">

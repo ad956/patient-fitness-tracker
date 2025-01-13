@@ -67,7 +67,7 @@ const LabResults: React.FC = () => {
   }
 
   return (
-    <div className="h-[178px] border-2 rounded-xl p-2 overflow-y-auto scrollbar">
+    <div className="h-full border-2 rounded-xl p-2 overflow-y-auto scrollbar">
       <Table
         aria-label="Lab Results"
         classNames={{

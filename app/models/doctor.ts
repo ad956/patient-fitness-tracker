@@ -91,6 +91,7 @@ const doctorSchema = new mongoose.Schema(
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Patient",
+        index: true,
       },
     ],
   },

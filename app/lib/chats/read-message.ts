@@ -3,13 +3,7 @@
 import { getSessionToken } from "../session";
 import fetchHandler from "@utils/fetch-handler";
 
-export default async function readMessage({
-  roomId,
-  userId,
-}: {
-  roomId: string;
-  userId: string;
-}): Promise<any> {
+export default async function readMessage(roomId: string): Promise<any> {
   const endpoint = `/api/chat/messages/read`;
   const session = getSessionToken();
 
@@ -21,7 +15,6 @@ export default async function readMessage({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           roomId,
-          userId,
         }),
       },
       session!
