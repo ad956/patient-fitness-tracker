@@ -45,7 +45,7 @@ export default function NoMessages() {
               Your inbox is empty
             </h2>
             <p className="text-gray-500 text-sm leading-relaxed max-w-sm mx-auto">
-              When you receive new messages, they'll appear here. Start a
+              When you receive new messages, they&#39;ll appear here. Start a
               conversation to get things going.
             </p>
           </motion.div>
