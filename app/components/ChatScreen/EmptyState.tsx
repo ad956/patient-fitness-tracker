@@ -41,7 +41,7 @@ export default function EmptyState({
             onClick={() => setShowNewChatModal()}
           >
             <Image
-              src="/icons/notification.png"
+              src="/icons/message.png"
               alt="Chat Icon"
               className="w-5 h-5"
             />
