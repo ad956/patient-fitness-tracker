@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useMemo } from "react";
 import { pusherClient } from "@lib/pusher";
-import { useDisclosure } from "@nextui-org/react";
+import { Button, Image, useDisclosure } from "@nextui-org/react";
 import { readMessage } from "@lib/chats";
 import { Toaster } from "react-hot-toast";
 import { ChatScreenProps, Room } from "@pft-types/chats";
@@ -12,6 +12,7 @@ import StartNewChat from "./StartNewChat";
 import ChatRoomList from "./ChatRoomList";
 import EmptyState from "./EmptyState";
 import { ChatModal } from "./ChatModal";
+import { LuPlus } from "react-icons/lu";
 
 const ChatScreen: React.FC<ChatScreenProps> = ({ currentUser }) => {
   const {
@@ -31,7 +32,7 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ currentUser }) => {
   } = useChat(currentUser);
 
   const [selectedRoom, setSelectedRoom] = useState<Room | null>(null);
-  const [showNewChatModal, setShowNewChatModal] = useState(false);
+  const [showNewChat, setShowNewChat] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [refreshKey, setRefreshKey] = useState(0);
 
@@ -49,6 +50,7 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ currentUser }) => {
 
   const refreshChatList = () => {
     setRefreshKey((prevKey) => prevKey + 1);
+    setShowNewChat(false);
   };
 
   const handleRoomSelect = (room: Room) => {
@@ -78,39 +80,63 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ currentUser }) => {
     return <SpinnerLoader />;
   }
 
-  if (rooms.length === 0) {
+  if (rooms.length === 0 && !showNewChat) {
     return (
-      <>
-        {!showNewChatModal ? (
-          <EmptyState
-            roomsError={roomsError}
-            fetchRoomsData={fetchRoomsData}
-            setShowNewChatModal={() => setShowNewChatModal(true)}
-          />
-        ) : (
-          <StartNewChat
-            currentUserRole={currentUser.role}
-            onChatRoomCreated={refreshChatList}
-          />
-        )}
-      </>
+      <EmptyState
+        roomsError={roomsError}
+        fetchRoomsData={fetchRoomsData}
+        setShowNewChatModal={() => setShowNewChat(true)}
+      />
     );
   }
 
   return (
-    <div className="h-full border-2 rounded-xl p-2 overflow-y-auto scrollbar">
-      <div className="px-4 py-2 flex justify-between items-center border-b">
-        <h2 className="text-sm font-semibold text-gray-700">Recent Chats</h2>
-        <span className="text-xs bg-blue-50 text-blue-600 px-2 py-1 rounded-full">
-          {rooms.length} Chats
-        </span>
-      </div>
+    <div className="relative h-full">
+      {showNewChat ? (
+        <div className="h-full">
+          <StartNewChat
+            currentUserRole={currentUser.role}
+            onChatRoomCreated={refreshChatList}
+          />
+        </div>
+      ) : (
+        <div className="h-full border-2 rounded-xl p-2 overflow-y-auto scrollbar">
+          <div className="px-4 py-2 flex justify-between items-center border-b">
+            <h2 className="text-sm font-semibold text-gray-700">
+              Recent Chats
+            </h2>
+            <span className="text-xs bg-blue-50 text-blue-600 px-2 py-1 rounded-full">
+              {rooms.length} Chats
+            </span>
+          </div>
 
-      <ChatRoomList
-        rooms={rooms}
-        currentUser={currentUser}
-        onRoomSelect={handleRoomSelect}
-      />
+          <ChatRoomList
+            rooms={rooms}
+            currentUser={currentUser}
+            onRoomSelect={handleRoomSelect}
+          />
+        </div>
+      )}
+
+      <button
+        onClick={() => setShowNewChat(!showNewChat)}
+        className={`fixed bottom-14 right-14 p-0 transition-all duration-300 hover:scale-105 flex items-center justify-center rounded-full`}
+        aria-label={showNewChat ? "Close new chat" : "Start new chat"}
+      >
+        {showNewChat ? (
+          <div className="rounded-full h-10 w-10 flex items-center justify-center">
+            <LuPlus className="h-6 w-6 text-blue-600 transition-transform duration-300 rotate-45" />
+          </div>
+        ) : (
+          <div className="relative w-8 h-8">
+            <Image
+              src="/icons/message.png"
+              alt="Chat Icon"
+              className="object-contain"
+            />
+          </div>
+        )}
+      </button>
 
       {selectedRoom && (
         <ChatModal
