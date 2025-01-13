@@ -49,4 +49,6 @@ const ChatInput = React.memo(
   }
 );
 
+ChatInput.displayName = "ChatInput";
+
 export default ChatInput;

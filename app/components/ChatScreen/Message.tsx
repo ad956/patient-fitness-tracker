@@ -46,4 +46,6 @@ const MessageComponent = React.memo(
   }
 );
 
+MessageComponent.displayName = "MessageComponent";
+
 export default MessageComponent;
