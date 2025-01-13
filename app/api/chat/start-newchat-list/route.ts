@@ -32,7 +32,7 @@ export async function GET(request: Request) {
       );
 
       if (!doctors || doctors.length === 0) {
-        return [];
+        return NextResponse.json([], { status: 200 });
       }
 
       return NextResponse.json(doctors, { status: 200 });
@@ -44,7 +44,7 @@ export async function GET(request: Request) {
     );
 
     if (!patient_ids || patient_ids.length === 0) {
-      return [];
+      return NextResponse.json([], { status: 200 });
     }
 
     const patients = await Patient.find({
