@@ -1,6 +1,6 @@
 # Patient Fitness Tracker
 
-## [![My Skills](https://skillicons.dev/icons?i=nextjs,tailwindcss,githubactions,mongodb,vercel,ts,docker&theme=dark)](https://skillicons.dev)
+## [![My Skills](https://go-skill-icons.vercel.app/api/icons?i=nextjs,ts,tailwindcss,githubactions,mongodb,vercel,playwright&theme=dark)](https://skillicons.dev)
 
 [![Build](https://img.shields.io/github/actions/workflow/status/ad956/patient-fitness-tracker/test-and-deploy.yml?branch=main)](https://img.shields.io)
 
