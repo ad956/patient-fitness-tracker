@@ -13,9 +13,9 @@ import {
 } from "react-icons/md";
 import { AiOutlineSchedule } from "react-icons/ai";
 import { CiHospital1 } from "react-icons/ci";
-import { FaUserMd, FaHospital } from "react-icons/fa";
-import { RiNurseLine } from "react-icons/ri";
+import { FaHospital } from "react-icons/fa";
 import { IconType } from "react-icons";
+import { LiaUserNurseSolid, LiaUserSolid } from "react-icons/lia";
 
 // Define icon mapping
 const iconMapping: Record<string, IconType> = {
@@ -25,8 +25,9 @@ const iconMapping: Record<string, IconType> = {
   payments: MdOutlineCurrencyRupee,
   medicalHistory: CiHospital1,
   settings: IoSettingsOutline,
-  doctors: FaUserMd,
-  patients: RiNurseLine,
+  doctors: LiaUserNurseSolid,
+  patients: LiaUserSolid,
+  info: CiHospital1,
   hospitals: FaHospital,
 };
 
@@ -136,10 +137,10 @@ const doctorSidebarConfig: SidebarItem[] = [
 
 const hospitalSidebarConfig: SidebarItem[] = [
   { title: "Dashboard", uri: "", icon: "dashboard" },
-  { title: "Departments", uri: "departments", icon: "hospitals" },
-  { title: "Doctors", uri: "doctors", icon: "doctors" },
-  { title: "Patients", uri: "patients", icon: "patients" },
   { title: "Appointments", uri: "appointments", icon: "appointments" },
-  { title: "Finances", uri: "finances", icon: "payments" },
+  { title: "Patients", uri: "patients", icon: "patients" },
+  { title: "Doctors", uri: "doctors", icon: "doctors" },
+  { title: "Payments", uri: "payments", icon: "payments" },
+  { title: "info", uri: "additional-information", icon: "info" },
   { title: "Settings", uri: "settings", icon: "settings" },
 ];
