@@ -33,6 +33,7 @@ type ProfileSettingsProps = {
 
 export default function ProfileSettings({ user }: ProfileSettingsProps) {
   const [formValidator] = useState(new FormValidator());
+  const isPersonalProfile = "gender" in user && "dob" in user; // user is not a hospital
 
   const [firstname, setFirstName] = useState(user.firstname);
   const [lastname, setLastName] = useState(user.lastname);
@@ -42,9 +43,13 @@ export default function ProfileSettings({ user }: ProfileSettingsProps) {
   const [newPassword, setNewPassword] = useState("");
 
   const [profilePicture, setProfilePicture] = useState(user.profile);
-  const [dob, setDob] = useState<DateValue>(parseDate(user.dob));
+  const [dob, setDob] = useState<DateValue | undefined>(
+    isPersonalProfile ? parseDate(user.dob) : undefined
+  );
   const [contact, setContact] = useState(user.contact);
-  const [gender, setGender] = useState(user.gender);
+  const [gender, setGender] = useState(
+    isPersonalProfile ? user.gender : undefined
+  );
   const [address, setAddress] = useState({
     address_line_1: user.address.address_line_1 || "",
     address_line_2: user.address.address_line_2 || "",
@@ -75,15 +80,17 @@ export default function ProfileSettings({ user }: ProfileSettingsProps) {
   ]);
 
   function isUpdateDisabled(): boolean {
-    return (
+    const base =
       formValidator.hasErrors() ||
       !email ||
       !currentPassword ||
       !newPassword ||
-      !dob ||
-      !gender ||
-      !address
-    );
+      !address;
+
+    if (isPersonalProfile) {
+      return base || !dob || !gender;
+    }
+    return base;
   }
 
   function handleFirstNameChange(e: ChangeEvent<HTMLInputElement>) {
@@ -123,6 +130,8 @@ export default function ProfileSettings({ user }: ProfileSettingsProps) {
   }
 
   const isDateInvalid = (): boolean => {
+    if (!dob) return false;
+
     const birthDate = dob;
     const today = new Date();
     let age = today.getFullYear() - birthDate.year;
@@ -173,15 +182,20 @@ export default function ProfileSettings({ user }: ProfileSettingsProps) {
   const updatePersonalInfo = async () => {
     toast.loading("Please wait");
 
-    const updatedFields = {
+    const updatedFields: any = {
       firstname: firstname !== user.firstname ? firstname : undefined,
       lastname: lastname !== user.lastname ? lastname : undefined,
       username: username !== user.username ? username : undefined,
       email: email !== user.email ? email : undefined,
-      dob: dob.toString() !== user.dob ? dob.toString() : undefined,
       gender: gender !== user.gender ? gender : undefined,
       contact: contact !== user.contact ? contact : undefined,
     };
+
+    if (isPersonalProfile) {
+      updatedFields.dob =
+        dob?.toString() !== user.dob ? dob?.toString() : undefined;
+      updatedFields.gender = gender !== user.gender ? gender : undefined;
+    }
 
     const filteredFields = Object.fromEntries(
       Object.entries(updatedFields).filter(([_, v]) => v !== undefined)
@@ -428,40 +442,46 @@ export default function ProfileSettings({ user }: ProfileSettingsProps) {
                   isInvalid={!!formValidator.getError("email")}
                   errorMessage={formValidator.getError("email")}
                 />
-                <Select
-                  name="gender"
-                  variant="underlined"
-                  label="Gender"
-                  value={gender}
-                  defaultSelectedKeys={[gender]}
-                  className="max-w-xs"
-                  onChange={handleGenderChange}
-                >
-                  {["Male", "Female", "Other"].map((item) => (
-                    <SelectItem key={item}>{item}</SelectItem>
-                  ))}
-                </Select>
-                <DatePicker
-                  name="dob"
-                  label="DOB"
-                  variant="underlined"
-                  className="max-w-xs"
-                  value={dob}
-                  onChange={(val) => setDob(val)}
-                  showMonthAndYearPickers
-                  isInvalid={isDateInvalid()}
-                  errorMessage={(value) => {
-                    if (value.isInvalid) {
-                      return "Please enter a valid date.";
-                    }
-                  }}
-                />
+
+                {isPersonalProfile && (
+                  <>
+                    <Select
+                      name="gender"
+                      variant="underlined"
+                      label="Gender"
+                      value={gender}
+                      defaultSelectedKeys={gender ? [gender] : []}
+                      className="max-w-xs"
+                      onChange={handleGenderChange}
+                    >
+                      {["Male", "Female", "Other"].map((item) => (
+                        <SelectItem key={item}>{item}</SelectItem>
+                      ))}
+                    </Select>
+                    <DatePicker
+                      name="dob"
+                      label="DOB"
+                      variant="underlined"
+                      className="max-w-xs"
+                      value={dob}
+                      onChange={(val) => setDob(val)}
+                      showMonthAndYearPickers
+                      isInvalid={isDateInvalid()}
+                      errorMessage={(value) => {
+                        if (value.isInvalid) {
+                          return "Please enter a valid date.";
+                        }
+                      }}
+                    />
+                  </>
+                )}
+
                 <Input
                   name="contact"
                   type="text"
                   variant="underlined"
                   label="Phone"
-                  value={contact}
+                  value={`+${contact}`}
                   className="max-w-xs"
                   onChange={handleContactChange}
                   isInvalid={!!formValidator.getError("contact")}
