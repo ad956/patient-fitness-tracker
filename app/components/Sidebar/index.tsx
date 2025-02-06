@@ -27,6 +27,7 @@ const iconMapping: Record<string, IconType> = {
   settings: IoSettingsOutline,
   doctors: LiaUserNurseSolid,
   patients: LiaUserSolid,
+  info: CiHospital1,
   hospitals: FaHospital,
 };
 
@@ -140,5 +141,6 @@ const hospitalSidebarConfig: SidebarItem[] = [
   { title: "Patients", uri: "patients", icon: "patients" },
   { title: "Doctors", uri: "doctors", icon: "doctors" },
   { title: "Payments", uri: "payments", icon: "payments" },
+  { title: "info", uri: "additional-information", icon: "info" },
   { title: "Settings", uri: "settings", icon: "settings" },
 ];
