@@ -4,6 +4,7 @@ import CommonDiseases from "./common-disease";
 import DemoUser from "./demo-user";
 import Doctor from "./doctor";
 import Hospital from "./hospital";
+import HospitalDetails from "./hospital_details";
 import MedicalHistory from "./medical-history";
 import { Message, Room } from "./chat";
 import CityStateHospital from "./city-state-hospitals";
@@ -19,6 +20,7 @@ export {
   DemoUser,
   Doctor,
   Hospital,
+  HospitalDetails,
   CityStateHospital,
   MedicalHistory,
   Message,
