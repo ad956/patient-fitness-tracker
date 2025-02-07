@@ -1,13 +1,13 @@
-interface User {
+type ChatUser = {
   _id: string;
   firstname: string;
   lastname: string;
   specialty?: string;
   profile?: string;
   role: "Patient" | "Doctor";
-}
+};
 
-interface Message {
+type Message = {
   _id: string;
   message: string;
   senderId: User;
@@ -15,72 +15,59 @@ interface Message {
   createdAt: string;
   isRead: boolean;
   status: "sending" | "failed";
-}
+};
 
-interface Room {
+type Room = {
   _id: string;
   participants: {
-    userId: User;
+    userId: ChatUser;
     role: "Patient" | "Doctor";
   }[];
   lastMessage?: Message;
-}
+};
 
-interface ChatScreenProps {
-  currentUser: User;
-}
+type ChatScreenProps = {
+  currentUser: ChatUser;
+};
 
-interface ChatModalProps {
+type ChatModalProps = {
   isOpen: boolean;
   onClose: () => void;
   selectedRoom: Room;
-  currentUser: User;
+  currentUser: ChatUser;
   messageList: Message[];
   messagesLoading: boolean;
   loadingMore: boolean;
   onSendMessage: (message: string) => void;
   onResend: (roomId: string, failedMessage: Message) => void;
-}
+};
 
-interface ChatRoomListProps {
+type ChatRoomListProps = {
   rooms: Room[];
-  currentUser: User;
+  currentUser: ChatUser;
   onRoomSelect: (room: Room) => void;
-}
+};
 
-interface EmptyStateProps {
+type EmptyStateProps = {
   roomsError: string;
   fetchRoomsData: () => void;
   setShowNewChatModal: () => void;
-}
+};
 
-interface MessageComponentProps {
+type MessageComponentProps = {
   message: Message;
   currentUserId: string;
   onResend: () => void;
-}
+};
 
-interface ChatListUser {
+type ChatListUser = {
   _id: string;
   firstname: string;
   lastname: string;
   profile: string;
-}
+};
 
-interface StartNewChatProps {
+type StartNewChatProps = {
   currentUserRole: string;
   onChatRoomCreated: () => void;
-}
-
-export {
-  User,
-  Message,
-  Room,
-  ChatScreenProps,
-  ChatModalProps,
-  ChatRoomListProps,
-  EmptyStateProps,
-  MessageComponentProps,
-  ChatListUser,
-  StartNewChatProps,
 };

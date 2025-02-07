@@ -1,4 +1,4 @@
-export type ActivityType =
+type ActivityType =
   | "New Patient Registered"
   | "New Doctor Registered"
   | "New Hospital Registered"
@@ -9,27 +9,27 @@ type StatisticTile = {
   change: number;
 };
 
-export type TilesDataType = {
+type TilesDataType = {
   newHospitals: StatisticTile;
   newPatients: StatisticTile;
   newDoctors: StatisticTile;
   newReceptionists: StatisticTile;
 };
 
-export type RecentUser = {
+type RecentUser = {
   title: ActivityType;
   description: string;
   timeSince: string;
 };
 
-export type PaginatedResponse = {
+type PaginatedResponse = {
   users: RecentUser[];
   page: number;
   totalPages: number;
   totalItems: number;
 };
 
-export type TransactionDetails = {
+type TransactionDetails = {
   transaction_id: string;
   patient: {
     name: string;
@@ -46,7 +46,7 @@ export type TransactionDetails = {
   date: string;
 };
 
-export interface HospitalDetails {
+type HospitalDetails = {
   id: string;
   profile: string;
   name: string;
@@ -54,9 +54,9 @@ export interface HospitalDetails {
   contact: string;
   city: string;
   state: string;
-}
+};
 
-export interface UserData {
+type UserData = {
   id: string;
   name: string;
   role: string;
@@ -66,33 +66,33 @@ export interface UserData {
   contact: string;
   city: string;
   state: string;
-}
+};
 
-export type HospitalUserDetails = HospitalDetails & {
+type HospitalUserDetails = HospitalDetails & {
   role: string;
   gender: string;
 };
 
-export type RecentUserTile = {
+type RecentUserTile = {
   firstname: string;
   createdAt: Date;
   type: string;
 };
 
-export type FormattedRecentUser = {
+type FormattedRecentUser = {
   title: string;
   description: string;
   timeSince: string;
 };
 
-export type RecentUserPaginatedResponse = {
+type RecentUserPaginatedResponse = {
   users: FormattedUser[];
   page: number;
   totalPages: number;
   totalItems: number;
 };
 
-export interface HospitalData {
+type HospitalData = {
   id: string;
   name: string;
   username: string;
@@ -100,9 +100,9 @@ export interface HospitalData {
   contact: string;
   city: string;
   state: string;
-}
+};
 
-export interface HospitalUserData {
+type HospitalUserData = {
   id: string;
   name: string;
   role: string;
@@ -112,11 +112,11 @@ export interface HospitalUserData {
   contact: string;
   city: string;
   state: string;
-}
+};
 
-export interface PaginationMetadata {
+type PaginationMetadata = {
   currentPage: number;
   pageSize: number;
   totalPages: number;
   totalCount: number;
-}
+};

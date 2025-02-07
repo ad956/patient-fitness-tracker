@@ -1,4 +1,4 @@
-export type User = {
+type User = {
   _id: string;
   firstname: string;
   lastname: string;
@@ -18,9 +18,9 @@ export type User = {
   };
 };
 
-export type Admin = User & {};
+type Admin = User & {};
 
-export type Patient = User & {
+type Patient = User & {
   physicalDetails: {
     age: number;
     blood: string;
@@ -43,7 +43,7 @@ export type Patient = User & {
   healthConditions: number[];
 };
 
-export type Receptionist = User & {
+type Receptionist = User & {
   dailyCount: {
     approved: number;
     pending: number;
@@ -51,18 +51,18 @@ export type Receptionist = User & {
   };
 };
 
-export type Doctor = User & {};
-export type Hospital = User & {};
+type Doctor = User & {};
+type Hospital = User & {};
 
 // Type for patient details, used by the receptionist to view and manage patient information.
-export type PatientDetails = User & {
+type PatientDetails = User & {
   disease: string;
   note: string;
   date: string;
   timing: string; // createdAt
 };
 
-export type PersonalInfoBody = {
+type PersonalInfoBody = {
   firstname?: string;
   lastname?: string;
   username?: string;
@@ -72,7 +72,7 @@ export type PersonalInfoBody = {
   contact?: string;
 };
 
-export type AddressBody = {
+type AddressBody = {
   address_line_1?: string;
   address_line_2?: string;
   city?: string;
@@ -81,11 +81,18 @@ export type AddressBody = {
   country?: string;
 };
 
-export type SecurityBody = {
+type SecurityBody = {
   currentPassword: string;
   newPassword: string;
 };
 
-export * from "./admin";
-export * from "./patient";
-export * from "./receptionist";
+type UserLog = {
+  username: string;
+  name: string;
+  email: string;
+  action: string;
+  userType: string;
+  device: string;
+  ip: string;
+  location: string;
+};

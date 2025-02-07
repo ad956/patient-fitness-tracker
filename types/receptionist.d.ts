@@ -1,4 +1,4 @@
-export interface PendingPatients {
+type PendingPatients = {
   patientDetails: PatientDetail[];
   totalCount: number;
-}
+};

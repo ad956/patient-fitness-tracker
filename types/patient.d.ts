@@ -1,4 +1,4 @@
-export type bookedAppointments = [
+type bookedAppointments = [
   {
     _id: string;
     timing: {
@@ -27,7 +27,7 @@ export type bookedAppointments = [
   }
 ];
 
-export type bookingAppointment = {
+type bookingAppointment = {
   state: string;
   city: string;
   hospital: {
@@ -38,23 +38,23 @@ export type bookingAppointment = {
   note: string;
 };
 
-export type BookAppointmentHospital = {
+type BookAppointmentHospital = {
   hospital_id: string;
   hospital_name: string;
   appointment_charge: string;
 };
 
-export type BookAppointmentProps = {
+type BookAppointmentProps = {
   patientId: string;
   name: string;
   email: string;
 };
 
-export type MedicalDetailsProps = {
+type MedicalDetailsProps = {
   medicalDetails: MedicalHistory[];
 };
 
-export interface PaymentHistory {
+type PaymentHistory = {
   _id: string;
   hospital: {
     name: string;
@@ -65,8 +65,8 @@ export interface PaymentHistory {
   amount: number;
   status: string;
   createdAt: string;
-}
-export interface MedicalHistory {
+};
+type MedicalHistory = {
   hospital: {
     name: string;
     profile: string;
@@ -79,20 +79,9 @@ export interface MedicalHistory {
   end_date: string;
   TreatmentStatus: "Completed" | "Ongoing";
   disease: string;
-}
+};
 
-export interface UserLog {
-  username: string;
-  name: string;
-  email: string;
-  action: string;
-  userType: string;
-  device: string;
-  ip: string;
-  location: string;
-}
-
-export interface Transaction {
+type TransactionType = {
   transaction_id: string | null;
   patient_id: string;
   hospital_id: string;
@@ -100,14 +89,14 @@ export interface Transaction {
   description: string;
   amount: string;
   status: string;
-}
+};
 
-export type BookingAppointmentType = bookingAppointment & {
+type BookingAppointmentType = bookingAppointment & {
   transaction_id: string | null;
   appointment_charge: string;
 };
 
-export type Payment = {
+type Payment = {
   hospital: {
     name: string;
     profile: string;
@@ -119,11 +108,11 @@ export type Payment = {
   status: "Success" | "Failed";
 };
 
-export type PaymentDetailsProps = {
+type PaymentDetailsProps = {
   paymentHistory: Payment[];
 };
 
-export interface PendingBill {
+type PendingBill = {
   txnDocumentId: string; // _id of each transaction document
   hospital: {
     name: string;
@@ -131,9 +120,9 @@ export interface PendingBill {
   };
   date: string;
   amount: number;
-}
+};
 
-export interface DoctorChat {
+type DoctorChat = {
   id: number;
   name: string;
   specialty: string;
@@ -141,14 +130,14 @@ export interface DoctorChat {
   status: "online" | "offline";
   lastMessage: string;
   lastMessageTime: string;
-}
+};
 
-export interface LabResult {
+type LabResult = {
   id: string;
   test: string;
   date: string;
   status: "Completed" | "Pending" | "Processing";
   result: string;
-}
+};
 
-export type PatientTabsKey = "bills" | "doctors" | "lab";
+type PatientTabsKey = "bills" | "doctors" | "lab";
