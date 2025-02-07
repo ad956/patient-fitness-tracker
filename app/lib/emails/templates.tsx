@@ -1,4 +1,3 @@
-import { UserLog, bookingAppointment } from "@syncure-types/index";
 import { Html } from "@react-email/html";
 import { getCurrentDateFormatted, getFormattedDate } from "@utils/get-date";
 

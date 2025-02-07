@@ -1,10 +1,10 @@
 "use client";
+
 import { format } from "date-fns";
 import React from "react";
 import { type DateFormatter, DayPicker } from "react-day-picker";
 import { Card, useDisclosure } from "@nextui-org/react";
 import { getFormattedDate } from "@utils/get-date";
-import { bookedAppointments } from "@pft-types/index";
 import AppointmentDetailsModal from "../AppointmentDetailsModal";
 
 type upcomingAppointmentsType = {

@@ -6,7 +6,6 @@ import {
   ModalBody,
   Avatar,
 } from "@nextui-org/react";
-import { Room, ChatModalProps } from "@syncure-types/chats";
 import SpinnerLoader from "../SpinnerLoader";
 import MessageComponent from "./Message";
 import ChatInput from "./ChatInput";

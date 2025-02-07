@@ -10,7 +10,6 @@ import {
   TransactionsTable,
 } from "@components/index";
 import useFilterTransaction from "@hooks/useFilterTransaction";
-import { Payment, PaymentDetailsProps } from "@syncure-types/patient";
 
 const statusColorMap: any = {
   Failed: "danger",

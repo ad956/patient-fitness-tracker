@@ -1,6 +1,5 @@
 import { Image, Avatar } from "@nextui-org/react";
 import toast from "react-hot-toast";
-import { PendingBill } from "@syncure-types/patient";
 import SpinnerLoader from "@components/SpinnerLoader";
 import { motion } from "framer-motion";
 import { getFormattedDate } from "@utils/get-date";

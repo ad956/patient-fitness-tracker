@@ -2,7 +2,6 @@
 
 import fetchHandler from "@utils/fetch-handler";
 import { getSessionToken } from "../session";
-import { Admin } from "@syncure-types/index";
 
 export default async function getAdminData(): Promise<Admin> {
   const endpoint = "/api/admin";

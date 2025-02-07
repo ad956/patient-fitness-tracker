@@ -1,7 +1,6 @@
 "use server";
 
 import fetchHandler from "@utils/fetch-handler";
-import { bookingAppointment } from "@syncure-types/index";
 import { getSessionToken } from "../session";
 
 export default async function bookAppointment(

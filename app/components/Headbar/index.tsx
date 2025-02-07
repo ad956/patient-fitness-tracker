@@ -1,14 +1,12 @@
 import Link from "next/link";
 import { Button, Divider, User } from "@nextui-org/react";
 import { CiLogin } from "react-icons/ci";
-import { GoPlus } from "react-icons/go";
-import { User as UserType } from "@syncure-types/index";
 import { logoutAction } from "@lib/actions";
 import Notifications from "../Notifications";
 import Image from "next/image";
 
 type HeadbarProps = {
-  user: UserType;
+  user: User;
   role: string;
 };
 

@@ -1,11 +1,6 @@
 import { NextResponse } from "next/server";
 import mongoose from "mongoose";
 import { authenticateUser } from "@lib/auth";
-import {
-  FormattedRecentUser,
-  RecentUserTile,
-  RecentUserPaginatedResponse,
-} from "@syncure-types/admin";
 import { dbConfig, errorHandler, STATUS_CODES } from "@utils/index";
 
 export async function GET(request: Request): Promise<Response> {

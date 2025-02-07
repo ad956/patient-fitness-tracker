@@ -7,7 +7,6 @@ import {
   hashPassword,
 } from "@utils/index";
 import bcrypt from "bcrypt";
-import { SecurityBody } from "@syncure-types/index";
 import { Types } from "mongoose";
 import { authenticateUser } from "@lib/auth";
 

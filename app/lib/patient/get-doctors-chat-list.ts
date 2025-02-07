@@ -2,7 +2,6 @@
 
 import fetchHandler from "@utils/fetch-handler";
 import { getSessionToken } from "../session";
-import { DoctorChat } from "@syncure-types/patient";
 
 export default async function getDoctorsChatList(): Promise<DoctorChat[]> {
   const endpoint = "/api/patient/dashboard/doctors-chat-list";

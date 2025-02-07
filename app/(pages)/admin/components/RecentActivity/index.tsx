@@ -6,7 +6,6 @@ import {
   RiHospitalLine,
   RiEmotionSadLine,
 } from "react-icons/ri";
-import { ActivityType, RecentUser } from "@syncure-types/index";
 
 type RecentActivityProps = {
   recentUsers: RecentUser[];

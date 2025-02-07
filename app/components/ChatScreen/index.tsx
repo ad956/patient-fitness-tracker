@@ -5,7 +5,6 @@ import { pusherClient } from "@lib/pusher";
 import { Button, Image, useDisclosure } from "@nextui-org/react";
 import { readMessage } from "@lib/chats";
 import { Toaster } from "react-hot-toast";
-import { ChatScreenProps, Room } from "@syncure-types/chats";
 import useChat from "@hooks/useChat";
 import SpinnerLoader from "../SpinnerLoader";
 import StartNewChat from "./StartNewChat";

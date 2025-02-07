@@ -1,6 +1,5 @@
 "use client";
 
-import { User } from "@syncure-types/index";
 import {
   Input,
   Button,

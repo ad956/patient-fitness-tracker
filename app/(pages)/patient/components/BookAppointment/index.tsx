@@ -29,10 +29,6 @@ import {
   getHospitals,
   getStates,
 } from "@lib/patient/misc";
-import {
-  BookAppointmentHospital,
-  BookAppointmentProps,
-} from "@syncure-types/patient";
 import processPayment from "@lib/razorpay/process-payment";
 
 export default function BookAppointment({

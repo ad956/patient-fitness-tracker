@@ -2,7 +2,6 @@
 
 import fetchHandler from "@utils/fetch-handler";
 import { getSessionToken } from "../session";
-import { PendingPatients } from "@syncure-types/receptionist";
 
 export default async function getPendingAppointments(): Promise<PendingPatients> {
   const endpoint = "/api/receptionist/appointments/pending";

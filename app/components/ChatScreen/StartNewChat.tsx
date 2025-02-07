@@ -5,7 +5,6 @@ import useQuery from "@hooks/useQuery";
 import { createChatRoom, startNewChatList } from "@lib/chats";
 import SpinnerLoader from "../SpinnerLoader";
 import toast from "react-hot-toast";
-import { ChatListUser, StartNewChatProps } from "@syncure-types/chats";
 
 const StartNewChat = ({
   currentUserRole,

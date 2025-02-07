@@ -2,7 +2,6 @@
 
 import fetchHandler from "@utils/fetch-handler";
 import { getSessionToken } from "../session";
-import { Receptionist } from "@syncure-types/index";
 
 export default async function getReceptionistData(): Promise<Receptionist> {
   const endpoint = "/api/receptionist";

@@ -1,4 +1,3 @@
-import { Receptionist } from "@syncure-types/index";
 import { Sidebar, Headbar } from "@components/index";
 
 import type { Metadata } from "next";

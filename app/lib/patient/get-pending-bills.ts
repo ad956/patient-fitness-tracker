@@ -2,7 +2,6 @@
 
 import fetchHandler from "@utils/fetch-handler";
 import { getSessionToken } from "../session";
-import { PendingBill } from "@syncure-types/patient";
 
 export default async function getPendingBills(): Promise<[PendingBill]> {
   const endpoint = "/api/patient/payment-history?status=pending";

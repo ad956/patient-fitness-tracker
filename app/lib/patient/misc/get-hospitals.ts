@@ -1,4 +1,3 @@
-import { BookAppointmentHospital } from "@syncure-types/patient";
 import fetchHandler from "@utils/fetch-handler";
 
 export default async function getHospitals(

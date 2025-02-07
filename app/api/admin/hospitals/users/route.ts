@@ -1,5 +1,4 @@
 import { Patient, Receptionist, Hospital, Doctor } from "@models/index";
-import { HospitalUserDetails } from "@syncure-types/admin";
 import { Types } from "mongoose";
 import { NextResponse } from "next/server";
 import { dbConfig, errorHandler, STATUS_CODES } from "@utils/index";

@@ -2,8 +2,6 @@
 
 import React, { useState } from "react";
 import { Tabs, Tab, Card } from "@nextui-org/react";
-import { PatientTabsKey } from "@syncure-types/patient";
-import { Patient } from "@syncure-types/index";
 import PendingBills from "../PendingBills";
 import LabResults from "../LabResults";
 import { Toaster } from "react-hot-toast";

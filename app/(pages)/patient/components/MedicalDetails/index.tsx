@@ -1,6 +1,5 @@
 "use client";
 
-import { MedicalDetailsProps } from "@syncure-types/index";
 import {
   Chip,
   Spinner,

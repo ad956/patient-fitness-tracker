@@ -1,6 +1,5 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { MessageComponentProps } from "@syncure-types/chats";
 
 const MessageComponent = React.memo(
   ({ message, currentUserId, onResend }: MessageComponentProps) => {

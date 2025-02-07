@@ -2,7 +2,6 @@
 
 import fetchHandler from "@utils/fetch-handler";
 import { getSessionToken } from "../session";
-import { Hospital } from "@syncure-types/index";
 
 export default async function getHospitalData(): Promise<Hospital> {
   const endpoint = "/api/hospital";

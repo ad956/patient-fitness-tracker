@@ -10,7 +10,6 @@ import {
   TransactionsTable,
 } from "@components/index";
 import useFilterTransaction from "@hooks/useFilterTransaction";
-import { TransactionDetails } from "@syncurecure-types/index";
 
 const statusColorMap: any = {
   Failed: "danger",

@@ -1,9 +1,8 @@
 import { useState, useCallback } from "react";
-import { Room, Message, User } from "@syncure-types/chats";
 import { fetchRooms, loadMessages, sendMessage } from "@lib/chats";
 import toast from "react-hot-toast";
 
-const useChat = (currentUser: User) => {
+const useChat = (currentUser: ChatUser) => {
   const [rooms, setRooms] = useState<Room[]>([]);
   const [receivedMessages, setReceivedMessages] = useState<
     Record<string, Message[]>

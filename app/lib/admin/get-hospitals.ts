@@ -2,11 +2,6 @@
 
 import fetchHandler from "@utils/fetch-handler";
 import { getSessionToken } from "../session";
-import {
-  HospitalData,
-  HospitalUserData,
-  PaginationMetadata,
-} from "@syncure-types/admin";
 
 export async function getHospitalsList(
   currentPage: number = 1,

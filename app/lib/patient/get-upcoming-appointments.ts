@@ -2,7 +2,6 @@
 
 import fetchHandler from "@utils/fetch-handler";
 import { getSessionToken } from "../session";
-import { bookedAppointments } from "@syncure-types/patient";
 
 export default async function getUpcomingAppointments(): Promise<bookedAppointments> {
   const endpoint = "/api/patient/appointment";
