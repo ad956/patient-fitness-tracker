@@ -22,7 +22,6 @@
       "@components/*": ["./app/components/*"],
       "@hooks/*": ["./app/hooks/*"],
       "@utils/*": ["./app/utils/*"],
-      "@syncure-types/*": ["./types/*"],
       "@constants/*": ["./app/utils/constants/*"],
       "@admin/*": ["./app/(pages)/admin/*"],
       "@patient/*": ["./app/(pages)/patient/*"],
