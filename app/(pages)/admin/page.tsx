@@ -11,7 +11,11 @@ import {
   StatisticsCards,
   UserDistributionPie,
 } from "./components";
-import { PaginatedResponse, RecentUser, TilesDataType } from "@pft-types/index";
+import {
+  PaginatedResponse,
+  RecentUser,
+  TilesDataType,
+} from "@syncure-types/index";
 
 export default function Admin() {
   const [tilesData, setTilesData] = useState<TilesDataType | null>(null);

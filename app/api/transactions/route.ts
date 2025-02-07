@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { dbConfig, errorHandler, STATUS_CODES } from "@utils/index";
-import { Transaction as TransactionType } from "@pft-types/index";
+import { Transaction as TransactionType } from "@syncure-types/index";
 import Transaction from "@models/transaction";
 import { Types } from "mongoose";
 import { authenticateUser } from "@lib/auth";

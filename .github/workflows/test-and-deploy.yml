@@ -54,9 +54,9 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/pft:latest,${{ secrets.DOCKERHUB_USERNAME }}/pft:${{ github.sha }}
-          cache-from: type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/pft:buildcache
-          cache-to: type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/pft:buildcache,mode=max
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/syncure:latest,${{ secrets.DOCKERHUB_USERNAME }}/syncure:${{ github.sha }}
+          cache-from: type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/syncure:buildcache
+          cache-to: type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/syncure:buildcache,mode=max
 
   deploy:
     # needs: [test] #, build-and-push-docker]

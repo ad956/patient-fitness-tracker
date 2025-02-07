@@ -2,10 +2,9 @@
 import { useState, type ChangeEvent, useEffect } from "react";
 import { AiTwotoneEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { carouselData, roles } from "@constants/index";
-import { Carousel, OtpSection } from "@components/index";
+import { BrandLogo, Carousel, OtpSection } from "@components/index";
 import {
   Button,
-  Image,
   Input,
   Select,
   SelectItem,
@@ -152,15 +151,7 @@ export default function Signup() {
       {/* left part */}
       <div className="m-4 lg:w-2/6 flex flex-col gap-8 self-center">
         <div className="flex justify-center items-center ">
-          <Image
-            src="/icons/patient.svg"
-            height="40"
-            width="40"
-            alt="brand-logo"
-          />
-          <h2 className="ml-2 font-bold text-xl tracking-wide">
-            Patient Fitness Tracker
-          </h2>
+          <BrandLogo />
         </div>
         <div className="">
           <h3 className="text-3xl font-bold tracking-wider">Welcome</h3>

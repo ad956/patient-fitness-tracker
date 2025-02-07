@@ -41,7 +41,7 @@ async function logUserActivity(userlog: userlogType, req: Request) {
       subject: `Alert: User ${userlog.action} Activity Notification`,
       html: render(UserActivityTemplate(user_log)),
       from: {
-        name: "Patient Fitness Tracker",
+        name: "Syncure",
         address: "support@patientfitnesstracker.com",
       },
     });

@@ -10,7 +10,7 @@ export default async function sendNotification(
 
     await novu.subscribers.identify(subscriberId, {});
 
-    novu.trigger("pft", {
+    novu.trigger("syncure", {
       to: {
         subscriberId,
       },

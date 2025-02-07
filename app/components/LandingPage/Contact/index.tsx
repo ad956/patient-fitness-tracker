@@ -43,7 +43,7 @@ export default function ContactUS() {
           </div>
           <div className="flex gap-2 items-center">
             <MdEmail />
-            <p className="text-xs">support@patienthealthcare.com</p>
+            <p className="text-xs">support@syncure.com</p>
           </div>
           <div className="flex gap-2 items-center">
             <FaLocationDot />

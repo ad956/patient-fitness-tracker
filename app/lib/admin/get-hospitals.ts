@@ -6,7 +6,7 @@ import {
   HospitalData,
   HospitalUserData,
   PaginationMetadata,
-} from "@pft-types/admin";
+} from "@syncure-types/admin";
 
 export async function getHospitalsList(
   currentPage: number = 1,

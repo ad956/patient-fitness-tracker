@@ -4,7 +4,7 @@ import { getDoctorData } from "@lib/doctor";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Patient Fitness Tracker",
+  title: "Syncure",
   description: "The page is for doctor related applications.",
 };
 

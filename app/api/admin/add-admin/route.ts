@@ -78,7 +78,7 @@ export async function POST(request: Request) {
 
     const mailsent = await sendEmail({
       to: email,
-      subject: "Welcome to Patient Fitness Tracker - Admin Account Created",
+      subject: "Welcome to Syncure - Admin Account Created",
       html: render(
         NewAdminTemplate({
           firstname,
@@ -89,7 +89,7 @@ export async function POST(request: Request) {
         })
       ),
       from: {
-        name: "Patient Fitness Tracker",
+        name: "Syncure",
         address: "support@patientfitnesstracker.com",
       },
     });

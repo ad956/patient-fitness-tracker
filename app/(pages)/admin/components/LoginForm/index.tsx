@@ -118,7 +118,7 @@ export default function LoginForm() {
           width={40}
           height={40}
         />
-        <h2 className="ml-2 text-xl font-bold">Patient Fitness Tracker</h2>
+        <h2 className="ml-2 text-xl font-bold">Syncure</h2>
       </div>
       <div className="mb-6">
         <h3 className="text-2xl font-bold">Welcome Admin!</h3>

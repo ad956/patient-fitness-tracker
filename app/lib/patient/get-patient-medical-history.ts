@@ -2,7 +2,7 @@
 
 import fetchHandler from "@utils/fetch-handler";
 import { getSessionToken } from "../session";
-import { MedicalHistory } from "@pft-types/patient";
+import { MedicalHistory } from "@syncure-types/patient";
 
 export default async function getPatientMedicalHistory(): Promise<
   [MedicalHistory]

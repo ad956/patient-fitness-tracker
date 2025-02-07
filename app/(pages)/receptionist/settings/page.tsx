@@ -1,6 +1,6 @@
 import ProfileSettings from "@components/ProfileSettings";
 import { getReceptionistData } from "@lib/receptionist";
-import { Receptionist } from "@pft-types/index";
+import { Receptionist } from "@syncure-types/index";
 
 export default async function Settings() {
   const receptionist: Receptionist = await getReceptionistData();

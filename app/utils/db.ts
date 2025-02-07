@@ -15,7 +15,7 @@ export default async function dbConfig() {
   }
 
   const db = await mongoose.connect(uri, {
-    dbName: "pft",
+    dbName: "syncure",
   });
 
   connection.isConnected = db.connections[0].readyState;

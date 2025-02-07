@@ -29,7 +29,7 @@ export default function Footer() {
               className="mb-2"
             />
             <p className="text-xs font-light">
-              © 2024 Patient Fitness Tracker, Inc. All rights reserved.
+              © 2024 Syncure, Inc. All rights reserved.
             </p>
           </div>
           <FooterLinkItem />
@@ -45,8 +45,8 @@ export default function Footer() {
           <div className="hidden lg:flex text-center text-white/90">
             <p className="text-sm break-words">
               <span className="block sm:inline">
-                Patient Fitness Tracker is revolutionizing healthcare engagement
-                with its comprehensive solution.
+                Syncure is revolutionizing healthcare engagement with its
+                comprehensive solution.
               </span>
               <span className="block sm:inline">
                 Offering Push Notifications, Email, SMS, and In-App

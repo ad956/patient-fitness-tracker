@@ -32,7 +32,7 @@ import {
 import {
   BookAppointmentHospital,
   BookAppointmentProps,
-} from "@pft-types/patient";
+} from "@syncure-types/patient";
 import processPayment from "@lib/razorpay/process-payment";
 
 export default function BookAppointment({

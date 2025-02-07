@@ -6,11 +6,11 @@ import { Providers } from "./providers";
 const lato = Lato({ weight: "400", style: "normal", subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Patient Fitness Tracker",
+  title: "Syncure",
   description:
-    "The Patient Fitness Tracker is a modern healthcare platform designed to streamline patient management and monitoring across multiple hospitals.",
+    "The Syncure is a modern healthcare platform designed to streamline patient management and monitoring across multiple hospitals.",
   keywords: [
-    "Patient Fitness Tracker",
+    "Syncure",
     "Healthcare",
     "Patient Management",
     "Fitness Monitoring",
@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "Anand Suthar", url: "https://github.com/ad956" }],
   creator: "Anand Suthar",
-  applicationName: "Patient Fitness Tracker",
+  applicationName: "Syncure",
   referrer: "origin-when-cross-origin",
   generator: "Next.js",
   publisher: "Anand Suthar",
@@ -27,10 +27,10 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     url: "https://patient-fitness-tracker.vercel.app",
-    title: "Patient Fitness Tracker",
+    title: "Syncure",
     description:
-      "The Patient Fitness Tracker is a modern healthcare platform designed to streamline patient management and monitoring across multiple hospitals.",
-    siteName: "Patient Fitness Tracker",
+      "The Syncure is a modern healthcare platform designed to streamline patient management and monitoring across multiple hospitals.",
+    siteName: "Syncure",
     images: [
       {
         url: "https://res.cloudinary.com/doahnjt5z/image/upload/v1736323154/pft/pft_png_logo.png",

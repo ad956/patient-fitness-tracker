@@ -5,7 +5,7 @@ import {
   errorHandler,
   STATUS_CODES,
 } from "@utils/index";
-import { PersonalInfoBody } from "@pft-types/index";
+import { PersonalInfoBody } from "@syncure-types/index";
 import { Types } from "mongoose";
 import { authenticateUser } from "@lib/auth";
 import { revalidateTag } from "next/cache";

@@ -15,10 +15,9 @@ export default function Intro() {
         </h3>
 
         <p className="text-md font-medium tracking-wider">
-          The Patient Fitness Tracker introduces a new era of healthcare
-          management, offering a comprehensive platform to streamline patient
-          care, optimize operations, and enhance collaboration across medical
-          facilities.
+          The Syncure introduces a new era of healthcare management, offering a
+          comprehensive platform to streamline patient care, optimize
+          operations, and enhance collaboration across medical facilities.
         </p>
 
         <Button

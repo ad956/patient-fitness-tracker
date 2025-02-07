@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { AddressBody } from "@pft-types/index";
+import { AddressBody } from "@syncure-types/index";
 import {
   dbConfig,
   getModelByRole,

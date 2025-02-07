@@ -2,7 +2,7 @@
 
 import fetchHandler from "@utils/fetch-handler";
 import { getSessionToken } from "../session";
-import { Payment } from "@pft-types/patient";
+import { Payment } from "@syncure-types/patient";
 
 export default async function getPaymentsHistory(): Promise<[Payment]> {
   const endpoint = "/api/patient/payment-history";

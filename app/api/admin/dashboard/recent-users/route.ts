@@ -5,7 +5,7 @@ import {
   FormattedRecentUser,
   RecentUserTile,
   RecentUserPaginatedResponse,
-} from "@pft-types/admin";
+} from "@syncure-types/admin";
 import { dbConfig, errorHandler, STATUS_CODES } from "@utils/index";
 
 export async function GET(request: Request): Promise<Response> {

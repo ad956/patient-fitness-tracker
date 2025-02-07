@@ -8,7 +8,7 @@ const testimonialData = [
     designation: "Patient , Apollo Hospitals",
     stars: 5,
     description:
-      "The Patient Fitness Tracker has greatly improved my healthcare experience with its user-friendly interface and seamless appointment scheduling.",
+      "The Syncure has greatly improved my healthcare experience with its user-friendly interface and seamless appointment scheduling.",
   },
   {
     id: 2,
@@ -17,7 +17,7 @@ const testimonialData = [
     designation: "Doctor , Max Healthcare",
     stars: 5,
     description:
-      "The Patient Fitness Tracker revolutionized how we manage patient data, providing seamless integration and intuitive user interface.",
+      "The Syncure revolutionized how we manage patient data, providing seamless integration and intuitive user interface.",
   },
   {
     id: 3,

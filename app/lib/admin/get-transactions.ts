@@ -2,7 +2,7 @@
 
 import fetchHandler from "@utils/fetch-handler";
 import { getSessionToken } from "../session";
-import { TransactionDetails } from "@pft-types/admin";
+import { TransactionDetails } from "@syncure-types/admin";
 
 export default async function getTransactions(): Promise<[TransactionDetails]> {
   const endpoint = "/api/admin/transactions";

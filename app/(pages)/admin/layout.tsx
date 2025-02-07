@@ -3,8 +3,8 @@ import { Sidebar, Header } from "./components";
 import { getAdminData } from "@lib/admin";
 
 export const metadata: Metadata = {
-  title: "Patient Fitness Tracker - Admin",
-  description: "Admin dashboard for Patient Fitness Tracker application.",
+  title: "Syncure - Admin",
+  description: "Admin dashboard for Syncure application.",
 };
 
 export default async function AdminLayout({

@@ -43,7 +43,7 @@ export default function Support() {
 const supportDetails = [
   {
     title: "Contact Us",
-    desc: "Our dedicated support team is available to assist you with any questions, concerns, or inquiries you may have. Contact us via email at support@patienthealthcare.com or phone at +91-709-456-6934 during our business hours (Monday to Friday, 9 AM to 5 PM IST). You can also reach out to us through our online contact form, and we'll get back to you as soon as possible to provide the support you need.",
+    desc: "Our dedicated support team is available to assist you with any questions, concerns, or inquiries you may have. Contact us via email at support@syncure.com or phone at +91-709-456-6934 during our business hours (Monday to Friday, 9 AM to 5 PM IST). You can also reach out to us through our online contact form, and we'll get back to you as soon as possible to provide the support you need.",
   },
   {
     title: "FAQs",

@@ -90,7 +90,7 @@ async function createAccount(signupBody: SignupBody) {
     subject: "Verification of OTP for Account Creation",
     html: render(OtpTemplate(savedUser.firstname, generatedOTP)),
     from: {
-      name: "Patient Fitness Tracker",
+      name: "Syncure",
       address: "support@patientfitnesstracker.com",
     },
   });

@@ -10,7 +10,7 @@ import {
   TransactionsTable,
 } from "@components/index";
 import useFilterTransaction from "@hooks/useFilterTransaction";
-import { TransactionDetails } from "@pft-types/index";
+import { TransactionDetails } from "@syncurecure-types/index";
 
 const statusColorMap: any = {
   Failed: "danger",

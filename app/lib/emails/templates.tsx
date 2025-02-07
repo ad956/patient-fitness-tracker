@@ -1,4 +1,4 @@
-import { UserLog, bookingAppointment } from "@pft-types/index";
+import { UserLog, bookingAppointment } from "@syncure-types/index";
 import { Html } from "@react-email/html";
 import { getCurrentDateFormatted, getFormattedDate } from "@utils/get-date";
 
@@ -36,7 +36,7 @@ function Layout({ children }: { children: React.ReactNode }) {
                 >
                   <img
                     alt="patient-fitness-tracker-logo"
-                    src="https://res.cloudinary.com/doahnjt5z/image/upload/v1736323154/pft/pft_png_logo.png"
+                    src="https://res.cloudinary.com/doahnjt5z/image/upload/v1736323154/syncure/syncure_png_logo.png"
                     height="30px"
                     style={{ marginTop: "15px", marginRight: "10px" }}
                   />
@@ -48,7 +48,7 @@ function Layout({ children }: { children: React.ReactNode }) {
                       color: "#111",
                     }}
                   >
-                    Patient Fitness Tracker
+                    Syncure
                   </p>
                 </td>
                 <td style={{ textAlign: "right" }}>
@@ -85,7 +85,7 @@ function Layout({ children }: { children: React.ReactNode }) {
               color: "#434343",
             }}
           >
-            Patient Fitness Tracker
+            Syncure
           </p>
           <p style={{ margin: "0", marginTop: "8px", color: "#434343" }}>
             Address 540, Vadodara, Gujarat.
@@ -184,8 +184,8 @@ export function OtpTemplate(name: string, otp: string) {
                 letterSpacing: "0.56px",
               }}
             >
-              Thank you for choosing Patient Fitness Tracker . Use the following
-              OTP to complete the verification process. OTP is valid for{" "}
+              Thank you for choosing Syncure . Use the following OTP to complete
+              the verification process. OTP is valid for{" "}
               <span style={{ fontWeight: "600", color: "#1f1f1f" }}>
                 5 minutes
               </span>
@@ -281,8 +281,8 @@ export function UserActivityTemplate(user: UserLog) {
               }}
             >
               {user.action === "Login"
-                ? "A user has logged into the Patient Fitness Tracker application."
-                : "A user just created an account for Patient Fitness Tracker application."}
+                ? "A user has logged into the Syncure application."
+                : "A user just created an account for Syncure application."}
               Here are the details:
             </p>
             <div
@@ -529,7 +529,7 @@ export function NewAdminTemplate(admin: {
                 color: "#1f1f1f",
               }}
             >
-              Welcome to Patient Fitness Tracker
+              Welcome to Syncure
             </h1>
             <p
               style={{

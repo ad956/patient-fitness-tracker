@@ -2,7 +2,7 @@
 import { useState, type ChangeEvent, useEffect } from "react";
 import { AiTwotoneEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { carouselData, roles } from "@constants/index";
-import { Carousel, OtpSection } from "@components/index";
+import { BrandLogo, Carousel, OtpSection } from "@components/index";
 import {
   Button,
   Input,
@@ -10,7 +10,6 @@ import {
   Select,
   SelectItem,
   Selection,
-  Image,
 } from "@nextui-org/react";
 import { MdOutlineKey, MdOutlineAlternateEmail } from "react-icons/md";
 import { loginAction } from "@lib/actions";
@@ -133,19 +132,13 @@ export default function Login() {
       }
     >
       <div className="m-4 lg:w-1/4 flex flex-col gap-5 self-center">
-        <div className="flex justify-center items-center ">
-          <Image
-            src="/icons/patient.svg"
-            height="50"
-            width="50"
-            alt="brand-logo"
-          />
-          <h2 className="ml-2 font-bold text-lg">Patient Fitness Tracker</h2>
+        <div className="flex items-center ">
+          <BrandLogo />
         </div>
         <div className="">
           <h3 className="text-3xl font-bold tracking-wider">Welcome Back!</h3>
           <p className="text-[13px] text-gray-500">
-            Please enter log in details below
+            Please enter login details below
           </p>
         </div>
 
@@ -217,7 +210,7 @@ export default function Login() {
             className="self-right m-2 text-xs text-black/70 cursor-pointer"
             onClick={handleForgetPassword}
           >
-            Forget password?
+            Forget password&nbsp;?
           </Link>
           {/* passing the user data to otp section */}
           {showOtp && <OtpSection userData={userData} />}
@@ -251,8 +244,8 @@ export default function Login() {
         </form>
 
         <p className="text-gray-500 text-xs text-center">
-          Don&#39;t have an account?
-          <Link href="/signup" className="text-black text-xs">
+          Don&#39;t have an account?&nbsp;
+          <Link href="/signup" className="text-black text-xs hover:underline">
             Sign Up
           </Link>
         </p>

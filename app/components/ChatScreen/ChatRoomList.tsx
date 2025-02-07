@@ -1,7 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Avatar } from "@nextui-org/react";
-import { Room, ChatRoomListProps } from "@pft-types/chats";
+import { Room, ChatRoomListProps } from "@syncure-types/chats";
 
 const ChatRoomList: React.FC<ChatRoomListProps> = ({
   rooms,

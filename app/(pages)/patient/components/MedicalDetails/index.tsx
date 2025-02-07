@@ -1,6 +1,6 @@
 "use client";
 
-import { MedicalDetailsProps } from "@pft-types/index";
+import { MedicalDetailsProps } from "@syncure-types/index";
 import {
   Chip,
   Spinner,

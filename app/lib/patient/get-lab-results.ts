@@ -2,7 +2,7 @@
 
 import fetchHandler from "@utils/fetch-handler";
 import { getSessionToken } from "../session";
-import { LabResult } from "@pft-types/patient";
+import { LabResult } from "@syncure-types/patient";
 
 export default async function getLabResults(): Promise<LabResult[]> {
   const endpoint = "/api/patient/dashboard/labresults";

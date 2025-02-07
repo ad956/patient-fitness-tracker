@@ -2,7 +2,7 @@ import { test, expect } from "@playwright/test";
 
 test("test", async ({ baseURL, page }) => {
   await page.goto(`${baseURL}`);
-  await page.getByRole("heading", { name: "Patient Fitness Tracker" }).click();
+  await page.getByRole("heading", { name: "Syncure" }).click();
   await page
     .getByRole("heading", { name: "The New Era of Healthcare" })
     .click();

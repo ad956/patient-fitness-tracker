@@ -7,7 +7,7 @@ import { AppointmentBookedTemplate, sendEmail } from "@lib/emails";
 import { authenticateUser } from "@lib/auth";
 import sendNotification from "@lib/novu";
 import { Patient, BookedAppointment, Doctor } from "@models/index";
-import { BookingAppointmentType } from "@pft-types/patient";
+import { BookingAppointmentType } from "@syncure-types/patient";
 
 // getting patient's approved appointments
 export async function GET(request: Request) {
@@ -140,7 +140,7 @@ export async function POST(req: Request) {
         })
       ),
       from: {
-        name: "Patient Fitness Tracker",
+        name: "Syncure",
         address: "support@patientfitnesstracker.com",
       },
     });

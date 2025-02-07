@@ -1,6 +1,6 @@
 "use client";
 
-import { User } from "@pft-types/index";
+import { User } from "@syncure-types/index";
 import {
   Input,
   Button,

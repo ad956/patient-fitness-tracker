@@ -71,10 +71,10 @@ const TermsOfService = () => {
       <p className="text-lg font-semibold">Terms of Service</p>
       <Divider />
       <p className="mt-4">
-        Welcome to Patient Fitness Tracker! These Terms of Service govern your
-        use of our website and services. By accessing or using our platform, you
-        agree to comply with these terms. Please read them carefully before
-        using our services.
+        Welcome to Syncure! These Terms of Service govern your use of our
+        website and services. By accessing or using our platform, you agree to
+        comply with these terms. Please read them carefully before using our
+        services.
       </p>
       <p className="mt-4 font-semibold">1. User Responsibilities</p>
       <p className="mt-2">
@@ -115,8 +115,8 @@ const TermsOfService = () => {
       <p className="mt-2">
         All content included on our platform, such as text, graphics, logos,
         images, audio clips, digital downloads, data compilations, and software,
-        is the property of Patient Fitness Tracker or its content suppliers and
-        protected by international copyright laws.
+        is the property of Syncure or its content suppliers and protected by
+        international copyright laws.
       </p>
       <p className="mt-4 font-semibold">4. Privacy Policy</p>
       <p className="mt-2">
@@ -160,9 +160,8 @@ const TermsOfService = () => {
       <p className="mt-4 font-semibold">10. Entire Agreement</p>
       <p className="mt-2">
         These Terms of Service constitute the entire agreement between you and
-        Patient Fitness Tracker regarding your use of our platform and supersede
-        all prior or contemporaneous agreements and understandings, whether oral
-        or written.
+        Syncure regarding your use of our platform and supersede all prior or
+        contemporaneous agreements and understandings, whether oral or written.
       </p>
     </div>
   );
@@ -174,9 +173,9 @@ const PrivacyPolicy = () => {
       <p className="text-lg font-semibold">Privacy Policy</p>
       <Divider />
       <p className="mt-4">
-        At Patient Fitness Tracker, we are committed to protecting your privacy.
-        This Privacy Policy outlines how we collect, use, and safeguard your
-        personal information when you use our services.
+        At Syncure, we are committed to protecting your privacy. This Privacy
+        Policy outlines how we collect, use, and safeguard your personal
+        information when you use our services.
       </p>
       <p className="mt-4 font-semibold">1. Information Collection</p>
       <p className="mt-2">
@@ -229,9 +228,9 @@ const CookiePolicy = () => {
       <p className="text-lg font-semibold">Cookie Policy</p>
       <Divider />
       <p className="mt-4">
-        At Patient Fitness Tracker, we use cookies to enhance your browsing
-        experience and provide personalized content. This Cookie Policy explains
-        how we use cookies and similar technologies on our website.
+        At Syncure, we use cookies to enhance your browsing experience and
+        provide personalized content. This Cookie Policy explains how we use
+        cookies and similar technologies on our website.
       </p>
       <p className="mt-4 font-semibold">1. What are Cookies?</p>
       <p className="mt-2">

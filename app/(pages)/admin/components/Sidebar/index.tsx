@@ -36,12 +36,7 @@ const Sidebar = () => {
   return (
     <aside className="h-screen flex-col border-r bg-white w-16 shadow-sm">
       <nav className="flex flex-col items-center gap-6 px-2 py-5">
-        <Image
-          src="/icons/patient.svg"
-          height={35}
-          width={35}
-          alt="Patient Fitness Tracker"
-        />
+        <Image src="/icons/patient.svg" height={35} width={35} alt="Syncure" />
         {SidebarConfig.map((item, index) => (
           <SidebarIcon
             key={item.title}

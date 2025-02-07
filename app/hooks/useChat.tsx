@@ -1,5 +1,5 @@
 import { useState, useCallback } from "react";
-import { Room, Message, User } from "@pft-types/chats";
+import { Room, Message, User } from "@syncure-types/chats";
 import { fetchRooms, loadMessages, sendMessage } from "@lib/chats";
 import toast from "react-hot-toast";
 

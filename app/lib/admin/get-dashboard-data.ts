@@ -2,7 +2,7 @@
 
 import fetchHandler from "@utils/fetch-handler";
 import { getSessionToken } from "../session";
-import { PaginatedResponse, TilesDataType } from "@pft-types/admin";
+import { PaginatedResponse, TilesDataType } from "@syncure-types/admin";
 
 export async function getTilesData(): Promise<TilesDataType> {
   const endpoint = "/api/admin/dashboard/tiles";

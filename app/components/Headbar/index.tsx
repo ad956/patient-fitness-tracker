@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Button, Divider, User } from "@nextui-org/react";
 import { CiLogin } from "react-icons/ci";
 import { GoPlus } from "react-icons/go";
-import { User as UserType } from "@pft-types/index";
+import { User as UserType } from "@syncure-types/index";
 import { logoutAction } from "@lib/actions";
 import Notifications from "../Notifications";
 import Image from "next/image";
@@ -18,8 +18,8 @@ export default async function Headbar({ user, role }: HeadbarProps) {
   return (
     <div className="bg-[#f3f6fd] p-4 flex flex-row justify-between">
       <div className="flex items-center w-3/5">
-        <p className="hidden ml-2 md:-ml-2 text-sm md:flex md:text-lg font-semibold tracking-wider">
-          Patient Fitness Tracker
+        <p className="hidden ml-2 md:-ml-2 text-sm md:flex md:text-lg md:mb-3 font-medium tracking-wide">
+          Syncure
         </p>
       </div>
 

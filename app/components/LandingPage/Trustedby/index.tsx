@@ -31,9 +31,9 @@ export default function TrustedBy() {
   return (
     <div className="w-3/4 flex flex-col gap-5">
       <p className="text-md text-black/75 font-medium">
-        Healthcare institutions of all sizes rely on Patient Fitness Tracker to
-        efficiently manage and securely deliver vital patient health data across
-        their networks.
+        Healthcare institutions of all sizes rely on Syncure to efficiently
+        manage and securely deliver vital patient health data across their
+        networks.
       </p>
 
       <div className="p-5 flex justify-center items-center">

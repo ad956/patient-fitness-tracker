@@ -71,7 +71,7 @@ async function setOTP(loginBody: LoginBody) {
     subject: "OTP Verification",
     html: render(OtpTemplate(user.firstname, generatedOTP)),
     from: {
-      name: "Patient Fitness Tracker",
+      name: "Syncure",
       address: "support@patientfitnesstracker.com",
     },
   });

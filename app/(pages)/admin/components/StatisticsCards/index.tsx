@@ -1,5 +1,5 @@
 import { Card, CardBody } from "@nextui-org/react";
-import { TilesDataType } from "@pft-types/index";
+import { TilesDataType } from "@syncure-types/index";
 import {
   RiUserLine,
   RiTeamLine,

@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import Hospital from "@models/hospital";
-import { HospitalDetails } from "@pft-types/admin";
+import { HospitalDetails } from "@syncure-types/admin";
 import { Types } from "mongoose";
 import { dbConfig, errorHandler, STATUS_CODES } from "@utils/index";
 import { authenticateUser } from "@lib/auth";
