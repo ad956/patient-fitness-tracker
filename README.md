@@ -19,13 +19,13 @@ The Syncure is a modern healthcare platform designed to streamline patient manag
 1. **Clone the repository:**
 
    ```bash
-   git clone https://github.com/ad956/patient-fitness-tracker.git
+   git clone https://github.com/ad956/syncure.git
    ```
 
 2. **Navigate to the project directory:**
 
    ```bash
-   cd patient-fitness-tracker
+   cd syncure
    ```
 
 3. **Install dependencies:**
