@@ -1,22 +1,18 @@
-"use server";
-
-import fetchHandler from "@utils/fetch-handler";
-import { getSessionToken } from "../session";
-
 export default async function getPendingAppointments(): Promise<PendingPatients> {
   const endpoint = "/api/receptionist/appointments/pending";
-  const session = getSessionToken();
 
   try {
-    const response = await fetchHandler<PendingPatients>(
-      endpoint,
-      {},
-      session!
-    );
+    const response = await fetch(endpoint, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
-    if (response.error) throw new Error(response.error.message);
+    const result = await response.json();
 
-    return response.data!;
+    if (result.error) throw new Error(result.error.message);
+
+    return result.data!;
   } catch (error) {
     console.error("Error fetching pending appointments:", error);
     throw error;

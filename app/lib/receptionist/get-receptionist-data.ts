@@ -1,24 +1,18 @@
-"use server";
-
-import fetchHandler from "@utils/fetch-handler";
-import { getSessionToken } from "../session";
-
 export default async function getReceptionistData(): Promise<Receptionist> {
   const endpoint = "/api/receptionist";
-  const session = getSessionToken();
 
   try {
-    const response = await fetchHandler<Receptionist>(
-      endpoint,
-      {
-        cache: "no-cache",
+    const response = await fetch(endpoint, {
+      headers: {
+        "Cache-Control": "no-cache",
       },
-      session!
-    );
+    });
 
-    if (response.error) throw new Error(response.error.message);
+    const result = await response.json();
 
-    return response.data!;
+    if (result.error) throw new Error(result.error.message);
+
+    return result.data!;
   } catch (error) {
     console.error("Error fetching receptionist data:", error);
     throw error;

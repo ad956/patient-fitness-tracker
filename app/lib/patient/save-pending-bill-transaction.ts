@@ -1,35 +1,32 @@
-"use server";
-
-import fetchHandler from "@utils/fetch-handler";
-import { getSessionToken } from "../session";
-
 export default async function savePendingBillTransaction(
   txnDocumentId: string | null,
   transaction_id: string | null,
   status: "Success" | "Failed"
 ): Promise<any> {
   const endpoint = "/api/transactions";
-  const session = getSessionToken();
 
   try {
-    const response = await fetchHandler<any>(
-      endpoint,
-      {
-        method: "PUT",
-        body: JSON.stringify({
-          txnDocumentId,
-          transaction_id,
-          status,
-        }),
+    const response = await fetch(endpoint, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
       },
-      session!
-    );
+      body: JSON.stringify({
+        txnDocumentId,
+        transaction_id,
+        status,
+      }),
+    });
 
-    if (response.error) {
-      throw new Error(response.error.message);
+    const result = await response.json();
+
+    if (!response.ok) {
+      throw new Error(
+        result.error?.message || "Failed to update transaction status"
+      );
     }
 
-    return response;
+    return result;
   } catch (error) {
     console.error("Error updating transaction status: ", error);
     throw error;

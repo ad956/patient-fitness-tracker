@@ -88,8 +88,3 @@ export async function updateSession(request: NextRequest) {
     throw error;
   }
 }
-
-// Method to get token
-export function getSessionToken() {
-  return cookies().get("session")?.value || null;
-}

@@ -1,26 +1,21 @@
-"use server";
-
-import fetchHandler from "@utils/fetch-handler";
-import { getSessionToken } from "../session";
-
 export default async function getPendingBills(): Promise<[PendingBill]> {
   const endpoint = "/api/patient/payment-history?status=pending";
-  const session = getSessionToken();
 
   try {
-    const response = await fetchHandler<[PendingBill]>(
-      endpoint,
-      {
-        cache: "no-cache",
+    const response = await fetch(endpoint, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
       },
-      session!
-    );
+    });
 
-    if (response.error) {
-      throw new Error(response.error.message);
+    const result = await response.json();
+
+    if (!response.ok) {
+      throw new Error(result.error?.message || "Failed to fetch pending bills");
     }
 
-    return response.data!;
+    return result.data!;
   } catch (error) {
     console.error(
       "An error occurred while fetching pending bills of patient : ",

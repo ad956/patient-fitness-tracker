@@ -1,8 +1,3 @@
-"use server";
-
-import { getSessionToken } from "../session";
-import fetchHandler from "@utils/fetch-handler";
-
 export default async function sendMessage({
   roomId,
   message,
@@ -11,25 +6,23 @@ export default async function sendMessage({
   message: string;
 }): Promise<any> {
   const endpoint = `/api/chat/messages`;
-  const session = getSessionToken();
 
   try {
-    const result = await fetchHandler<any>(
-      endpoint,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          roomId,
-          message,
-        }),
-      },
-      session!
-    );
+    const response = await fetch(endpoint, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ roomId, message }),
+    });
+
+    const result = await response.json();
+
+    if (!response.ok) {
+      throw new Error(result.message || "Error sending message");
+    }
 
     if (Array.isArray(result.data)) return result.data;
   } catch (error) {
-    console.error("An error occurred while adding admin:", error);
+    console.error("An error occurred while sending message:", error);
     throw error;
   }
 }

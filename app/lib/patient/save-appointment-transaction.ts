@@ -1,8 +1,3 @@
-"use server";
-
-import fetchHandler from "@utils/fetch-handler";
-import { getSessionToken } from "../session";
-
 export default async function saveAppointmentTransaction(
   transaction_id: string | null,
   patient_id: string,
@@ -23,20 +18,20 @@ export default async function saveAppointmentTransaction(
   };
 
   const endpoint = "/api/transactions";
-  const session = getSessionToken();
 
   try {
-    const response = await fetchHandler<any>(
-      endpoint,
-      {
-        method: "POST",
-        body: JSON.stringify(transactionData),
+    const response = await fetch(endpoint, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
       },
-      session!
-    );
+      body: JSON.stringify(transactionData),
+    });
 
-    if (response.error) {
-      throw new Error(response.error.message);
+    const result = await response.json();
+
+    if (!response.ok) {
+      throw new Error(result.error?.message || "Failed to record transaction");
     }
   } catch (error) {
     console.error("Error recording appointment transaction:", error);

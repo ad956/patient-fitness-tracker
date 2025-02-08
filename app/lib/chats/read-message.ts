@@ -1,28 +1,22 @@
-"use server";
-
-import { getSessionToken } from "../session";
-import fetchHandler from "@utils/fetch-handler";
-
 export default async function readMessage(roomId: string): Promise<any> {
   const endpoint = `/api/chat/messages/read`;
-  const session = getSessionToken();
 
   try {
-    const result = await fetchHandler<any>(
-      endpoint,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          roomId,
-        }),
-      },
-      session!
-    );
+    const response = await fetch(endpoint, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ roomId }),
+    });
+
+    const result = await response.json();
+
+    if (!response.ok) {
+      throw new Error(result.message || "Error marking messages as read");
+    }
 
     if (Array.isArray(result.data)) return result.data;
   } catch (error) {
-    console.error("An error occurred while adding admin:", error);
+    console.error("An error occurred while marking message as read:", error);
     throw error;
   }
 }

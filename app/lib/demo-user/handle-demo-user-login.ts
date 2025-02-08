@@ -1,5 +1,4 @@
 import toast from "react-hot-toast";
-import fetchHandler from "@utils/fetch-handler";
 
 const handleDemoUserLogin = async (
   role: string,
@@ -10,15 +9,18 @@ const handleDemoUserLogin = async (
   try {
     toast.loading("Logging in...", { id: "demoLogin" });
 
-    const response = await fetchHandler(endpoint, {
+    const response = await fetch(endpoint, {
       method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ role }),
       cache: "no-cache",
     });
 
-    if (response.error) {
-      console.error("Error while demo user login:", response.error);
-      toast.error(`${response.error.message}`);
+    const result = await response.json();
+
+    if (!response.ok) {
+      console.error("Error while demo user login:", result.error);
+      toast.error(`${result.error?.message || "Login failed"}`);
       return;
     }
 

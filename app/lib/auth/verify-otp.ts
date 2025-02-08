@@ -1,5 +1,3 @@
-import fetchHandler from "@utils/fetch-handler";
-
 export default async function verifyOtp(
   usernameOrEmail: string,
   role: string,
@@ -9,19 +7,18 @@ export default async function verifyOtp(
   const endpoint = "/api/auth/verify-otp";
 
   try {
-    const response = await fetchHandler<any>(endpoint, {
+    const response = await fetch(endpoint, {
       method: "POST",
-      body: JSON.stringify({
-        otp,
-        usernameOrEmail,
-        role,
-        action,
-      }),
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ otp, usernameOrEmail, role, action }),
     });
 
-    if (response.error) return { error: response.error.message };
+    if (!response.ok) {
+      const errorData = await response.json();
+      return { error: errorData.message || "OTP verification failed" };
+    }
 
-    return response.data!;
+    return await response.json();
   } catch (error) {
     console.error("Error verifying OTP:", error);
     throw error;

@@ -1,18 +1,20 @@
-"use server";
-
-import { getSessionToken } from "../session";
-import fetchHandler from "@utils/fetch-handler";
-
 export default async function fetchRooms(): Promise<any> {
   const endpoint = `/api/chat/room`;
-  const session = getSessionToken();
 
   try {
-    const result = await fetchHandler<any>(endpoint, {}, session!);
+    const response = await fetch(endpoint, {
+      method: "GET",
+    });
+
+    const result = await response.json();
+
+    if (!response.ok) {
+      throw new Error(result.message || "Error fetching chat rooms");
+    }
 
     if (Array.isArray(result.data)) return result.data;
   } catch (error) {
-    console.error("An error occurred while adding admin:", error);
+    console.error("An error occurred while fetching rooms:", error);
     throw error;
   }
 }
