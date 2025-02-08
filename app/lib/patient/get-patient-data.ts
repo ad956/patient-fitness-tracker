@@ -1,27 +1,21 @@
-"use server";
-
-import fetchHandler from "@utils/fetch-handler";
-import { getSessionToken } from "../session";
-
-export default async function getresponse(): Promise<Patient> {
+export default async function getPatientData(): Promise<Patient> {
   const endpoint = "/api/patient";
-  const session = getSessionToken();
 
   try {
-    const response = await fetchHandler<Patient>(
-      endpoint,
-      {
-        cache: "no-cache",
-        next: { tags: ["profile"] },
+    const response = await fetch(endpoint, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
       },
-      session!
-    );
+    });
 
-    if (response.error) {
-      throw new Error(response.error.message);
+    const result = await response.json();
+
+    if (!response.ok) {
+      throw new Error(result.error?.message || "Failed to fetch patient data");
     }
 
-    return response.data!;
+    return result.data!;
   } catch (error) {
     console.error("An error occurred while fetching patient data:", error);
     throw error;

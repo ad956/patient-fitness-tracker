@@ -2,7 +2,6 @@
 
 import { logout } from "@session";
 import { redirect } from "next/navigation";
-import fetchHandler from "@utils/fetch-handler";
 
 export async function loginAction(formData: FormData): Promise<any> {
   const usernameOrEmail = formData.get("usernameOrEmail");
@@ -11,10 +10,22 @@ export async function loginAction(formData: FormData): Promise<any> {
 
   const endpoint = "/api/auth/login";
 
-  return await fetchHandler<any>(endpoint, {
-    method: "POST",
-    body: JSON.stringify({ usernameOrEmail, password, role }),
-  });
+  try {
+    const response = await fetch(endpoint, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ usernameOrEmail, password, role }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Login failed: ${response.statusText}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("An error occurred during login:", error);
+    throw error;
+  }
 }
 
 export async function signupAction(formData: FormData): Promise<any> {
@@ -28,10 +39,23 @@ export async function signupAction(formData: FormData): Promise<any> {
   };
 
   const endpoint = "/api/auth/signup";
-  return await fetchHandler<any>(endpoint, {
-    method: "POST",
-    body: JSON.stringify(user),
-  });
+
+  try {
+    const response = await fetch(endpoint, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(user),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Signup failed: ${response.statusText}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("An error occurred during signup:", error);
+    throw error;
+  }
 }
 
 export async function logoutAction() {

@@ -1,26 +1,23 @@
-"use server";
-
-import fetchHandler from "@utils/fetch-handler";
-import { getSessionToken } from "../session";
-
 export default async function getDoctorsChatList(): Promise<DoctorChat[]> {
   const endpoint = "/api/patient/dashboard/doctors-chat-list";
-  const session = getSessionToken();
 
   try {
-    const response = await fetchHandler<[DoctorChat]>(
-      endpoint,
-      {
-        cache: "no-cache",
+    const response = await fetch(endpoint, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
       },
-      session!
-    );
+    });
 
-    if (response.error) {
-      throw new Error(response.error.message);
+    const result = await response.json();
+
+    if (!response.ok) {
+      throw new Error(
+        result.error?.message || "Failed to fetch doctor's chat list"
+      );
     }
 
-    return response.data!;
+    return result.data!;
   } catch (error) {
     console.error(
       "An error occurred while fetching doctor's chat list for patient: ",

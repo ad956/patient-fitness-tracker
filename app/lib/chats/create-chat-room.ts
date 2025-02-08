@@ -1,26 +1,22 @@
-"use server";
-
-import { getSessionToken } from "../session";
-import fetchHandler from "@utils/fetch-handler";
-
 export default async function createChatRoom(receiverId: string): Promise<any> {
   const endpoint = `/api/chat/room`;
-  const session = getSessionToken();
 
   try {
-    const result = await fetchHandler<any>(
-      endpoint,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ receiverId }),
-      },
-      session!
-    );
+    const response = await fetch(endpoint, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ receiverId }),
+    });
+
+    const result = await response.json();
+
+    if (!response.ok) {
+      throw new Error(result.message || "Error creating chat room");
+    }
 
     return result.data;
   } catch (error) {
-    console.error("An error occurred while adding admin:", error);
+    console.error("An error occurred while creating chat room:", error);
     throw error;
   }
 }

@@ -1,15 +1,21 @@
-import fetchHandler from "@utils/fetch-handler";
-
 export default async function getStates(): Promise<[string]> {
   const endpoint = "/api/states";
 
   try {
-    const response = await fetchHandler<[string]>(endpoint);
+    const response = await fetch(endpoint, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
-    if (response.error) {
-      throw new Error(response.error.message);
+    const result = await response.json();
+
+    if (!response.ok) {
+      throw new Error(result.error?.message || "Failed to fetch states");
     }
-    return response.data!;
+
+    return result.data;
   } catch (error) {
     console.error("Error fetching states:", error);
     throw error;

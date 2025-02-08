@@ -1,23 +1,18 @@
-"use server";
-
-import fetchHandler from "@utils/fetch-handler";
-import { getSessionToken } from "../session";
-
 export default async function scanQRCode(
   email: string
 ): Promise<{ message: string }> {
   const endpoint = "/api/receptionist/scan";
-  const session = getSessionToken();
 
   try {
-    const result = await fetchHandler<{ message: string }>(
-      endpoint,
-      {
-        method: "POST",
-        body: JSON.stringify({ email }),
+    const response = await fetch(endpoint, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
       },
-      session!
-    );
+      body: JSON.stringify({ email }),
+    });
+
+    const result = await response.json();
 
     return result.data!;
   } catch (error) {

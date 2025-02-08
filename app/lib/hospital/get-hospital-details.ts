@@ -1,24 +1,23 @@
-"use server";
-
-import fetchHandler from "@utils/fetch-handler";
-import { getSessionToken } from "../session";
-
 export default async function getHospitalDetails(): Promise<HospitalDetailsType> {
   const endpoint = "/api/hospital/additional-details";
-  const session = getSessionToken();
 
   try {
-    const response = await fetchHandler<HospitalDetailsType>(
-      endpoint,
-      {},
-      session!
-    );
+    const response = await fetch(endpoint, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
-    if (response.error) {
-      throw new Error(response.error.message);
+    const result = await response.json();
+
+    if (!response.ok) {
+      throw new Error(
+        result.error?.message || "Failed to fetch hospital details"
+      );
     }
 
-    return response.data!;
+    return result.data;
   } catch (error) {
     console.error(
       "An error occurred while fetching hospital additional details:",

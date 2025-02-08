@@ -1,28 +1,23 @@
-"use server";
-
-import fetchHandler from "@utils/fetch-handler";
-import { getSessionToken } from "../session";
-
 export default async function resetPassword(
   currentPassword: string,
   newPassword: string
 ): Promise<any> {
   const endpoint = "/api/update-profile/reset-password";
-  const session = getSessionToken();
 
   try {
-    const response = await fetchHandler<any>(
-      endpoint,
-      {
-        method: "PUT",
-        body: JSON.stringify({ currentPassword, newPassword }),
+    const response = await fetch(endpoint, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
       },
-      session!
-    );
+      body: JSON.stringify({ currentPassword, newPassword }),
+    });
 
-    if (response.error) return { error: response.error.message };
+    const result = await response.json();
 
-    return response.data!;
+    if (result.error) return { error: result.error.message };
+
+    return result.data!;
   } catch (error) {
     console.error("Error updating password:", error);
     throw error;

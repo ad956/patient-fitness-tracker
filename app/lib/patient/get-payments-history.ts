@@ -1,20 +1,23 @@
-"use server";
-
-import fetchHandler from "@utils/fetch-handler";
-import { getSessionToken } from "../session";
-
 export default async function getPaymentsHistory(): Promise<[Payment]> {
   const endpoint = "/api/patient/payment-history";
-  const session = getSessionToken();
 
   try {
-    const response = await fetchHandler<[Payment]>(endpoint, {}, session!);
+    const response = await fetch(endpoint, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
-    if (response.error) {
-      throw new Error(response.error.message);
+    const result = await response.json();
+
+    if (!response.ok) {
+      throw new Error(
+        result.error?.message || "Failed to fetch payments history"
+      );
     }
 
-    return response.data!;
+    return result.data!;
   } catch (error) {
     console.error("Error fetching payments:", error);
     throw error;

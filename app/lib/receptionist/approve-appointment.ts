@@ -1,27 +1,22 @@
-"use server";
-
-import fetchHandler from "@utils/fetch-handler";
-import { getSessionToken } from "../session";
-
 export default async function approveAppointment(
   patientId: string
 ): Promise<any> {
   const endpoint = "/api/receptionist/appointments/approve";
-  const session = getSessionToken();
 
   try {
-    const response = await fetchHandler<any>(
-      endpoint,
-      {
-        method: "POST",
-        body: JSON.stringify({ patient_id: patientId }),
+    const response = await fetch(endpoint, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
       },
-      session!
-    );
+      body: JSON.stringify({ patient_id: patientId }),
+    });
 
-    if (response.error) throw new Error(response.error.message);
+    const result = await response.json();
 
-    return response.data!;
+    if (result.error) throw new Error(result.error.message);
+
+    return result.data!;
   } catch (error) {
     console.error("Error approving appointment:", error);
     throw error;

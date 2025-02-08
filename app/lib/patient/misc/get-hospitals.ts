@@ -1,5 +1,3 @@
-import fetchHandler from "@utils/fetch-handler";
-
 export default async function getHospitals(
   selectedState: string,
   selectedCity: string
@@ -7,13 +5,20 @@ export default async function getHospitals(
   const endpoint = `/api/get-hospitals/?state=${selectedState}&city=${selectedCity}`;
 
   try {
-    const response = await fetchHandler<[BookAppointmentHospital]>(endpoint);
+    const response = await fetch(endpoint, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
-    if (response.error) {
-      throw new Error(response.error.message);
+    const result = await response.json();
+
+    if (!response.ok) {
+      throw new Error(result.error?.message || "Failed to fetch hospitals");
     }
 
-    return response.data!;
+    return result.data;
   } catch (error) {
     console.error("Error fetching hospitals:", error);
     throw error;
