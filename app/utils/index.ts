@@ -1,7 +1,6 @@
 import { AppError, errorHandler } from "./error-handler";
 import capitalizedRole from "./capitalized-role";
 import dbConfig from "./db";
-import fetchHandler from "./fetch-handler";
 import FormValidator from "./form-validator";
 import { generateOTP, generateSecureOTP } from "./generate-otp";
 import getBaseUrl from "./get-base-url";
@@ -15,7 +14,6 @@ export {
   capitalizedRole,
   dbConfig,
   errorHandler,
-  fetchHandler,
   FormValidator,
   generateOTP,
   generateSecureOTP,
