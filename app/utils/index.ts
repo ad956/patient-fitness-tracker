@@ -3,7 +3,7 @@ import capitalizedRole from "./capitalized-role";
 import dbConfig from "./db";
 import FormValidator from "./form-validator";
 import { generateOTP, generateSecureOTP } from "./generate-otp";
-import getBaseUrl from "./get-base-url";
+import BaseUrl from "./get-base-url";
 import { getCurrentDateFormatted, getFormattedDate } from "./get-date";
 import getModelByRole from "./get-model-by-role";
 import hashPassword from "./hash-password";
@@ -17,7 +17,7 @@ export {
   FormValidator,
   generateOTP,
   generateSecureOTP,
-  getBaseUrl,
+  BaseUrl,
   getCurrentDateFormatted,
   getFormattedDate,
   getModelByRole,
