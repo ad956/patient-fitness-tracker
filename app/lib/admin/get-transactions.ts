@@ -1,55 +1,19 @@
-"use server";
-
-import { Admin, Hospital, Patient, Transaction } from "@models/index";
-import { Types } from "mongoose";
-import { dbConfig } from "@utils/index";
-import authenticateUser from "../auth/authenticate-user";
+import BaseUrl from "@utils/get-base-url";
 
 export default async function getTransactions(): Promise<TransactionDetails[]> {
+  const endpoint = `${BaseUrl}/api/admin/transactions`;
+
   try {
-    const { id, role } = await authenticateUser();
+    const response = await fetch(endpoint);
 
-    if (!id || !role) {
-      throw new Error("Missing user ID or role in session");
+    if (!response.ok) {
+      throw new Error(
+        `Failed to fetch transactions data: ${response.statusText}`
+      );
     }
 
-    await dbConfig();
-
-    const admin_id = new Types.ObjectId(id);
-    const adminData = await Admin.findById(admin_id);
-
-    if (!adminData) {
-      throw new Error("Admin not found");
-    }
-
-    const transactions = await Transaction.find({}).sort({ createdAt: -1 });
-
-    const transactionDetails: TransactionDetails[] = await Promise.all(
-      transactions.map(async (transaction) => {
-        const patient = await Patient.findById(transaction.patient);
-        const hospital = await Hospital.findById(transaction.hospital);
-
-        return {
-          transaction_id: transaction.transaction_id,
-          patient: {
-            name: `${patient?.firstname} ${patient?.lastname}` || "",
-            profile: patient?.profile || "",
-          },
-          hospital: {
-            name: `${hospital?.firstname} ${hospital?.lastname}` || "",
-            profile: hospital?.profile || "",
-          },
-          disease: transaction.disease,
-          description: transaction.description,
-          amount: transaction.amount,
-          status: transaction.status,
-          date: transaction.createdAt.toISOString(),
-        };
-      })
-    );
-
-    return transactionDetails;
-  } catch (error: any) {
+    return await response.json();
+  } catch (error) {
     console.error("An error occurred while fetching transactions data:", error);
     throw error;
   }

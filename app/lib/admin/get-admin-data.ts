@@ -1,29 +1,24 @@
-"use server";
-
-import Admin from "@models/admin";
-import { dbConfig } from "@utils/index";
-import { Types } from "mongoose";
-import authenticateUser from "../auth/authenticate-user";
+// import BaseUrl from "@utils/get-base-url";
 
 export default async function getAdminData(): Promise<Admin> {
+  const endpoint = `/api/admin`;
+
   try {
-    const { id, role } = await authenticateUser();
+    const response = await fetch(endpoint, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      cache: "no-cache",
+    });
 
-    if (!id || !role) {
-      throw new Error("Missing user ID or role in session");
+    if (!response.ok) {
+      throw new Error(`Failed to fetch admin data: ${response.statusText}`);
     }
 
-    const admin_id = new Types.ObjectId(id);
-    await dbConfig();
-
-    const adminData = await Admin.findById(admin_id).lean();
-
-    if (!adminData) {
-      throw new Error("Admin not found");
-    }
-
-    return JSON.parse(JSON.stringify(adminData));
-  } catch (error: any) {
+    return await response.json();
+  } catch (error) {
     console.error("An error occurred while fetching admin data:", error);
     throw error;
   }
